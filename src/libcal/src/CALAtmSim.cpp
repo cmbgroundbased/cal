@@ -288,7 +288,7 @@ void cal::atm_sim::draw()
     wx = -wx;
     wy = -wy;
 
-    return 0;
+    return;
 
 }
 
@@ -843,7 +843,7 @@ cholmod_sparse * cal::atm_sim::build_sparse_covariance(long ind_start, long ind_
     return cov_sparse;
 }
 
-void apply_sparse_covariance(cholmod_sparse * cov,
+void cal::atm_sim::apply_sparse_covariance(cholmod_sparse * sqrt_cov,
                              long ind_start, long ind_stop)
 {
     // Apply the Cholesky-decomposed (square-root) sparse covariance
@@ -924,23 +924,23 @@ void apply_sparse_covariance(cholmod_sparse * cov,
     return;
 }
 
-void ind2coord(long i, double * coord)
+void cal::atm_sim::ind2coord(long i, double * coord)
 {
     std::cout << "ind2coord" << std::endl;
 }
 
-long coord2ind(double x, double y, double z)
+long cal::atm_sim::coord2ind(double x, double y, double z)
 {
     return 0;
 }
 
-double interp(double x, double y, double z, std::vector <long> & last_ind,
+double cal::atm_sim::interp(double x, double y, double z, std::vector <long> & last_ind,
               std::vector <double> & last_nodes)
 {
     return 0.0;
 }
 
-double cov_eval(double * coord1, double * coord2)
+double cal::atm_sim::cov_eval(double * coord1, double * coord2)
 {
     return 1.0;
 }
@@ -1113,16 +1113,16 @@ double cal::atm_sim::kolmogorov(double r)
     return val;
 }
 
-void smooth()
+void cal::atm_sim::smooth()
 {
     std::cout << "Smooth Kernel" << std::endl;
 }
 
-void load_realization()
+void cal::atm_sim::load_realization()
 {
     std::cout << "load realization" << std::endl;
 }
-void save_realization()
+void cal::atm_sim::save_realization()
 {
     std::cout << "save realization" << std::endl;
 }

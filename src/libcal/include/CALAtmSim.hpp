@@ -144,7 +144,7 @@ class atm_sim{
         cholmod_sparse * build_sparse_covariance(long ind_start, long ind_stop);
 
         // Create a realization out of the square root covariance matrix
-        void apply_sparse_covariance(cholmod_sparse * cov,
+        void apply_sparse_covariance(cholmod_sparse * sqrt_cov,
                                      long ind_start, long ind_stop);
 
         // Compressed index to xyz-coordinates
