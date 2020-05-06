@@ -157,6 +157,56 @@ cal::atm_sim::~atm_sim()
 int cal::atm_sim::simulate(bool use_cache)
 {
     if (use_cache) load_realization();
+    if (chached) return 0;
+
+    try {
+        draw();
+        get_volume();
+        compress_volume();
+        try {
+            realization.reset(new AlignedVector <double> (nelem));
+            std:fill(realization->begin(), realization->end(), 0.0);
+        } catch (...) {
+            std::cerr << rank << " : Allocation failed. nelem = " << nelem << std:endl;
+            throw;
+        }
+        cal::Timer tm;
+        tm.start();
+
+        long ind_start = 0, ind_stop = 0, slice = 0;
+
+        // Simulate the atmosphere in indipendent slices, each slice is assigned at one process.
+
+        std::vector <int> slice_starts;
+        std::vector <int> slice_stops;
+
+        while(true) {
+            get_slice();
+            slice_starts.push_back(ind_start);
+            slice_stops.push_back(ind_stop);
+
+            if (slice % ntask == rank) {
+                cholmod_sparse * cov = build_sparse_covariance(ind_start, ind_stop);
+                cholmod_sparse * sqrt_cov = sqrt_sparse_covariance(cov, ind_start, ind_stop);
+                cholmod_free_sparse(&cov, chcommon);
+                apply_sparse_covariance(sqrt_cov,
+                                        ind_start,
+                                        ind_stop);
+                cholmod_free_sparse(&sqrt_cov, chcommon);
+            }
+            counter2 += ind_stop - ind_start;
+
+            if (ind_stop == nelem ) break;
+            ++slice;
+        }
+        // smooth();?
+        tm.stop();
+    } catch (const std::exception & e) {
+        std:cerr << "ERROR: atm::simulate failed with: " << e.what() << std::endl;
+    }
+    cached = true;
+    if (use_cached) save_realization();
+
     return 0;
 }
 
@@ -176,7 +226,70 @@ void cal::atm_sim::print(std::ostream & out) const
 
 void cal::atm_sim::draw()
 {
-    std::cout << "draw function" << std::endl;
+    // Draw 10 000 gaussian variates to use in the drawing the simulation parameters
+    const size_t nrand = 10000;
+    double randn[nrand];
+    !!randn();!!
+    counter2 += nrand;
+    double * prand = randn;
+    long irand = 0;
+
+    if (rank == 0){
+        lmin = 0;
+        lmax = 0;
+        w = -1;
+        wdir = 0;
+        z0 = 0;
+        T0 = 0;
+
+        while (lmin >= lmax){
+            lmin = 0;
+            lmax = 0;
+            while (lmin <= 0 && irand < nrand -1){
+                lmin = lmin_center + rand[irand++] * lmin_sigma;
+            }
+            while (lmax <= 0 && irand < nrand -1){
+                lmax = lmax_center + rand[irand++] * lmax_sigma;
+            }
+        }
+
+        while (w < 0 && irand < nrand - 1){
+            w = w_center + rand[irand++] * w_sigma;
+        }
+        wdir = fmod(wdir_center + rand[irand++] * wdir_sigma, M_PI);
+        while (z0 <= 0 && irand < nrand - 1){
+            z0 = z0_center + rand[irand++] * z0_sigma;
+        }
+        while (T0 <= 0 && irand < nrand - 1){
+            T0 = T0_center + rand[irand++] * T0_sigma;
+        }
+
+        if (irand == nrand) throw srd::runtime_erro("Failed to draw parameters in order to satisfy the boundary condictions");
+    }
+
+    // Precalculate the ratio for covariance
+    z0inv = 1. / (2. * z0);
+
+    // The wind is parallel to the surface. Here we rotate a frame where the scan is across the X-axis.
+
+    double eastward_wind = w * cos(wdir);
+    double northward_wind = w * sin(wdir);
+
+    double angle = az0 - M_PI / 2;
+    double wx_h = eastward_wind * cos(angle) - northward_wind * sin(angle);
+
+    wy = eastward_wind * sin(angle) + northward_wind *cos(angle);
+
+    wx = wx_h * cosel0;
+    wz = -wx_h * sinel0;
+
+    // Inverse the wind direction so we can apply it to the telescope position.
+
+    wx = -wx;
+    wy = -wy;
+
+    return 0;
+
 }
 
 void cal::atm_sim::get_volume()
