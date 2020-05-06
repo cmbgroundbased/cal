@@ -79,11 +79,11 @@ cal::atm_sim::atm_sim(double azmin, double azmax, double elmin, double elmax,
     ntask = 1;
     rank = 0;
 
-    auto &  env = cal::Environment::get()
+    auto &  env = cal::Environment::get();
     nthread = env.max_threads();
     if ((rank == 0) && (verbosity > 0))
     {
-        std:cerr << "atmsim constructed with " << ntask << " process, " << nthread << " threads per process." << std::endl;
+        std::cerr << "atmsim constructed with " << ntask << " process, " << nthread << " threads per process." << std::endl;
     }
 
     /*Controlliamo i limiti entro i quali fare la scansione dell'atmosfera.*/
@@ -157,7 +157,7 @@ cal::atm_sim::~atm_sim()
 int cal::atm_sim::simulate(bool use_cache)
 {
     if (use_cache) load_realization();
-    if (chached) return 0;
+    if (cached) return 0;
 
     try {
         draw();
@@ -167,7 +167,7 @@ int cal::atm_sim::simulate(bool use_cache)
             realization.reset(new AlignedVector <double> (nelem));
             std:fill(realization->begin(), realization->end(), 0.0);
         } catch (...) {
-            std::cerr << rank << " : Allocation failed. nelem = " << nelem << std:endl;
+            std::cerr << rank << " : Allocation failed. nelem = " << nelem << std::endl;
             throw;
         }
         cal::Timer tm;
@@ -181,7 +181,7 @@ int cal::atm_sim::simulate(bool use_cache)
         std::vector <int> slice_stops;
 
         while(true) {
-            get_slice();
+            get_slice(ind_start, ind_stop);
             slice_starts.push_back(ind_start);
             slice_stops.push_back(ind_stop);
 
@@ -202,10 +202,10 @@ int cal::atm_sim::simulate(bool use_cache)
         // smooth();?
         tm.stop();
     } catch (const std::exception & e) {
-        std:cerr << "ERROR: atm::simulate failed with: " << e.what() << std::endl;
+        std::cerr << "ERROR: atm::simulate failed with: " << e.what() << std::endl;
     }
     cached = true;
-    if (use_cached) save_realization();
+    if (use_cache) save_realization();
 
     return 0;
 }
@@ -264,7 +264,7 @@ void cal::atm_sim::draw()
             T0 = T0_center + rand[irand++] * T0_sigma;
         }
 
-        if (irand == nrand) throw srd::runtime_erro("Failed to draw parameters in order to satisfy the boundary condictions");
+        if (irand == nrand) throw std::runtime_error("Failed to draw parameters in order to satisfy the boundary condictions");
     }
 
     // Precalculate the ratio for covariance
@@ -294,37 +294,634 @@ void cal::atm_sim::draw()
 
 void cal::atm_sim::get_volume()
 {
-    std::cout << "get the atmopheric volume cone" << std::endl;
+    // Trim zmax if rmax sets a more stringent limit
+    double zmax_from_rmax = rmax * sin(elmax);
+    if (zmax > zmax_from_rmax) zmax = zmax_from_rmax;
+
+    // Horizontal volume
+    double delta_z_h = zmax;
+    maxdist = delta_z_h / sinel0;
+
+    double delta_x_h = maxdist * cos(elmin);
+
+    double x, y, z, xx, zz, r, rproj, z_min, z_max;
+    r = maxdist;
+
+    z = r * sin(elmin);
+    rproj = r * cos(elmin);
+    x = rproj * cos(0);
+    z_min = -x * sinel0 + z * cosel0;
+
+    z = r * sin(elmax);
+    rproj = r * cos(elmax);
+    x = rproj * cos(delta_az / 2);
+    z_max = -x * sinel0 + z * cosel0;
+
+    // Cone witdth
+
+    rproj = r * cos(elmin);
+    if (delta_az > M_PI) delta_y_cone = 2 * rproj;
+    else delta_y_cone = 2 * rproj * cos(0.5 * (M_PI - delta_az));
+
+    delta_z_cone = z_max - z_min;
+    delta_z = delta_z_cone;
+
+    delta_x = maxdist;
+
+    // The wind effect
+    double wdx = std::abs(wx) * delta_t;
+    double wdy = std::abs(wy) * delta_t;
+    double wdz = std::abs(wz) * delta_t;
+
+    delta_x += wdx;
+    delta_y += wdy;
+    delta_z += wdz;
+
+    // Margin for interpolation
+
+    delta_x += xstep;
+    delta_y += 2 * ystep;
+    delta_z += 2 * zstep;
+
+    if (wx < 0) xstart = -wdx;
+    else xstart = 0;
+
+    if (wy < 0) ystart = -0.5 * delta_y_cone - wdy - ystep;
+    else ystart = -0.5 * delta_y_cone - ystep;
+
+    if (wy < 0) zstart = -0.5 * z_min - wdz - zstep;
+    else zstart = -0.5 * z_min;
+
+    // Grid points
+
+    nx = delta_x / xstep + 1;
+    ny = delta_y / ystep + 1;
+    nz = delta_z / zstep + 1;
+
+    nn = nx * ny * nz;
+
+    // 1D storage of the volume
+    zstride = 1;
+    ystride = zstride * nz;
+    xstride = ystride * ny;
+
+    xstrideinv = 1. / xstride;
+    ystrideinv = 1. / ystride;
+    zstrideinv = 1. / zstride;
+
+    initialize_kolmogorov();
 }
 
-bool cal::atm_sim::in_cone(double x, double y, double z, double t_in){
-    return true;
+bool cal::atm_sim::in_cone(double x, double y, double z, double t_in)
+{
+    // Input coordinates are in the scan frame, rotate to horizontal frame
+
+    double tstep = 1;
+
+    for (double t = 0; t < delta_t; t += tstep) {
+        if (t_in >= 0) {
+            if (t != 0) break;
+            t = t_in;
+        }
+
+        if ((t_in < 0) && (delta_t - t < tstep)) t = delta_t;
+
+        double xtel_now = wx * t;
+        double dx = x - xtel_now;
+
+        // Is the point behind the telescope at this time?
+
+        if (dx + xstep < 0) {
+            if (t_in >= 0) std::cerr << "dx + xstep < 0: " << dx << std::endl;
+            continue;
+        }
+
+        // Check the rest of the spherical coordinates
+
+        double ytel_now = wy * t;
+        double dy = y - ytel_now;
+
+        double ztel_now = wz * t;
+        double dz = z - ztel_now;
+
+        double r = std::sqrt(dx * dx + dy * dy + dz * dz);
+        if (r > maxdist * 1.01) {
+            if (t_in >= 0) std::cerr << "r > maxdist " << r << std::endl;
+            continue;
+        }
+
+        if (dz > 0) dz -= zstep;
+        else dz += zstep;
+
+        if ((std::abs(dy) < 2 * ystep) && (std::abs(dz) < 2 * zstep)) return true;
+
+        double dxx = dx * cosel0 - dz * sinel0;
+        double dyy = dy;
+        double dzz = dx * sinel0 + dz * cosel0;
+
+        double el = std::asin(dzz / r);
+        if ((el < elmin) || (el > elmax)) {
+            if (t_in >= 0)
+                std::cerr << "el outside cone: "
+                          << el * 180 / M_PI << " not in "
+                          << elmin * 180 / M_PI << " - "
+                          << elmax * 180 / M_PI << std::endl;
+            continue;
+        }
+
+        dxx = (dx + xstep) * cosel0 - dz * sinel0;
+        double az = std::atan2(dyy, dxx);
+        if (std::abs(az) > 0.5 * delta_az) {
+            if (t_in >= 0)
+                std::cerr << "abs(az) > delta_az/2 "
+                          << az * 180 / M_PI << " > "
+                          << 0.5 * delta_az * 180 / M_PI << std::endl;
+            continue;
+        }
+
+        // Passed all the checks
+
+        return true;
+    }
+
+    return false;
 }
 void cal::atm_sim::compress_volume()
 {
-    std::cout << "Reduct the volume" << std::endl;
+    // Establish a mapping between full volume indices and observed
+    // volume indices
+    cal::Timer tm;
+    tm.start();
+
+    if ((rank == 0) && (verbosity > 0)) {
+        std::cerr << "Compressing volume, N = " << nn << std::endl;
+    }
+
+    std::vector <unsigned char> hit;
+    try {
+        compressed_index.reset(new AlignedVector <long> (nn));
+        std::fill(compressed_index->begin(), compressed_index->end(), -1);
+
+        full_index.reset(new AlignedVector <long> (nn));
+        std::fill(full_index->begin(), full_index->end(), -1);
+
+        hit.resize(nn, false);
+    } catch (...) {
+        std::cerr << rank
+                  << " : Failed to allocate element indices. nn = "
+                  << nn << std::endl;
+        throw;
+    }
+    // Start by flagging all elements that are hit
+
+    for (long ix = 0; ix < nx - 1; ++ix) {
+        if (ix % ntask != rank) continue;
+        double x = xstart + ix * xstep;
+
+        # pragma omp parallel for schedule(static, 10)
+        for (long iy = 0; iy < ny - 1; ++iy) {
+            double y = ystart + iy * ystep;
+
+            for (long iz = 0; iz < nz - 1; ++iz) {
+                double z = zstart + iz * zstep;
+                if (in_cone(x, y, z)) {
+# ifdef DEBUG
+                    hit.at(ix * xstride + iy * ystride + iz * zstride) = true;
+# else // ifdef DEBUG
+                    hit[ix * xstride + iy * ystride + iz * zstride] = true;
+# endif // ifdef DEBUG
+                }
+            }
+        }
+    }
+
+    if ((rank == 0) && (verbosity > 0)) {
+        std::cerr << "Flagged hits, flagging neighbors" << std::endl;
+    }
+
+    // For extra margin, flag all the neighbors of the hit elements
+
+    std::vector <unsigned char> hit2 = hit;
+
+    for (long ix = 1; ix < nx - 1; ++ix) {
+        if (ix % ntask != rank) continue;
+
+        # pragma omp parallel for schedule(static, 10)
+        for (long iy = 1; iy < ny - 1; ++iy) {
+            for (long iz = 1; iz < nz - 1; ++iz) {
+                long offset = ix * xstride + iy * ystride + iz * zstride;
+
+                if (hit2[offset]) {
+                    // Flag this element but also its neighbours to facilitate
+                    // interpolation
+
+                    for (double xmul = -2; xmul < 4; ++xmul) {
+                        if ((ix + xmul < 0) || (ix + xmul > nx - 1)) continue;
+
+                        for (double ymul = -2; ymul < 4; ++ymul) {
+                            if ((iy + ymul < 0) || (iy + ymul > ny - 1)) continue;
+
+                            for (double zmul = -2; zmul < 4; ++zmul) {
+                                if ((iz + zmul < 0) || (iz + zmul > nz - 1)) continue;
+
+# ifdef DEBUG
+                                hit.at(offset + xmul * xstride
+                                       + ymul * ystride + zmul * zstride) = true;
+# else // ifdef DEBUG
+                                hit[offset + xmul * xstride
+                                    + ymul * ystride + zmul * zstride] = true;
+# endif // ifdef DEBUG
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    hit2.resize(0);
+
+    if ((rank == 0) && (verbosity > 0)) {
+        std::cerr << "Creating compression table" << std::endl;
+    }
+
+    // Then create the mappings between the compressed and full indices
+
+    long i = 0;
+    for (long ifull = 0; ifull < nn; ++ifull) {
+        if (hit[ifull]) {
+            (*full_index)[i] = ifull;
+            (*compressed_index)[ifull] = i;
+            ++i;
+        }
+    }
+
+    hit.resize(0);
+    nelem = i;
+
+    full_index->resize(nelem);
+
+    tm.stop();
+
+    if (rank == 0) {
+        // if ( verbosity > 0 ) {
+        tm.report("Volume compressed in");
+        std::cout << i << " / " << nn << "(" << i * 100. / nn << " %)"
+                  << " volume elements are needed for the simulation"
+                  << std::endl
+                  << "nx = " << nx << " ny = " << ny << " nz = " << nz
+                  << std::endl
+                  << "wx = " << wx << " wy = " << wy << " wz = " << wz
+                  << std::endl;
+
+        // }
+    }
+
+    if (nelem == 0) throw std::runtime_error("No elements in the observation cone.");
 }
 
 void cal::atm_sim::get_slice(long & ind_start, long & ind_stop)
 {
-    std::cout << "Get the atmospheric slab" << std::endl;
+    // Identify a manageable slice of compressed indices to simulate next
+
+    // Move element counter to the end of the most recent simulated slice
+    ind_start = ind_stop;
+
+    long ix_start = (*full_index)[ind_start] * xstrideinv;
+    long ix1 = ix_start;
+    long ix2;
+
+    while (true) {
+        // Advance element counter by one layer of elements
+        ix2 = ix1;
+        while (ix1 == ix2) {
+            ++ind_stop;
+            if (ind_stop == nelem) break;
+            ix2 = (*full_index)[ind_stop] * xstrideinv;
+        }
+
+        // Check if there are no more elements
+        if (ind_stop == nelem) break;
+
+        // Check if we have enough to meet the minimum number of elements
+        if (ind_stop - ind_start >= nelem_sim_max) break;
+
+        // Check if we have enough layers
+        // const int nlayer_sim_max = 10;
+        // if ( ix2 - ix_start >= nlayer_sim_max ) break;
+        ix1 = ix2;
+    }
+
+    if ((rank == 0) && (verbosity > 0)) {
+        std::cerr << "X-slice: " << ix_start * xstep << " -- " << ix2 * xstep
+                  << "(" << ix2 - ix_start <<  " " << xstep << " m layers)"
+                  << " m out of  " << nx * xstep << " m"
+                  << " indices " << ind_start << " -- " << ind_stop
+                  << " ( " << ind_stop - ind_start << " )"
+                  << " out of " << nelem << std::endl;
+    }
+
+    return;
 }
 
 
 cholmod_sparse * cal::atm_sim::sqrt_sparse_covariance(cholmod_sparse * cov,
                                         long ind_start, long ind_stop)
 {
-    return ?;
+    /*
+       Cholesky-factorize the provided sparse matrix and return the
+       sparse matrix representation of the factorization
+     */
+
+    size_t nelem = ind_stop - ind_start; // Number of elements in the slice
+
+    cal::Timer tm;
+    tm.start();
+
+    if (verbosity > 0) {
+        std::cerr << rank
+                  << " : Analyzing sparse covariance ... " << std::endl;
+    }
+
+    cholmod_factor * factorization;
+    const int ntry = 4;
+    for (int itry = 0; itry < ntry; ++itry) {
+        factorization = cholmod_analyze(cov, chcommon);
+        if (chcommon->status != CHOLMOD_OK) throw std::runtime_error(
+                      "cholmod_analyze failed.");
+        if (verbosity > 0) {
+            std::cerr << rank
+                      << " : Factorizing sparse covariance ... " << std::endl;
+        }
+        cholmod_factorize(cov, factorization, chcommon);
+        if (chcommon->status != CHOLMOD_OK) {
+            cholmod_free_factor(&factorization, chcommon);
+            if (itry < ntry - 1) {
+                // Extract band diagonal of the matrix and try
+                // factorizing again
+                // int ndiag = ntry - itry - 1;
+                int ndiag = nelem - nelem * (itry + 1) / ntry;
+                if (ndiag < 3) ndiag = 3;
+                int iupper = ndiag - 1;
+                int ilower = -iupper;
+                if (verbosity > 0) {
+                    cholmod_print_sparse(cov, "Covariance matrix", chcommon);
+
+                    // DEBUG begin
+                    if (itry > 2) {
+                        FILE * covfile = fopen("failed_covmat.mtx", "w");
+                        cholmod_write_sparse(covfile, cov, NULL, NULL, chcommon);
+                        fclose(covfile);
+                        exit(-1);
+                    }
+
+                    // DEBUG end
+                    std::cerr << rank
+                              << " : Factorization failed, trying a band "
+                              << "diagonal matrix. ndiag = " << ndiag
+                              << std::endl;
+                }
+                int mode = 1; // Numerical (not pattern) matrix
+                cholmod_band_inplace(ilower, iupper, mode, cov, chcommon);
+                if (chcommon->status != CHOLMOD_OK) throw std::runtime_error(
+                              "cholmod_band_inplace failed.");
+            } else throw std::runtime_error("cholmod_factorize failed.");
+        } else {
+            break;
+        }
+    }
+
+    tm.stop();
+    if (verbosity > 0) {
+        tm.report("Cholesky decomposition done in");
+        std::cout << " s. N = " << nelem << std::endl;
+    }
+
+    // Report memory usage (only counting the non-zero elements, no
+    // supernode information)
+
+    size_t nnz = factorization->nzmax;
+    double tot_mem = (nelem * sizeof(int) + nnz * (sizeof(int) + sizeof(double)))
+                     / pow(2.0, 20.0);
+    if (verbosity > 0) {
+        std::cerr << std::endl;
+        std::cerr << rank << " : Allocated " << tot_mem
+                  << " MB for the sparse factorization." << std::endl;
+    }
+
+    cholmod_sparse * sqrt_cov = cholmod_factor_to_sparse(factorization, chcommon);
+    if (chcommon->status != CHOLMOD_OK) throw std::runtime_error(
+                  "cholmod_factor_to_sparse failed.");
+    cholmod_free_factor(&factorization, chcommon);
+
+    // Report memory usage
+
+    nnz = sqrt_cov->nzmax;
+    tot_mem = (nelem * sizeof(int) + nnz * (sizeof(int) + sizeof(double)))
+              / pow(2.0, 20.0);
+    double max_mem = (nelem * nelem * sizeof(double)) / pow(2.0, 20.0);
+    if (verbosity > 0) {
+        std::cerr << std::endl;
+        std::cerr << rank << " : Allocated " << tot_mem
+                  << " MB for the sparse sqrt covariance matrix. "
+                  << "Compression: " << tot_mem / max_mem << std::endl;
+    }
+
+    return sqrt_cov;
 }
 cholmod_sparse * cal::atm_sim::build_sparse_covariance(long ind_start, long ind_stop)
 {
-    return ?;
+    // Build a sparse covariance matrix.
+
+    cal::Timer tm;
+    tm.start();
+
+    // Build the covariance matrix first in the triplet form, then
+    // cast it to the column-packed format.
+
+    std::vector <int> rows, cols;
+    std::vector <double> vals;
+    size_t nelem = ind_stop - ind_start; // Number of elements in the slice
+    std::vector <double> diagonal(nelem);
+
+    // Fill the elements of the covariance matrix.
+
+    # pragma omp parallel
+    {
+        std::vector <int> myrows, mycols;
+        std::vector <double> myvals;
+
+        # pragma omp for schedule(static, 10)
+        for (int i = 0; i < nelem; ++i) {
+            double coord[3];
+            ind2coord(i + ind_start, coord);
+            diagonal[i] = cov_eval(coord, coord);
+        }
+
+        # pragma omp for schedule(static, 10)
+        for (int icol = 0; icol < nelem; ++icol) {
+            // Translate indices into coordinates
+            double colcoord[3];
+            ind2coord(icol + ind_start, colcoord);
+            for (int irow = icol; irow < nelem; ++irow) {
+                // Evaluate the covariance between the two coordinates
+                double rowcoord[3];
+                ind2coord(irow + ind_start, rowcoord);
+                if (fabs(colcoord[0] - rowcoord[0]) > rcorr) continue;
+                if (fabs(colcoord[1] - rowcoord[1]) > rcorr) continue;
+                if (fabs(colcoord[2] - rowcoord[2]) > rcorr) continue;
+
+                double val = cov_eval(colcoord, rowcoord);
+
+                // If the covariance exceeds the threshold, add it to the
+                // sparse matrix
+                if (val * val > 1e-6 * diagonal[icol] * diagonal[irow]) {
+                    myrows.push_back(irow);
+                    mycols.push_back(icol);
+                    myvals.push_back(val);
+                }
+            }
+        }
+        # pragma omp critical
+        {
+            rows.insert(rows.end(), myrows.begin(), myrows.end());
+            cols.insert(cols.end(), mycols.begin(), mycols.end());
+            vals.insert(vals.end(), myvals.begin(), myvals.end());
+        }
+    }
+
+    tm.stop();
+    if (verbosity > 0) {
+        tm.report("Sparse covariance evaluated in");
+    }
+
+    tm.start();
+
+    // stype > 0 means that only the lower diagonal
+    // elements of the symmetric matrix are needed.
+    int stype = 1;
+    size_t nnz = vals.size();
+
+    cholmod_triplet * cov_triplet = cholmod_allocate_triplet(nelem,
+                                                             nelem,
+                                                             nnz,
+                                                             stype,
+                                                             CHOLMOD_REAL,
+                                                             chcommon);
+    memcpy(cov_triplet->i, rows.data(), nnz * sizeof(int));
+    memcpy(cov_triplet->j, cols.data(), nnz * sizeof(int));
+    memcpy(cov_triplet->x, vals.data(), nnz * sizeof(double));
+    std::vector <int>().swap(rows); // Ensure vector is freed
+    std::vector <int>().swap(cols);
+    std::vector <double>().swap(vals);
+    cov_triplet->nnz = nnz;
+
+    cholmod_sparse * cov_sparse = cholmod_triplet_to_sparse(cov_triplet,
+                                                            nnz,
+                                                            chcommon);
+    if (chcommon->status != CHOLMOD_OK) throw std::runtime_error(
+                  "cholmod_triplet_to_sparse failed.");
+    cholmod_free_triplet(&cov_triplet, chcommon);
+
+    tm.stop();
+    if (verbosity > 0) {
+        tm.report("Sparse covariance constructed in");
+    }
+
+    // Report memory usage
+
+    double tot_mem = (nelem * sizeof(int) + nnz * (sizeof(int) + sizeof(double)))
+                     / pow(2.0, 20.0);
+    double max_mem = (nelem * nelem * sizeof(double)) / pow(2.0, 20.0);
+    if (verbosity > 0) {
+        std::cerr << std::endl;
+        std::cerr << rank << " : Allocated " << tot_mem
+                  << " MB for the sparse covariance matrix. "
+                  << "Compression: " << tot_mem / max_mem << std::endl;
+    }
+
+    return cov_sparse;
 }
 
 void apply_sparse_covariance(cholmod_sparse * cov,
                              long ind_start, long ind_stop)
 {
-    std::cout << "apply sparse covariance" << std::endl;
+    // Apply the Cholesky-decomposed (square-root) sparse covariance
+    // matrix to a vector of Gaussian random numbers to impose the
+    // desired correlation properties.
+
+    cal::Timer tm;
+    tm.start();
+
+    size_t nelem = ind_stop - ind_start; // Number of elements in the slice
+
+    // Draw the Gaussian variates in a single call
+
+    cholmod_dense * noise_in = cholmod_allocate_dense(nelem, 1, nelem,
+                                                      CHOLMOD_REAL, chcommon);
+    cal::rng_dist_normal(nelem, key1, key2, counter1, counter2,
+                           (double *)noise_in->x);
+
+    cholmod_dense * noise_out = cholmod_allocate_dense(nelem, 1, nelem,
+                                                       CHOLMOD_REAL, chcommon);
+
+    // Apply the sqrt covariance to impose correlations
+
+    int notranspose = 0;
+    double one[2] = {1, 0};  // Complex one
+    double zero[2] = {0, 0}; // Complex zero
+
+    cholmod_sdmult(sqrt_cov, notranspose, one, zero, noise_in, noise_out, chcommon);
+    if (chcommon->status != CHOLMOD_OK) throw std::runtime_error(
+                  "cholmod_sdmult failed.");
+    cholmod_free_dense(&noise_in, chcommon);
+
+    // Subtract the mean of the slice to reduce step between the slices
+
+    double * p = (double *)noise_out->x;
+    double mean = 0, var = 0;
+    for (long i = 0; i < nelem; ++i) {
+        mean += p[i];
+        var += p[i] * p[i];
+    }
+    mean /= nelem;
+    var = var / nelem - mean * mean;
+    for (long i = 0; i < nelem; ++i) p[i] -= mean;
+
+    tm.stop();
+    if (verbosity > 0) {
+        std::ostringstream o;
+        o << "Realization slice (" << ind_start << " -- "
+          << ind_stop << ") var = " << var << ", constructed in";
+        tm.report(o.str().c_str());
+    }
+
+    if (verbosity > 10) {
+        std::ofstream f;
+        std::ostringstream fname;
+        fname << "realization_"
+              << ind_start << "_" << ind_stop << ".txt";
+        f.open(fname.str(), std::ios::out);
+        for (long ielem = 0; ielem < nelem; ielem++) {
+            double coord[3];
+            ind2coord(ielem, coord);
+            f << coord[0] << " " << coord[1] << " " << coord[2] << " "
+              << p[ielem]  << std::endl;
+        }
+        f.close();
+    }
+
+    // Copy the slice realization over appropriate indices in
+    // the full realization
+    // FIXME: This is where we would blend slices
+
+    for (long i = ind_start; i < ind_stop; ++i) {
+        (*realization)[i] = p[i - ind_start];
+    }
+
+    cholmod_free_dense(&noise_out, chcommon);
+
+    return;
 }
 
 void ind2coord(long i, double * coord)
@@ -348,14 +945,172 @@ double cov_eval(double * coord1, double * coord2)
     return 1.0;
 }
 
-void initialize_kolmogorov()
+void cal::atm_sim::initialize_kolmogorov()
 {
-    std::cout << "Start Kolmogorov" << std::endl;
+    auto & logger = cal::Logger::get();
+    cal::Timer tm;
+    tm.start();
+
+    // Numerically integrate the modified Kolmogorov correlation function at grid points. We integrate down from 10*kappamax to 0 for numerical precision.
+
+    rmin_kolmo = 0;
+    double diag = sqrt(delta_x * delta_x + delta_y * delta_y);
+    rmax_kolmo = sqrt(diag * diag + delta_z * delta_z) * 1.01;
+    nr = 1000; // Size of the interpolation grid;
+
+#ifdef DEBUG
+    nr /= 10;
+#endif // ifdef DEBUG
+
+    rstep = (rmax_kolmo - rmin_kolmo) / (nr - 1);
+    rstep_inv = 1. / rstep;
+
+    kolmo_x.clear();
+    kolmo_x.resize(nr, 0);
+    kolmo_y.clear();
+    kolmo_y.resize(nr, 0);
+
+    double kappamin = 1. / lmax;
+    double kappamax = 1. / lmin;
+    double kappal = 0.9 * kappamax;
+    double invkappal = 1. / kappal;
+    double kappa0 = 0.75 * kappamin;
+    double kappa0sq = kappa0 * kappa0;
+
+    long nkappa = 1000000; // Integration steps (has to be optimize!)
+
+    double upper_limit = 10 * kappamax;
+    double kappastep = upper_limit / (nkappa - 1);
+    double slope1 = 7. / 6.;
+    double slope2 = -11. / 6.;
+
+    // Use the Newton's method to integrate the correlation function
+    long nkappa_task = nkappa / ntask + 1;
+    long first_kappa = nkappa_task * rank;
+    long last_kappa = first_kappa + nkappa_task;
+    if (last_kappa > nkappa) last_kappa = nkappa;
+
+    // Precalculate the power spectrum function
+
+    std::vector <double> phi(last_kappa - first_kappa);
+    # pragma omp parallel for schedule(static, 10)
+    for (long ikappa = first_kappa; ikappa < last_kappa; ++ikappa) {
+        double kappa = ikappa * kappastep;
+        double kkl = kappa * invkappal;
+        phi[ikappa - first_kappa] =
+            (1. + 1.802 * kkl - 0.254 * pow(kkl, slope1))
+            * exp(-kkl * kkl) * pow(kappa * kappa + kappa0sq, slope2);
+    }
+    // Newton's method factors, not part of the power spectrum
+
+    if (first_kappa == 0) phi[0] /= 2;
+    if (last_kappa == nkappa) phi[last_kappa - first_kappa - 1] /= 2;
+
+    // Integrate the power spectrum for a spherically symmetric
+    // correlation function
+
+    double nri = 1. / (nr - 1);
+    double tau = 10.;
+    double enorm = 1. / (exp(tau) - 1.);
+    double ifac3 = 1. / (2. * 3.);
+
+    # pragma omp parallel for schedule(static, 10)
+    for (long ir = 0; ir < nr; ++ir) {
+        double r = rmin_kolmo
+                   + (exp(ir * nri * tau) - 1) * enorm * (rmax_kolmo - rmin_kolmo);
+        double val = 0;
+        if (r * kappamax < 1e-2) {
+            // special limit r -> 0,
+            // sin(kappa.r)/r -> kappa - kappa^3*r^2/3!
+            for (long ikappa = first_kappa; ikappa < last_kappa; ++ikappa) {
+                double kappa = ikappa * kappastep;
+                double kappa2 = kappa * kappa;
+                double kappa4 = kappa2 * kappa2;
+                double r2 = r * r;
+                val += phi[ikappa - first_kappa] * (kappa2 - r2 * kappa4 * ifac3);
+            }
+        } else {
+            for (long ikappa = first_kappa; ikappa < last_kappa; ++ikappa) {
+                double kappa = ikappa * kappastep;
+                val += phi[ikappa - first_kappa] * sin(kappa * r) * kappa;
+            }
+            val /= r;
+        }
+        val *= kappastep;
+        kolmo_x[ir] = r;
+        kolmo_y[ir] = val;
+    }
+
+    // Normalize
+
+    double norm = 1. / kolmo_y[0];
+    for (int i = 0; i < nr; ++i) kolmo_y[i] *= norm;
+
+    if ((rank == 0) && (verbosity > 0)) {
+        std::ofstream f;
+        std::ostringstream fname;
+        fname << "kolmogorov.txt";
+        f.open(fname.str(), std::ios::out);
+        for (int ir = 0; ir < nr;
+             ir++) f << kolmo_x[ir] << " " << kolmo_y[ir] << std::endl;
+        f.close();
+    }
+
+    // Measure the correlation length
+    long icorr = nr - 1;
+    while (fabs(kolmo_y[icorr]) < corrlim) --icorr;
+    rcorr = kolmo_x[icorr];
+    rcorrsq = rcorr * rcorr;
+
+    tm.stop();
+
+    if ((rank == 0) && (verbosity > 0)) {
+        std::ostringstream o;
+        o << "rcorr = " << rcorr << " m (corrlim = " << corrlim << ")";
+        logger.debug(o.str().c_str());
+        tm.report("Kolmogorov initialized in");
+    }
+
+    return;
 }
 
-double kolmogorov(double r)
+double cal::atm_sim::kolmogorov(double r)
 {
-    return 0;
+    // Return autocovariance of a Kolmogorov process at separation r
+
+    if (r == 0) return kolmo_y[0];
+
+    if (r == rmax_kolmo) return kolmo_y[nr - 1];
+
+    if ((r < rmin_kolmo) || (r > rmax_kolmo)) {
+        std::ostringstream o;
+        o.precision(16);
+        o << "Kolmogorov value requested at " << r
+          << ", outside gridded range [" << rmin_kolmo << ", " << rmax_kolmo << "].";
+        throw std::runtime_error(o.str().c_str());
+    }
+
+    // Simple linear interpolation for now.  Use a bisection method to find the rigth elements.
+
+    long low = 0, high = nr - 1;
+    long ir;
+
+    while (true) {
+        ir = low + 0.5 * (high - low);
+        if (kolmo_x[ir] <= r and r <= kolmo_x[ir + 1]) break;
+        if (r < kolmo_x[ir]) high = ir;
+        else low = ir;
+    }
+
+    double rlow = kolmo_x[ir];
+    double rhigh = kolmo_x[ir + 1];
+    double rdist = (r - rlow) / (rhigh - rlow);
+    double vlow = kolmo_y[ir];
+    double vhigh = kolmo_y[ir + 1];
+
+    double val = (1 - rdist) * vlow + rdist * vhigh;
+
+    return val;
 }
 
 void smooth()
