@@ -8,6 +8,7 @@ set(CAL_MOD cal)
 # Library sources
 set(CAL_SOURCES
     src/CALAtmSim.cpp
+    src/AATM_fun.cpp
     src/sys_env.cpp
     src/sys_utils.cpp
 )

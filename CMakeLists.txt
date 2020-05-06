@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 
 if (MSVC)
-    add_compile_options(/W3 /WX)
+    add_compile_options(/std=c++11)
 else()
     add_compile_options(-std=c++11)
 endif()
