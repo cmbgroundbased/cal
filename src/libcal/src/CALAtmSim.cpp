@@ -214,16 +214,194 @@ int cal::atm_sim::simulate(bool use_cache)
 int cal::atm_sim::observe(double * t, double * az, double * el, double * tod,
             long nsamp, double fixed_r)
 {
+    if(!cached){
+        throw std::runtime_error("There is no cached observation to observe.");
+    }
+
+    cal::Timer tm;
+    tm.start();
+
+    // For each sample, integrate alogn the line of sight by summing the atmosphere values. See Church (1995) Section 2.2 first equation. We omit the optical depth fatction which is close to unity.
+
+    double zatm_inv = 1. / zatm;
+
+    std::ostringstream o;
+    o.precision(16);
+    int error = 0;
+
+    #pragma omp parallel for schedule(static, 100)
+    for (long i = 0; i < nsamp; i++) {
+        #pragma omp flush(error)
+        if(error) continue;
+
+        if ((!((azmin <= az[i]) && (az[i] <= azmax)) && ! ((azmin <= az[i] - 2 * M_PI) && (az[i] - 2 * M_PI <= azmax))) || !((elmin <= el[i]) && (el[i] <= elmax))) {
+            o.precision(16);
+            o << "atmsim::observe : observation out of bounds (az, el, t)"
+              << " = (" << az[i] << ",  " << el[i] << ", " << t[i]
+              << ") allowed: (" << azmin << " - " << azmax << ", "
+              << elmin << " - " << elmax << ", "
+              << tmin << " - " << tmax << ")"
+              << std::endl;
+            error = 1;
+            # pragma omp flush(error)
+            continue;
+        }
+
+        double t_now = t[i] - tmin;
+        double az_now = az[i] - az0; // Relative to the center of field
+        double el_now = el[i];
+
+        double xtel_now = wx * t_now;
+        double ytel_now = wy * t_now;
+        double ztel_now = wz * t_now;
+
+        double sin_el = sin(el_now);
+        double sin_el_max = sin(elmax);
+        double cos_el = cos(el_now);
+        double sin_az = sin(az_now);
+        double cos_az = cos(az_now);
+
+        double r = 1.5 * xstep;
+        double rstep = xstep;
+
+        while (r < rmin) r += rstep;
+
+        std::vector <long> last_ind(3);
+        std::vector <double> last_nodes(8);
+
+        double val = 0;
+        if (fixed_r > 0) r = fixed_r;
+
+        while (true){
+            if (r > rmax) break;
+            // Coordinate at distance r. The scan is centered on the X-axis.
+
+            // Check if the top of the focal plane hits zmax at this distance. This way all lines-of-sight get integrated to the same distance.
+
+            double zz = r * sin_el_max;
+            if (zz >= zmax) break;
+
+            // Horizontal coordinates
+
+            zz = r * sin_el;
+            double rproj = r * cos_el;
+            double xx = rproj * cos_az;
+            double yy = rproj * sin_az;
+
+            // Rotate to scan frame
+
+            double x = xx * cosel0 + zz * sinel0;
+            double y = yy;
+            double z = -xx * sinel0 + zz * cosel0;
+
+            // Translate by the wind
+
+            x += xtel_now;
+            y += ytel_now;
+            z += ztel_now;
+            // Combine atmospheric emission (via interpolation) with the
+            // ambient temperature.
+            // Note that the r^2 (beam area) and 1/r^2 (source
+            // distance) factors cancel in the integral.
+
+            double step_val;
+            try {
+                step_val = interp(x, y, z, last_ind, last_nodes)
+                           * (1. - z * zatm_inv);
+            } catch (const std::runtime_error & e) {
+                std::ostringstream o;
+                o << "atmsim::observe : interp failed at " << std::endl
+                  << "xxyyzz = (" << xx << ", " << yy << ", " << zz << ")"
+                  << std::endl
+                  << "xyz = (" << x << ", " << y << ", " << z << ")"
+                  << std::endl
+                  << "r = " << r << std::endl
+                  << "tele at (" << xtel_now << ", " << ytel_now << ", "
+                  << ztel_now << ")" << std::endl
+                  << "( t, az, el ) = " << "( " << t[i] - tmin << ", "
+                  << az_now * 180 / M_PI
+                  << " deg , " << el_now * 180 / M_PI << " deg) "
+                  << " in_cone(t) = " << in_cone(x, y, z, t_now)
+                  << " with "
+                  << std::endl << e.what() << std::endl;
+                error = 1;
+                # pragma omp flush(error)
+                break;
+            }
+            val += step_val;
+
+            // Prepare for the next step
+
+            r += rstep;
+
+            if (fixed_r > 0) break;
+
+            // if ( fixed_r > 0 and r > fixed_r ) break;
+        }
+
+        tod[i] = val * rstep * T0;
+    }
+
+    tm.stop();
+
+    if ((rank == 0) && (verbosity > 0)) {
+        if (fixed_r > 0) {
+            std::ostringstream o;
+            o << " samples observed at r =  " << fixed_r << " in";
+            tm.report(o.str().c_str());
+        } else {
+            tm.report(" samples observed in");
+        }
+    }
+
+    if (error) {
+        std::cerr << "WARNING: atm::observe failed with: \"" << o.str()
+                  << "\"" << std::endl;
+        return -1;
+    }
+
     return 0;
 }
 
 void cal::atm_sim::print(std::ostream & out) const
 {
-    std::cout << "print" << std::endl;
+    for (int i = 0; i < ntask; ++i) {
+        if (rank != i) continue;
+        out << rank << " : cachedir " << cachedir << std::endl;
+        out << rank << " : ntask = " << ntask
+            << ", nthread = " << nthread << std::endl;
+        out << rank << " : verbosity = " << verbosity
+            << ", key1 = " << key1
+            << ", key2 = " << key2
+            << ", counter1 = " << counter1
+            << ", counter2 = " << counter2
+            << ", counter1start = " << counter1start
+            << ", counter2start = " << counter2start << std::endl;
+        out << rank << " : azmin = " << azmin
+            << ", axmax = " << azmax
+            << ", elmin = " << elmin
+            << ", elmax = " << elmax
+            << ", tmin = " << tmin
+            << ", tmax = " << tmax
+            << ", sinel0 = " << sinel0
+            << ", cosel0 = " << cosel0
+            << ", tanmin = " << tanmin
+            << ", tanmax = " << tanmax << std::endl;
+        out << rank << " : lmin_center = " << lmin_center
+            << ", lmax_center = " << lmax_center
+            << ", w_center = " << w_center
+            << ", w_sigma = " << w_sigma
+            << ", wdir_center = " << wdir_center
+            << ", wdir_sigma = " << wdir_sigma
+            << ", z0_center = " << z0_center
+            << ", z0_sigma = " << z0_sigma
+            << ", T0_center = " << T0_center
+            << ", T0_sigma = " << T0_sigma
+            << ", z0inv = " << z0inv << std::endl;
+    }
 }
 
 // private methods
-
 
 void cal::atm_sim::draw()
 {
@@ -447,6 +625,7 @@ bool cal::atm_sim::in_cone(double x, double y, double z, double t_in)
 
     return false;
 }
+
 void cal::atm_sim::compress_volume()
 {
     // Establish a mapping between full volume indices and observed
@@ -927,23 +1106,193 @@ void cal::atm_sim::apply_sparse_covariance(cholmod_sparse * sqrt_cov,
 
 void cal::atm_sim::ind2coord(long i, double * coord)
 {
-    std::cout << "ind2coord" << std::endl;
+    // Translate a compressed index into xyz-coordinates
+    // in the horizontal frame
+
+    long ifull = (*full_index)[i];
+
+    long ix = ifull * xstrideinv;
+    long iy = (ifull - ix * xstride) * ystrideinv;
+    long iz = ifull - ix * xstride - iy * ystride;
+
+    // coordinates in the scan frame
+
+    double x = xstart + ix * xstep;
+    double y = ystart + iy * ystep;
+    double z = zstart + iz * zstep;
+
+    // Into the horizontal frame
+
+    coord[0] = x * cosel0 - z * sinel0;
+    coord[1] = y;
+    coord[2] = x * sinel0 + z * cosel0;
 }
 
 long cal::atm_sim::coord2ind(double x, double y, double z)
 {
-    return 0;
+    // Translate scan frame xyz-coordinates into a compressed index
+
+    long ix = (x - xstart) * xstepinv;
+    long iy = (y - ystart) * ystepinv;
+    long iz = (z - zstart) * zstepinv;
+
+# ifdef DEBUG
+    if ((ix < 0) || (ix > nx - 1) || (iy < 0) || (iy > ny - 1) || (iz < 0) ||
+        (iz > nz - 1)) {
+        std::ostringstream o;
+        o.precision(16);
+        o << "atmsim::coord2ind : full index out of bounds at ("
+          << x << ", " << y << ", " << z << ") = ("
+          << ix << " /  " << nx << ", " << iy << " / " << ny << ", "
+          << iz << ", " << nz << ")";
+        throw std::runtime_error(o.str().c_str());
+    }
+# endif // ifdef DEBUG
+
+    size_t ifull = ix * xstride + iy * ystride + iz * zstride;
+
+    return (*compressed_index)[ifull];
 }
 
 double cal::atm_sim::interp(double x, double y, double z, std::vector <long> & last_ind,
               std::vector <double> & last_nodes)
 {
-    return 0.0;
+    // Trilinear interpolation
+
+    long ix = (x - xstart) * xstepinv;
+    long iy = (y - ystart) * ystepinv;
+    long iz = (z - zstart) * zstepinv;
+
+    double dx = (x - (xstart + (double)ix * xstep)) * xstepinv;
+    double dy = (y - (ystart + (double)iy * ystep)) * ystepinv;
+    double dz = (z - (zstart + (double)iz * zstep)) * zstepinv;
+
+    double c000, c001, c010, c011, c100, c101, c110, c111;
+
+    if ((ix != last_ind[0]) || (iy != last_ind[1]) || (iz != last_ind[2])) {
+        size_t offset = ix * xstride + iy * ystride + iz * zstride;
+
+        size_t ifull000 = offset;
+        size_t ifull001 = offset + zstride;
+        size_t ifull010 = offset + ystride;
+        size_t ifull011 = ifull010 + zstride;
+        size_t ifull100 = offset + xstride;
+        size_t ifull101 = ifull100 + zstride;
+        size_t ifull110 = ifull100 + ystride;
+        size_t ifull111 = ifull110 + zstride;
+
+        long i000 = (*compressed_index)[ifull000];
+        long i001 = (*compressed_index)[ifull001];
+        long i010 = (*compressed_index)[ifull010];
+        long i011 = (*compressed_index)[ifull011];
+        long i100 = (*compressed_index)[ifull100];
+        long i101 = (*compressed_index)[ifull101];
+        long i110 = (*compressed_index)[ifull110];
+        long i111 = (*compressed_index)[ifull111];
+
+        c000 = (*realization)[i000];
+        c001 = (*realization)[i001];
+        c010 = (*realization)[i010];
+        c011 = (*realization)[i011];
+        c100 = (*realization)[i100];
+        c101 = (*realization)[i101];
+        c110 = (*realization)[i110];
+        c111 = (*realization)[i111];
+
+        last_ind[0] = ix;
+        last_ind[1] = iy;
+        last_ind[2] = iz;
+
+        last_nodes[0] = c000;
+        last_nodes[1] = c001;
+        last_nodes[2] = c010;
+        last_nodes[3] = c011;
+        last_nodes[4] = c100;
+        last_nodes[5] = c101;
+        last_nodes[6] = c110;
+        last_nodes[7] = c111;
+    } else {
+        c000 = last_nodes[0];
+        c001 = last_nodes[1];
+        c010 = last_nodes[2];
+        c011 = last_nodes[3];
+        c100 = last_nodes[4];
+        c101 = last_nodes[5];
+        c110 = last_nodes[6];
+        c111 = last_nodes[7];
+    }
+
+    double c00 = c000 + (c100 - c000) * dx;
+    double c01 = c001 + (c101 - c001) * dx;
+    double c10 = c010 + (c110 - c010) * dx;
+    double c11 = c011 + (c111 - c011) * dx;
+
+    double c0 = c00 + (c10 - c00) * dy;
+    double c1 = c01 + (c11 - c01) * dy;
+
+    double c = c0 + (c1 - c0) * dz;
+
+    return c;
 }
 
 double cal::atm_sim::cov_eval(double * coord1, double * coord2)
 {
-    return 1.0;
+    // Evaluate the atmospheric absorption covariance between two coordinates
+    // Church (1995) Eq.(6) & (9)
+    // Coordinates are in the horizontal frame
+
+    const long nn = 1;
+
+    // Uncomment these lines for smoothing
+    // const double ndxinv = xxstep / (nn-1);
+    // const double ndzinv = zzstep / (nn-1);
+    const double ninv = 1.; // / (nn * nn);
+
+    double val = 0;
+
+    for (int ii1 = 0; ii1 < nn; ++ii1) {
+        double xx1 = coord1[0];
+        double yy1 = coord1[1];
+        double zz1 = coord1[2];
+
+        // Uncomment these lines for smoothing
+        // if ( ii1 ) {
+        //    xx1 += ii1 * ndxinv;
+        //    zz1 += ii1 * ndzinv;
+        // }
+
+        for (int ii2 = 0; ii2 < nn; ++ii2) {
+            double xx2 = coord2[0];
+            double yy2 = coord2[1];
+            double zz2 = coord2[2];
+
+            // Uncomment these lines for smoothing
+            // if ( ii2 ) {
+            //    xx2 += ii2 * ndxinv;
+            //    zz2 += ii2 * ndzinv;
+            // }
+
+            double dx = xx1 - xx2;
+            double dy = yy1 - yy2;
+            double dz = zz1 - zz2;
+            double r2 = dx * dx + dy * dy + dz * dz;
+            if (r2 < rcorrsq) {
+                double r = sqrt(r2);
+
+                // Water vapor altitude factor
+
+                double chi1 = std::exp(-(zz1 + zz2) * z0inv);
+
+                // Kolmogorov factor
+
+                double chi2 = kolmogorov(r);
+
+                val += chi1 * chi2;
+            }
+        }
+    }
+
+    return val * ninv;
 }
 
 void cal::atm_sim::initialize_kolmogorov()
@@ -1116,14 +1465,273 @@ double cal::atm_sim::kolmogorov(double r)
 
 void cal::atm_sim::smooth()
 {
-    std::cout << "Smooth Kernel" << std::endl;
+    // Replace each vertex with a mean of its immediate vicinity
+
+    cal::Timer tm;
+    tm.start();
+
+    double coord[3];
+
+    std::vector <double> smoothed_realization(realization->size());
+
+    for (size_t i = 0; i < full_index->size(); ++i) {
+        ind2coord(i, coord);
+        long ix = coord[0] * xstepinv;
+        long iy = coord[1] * ystepinv;
+        long iz = coord[2] * zstepinv;
+
+        long offset = ix * xstride + iy * ystride + iz * zstride;
+
+        long w = 3; // width of the smoothing kernel
+        long ifullmax = compressed_index->size();
+
+        std::vector <double> vals;
+
+        // for (int xoff=-w; xoff <= w; ++xoff) {
+        for (int xoff = 0; xoff <= 0; ++xoff) {
+            if (ix + xoff < 0) continue;
+            if (ix + xoff >= nx) break;
+
+            for (int yoff = -w; yoff <= w; ++yoff) {
+                if (iy + yoff < 0) continue;
+                if (iy + yoff >= ny) break;
+
+                for (int zoff = -w; zoff <= w; ++zoff) {
+                    if (iz + zoff < 0) continue;
+                    if (iz + zoff >= nz) break;
+
+                    long ifull = offset + xoff * xstride + yoff * ystride
+                                 + zoff * zstride;
+
+                    if ((ifull < 0) || (ifull >= ifullmax)) throw std::runtime_error(
+                                  "Index out of range in smoothing.");
+
+                    long ii = (*compressed_index)[ifull];
+
+                    if (ii >= 0) {
+                        vals.push_back((*realization)[ii]);
+                    }
+                }
+            }
+        }
+
+        // Get the smoothed value
+
+        smoothed_realization[i] = mean(vals);
+    }
+
+    // if (realization->rank() == 0) {
+    for (int i = 0; i < realization->size(); ++i) {
+        (*realization)[i] = smoothed_realization[i];
+    }
+
+    // }
+
+    tm.stop();
+
+    if ((rank == 0) && (verbosity > 0)) {
+        tm.report("Realization smoothed in");
+    }
+    return;
 }
 
 void cal::atm_sim::load_realization()
 {
-    std::cout << "load realization" << std::endl;
+    cached = false;
+
+    std::ostringstream name;
+    name << key1 << "_" << key2 << "_"
+         << counter1start << "_" << counter2start;
+
+    char success;
+
+    if (rank == 0) {
+        // Load metadata
+
+        success = 1;
+
+        std::ostringstream fname;
+        fname << cachedir << "/" << name.str() << "_metadata.txt";
+
+        std::ifstream f(fname.str());
+        if (f.good()) {
+            f >> nn;
+            f >> nelem;
+            f >> nx;
+            f >> ny;
+            f >> nz;
+            f >> delta_x;
+            f >> delta_y;
+            f >> delta_z;
+            f >> xstart;
+            f >> ystart;
+            f >> zstart;
+            f >> maxdist;
+            f >> wx;
+            f >> wy;
+            f >> wz;
+            f >> lmin;
+            f >> lmax;
+            f >> w;
+            f >> wdir;
+            f >> z0;
+            f >> T0;
+            f.close();
+
+            if (rank == 0 and verbosity > 0) {
+                std::cerr << "Loaded metada from "
+                          << fname.str() << std::endl;
+            }
+        } else success = 0;
+
+        if ((verbosity > 0) && success) {
+            std::cerr << std::endl;
+            std::cerr << "Simulation volume:" << std::endl;
+            std::cerr << "   delta_x = " << delta_x << " m" << std::endl;
+            std::cerr << "   delta_y = " << delta_y << " m" << std::endl;
+            std::cerr << "   delta_z = " << delta_z << " m" << std::endl;
+            std::cerr << "    xstart = " << xstart << " m" << std::endl;
+            std::cerr << "    ystart = " << ystart << " m" << std::endl;
+            std::cerr << "    zstart = " << zstart << " m" << std::endl;
+            std::cerr << "   maxdist = " << maxdist << " m" << std::endl;
+            std::cerr << "        nx = " << nx << std::endl;
+            std::cerr << "        ny = " << ny << std::endl;
+            std::cerr << "        nz = " << nz << std::endl;
+            std::cerr << "        nn = " << nn << std::endl;
+            std::cerr << "Atmospheric realization parameters:" << std::endl;
+            std::cerr << " lmin = " << lmin << " m" << std::endl;
+            std::cerr << " lmax = " << lmax << " m" << std::endl;
+            std::cerr << "    w = " << w << " m/s" << std::endl;
+            std::cerr << "   wx = " << wx << " m/s" << std::endl;
+            std::cerr << "   wy = " << wy << " m/s" << std::endl;
+            std::cerr << "   wz = " << wz << " m/s" << std::endl;
+            std::cerr << " wdir = " << wdir * 180. / M_PI << " degrees" << std::endl;
+            std::cerr << "   z0 = " << z0 << " m" << std::endl;
+            std::cerr << "   T0 = " << T0 << " K" << std::endl;
+            std::cerr << "rcorr = " << rcorr << " m (corrlim = "
+                      << corrlim << ")" << std::endl;
+        }
+    }
+
+    if (!success) return;
+
+    zstride = 1;
+    ystride = zstride * nz;
+    xstride = ystride * ny;
+
+    xstrideinv = 1. / xstride;
+    ystrideinv = 1. / ystride;
+    zstrideinv = 1. / zstride;
+
+    // Load realization
+
+    try {
+        compressed_index.reset(new AlignedVector <long> (nn));
+        std::fill(compressed_index->begin(), compressed_index->end(), -1);
+
+        full_index.reset(new AlignedVector <long> (nelem));
+        std::fill(full_index->begin(), full_index->end(), -1);
+    } catch (...) {
+        std::cerr << rank
+                  << " : Failed to allocate element indices. nn = "
+                  << nn << std::endl;
+        throw;
+    }
+    try {
+        realization.reset(new AlignedVector <double> (nelem));
+        std::fill(realization->begin(), realization->end(), 0.0);
+    } catch (...) {
+        std::cerr << rank
+                  << " : Failed to allocate realization. nelem = "
+                  << nelem << std::endl;
+        throw;
+    }
+    // if (full_index->rank() == 0) {
+    std::ostringstream fname_real;
+    fname_real << cachedir << "/" << name.str() << "_realization.dat";
+    std::ifstream freal(fname_real.str(),
+                        std::ios::in | std::ios::binary);
+
+    freal.read((char *)&(*full_index)[0],
+               full_index->size() * sizeof(long));
+    for (int i = 0; i < nelem; ++i) {
+        long ifull = (*full_index)[i];
+        (*compressed_index)[ifull] = i;
+    }
+
+    freal.read((char *)&(*realization)[0],
+               realization->size() * sizeof(double));
+
+    freal.close();
+
+    if (verbosity > 0) std::cerr << "Loaded realization from "
+                                 << fname_real.str() << std::endl;
+
+    // }
+
+    cached = true;
+
+    return;
 }
 void cal::atm_sim::save_realization()
 {
-    std::cout << "save realization" << std::endl;
+    if (rank == 0) {
+        std::ostringstream name;
+        name << key1 << "_" << key2 << "_"
+             << counter1start << "_" << counter2start;
+
+        // Save metadata
+
+        std::ostringstream fname;
+        fname << cachedir << "/" << name.str() << "_metadata.txt";
+
+        std::ofstream f;
+        f.precision(16);
+        f.open(fname.str());
+        f << nn << std::endl;
+        f << nelem << std::endl;
+        f << nx << std::endl;
+        f << ny << std::endl;
+        f << nz << std::endl;
+        f << delta_x << std::endl;
+        f << delta_y << std::endl;
+        f << delta_z << std::endl;
+        f << xstart << std::endl;
+        f << ystart << std::endl;
+        f << zstart << std::endl;
+        f << maxdist << std::endl;
+        f << wx << std::endl;
+        f << wy << std::endl;
+        f << wz << std::endl;
+        f << lmin << std::endl;
+        f << lmax << std::endl;
+        f << w << std::endl;
+        f << wdir << std::endl;
+        f << z0 << std::endl;
+        f << T0 << std::endl;
+        f.close();
+
+        if (verbosity > 0) std::cerr << "Saved metadata to "
+                                     << fname.str() << std::endl;
+
+        // Save realization
+
+        std::ostringstream fname_real;
+        fname_real << cachedir << "/" << name.str() << "_realization.dat";
+        std::ofstream freal(fname_real.str(),
+                            std::ios::out | std::ios::binary);
+
+        freal.write((char *)&(*full_index)[0],
+                    full_index->size() * sizeof(long));
+
+        freal.write((char *)&(*realization)[0],
+                    realization->size() * sizeof(double));
+
+        freal.close();
+
+        if (verbosity > 0) std::cerr << "Saved realization to "
+                                     << fname_real.str() << std::endl;
+    }
+
+    return;
 }

@@ -193,8 +193,8 @@ cal::Environment::Environment() {
         use_mpi_ = false;
     }
 
-    git_version_ = GIT_VERSION;
-    release_version_ = RELEASE_VERSION;
+    git_version_ = "0.0.0";
+    release_version_ = "pre-alpha";
 
     // prefer the git version if it is set.
     if (git_version_.compare("") == 0) {

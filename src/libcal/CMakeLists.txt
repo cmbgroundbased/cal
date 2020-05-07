@@ -25,6 +25,51 @@ target_include_directories(${CAL_LIB} PUBLIC
     PRIVATE src
 )
 
+if(MPI_FOUND)
+    target_compile_definitions(${CAL_LIB} PRIVATE HAVE_MPI=1)
+endif(MPI_FOUND)
+
+# Dependencies
+
+if(OpenMP_CXX_FOUND)
+    target_compile_options(${CAL_LIB} PRIVATE "${OpenMP_CXX_FLAGS}")
+    set_target_properties(${CAL_LIB} PROPERTIES LINK_FLAGS "${OpenMP_CXX_FLAGS}")
+    target_link_libraries(${CAL_LIB} "${OpenMP_CXX_LIBRARIES}")
+endif(OpenMP_CXX_FOUND)
+
+if(AATM_FOUND)
+    target_compile_definitions(${CAL_LIB} PRIVATE HAVE_AATM=1)
+    target_include_directories(${CAL_LIB} PUBLIC "${AATM_INCLUDE_DIRS}")
+    target_link_libraries(${CAL_LIB} "${AATM_LIBRARIES}")
+endif(AATM_FOUND)
+
+if(CHOLMOD_FOUND)
+    target_compile_definitions(${CAL_LIB} PRIVATE HAVE_CHOLMOD=1)
+    target_include_directories(${CAL_LIB} PUBLIC "${CHOLMOD_INCLUDE_DIR}")
+    target_link_libraries(${CAL_LIB} "${CHOLMOD_LIBRARY}")
+endif(CHOLMOD_FOUND)
+
+if(FFTW_FOUND)
+    target_compile_definitions(${CAL_LIB} PRIVATE HAVE_FFTW=1)
+    target_include_directories(${CAL_LIB} PUBLIC "${FFTW_INCLUDE_DIRS}")
+    target_link_libraries(${CAL_LIB} "${FFTW_LIBRARIES}")
+    if(FFTW_DOUBLE_THREADS_LIB_FOUND)
+        target_compile_definitions(${CAL_LIB} PRIVATE HAVE_FFTW_THREADS=1)
+    endif(FFTW_DOUBLE_THREADS_LIB_FOUND)
+endif(FFTW_FOUND)
+
+if(LAPACK_FOUND)
+    target_compile_definitions(${CAL_LIB} PRIVATE HAVE_LAPACK=1)
+    target_compile_definitions(${CAL_LIB} PRIVATE "LAPACK_NAMES_${LAPACK_NAMES}")
+    set_target_properties(${CAL_LIB} PROPERTIES LINK_FLAGS
+        "${LAPACK_LINKER_FLAGS} ${BLAS_LINKER_FLAGS}"
+    )
+    target_link_libraries(${CAL_LIB} "${LAPACK_LIBRARIES}")
+    target_link_libraries(${CAL_LIB} "${BLAS_LIBRARIES}")
+endif(LAPACK_FOUND)
+
+
+
 # Now define rules for the shared library
 
 add_library(${CAL_MOD} SHARED ${CAL_SOURCES})

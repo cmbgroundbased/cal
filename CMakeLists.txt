@@ -33,6 +33,7 @@ endif(BLAS_FOUND)
 
 find_package(FFTW REQUIRED)
 find_package(AATM REQUIRED)
+find_package(SuiteSparse REQUIRED)
 #find_package(RANDOM123 REQUIRED)
 
 enable_testing()
