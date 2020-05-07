@@ -54,6 +54,7 @@ int main(){
     cal::atm_sim *atm_strip = new cal::atm_sim(azmin, azmax, elmin, elmax, tmin, tmax, lmin_center, lmin_sigma, lmax_center, lmax_sigma, w_center, w_sigma, wdir_center, wdir_sigma, z0_center, z0_sigma, T0_center, T0_sigma, zatm, zmax, xstep, ystep, zstep, nelem_sim_max, verbosity, key1, key2, counterval1, counterval2, cachedir, rmin, rmax);
 
     atm_strip->simulate(true);
+    // atm_strop->observe()
 
 
     return 0;
