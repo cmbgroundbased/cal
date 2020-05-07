@@ -11,6 +11,8 @@ set(CAL_SOURCES
     src/AATM_fun.cpp
     src/sys_env.cpp
     src/sys_utils.cpp
+    src/math_rng.cpp
+    src/math_sf.cpp
 )
 
 # Add the internal library target

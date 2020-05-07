@@ -1,6 +1,7 @@
 #include <CALAtmSim.hpp>
 #include <sys_utils.hpp>
 #include <sys_env.hpp>
+#include <math_rng.hpp>
 // #inluce <qualcosa per PRNG>
 
 #include <sstream>
@@ -229,7 +230,7 @@ void cal::atm_sim::draw()
     // Draw 10 000 gaussian variates to use in the drawing the simulation parameters
     const size_t nrand = 10000;
     double randn[nrand];
-    !!randn();!!
+    cal::rng_dist_normal(nrand, key1, key2, counter1, counter2, randn);
     counter2 += nrand;
     double * prand = randn;
     long irand = 0;
@@ -246,22 +247,22 @@ void cal::atm_sim::draw()
             lmin = 0;
             lmax = 0;
             while (lmin <= 0 && irand < nrand -1){
-                lmin = lmin_center + rand[irand++] * lmin_sigma;
+                lmin = lmin_center + randn[irand++] * lmin_sigma;
             }
             while (lmax <= 0 && irand < nrand -1){
-                lmax = lmax_center + rand[irand++] * lmax_sigma;
+                lmax = lmax_center + randn[irand++] * lmax_sigma;
             }
         }
 
         while (w < 0 && irand < nrand - 1){
-            w = w_center + rand[irand++] * w_sigma;
+            w = w_center + randn[irand++] * w_sigma;
         }
-        wdir = fmod(wdir_center + rand[irand++] * wdir_sigma, M_PI);
+        wdir = fmod(wdir_center + randn[irand++] * wdir_sigma, M_PI);
         while (z0 <= 0 && irand < nrand - 1){
-            z0 = z0_center + rand[irand++] * z0_sigma;
+            z0 = z0_center + randn[irand++] * z0_sigma;
         }
         while (T0 <= 0 && irand < nrand - 1){
-            T0 = T0_center + rand[irand++] * T0_sigma;
+            T0 = T0_center + randn[irand++] * T0_sigma;
         }
 
         if (irand == nrand) throw std::runtime_error("Failed to draw parameters in order to satisfy the boundary condictions");
