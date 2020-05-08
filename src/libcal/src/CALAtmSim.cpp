@@ -197,7 +197,7 @@ int cal::atm_sim::simulate(bool use_cache)
             }
             counter2 += ind_stop - ind_start;
 
-            if (ind_stop == nelem ) break;
+            if (ind_stop == nelem) break;
             ++slice;
         }
         // smooth();?
