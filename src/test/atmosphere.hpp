@@ -5,9 +5,9 @@
 
 
 double azmin = 0.0;
-double azmax = M_PI/2;
-double elmin = M_PI/3;
-double elmax = M_PI/2.5;
+double azmax = M_PI_2;
+double elmin = 0.0;
+double elmax = M_PI_2;
 
 double tmin = 0;
 double tmax = 60*60*2;
@@ -41,11 +41,11 @@ long nelem_sim_max = 1000;
 
 int verbosity = 0;
 
-uint64_t key1 = 0;
-uint64_t key2 = 0;
+uint64_t key1 = 26468928;
+uint64_t key2 = 26468928;
 uint64_t counterval1 = 0;
 uint64_t counterval2 = 0;
-std::string cachedir = std::string("/tmp/");
+std::string cachedir = std::string("/tmp/cache_atm/");
 
 double rmin = 0;
 double rmax = 10000;
