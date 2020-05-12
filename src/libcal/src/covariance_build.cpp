@@ -1,0 +1,128 @@
+#include <CALAtmSim.hpp>
+#include <sys_utils.hpp>
+#include <sys_env.hpp>
+#include <math_rng.hpp>
+// #inluce <qualcosa per PRNG>
+
+#include <sstream>
+#include <iostream>
+#include <fstream>
+#include <cstring>
+#include <random>    // Ha un sacco di generatori
+#include <functional>
+#include <cmath>
+#include <algorithm> // per fare il std::sort
+
+cholmod_sparse * cal::atm_sim::build_sparse_covariance(long ind_start, long ind_stop)
+{
+    // Build a sparse covariance matrix.
+
+    cal::Timer tm;
+    tm.start();
+
+    // Build the covariance matrix first in the triplet form, then
+    // cast it to the column-packed format.
+
+    std::vector <int> rows, cols;
+    std::vector <double> vals;
+    size_t nelem = ind_stop - ind_start; // Number of elements in the slice
+    std::vector <double> diagonal(nelem);
+
+    // Fill the elements of the covariance matrix.
+
+    # pragma omp parallel
+    {
+        std::vector <int> myrows, mycols;
+        std::vector <double> myvals;
+
+        # pragma omp for schedule(static, 10)
+        for (int i = 0; i < nelem; ++i) {
+            double coord[3];
+            ind2coord(i + ind_start, coord);
+            diagonal[i] = cov_eval(coord, coord);
+        }
+
+        # pragma omp for schedule(static, 10)
+        for (int icol = 0; icol < nelem; ++icol) {
+            // Translate indices into coordinates
+            double colcoord[3];
+            ind2coord(icol + ind_start, colcoord);
+            for (int irow = icol; irow < nelem; ++irow) {
+                // Evaluate the covariance between the two coordinates
+                double rowcoord[3];
+                ind2coord(irow + ind_start, rowcoord);
+                if (fabs(colcoord[0] - rowcoord[0]) > rcorr) continue;
+                if (fabs(colcoord[1] - rowcoord[1]) > rcorr) continue;
+                if (fabs(colcoord[2] - rowcoord[2]) > rcorr) continue;
+
+                double val = cov_eval(colcoord, rowcoord);
+
+                // If the covariance exceeds the threshold, add it to the
+                // sparse matrix
+                if (val * val > 1e-6 * diagonal[icol] * diagonal[irow]) {
+                    myrows.push_back(irow);
+                    mycols.push_back(icol);
+                    myvals.push_back(val);
+                }
+            }
+        }
+        # pragma omp critical
+        {
+            rows.insert(rows.end(), myrows.begin(), myrows.end());
+            cols.insert(cols.end(), mycols.begin(), mycols.end());
+            vals.insert(vals.end(), myvals.begin(), myvals.end());
+        }
+    }
+
+    tm.stop();
+    if (verbosity > 0) {
+        tm.report("Sparse covariance evaluated in");
+    }
+
+    tm.start();
+
+    // stype > 0 means that only the lower diagonal
+    // elements of the symmetric matrix are needed.
+    int stype = 1;
+    size_t nnz = vals.size();
+
+    cholmod_triplet * cov_triplet = cholmod_allocate_triplet(nelem,
+                                                             nelem,
+                                                             nnz,
+                                                             stype,
+                                                             CHOLMOD_REAL,
+                                                             chcommon);
+    memcpy(cov_triplet->i, rows.data(), nnz * sizeof(int));
+    memcpy(cov_triplet->j, cols.data(), nnz * sizeof(int));
+    memcpy(cov_triplet->x, vals.data(), nnz * sizeof(double));
+    std::vector <int>().swap(rows); // Ensure vector is freed
+    std::vector <int>().swap(cols);
+    std::vector <double>().swap(vals);
+    cov_triplet->nnz = nnz;
+
+    cholmod_sparse * cov_sparse = cholmod_triplet_to_sparse(cov_triplet,
+                                                            nnz,
+                                                            chcommon);
+    if (chcommon->status != CHOLMOD_OK) throw std::runtime_error(
+                  "cholmod_triplet_to_sparse failed.");
+    cholmod_free_triplet(&cov_triplet, chcommon);
+
+    tm.stop();
+    if (verbosity > 0) {
+        tm.report("Sparse covariance constructed in");
+    }
+
+    // Report memory usage
+
+    double tot_mem = (nelem * sizeof(int) + nnz * (sizeof(int) + sizeof(double)))
+                     / pow(2.0, 20.0);
+    double max_mem = (nelem * nelem * sizeof(double)) / pow(2.0, 20.0);
+    if (verbosity > 0) {
+        std::cerr << std::endl;
+        std::cerr << rank << " : Allocated " << tot_mem
+                  << " MB for the sparse covariance matrix. "
+                  << "Compression: " << tot_mem / max_mem << std::endl;
+    }
+
+    return cov_sparse;
+}

@@ -7,12 +7,30 @@ set(CAL_MOD cal)
 
 # Library sources
 set(CAL_SOURCES
-    src/CALAtmSim.cpp
     src/AATM_fun.cpp
-    src/sys_env.cpp
-    src/sys_utils.cpp
+    src/CALAtmSim.cpp
+    src/compress_volume.cpp
+    src/coord_transform.cpp
+    src/covariance_apply.cpp
+    src/covariance_build.cpp
+    src/covariance_eval.cpp
+    src/covariance_square.cpp
+    src/draw.cpp
+    src/get_slice.cpp
+    src/get_volume.cpp
+    src/in_cone.cpp
+    src/kolmogorov_init.cpp
+    src/kolmovorov_autocov.cpp
+    src/load_save_realization.cpp
     src/math_rng.cpp
     src/math_sf.cpp
+    src/observe.cpp
+    src/print.cpp
+    src/simulation.cpp
+    src/smoothing_kernel.cpp
+    src/smooth_interpolation.cpp
+    src/sys_env.cpp
+    src/sys_utils.cpp
 )
 
 # Add the internal library target
