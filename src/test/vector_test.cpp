@@ -1,3 +1,9 @@
+/*
+   Copyright (c) 2015-2018 by the parties listed in the AUTHORS file.
+   All rights reserved.  Use of this source code is governed by
+   a BSD-style license that can be found in the LICENSE file.
+ */
+
 #include <vector>
 #include <iostream>
 #include <ostream>
@@ -35,18 +41,18 @@ int main(){
     free(b);
     free(c);
 
-    // cal::atm_sim *atm_strip = new cal::atm_sim(azmin, azmax, elmin, elmax,
-    //                                            tmin,  tmax,
-    //                                            lmin_center, lmin_sigma,
-    //                                            lmax_center, lmax_sigma,
-    //                                            w_center, w_sigma, wdir_center, wdir_sigma,
-    //                                            z0_center, z0_sigma,
-    //                                            T0_center, T0_sigma,
-    //                                            zatm, zmax, xstep, ystep, zstep, nelem_sim_max, verbosity,
-    //                                            key1, key2,
-    //                                            counterval1, counterval2,
-    //                                            cachedir,
-    //                                            rmin, rmax);
+    cal::atm_sim *atm_strip = new cal::atm_sim(azmin, azmax, elmin, elmax,
+                                               tmin,  tmax,
+                                               lmin_center, lmin_sigma,
+                                               lmax_center, lmax_sigma,
+                                               w_center, w_sigma, wdir_center, wdir_sigma,
+                                               z0_center, z0_sigma,
+                                               T0_center, T0_sigma,
+                                               zatm, zmax, xstep, ystep, zstep, nelem_sim_max, verbosity,
+                                               key1, key2,
+                                               counterval1, counterval2,
+                                               cachedir,
+                                               rmin, rmax);
 
     double fs_hz  = 20.0;                // Sample Freq. [Hz]
     double dt_sec = 1.0 / fs_hz;         // Time between two samples [sec.]
@@ -87,34 +93,19 @@ int main(){
         }
     }
 
-    for(int i=0; i<samples;i++){
+    atm_strip->simulate(true);
+    // atm_strip->observe(ts.data(), az.data(), el.data(), tod, samples);
+    // atm_strip->print();
 
-        cal::atm_sim *atm_strip = new cal::atm_sim(azmin, azmax, elmin, elmax,
-                                                   tmin,  tmax,
-                                                   lmin_center, lmin_sigma,
-                                                   lmax_center, lmax_sigma,
-                                                   w_center, w_sigma, wdir_center, wdir_sigma,
-                                                   z0_center, z0_sigma,
-                                                   T0_center, T0_sigma,
-                                                   zatm, zmax, xstep, ystep, zstep, nelem_sim_max, verbosity,
-                                                   key1, key2,
-                                                   counterval1, uint64_t(i*60*60/samples),
-                                                   cachedir,
-                                                   rmin, rmax);
 
-        atm_strip->simulate(true);
-        atm_strip->observe(ts.data(), az.data(), el.data(), tod, samples);
-        atm_strip->print();
-        free(atm_strip);
-    }
 
     //cout << ts.size() << " " << az.size() << " " << el.size() << " " <<tod.size() << " " << samples << endl;
 
     // atm_strip->observe(ts.data(), az.data(), el.data(), tod, samples);
 
-    /*
-    for(int i=0; i<samples; i++)
-        cout << ts.at(i) << '\t' << tod[i] << endl;
-    */
+
+    // for(int i=0; i<samples; i++)
+    //     cout << ts.at(i) << '\t' << tod[i] << endl;
+
 	return 0;
 }

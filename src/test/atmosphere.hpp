@@ -1,13 +1,19 @@
+/*
+   Copyright (c) 2015-2018 by the parties listed in the AUTHORS file.
+   All rights reserved.  Use of this source code is governed by
+   a BSD-style license that can be found in the LICENSE file.
+ */
+
 #include <string>
 
 #ifndef ATM_TEST_HPP
 #define ATM_TEST_HPP
 
 
-double azmin = 0.0;
-double azmax = M_PI_2;
-double elmin = 0.0;
-double elmax = M_PI_2;
+double azmin = M_PI/3.0;
+double azmax = M_PI/2.7;
+double elmin = M_PI/3.0;
+double elmax = M_PI/2.7;
 
 double tmin = 0;
 double tmax = 60*60*2;
@@ -37,15 +43,15 @@ double xstep = 100;
 double ystep = 100;
 double zstep = 100;
 
-long nelem_sim_max = 1000;
+long nelem_sim_max = 100;
 
 int verbosity = 0;
 
-uint64_t key1 = 26468928;
-uint64_t key2 = 26468928;
+uint64_t key1 = 0;
+uint64_t key2 = 11;
 uint64_t counterval1 = 0;
 uint64_t counterval2 = 0;
-std::string cachedir = std::string("/tmp/cache_atm/");
+std::string cachedir = std::string("/tmp/");
 
 double rmin = 0;
 double rmax = 10000;
