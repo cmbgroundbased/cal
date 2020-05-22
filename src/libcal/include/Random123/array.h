@@ -318,8 +318,9 @@ _r123array_tpl(1, m128i, r123m128i) /* r123array1x128i for ARSni, AESni */
 */
 #define R123_W(a)   (8*sizeof(((a *)0)->v[0]))
 
-/** @namespace r123
-  Most of the Random123 C++ API is contained in the r123 namespace. 
+/** 
+ * @namespace r123
+ * @brief Most of the Random123 C++ API is contained in the r123 namespace. 
 */
 
 #endif

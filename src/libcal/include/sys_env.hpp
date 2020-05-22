@@ -16,8 +16,14 @@
 
 
 namespace cal {
+/**
+* \class Environment
+* \brief Singleton in order to get the environment set-up.
+* get the current_thread, the maximum number of thread
+* that it's vital for MPI applications
+*/
 class Environment {
-    // Singleton containing runtime settings.
+
 
     public:
 

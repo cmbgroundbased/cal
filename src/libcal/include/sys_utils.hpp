@@ -67,9 +67,12 @@ static double const DEG2RAD = 1.74532925199432957692e-2;
 
 std::string format_here(std::pair <std::string, int> const & here);
 
+/**
+* \class Timer
+* \brief Simple timer class that tracks elapsed seconds and number of times
+* it was started
+*/
 class Timer {
-    // Simple timer class that tracks elapsed seconds and number of times
-    // it was started.
 
     public:
 
@@ -100,12 +103,15 @@ class Timer {
 };
 
 
+/**
+* \calss GlobalTimers
+* \brief Singleton registry of global timers that can be accessed from anywhere.
+*/
 class GlobalTimers {
-    // Singleton registry of global timers that can be accessed from anywhere.
 
     public:
 
-        // Singleton access
+        /**Singleton access*/
         static GlobalTimers & get();
 
         std::vector <std::string> names() const;
@@ -123,10 +129,10 @@ class GlobalTimers {
 
     private:
 
-        // This class is a singleton- constructor is private.
+        /**This class is a singleton- constructor is private.*/
         GlobalTimers();
 
-        // The timer data
+        /**The timer data*/
         std::map <std::string, Timer> data;
 };
 
@@ -140,13 +146,16 @@ enum class log_level {
     critical = 5  ///< Critical
 };
 
-
+/**
+* \class Logger
+* \brief Global logger singleton.
+*/
 class Logger {
-    // Global logger singleton.
+
 
     public:
 
-        // Singleton access
+        /**Singleton access*/
         static Logger & get();
 
         void debug(char const * msg);
@@ -167,7 +176,7 @@ class Logger {
 
     private:
 
-        // This class is a singleton- constructor is private.
+        /**This class is a singleton- constructor is private. Private constructor to prevent instancing.*/
         Logger();
         void check_level();
 
@@ -177,27 +186,32 @@ class Logger {
 
 // Aligned memory allocation helpers.
 
-// Byte alignment for SIMD.  This should work for all modern systems.
+/** Byte alignment for SIMD.  This should work for all modern systems.*/
 static size_t const SIMD_ALIGN = 64;
 
-// Low-level C aligned malloc / free.
+/** Low-level C aligned malloc / free.*/
 void * aligned_alloc(size_t size, size_t align);
+/** Low-level C aligned malloc / free.*/
 void aligned_free(void * ptr);
 
-// Check for alignment of a pointer
+/** Check for alignment of a pointer*/
 template <typename T>
 bool is_aligned(T * ptr) {
     return !(reinterpret_cast <uintptr_t> (ptr) % SIMD_ALIGN);
 }
 
-// Allocator that can be used with STL containers.
+/**
+* \class AlignedAllocator
+* \brief Allocator that can be used with STL containers
+*/
 
 template <typename T>
 class AlignedAllocator {
-    // Custom allocator based on example in:
-    // The C++ Standard Library - A Tutorial and Reference
-    // by Nicolai M. Josuttis, Addison-Wesley, 1999
-
+    /**
+    * Custom allocator based on example in:
+    * The C++ Standard Library - A Tutorial and Reference
+    * by Nicolai M. Josuttis, Addison-Wesley, 1999
+    */
     public:
 
         // type definitions
@@ -209,13 +223,16 @@ class AlignedAllocator {
         typedef std::size_t size_type;
         typedef std::ptrdiff_t difference_type;
 
-        // rebind allocator to type U
+        /**
+        * \struct rebind
+        * \brief allocator to type U
+        */
         template <typename U>
         struct rebind {
             typedef AlignedAllocator <U> other;
         };
 
-        // return address of values
+        /** return address of values*/
         pointer address(reference value) const {
             return &value;
         }
@@ -233,12 +250,12 @@ class AlignedAllocator {
 
         ~AlignedAllocator() throw() {}
 
-        // return maximum number of elements that can be allocated
+        /** return maximum number of elements that can be allocated */
         size_type max_size() const throw() {
             return std::numeric_limits <std::size_t>::max() / sizeof(T);
         }
 
-        // allocate but don't initialize num elements of type T
+        /** allocate but don't initialize num elements of type T */
         pointer allocate(size_type const num, const void * hint = 0) {
             pointer align_ptr =
                 static_cast <pointer> (aligned_alloc(num * sizeof(T),
@@ -247,25 +264,25 @@ class AlignedAllocator {
             return align_ptr;
         }
 
-        // initialize elements of allocated storage p with value value
+        /** initialize elements of allocated storage p with value value */
         void construct(pointer p, T const & value) {
-            // initialize memory with placement new
+            /** initialize memory with placement new */
             new (static_cast <void *> (p)) T(value);
         }
 
-        // destroy elements of initialized storage p
+        /** destroy elements of initialized storage p */
         void destroy(pointer p) {
-            // destroy objects by calling their destructor
+            /** destroy objects by calling their destructor */
             p->~T();
         }
 
-        // deallocate storage p of deleted elements
+        /** deallocate storage p of deleted elements */
         void deallocate(pointer p, size_type num) {
             aligned_free(static_cast <void *> (p));
         }
 };
 
-// return that all specializations of this allocator are interchangeable
+/** return that all specializations of this allocator are interchangeable */
 template <typename T1, class T2>
 bool operator==(AlignedAllocator <T1> const &,
                 AlignedAllocator <T2> const &) throw() {

@@ -1,0 +1,82 @@
+\hypertarget{classcal_1_1_timer}{}\doxysection{cal\+::Timer Class Reference}
+\label{classcal_1_1_timer}\index{cal::Timer@{cal::Timer}}
+
+
+Simple timer class that tracks elapsed seconds and number of times it was started.  
+
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classcal_1_1_timer_a17bfe7e8133af77117af1e4eb69934a4}\label{classcal_1_1_timer_a17bfe7e8133af77117af1e4eb69934a4}} 
+typedef std\+::chrono\+::high\+\_\+resolution\+\_\+clock\+::time\+\_\+point {\bfseries time\+\_\+point}
+\item 
+\mbox{\Hypertarget{classcal_1_1_timer_a882ea354b70b12700f2a7f104ead59a8}\label{classcal_1_1_timer_a882ea354b70b12700f2a7f104ead59a8}} 
+typedef std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classcal_1_1_timer}{Timer}} $>$ {\bfseries pshr}
+\item 
+\mbox{\Hypertarget{classcal_1_1_timer_a3ef7138b4401104f09de15b222b2a1b5}\label{classcal_1_1_timer_a3ef7138b4401104f09de15b222b2a1b5}} 
+typedef std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classcal_1_1_timer}{Timer}} $>$ {\bfseries puniq}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classcal_1_1_timer_ac858386cc1b9ebeff3a4e33277964b63}\label{classcal_1_1_timer_ac858386cc1b9ebeff3a4e33277964b63}} 
+{\bfseries Timer} (double init\+\_\+time, size\+\_\+t init\+\_\+calls)
+\item 
+\mbox{\Hypertarget{classcal_1_1_timer_a779d1074f11df4a2e275d53ed126e586}\label{classcal_1_1_timer_a779d1074f11df4a2e275d53ed126e586}} 
+void {\bfseries start} ()
+\item 
+\mbox{\Hypertarget{classcal_1_1_timer_ae94117eb35dce0d681e72852e5e2b778}\label{classcal_1_1_timer_ae94117eb35dce0d681e72852e5e2b778}} 
+void {\bfseries stop} ()
+\item 
+\mbox{\Hypertarget{classcal_1_1_timer_a626cf20751393543b1f0bdf0e88588c9}\label{classcal_1_1_timer_a626cf20751393543b1f0bdf0e88588c9}} 
+void {\bfseries clear} ()
+\item 
+\mbox{\Hypertarget{classcal_1_1_timer_a62cdb4c14db1105ff03b7ba15d9befb3}\label{classcal_1_1_timer_a62cdb4c14db1105ff03b7ba15d9befb3}} 
+double {\bfseries seconds} () const
+\item 
+\mbox{\Hypertarget{classcal_1_1_timer_a9271f04f7d5fcc97f52cdc65a4922f54}\label{classcal_1_1_timer_a9271f04f7d5fcc97f52cdc65a4922f54}} 
+double {\bfseries elapsed\+\_\+seconds} () const
+\item 
+\mbox{\Hypertarget{classcal_1_1_timer_a2d12129b80d2108c2f4d90d3712ba839}\label{classcal_1_1_timer_a2d12129b80d2108c2f4d90d3712ba839}} 
+size\+\_\+t {\bfseries calls} () const
+\item 
+\mbox{\Hypertarget{classcal_1_1_timer_a007e76681629c57dbe53da4e1e3072e9}\label{classcal_1_1_timer_a007e76681629c57dbe53da4e1e3072e9}} 
+void {\bfseries report} (char const $\ast$message)
+\item 
+\mbox{\Hypertarget{classcal_1_1_timer_a5e6261bf33b94744edb40a08f16875f0}\label{classcal_1_1_timer_a5e6261bf33b94744edb40a08f16875f0}} 
+void {\bfseries report\+\_\+clear} (char const $\ast$message)
+\item 
+\mbox{\Hypertarget{classcal_1_1_timer_a562a1873352c222a78b5f195decfaa59}\label{classcal_1_1_timer_a562a1873352c222a78b5f195decfaa59}} 
+void {\bfseries report\+\_\+elapsed} (char const $\ast$message)
+\item 
+\mbox{\Hypertarget{classcal_1_1_timer_ae2f1fcf2afdc0dd2984159af28d5a2a6}\label{classcal_1_1_timer_ae2f1fcf2afdc0dd2984159af28d5a2a6}} 
+bool {\bfseries is\+\_\+running} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classcal_1_1_timer_a346ebabd222112fc15c32bef7abc36fa}\label{classcal_1_1_timer_a346ebabd222112fc15c32bef7abc36fa}} 
+double {\bfseries total\+\_\+}
+\item 
+\mbox{\Hypertarget{classcal_1_1_timer_a173c954674339d0fde1d7325a53aea2f}\label{classcal_1_1_timer_a173c954674339d0fde1d7325a53aea2f}} 
+time\+\_\+point {\bfseries start\+\_\+}
+\item 
+\mbox{\Hypertarget{classcal_1_1_timer_a99862375b862f61e9ece6518a36a2101}\label{classcal_1_1_timer_a99862375b862f61e9ece6518a36a2101}} 
+time\+\_\+point {\bfseries stop\+\_\+}
+\item 
+\mbox{\Hypertarget{classcal_1_1_timer_a11eb8bd3f8ff7af74508282f5fbf1e2b}\label{classcal_1_1_timer_a11eb8bd3f8ff7af74508282f5fbf1e2b}} 
+bool {\bfseries running\+\_\+}
+\item 
+\mbox{\Hypertarget{classcal_1_1_timer_a3b120e5135e9b7e54714fb8b549600f9}\label{classcal_1_1_timer_a3b120e5135e9b7e54714fb8b549600f9}} 
+size\+\_\+t {\bfseries calls\+\_\+}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Simple timer class that tracks elapsed seconds and number of times it was started. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/algebrato/\+Progetti/\+C\+M\+B4\+G/libcal/src/libcal/include/sys\+\_\+utils.\+hpp\item 
+/home/algebrato/\+Progetti/\+C\+M\+B4\+G/libcal/src/libcal/src/sys\+\_\+utils.\+cpp\end{DoxyCompactItemize}

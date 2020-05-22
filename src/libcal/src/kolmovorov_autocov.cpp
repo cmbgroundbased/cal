@@ -19,6 +19,8 @@
 #include <cmath>
 #include <algorithm> // per fare il std::sort
 
+
+
 double cal::atm_sim::kolmogorov(double r)
 {
     // Return autocovariance of a Kolmogorov process at separation r
@@ -47,11 +49,13 @@ double cal::atm_sim::kolmogorov(double r)
         else low = ir;
     }
 
+
     double rlow = kolmo_x[ir];
     double rhigh = kolmo_x[ir + 1];
     double rdist = (r - rlow) / (rhigh - rlow);
     double vlow = kolmo_y[ir];
     double vhigh = kolmo_y[ir + 1];
+
 
     double val = (1 - rdist) * vlow + rdist * vhigh;
 

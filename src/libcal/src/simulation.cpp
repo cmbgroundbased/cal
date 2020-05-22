@@ -19,6 +19,7 @@
 #include <cmath>
 #include <algorithm> // per fare il std::sort
 
+/**Bla bla bla qualcosa su simulate*/
 int cal::atm_sim::simulate(bool use_cache)
 {
     if (use_cache) load_realization();

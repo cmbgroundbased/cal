@@ -1,0 +1,43 @@
+\hypertarget{gsl__cbrng_8h}{}\doxysection{/home/algebrato/\+Progetti/\+C\+M\+B4\+G/libcal/src/libcal/include/\+Random123/conventional/gsl\+\_\+cbrng.h File Reference}
+\label{gsl__cbrng_8h}\index{/home/algebrato/Progetti/CMB4G/libcal/src/libcal/include/Random123/conventional/gsl\_cbrng.h@{/home/algebrato/Progetti/CMB4G/libcal/src/libcal/include/Random123/conventional/gsl\_cbrng.h}}
+Include dependency graph for gsl\+\_\+cbrng.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=262pt]{gsl__cbrng_8h__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{gsl__cbrng_8h_af561a004eef8e93cdfd6b255a8a1eb75}{G\+S\+L\+\_\+\+C\+B\+R\+NG}}(N\+A\+ME,  C\+B\+R\+N\+G\+N\+A\+ME)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{gsl__cbrng_8h_af561a004eef8e93cdfd6b255a8a1eb75}\label{gsl__cbrng_8h_af561a004eef8e93cdfd6b255a8a1eb75}} 
+\index{gsl\_cbrng.h@{gsl\_cbrng.h}!GSL\_CBRNG@{GSL\_CBRNG}}
+\index{GSL\_CBRNG@{GSL\_CBRNG}!gsl\_cbrng.h@{gsl\_cbrng.h}}
+\doxysubsubsection{\texorpdfstring{GSL\_CBRNG}{GSL\_CBRNG}}
+{\footnotesize\ttfamily \#define G\+S\+L\+\_\+\+C\+B\+R\+NG(\begin{DoxyParamCaption}\item[{}]{N\+A\+ME,  }\item[{}]{C\+B\+R\+N\+G\+N\+A\+ME }\end{DoxyParamCaption})}
+
+The macro\+: \mbox{\hyperlink{gsl__cbrng_8h_af561a004eef8e93cdfd6b255a8a1eb75}{G\+S\+L\+\_\+\+C\+B\+R\+N\+G(\+N\+A\+M\+E, C\+B\+R\+N\+G\+N\+A\+M\+E)}} declares the necessary structs and constants that define a gsl\+\_\+rng\+\_\+\+N\+A\+ME type based on the counter-\/based R\+NG C\+B\+R\+N\+G\+N\+A\+ME. For example\+:
+
+Usage\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include <\mbox{\hyperlink{threefry_8h}{Random123/threefry.h}}>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include <\mbox{\hyperlink{gsl__cbrng_8h}{Random123/conventional/gsl\_cbrng.h}}>}  \textcolor{comment}{// this file}}
+\DoxyCodeLine{\mbox{\hyperlink{gsl__cbrng_8h_af561a004eef8e93cdfd6b255a8a1eb75}{GSL\_CBRNG}}(cbrng, \mbox{\hyperlink{threefry_8h_aaaecd189b32b0081c6a3c2cb46577e23}{threefry4x32}}); \textcolor{comment}{// creates gsl\_rng\_cbrng}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{int} main(\textcolor{keywordtype}{int} argc, \textcolor{keywordtype}{char} **argv)\{}
+\DoxyCodeLine{    gsl\_rng *r = gsl\_rng\_alloc(gsl\_rng\_cbrng);}
+\DoxyCodeLine{    ... use r as you would use any other gsl\_rng ...   }
+\DoxyCodeLine{ \}}
+\end{DoxyCode}
+
+
+It requires that N\+A\+ME be the name of a C\+B\+R\+NG that follows the naming and stylistic conventions of the Random123 library.
+
+Note that wrapping a counter-\/based P\+R\+NG with a traditional A\+PI in this way obscures much of the power of the C\+B\+R\+NG A\+PI. Nevertheless, it may be of value to applications that are already coded to work with G\+SL random number generators, and that wish to use the R\+N\+Gs in the Random123 library. 
