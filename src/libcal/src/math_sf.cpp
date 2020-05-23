@@ -17,8 +17,7 @@
 
 #ifdef HAVE_MKL
 
-// These call MKL VM functions with "High Accuracy" mode.
-
+/**These call MKL VM functions with "High Accuracy" mode.*/
 void cal::vsin(int n, double const * ang, double * sinout) {
     vmdSin(n, ang, sinout, VML_HA | VML_FTZDAZ_OFF | VML_ERRMODE_DEFAULT);
     return;
@@ -62,8 +61,7 @@ void cal::vlog(int n, double const * in, double * out) {
     return;
 }
 
-// These call MKL VM functions with "Low Accuracy" mode.
-
+/** These call MKL VM functions with "Low Accuracy" mode.*/
 void cal::vfast_sin(int n, double const * ang, double * sinout) {
     vmdSin(n, ang, sinout, VML_LA | VML_FTZDAZ_OFF | VML_ERRMODE_DEFAULT);
     return;
@@ -115,9 +113,10 @@ void cal::vfast_erfinv(int n, double const * in, double * out) {
 #else // ifdef HAVE_MKL
 
 
-// These are simply threaded for-loops that call the standard
-// math library functions.
-
+/**
+* These are simply threaded for-loops that call the standard
+* math library functions.
+*/
 void cal::vsin(int n, double const * ang, double * sinout) {
     if (cal::is_aligned(ang) && cal::is_aligned(sinout)) {
         # pragma omp simd

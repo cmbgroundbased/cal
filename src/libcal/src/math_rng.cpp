@@ -19,7 +19,7 @@
 typedef r123::Threefry2x64 RNG;
 
 
-// Unsigned 64bit random integers
+/** Unsigned 64bit random integers */
 void cal::rng_dist_uint64(size_t n, uint64_t key1, uint64_t key2,
                             uint64_t counter1, uint64_t counter2,
                             uint64_t * data) {
@@ -43,7 +43,7 @@ void cal::rng_dist_uint64(size_t n, uint64_t key1, uint64_t key2,
     return;
 }
 
-// Uniform double precision values on [0.0, 1.0]
+/** Uniform double precision values on [0.0, 1.0] */
 void cal::rng_dist_uniform_01(size_t n,
                                 uint64_t key1, uint64_t key2,
                                 uint64_t counter1, uint64_t counter2,
@@ -69,7 +69,7 @@ void cal::rng_dist_uniform_01(size_t n,
     return;
 }
 
-// Uniform double precision values on [-1.0, 1.0]
+/** Uniform double precision values on [-1.0, 1.0] */
 void cal::rng_dist_uniform_11(size_t n,
                                 uint64_t key1, uint64_t key2,
                                 uint64_t counter1, uint64_t counter2,
@@ -94,12 +94,12 @@ void cal::rng_dist_uniform_11(size_t n,
     return;
 }
 
-// Normal distribution.
+/** Normal distribution. */
 void cal::rng_dist_normal(size_t n,
                             uint64_t key1, uint64_t key2,
                             uint64_t counter1, uint64_t counter2,
                             double * data) {
-    // First compute uniform randoms on [0.0, 1.0)
+    /**First compute uniform randoms on [0.0, 1.0)*/
     cal::AlignedVector <double> uni(n);
 
     cal::rng_dist_uniform_01(n, key1, key2, counter1, counter2,
@@ -110,7 +110,7 @@ void cal::rng_dist_normal(size_t n,
         uni[i] = 2.0 * uni[i] - 1.0;
     }
 
-    // now use the inverse error function
+    /** now use the inverse error function */
 
     double * ldata = &(data[0]);
 
@@ -131,11 +131,13 @@ void cal::rng_dist_normal(size_t n,
     return;
 }
 
-// Unsigned 64bit random integers, multiple streams.  The streams may be
-// arbitrary lengths with arbitrary starting counters.  Note that with suitable
-// input data pointers and counter2 values, this function can
-// provide threaded generation of a single stream, or threaded generation of
-// data from different streams.
+/**
+* Unsigned 64bit random integers, multiple streams.  The streams may be
+* arbitrary lengths with arbitrary starting counters.  Note that with suitable
+* input data pointers and counter2 values, this function can
+* provide threaded generation of a single stream, or threaded generation of
+* data from different streams.
+*/
 void cal::rng_multi_dist_uint64(size_t nstream,
                                   size_t const * ndata,
                                   uint64_t const * key1,
@@ -153,11 +155,13 @@ void cal::rng_multi_dist_uint64(size_t nstream,
     return;
 }
 
-// Uniform double precision values on [0.0, 1.0], multiple streams.  The
-// streams may be arbitrary lengths with arbitrary starting counters.  Note
-// that with suitable input data pointers and counter2 values, this function
-// can provide threaded generation of a single stream, or threaded generation
-// of data from different streams.
+/**
+* Uniform double precision values on [0.0, 1.0], multiple streams.  The
+* streams may be arbitrary lengths with arbitrary starting counters.  Note
+* that with suitable input data pointers and counter2 values, this function
+* can provide threaded generation of a single stream, or threaded generation
+* of data from different streams.
+*/
 void cal::rng_multi_dist_uniform_01(size_t nstream,
                                       size_t const * ndata,
                                       uint64_t const * key1,
@@ -175,11 +179,13 @@ void cal::rng_multi_dist_uniform_01(size_t nstream,
     return;
 }
 
-// Uniform double precision values on [-1.0, 1.0], multiple streams.  The
-// streams may be arbitrary lengths with arbitrary starting counters.  Note
-// that with suitable input data pointers and counter2 values, this function
-// can provide threaded generation of a single stream, or threaded generation
-// of data from different streams.
+/**
+* Uniform double precision values on [-1.0, 1.0], multiple streams.  The
+* streams may be arbitrary lengths with arbitrary starting counters.  Note
+* that with suitable input data pointers and counter2 values, this function
+* can provide threaded generation of a single stream, or threaded generation
+* of data from different streams.
+*/
 void cal::rng_multi_dist_uniform_11(size_t nstream,
                                       size_t const * ndata,
                                       uint64_t const * key1,
@@ -197,11 +203,12 @@ void cal::rng_multi_dist_uniform_11(size_t nstream,
     return;
 }
 
-// Unit variance normal distribution, with multiple streams.  The
-// streams may be arbitrary lengths with arbitrary starting counters.  Note
-// that with suitable input data pointers and counter2 values, this function
-// can provide threaded generation of a single stream, or threaded generation
-// of data from different streams.
+/** Unit variance normal distribution, with multiple streams.  The
+* streams may be arbitrary lengths with arbitrary starting counters.  Note
+* that with suitable input data pointers and counter2 values, this function
+* can provide threaded generation of a single stream, or threaded generation
+* of data from different streams.
+*/
 void cal::rng_multi_dist_normal(size_t nstream,
                                   size_t const * ndata,
                                   uint64_t const * key1,
