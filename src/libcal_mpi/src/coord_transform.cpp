@@ -19,11 +19,14 @@
 #include <cmath>
 #include <algorithm> // per fare il std::sort
 
-void cal::atm_sim::ind2coord(long i, double * coord)
+/**
+* Translate a compressed index into xyz-coordinates
+* in the horizontal frame
+* x, y, z are the coordinates in the scan frame,
+* coord[0,1,2] are the coordinates in the horizontal frame
+*/
+void cal::mpi_atm_sim::ind2coord(long i, double * coord)
 {
-    // Translate a compressed index into xyz-coordinates
-    // in the horizontal frame
-
     long ifull = (*full_index)[i];
 
     long ix = ifull * xstrideinv;
@@ -31,21 +34,21 @@ void cal::atm_sim::ind2coord(long i, double * coord)
     long iz = ifull - ix * xstride - iy * ystride;
 
     // coordinates in the scan frame
-
     double x = xstart + ix * xstep;
     double y = ystart + iy * ystep;
     double z = zstart + iz * zstep;
 
     // Into the horizontal frame
-
     coord[0] = x * cosel0 - z * sinel0;
     coord[1] = y;
     coord[2] = x * sinel0 + z * cosel0;
 }
 
-long cal::atm_sim::coord2ind(double x, double y, double z)
+/**
+* Translate scan frame xyz-coordinates into a compressed index
+*/
+long cal::mpi_atm_sim::coord2ind(double x, double y, double z)
 {
-    // Translate scan frame xyz-coordinates into a compressed index
 
     long ix = (x - xstart) * xstepinv;
     long iy = (y - ystart) * ystepinv;

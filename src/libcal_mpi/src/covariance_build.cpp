@@ -19,23 +19,23 @@
 #include <cmath>
 #include <algorithm> // per fare il std::sort
 
-cholmod_sparse * cal::atm_sim::build_sparse_covariance(long ind_start, long ind_stop)
+/**
+* Build a sparse covariance matrix first in the triplet form
+* then cast it to the column-packed format.
+*/
+cholmod_sparse * cal::mpi_atm_sim::build_sparse_covariance(long ind_start, long ind_stop)
 {
-    // Build a sparse covariance matrix.
 
-    cal::Timer tm;
-    tm.start();
-
-    // Build the covariance matrix first in the triplet form, then
-    // cast it to the column-packed format.
+    double t1 = MPI_Wtime();
 
     std::vector <int> rows, cols;
     std::vector <double> vals;
-    size_t nelem = ind_stop - ind_start; // Number of elements in the slice
+
+    // Number of elements in the slice
+    size_t nelem = ind_stop - ind_start;
     std::vector <double> diagonal(nelem);
 
     // Fill the elements of the covariance matrix.
-
     # pragma omp parallel
     {
         std::vector <int> myrows, mycols;
@@ -80,12 +80,13 @@ cholmod_sparse * cal::atm_sim::build_sparse_covariance(long ind_start, long ind_
         }
     }
 
-    tm.stop();
-    if (verbosity > 0) {
-        tm.report("Sparse covariance evaluated in");
-    }
+    double t2 = MPI_Wtime();
 
-    tm.start();
+    if (verbosity > 0) {
+        std::cerr << rank
+                  << " : Sparse covariance evaluated in "
+                  << t2 - t1 << " s." << std::endl;
+    }
 
     // stype > 0 means that only the lower diagonal
     // elements of the symmetric matrix are needed.
@@ -101,7 +102,9 @@ cholmod_sparse * cal::atm_sim::build_sparse_covariance(long ind_start, long ind_
     memcpy(cov_triplet->i, rows.data(), nnz * sizeof(int));
     memcpy(cov_triplet->j, cols.data(), nnz * sizeof(int));
     memcpy(cov_triplet->x, vals.data(), nnz * sizeof(double));
-    std::vector <int>().swap(rows); // Ensure vector is freed
+
+    // Ensure vector is freed
+    std::vector <int>().swap(rows);
     std::vector <int>().swap(cols);
     std::vector <double>().swap(vals);
     cov_triplet->nnz = nnz;
@@ -113,11 +116,12 @@ cholmod_sparse * cal::atm_sim::build_sparse_covariance(long ind_start, long ind_
                   "cholmod_triplet_to_sparse failed.");
     cholmod_free_triplet(&cov_triplet, chcommon);
 
-    tm.stop();
-    if (verbosity > 0) {
-        tm.report("Sparse covariance constructed in");
-    }
+    t2 = MPI_Wtime()
 
+    if (verbosity > 0) {
+        std::cerr << rank << " : Sparse covariance constructed in "
+                  << t2 - t1 << " s." << std::endl;
+    }
     // Report memory usage
 
     double tot_mem = (nelem * sizeof(int) + nnz * (sizeof(int) + sizeof(double)))

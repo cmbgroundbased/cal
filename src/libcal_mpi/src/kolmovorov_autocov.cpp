@@ -19,11 +19,14 @@
 #include <cmath>
 #include <algorithm> // per fare il std::sort
 
+/**
+* Return the autocovariance of a Kolmogorov process at
+* at separation r. Simple linear interpolation for now.
+* Use a bisection method to find the rigth elements.
+*/
 
-
-double cal::atm_sim::kolmogorov(double r)
+double cal::mpi_atm_sim::kolmogorov(double r)
 {
-    // Return autocovariance of a Kolmogorov process at separation r
 
     if (r == 0) return kolmo_y[0];
 
@@ -37,8 +40,7 @@ double cal::atm_sim::kolmogorov(double r)
         throw std::runtime_error(o.str().c_str());
     }
 
-    // Simple linear interpolation for now.  Use a bisection method to find the rigth elements.
-
+    // Linear interpolation
     long low = 0, high = nr - 1;
     long ir;
 

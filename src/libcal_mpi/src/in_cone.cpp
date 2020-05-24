@@ -19,10 +19,12 @@
 #include <cmath>
 #include <algorithm> // per fare il std::sort
 
-
-bool cal::atm_sim::in_cone(double x, double y, double z, double t_in)
+/**
+* Input coordinates are in the scan frame, rotate to
+* horizontal frame
+*/
+bool cal::mpi_atm_sim::in_cone(double x, double y, double z, double t_in)
 {
-    // Input coordinates are in the scan frame, rotate to horizontal frame
 
     double tstep = 1;
 
@@ -38,14 +40,12 @@ bool cal::atm_sim::in_cone(double x, double y, double z, double t_in)
         double dx = x - xtel_now;
 
         // Is the point behind the telescope at this time?
-
         if (dx + xstep < 0) {
             if (t_in >= 0) std::cerr << "dx + xstep < 0: " << dx << std::endl;
             continue;
         }
 
         // Check the rest of the spherical coordinates
-
         double ytel_now = wy * t;
         double dy = y - ytel_now;
 
@@ -88,7 +88,6 @@ bool cal::atm_sim::in_cone(double x, double y, double z, double t_in)
         }
 
         // Passed all the checks
-
         return true;
     }
 

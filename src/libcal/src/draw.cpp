@@ -19,9 +19,23 @@
 #include <cmath>
 #include <algorithm> // per fare il std::sort
 
+/**
+* Draw 10 000 gaussian variates to use in the drawing the
+* simulation parameters
+*
+* Precalculate the ratio for covariance
+*
+* The wind is parallel to the surface, and it's indipendent
+* to z. It's a good practice transform the coordinate
+* in order to rotate the frame where the scan is across the
+* X-axis.
+*
+* We take into account the opposite of the wind speed v = -v,
+* in this way we can apply this to the telescope position.
+* By example, S. Church 1995 (the paragraph of the wind)
+*/
 void cal::atm_sim::draw()
 {
-    // Draw 10 000 gaussian variates to use in the drawing the simulation parameters
     const size_t nrand = 10000;
     double randn[nrand];
     cal::rng_dist_normal(nrand, key1, key2, counter1, counter2, randn);
@@ -65,8 +79,7 @@ void cal::atm_sim::draw()
     // Precalculate the ratio for covariance
     z0inv = 1. / (2. * z0);
 
-    // The wind is parallel to the surface. Here we rotate a frame where the scan is across the X-axis.
-
+    // Rotate the frame
     double eastward_wind = w * cos(wdir);
     double northward_wind = w * sin(wdir);
 
@@ -79,10 +92,27 @@ void cal::atm_sim::draw()
     wz = -wx_h * sinel0;
 
     // Inverse the wind direction so we can apply it to the telescope position.
-
     wx = -wx;
     wy = -wy;
 
-    return;
+    // Some print if verbosity > 0
+    if ((rank == 0) && (verbosity > 0)) {
+        std::cerr << std::endl;
+        std::cerr << "Atmospheric realization parameters:" << std::endl;
+        std::cerr << " lmin = " << lmin << " m" << std::endl;
+        std::cerr << " lmax = " << lmax << " m" << std::endl;
+        std::cerr << "    w = " << w << " m/s" << std::endl;
+        std::cerr << " easthward wind = " << eastward_wind << " m/s" << std::endl;
+        std::cerr << " northward wind = " << northward_wind << " m/s" << std::endl;
+        std::cerr << "  az0 = " << az0 * 180. / M_PI << " degrees" << std::endl;
+        std::cerr << "  el0 = " << el0 * 180. / M_PI << " degrees" << std::endl;
+        std::cerr << "   wx = " << wx << " m/s" << std::endl;
+        std::cerr << "   wy = " << wy << " m/s" << std::endl;
+        std::cerr << "   wz = " << wz << " m/s" << std::endl;
+        std::cerr << " wdir = " << wdir * 180. / M_PI << " degrees" << std::endl;
+        std::cerr << "   z0 = " << z0 << " m" << std::endl;
+        std::cerr << "   T0 = " << T0 << " K" << std::endl;
+    }
 
+    return;
 }

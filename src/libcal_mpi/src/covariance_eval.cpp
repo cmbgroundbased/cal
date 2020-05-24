@@ -19,12 +19,17 @@
 #include <cmath>
 #include <algorithm> // per fare il std::sort
 
-double cal::atm_sim::cov_eval(double * coord1, double * coord2)
+/**
+* Evaluate the atmospheric absorption covariance between
+* two coordinates Church (1995) Eq.(6) & (9).
+* Coordinates are in the horizontal frame.
+*
+* A smoothing kernel can be applied to the covariance
+* matrix. To activate the smoothing you have to uncomment
+* the lines: `UNCOMMENTER FOR SMOOTH`
+*/
+double cal::mpi_atm_sim::cov_eval(double * coord1, double * coord2)
 {
-    // Evaluate the atmospheric absorption covariance between two coordinates
-    // Church (1995) Eq.(6) & (9)
-    // Coordinates are in the horizontal frame
-
     const long nn = 1;
 
     // Uncomment these lines for smoothing
@@ -64,11 +69,9 @@ double cal::atm_sim::cov_eval(double * coord1, double * coord2)
                 double r = sqrt(r2);
 
                 // Water vapor altitude factor
-
                 double chi1 = std::exp(-(zz1 + zz2) * z0inv);
 
                 // Kolmogorov factor
-
                 double chi2 = kolmogorov(r);
 
                 val += chi1 * chi2;

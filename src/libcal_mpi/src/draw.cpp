@@ -19,7 +19,22 @@
 #include <cmath>
 #include <algorithm> // per fare il std::sort
 
-void cal::atm_sim::draw()
+/**
+* Draw 10 000 gaussian variates to use in the drawing the
+* simulation parameters
+*
+* Precalculate the ratio for covariance
+*
+* The wind is parallel to the surface, and it's indipendent
+* to z. It's a good practice transform the coordinate
+* in order to rotate the frame where the scan is across the
+* X-axis.
+*
+* We take into account the opposite of the wind speed v = -v,
+* in this way we can apply this to the telescope position.
+* By example, S. Church 1995 (the paragraph of the wind)
+*/
+void cal::mpi_atm_sim::draw()
 {
     // Draw 10 000 gaussian variates to use in the drawing the simulation parameters
     const size_t nrand = 10000;
@@ -62,6 +77,24 @@ void cal::atm_sim::draw()
         if (irand == nrand) throw std::runtime_error("Failed to draw parameters in order to satisfy the boundary condictions");
     }
 
+    if (MPI_Bcast(&lmin, 1, MPI_DOUBLE, 0, comm)) throw std::runtime_error(
+                  "Failed to bcast lmin");
+
+    if (MPI_Bcast(&lmax, 1, MPI_DOUBLE, 0, comm)) throw std::runtime_error(
+                  "Failed to bcast lmax");
+
+    if (MPI_Bcast(&w, 1, MPI_DOUBLE, 0, comm)) throw std::runtime_error(
+                  "Failed to bcast w");
+
+    if (MPI_Bcast(&wdir, 1, MPI_DOUBLE, 0, comm)) throw std::runtime_error(
+                  "Failed to bcast wdir");
+
+    if (MPI_Bcast(&z0, 1, MPI_DOUBLE, 0, comm)) throw std::runtime_error(
+                  "Failed to bcast z0");
+
+    if (MPI_Bcast(&T0, 1, MPI_DOUBLE, 0, comm)) throw std::runtime_error(
+                  "Failed to bcast T0");
+
     // Precalculate the ratio for covariance
     z0inv = 1. / (2. * z0);
 
@@ -82,6 +115,24 @@ void cal::atm_sim::draw()
 
     wx = -wx;
     wy = -wy;
+
+    if ((rank == 0) && (verbosity > 0)) {
+        std::cerr << std::endl;
+        std::cerr << "Atmospheric realization parameters:" << std::endl;
+        std::cerr << " lmin = " << lmin << " m" << std::endl;
+        std::cerr << " lmax = " << lmax << " m" << std::endl;
+        std::cerr << "    w = " << w << " m/s" << std::endl;
+        std::cerr << " easthward wind = " << eastward_wind << " m/s" << std::endl;
+        std::cerr << " northward wind = " << northward_wind << " m/s" << std::endl;
+        std::cerr << "  az0 = " << az0 * 180. / M_PI << " degrees" << std::endl;
+        std::cerr << "  el0 = " << el0 * 180. / M_PI << " degrees" << std::endl;
+        std::cerr << "   wx = " << wx << " m/s" << std::endl;
+        std::cerr << "   wy = " << wy << " m/s" << std::endl;
+        std::cerr << "   wz = " << wz << " m/s" << std::endl;
+        std::cerr << " wdir = " << wdir * 180. / M_PI << " degrees" << std::endl;
+        std::cerr << "   z0 = " << z0 << " m" << std::endl;
+        std::cerr << "   T0 = " << T0 << " K" << std::endl;
+    }
 
     return;
 

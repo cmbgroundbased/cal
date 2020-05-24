@@ -19,12 +19,13 @@
 #include <cmath>
 #include <algorithm> // per fare il std::sort
 
-void cal::atm_sim::compress_volume()
+/**
+* Establish a mapping between full volume indices and observed
+* volume indices.
+*/
+void cal::mpi_atm_sim::compress_volume()
 {
-    // Establish a mapping between full volume indices and observed
-    // volume indices
-    cal::Timer tm;
-    tm.start();
+    double t1 = MPI_Wtime();
 
     if ((rank == 0) && (verbosity > 0)) {
         std::cerr << "Compressing volume, N = " << nn << std::endl;
@@ -45,8 +46,8 @@ void cal::atm_sim::compress_volume()
                   << nn << std::endl;
         throw;
     }
-    // Start by flagging all elements that are hit
 
+    // Start by flagging all elements that are hit
     for (long ix = 0; ix < nx - 1; ++ix) {
         if (ix % ntask != rank) continue;
         double x = xstart + ix * xstep;
@@ -72,7 +73,11 @@ void cal::atm_sim::compress_volume()
         std::cerr << "Flagged hits, flagging neighbors" << std::endl;
     }
 
-    // For extra margin, flag all the neighbors of the hit elements
+    // For extra margin, flag all the neighbors of the
+    // hit elements
+    if (MPI_Allreduce(MPI_IN_PLACE, hit.data(), (int)nn,
+                      MPI_UNSIGNED_CHAR, MPI_LOR, comm)) throw std::runtime_error(
+                  "Failed to gather hits");
 
     std::vector <unsigned char> hit2 = hit;
 
@@ -85,7 +90,8 @@ void cal::atm_sim::compress_volume()
                 long offset = ix * xstride + iy * ystride + iz * zstride;
 
                 if (hit2[offset]) {
-                    // Flag this element but also its neighbours to facilitate
+                    // Flag this element but also its
+                    // neighbours to facilitate
                     // interpolation
 
                     for (double xmul = -2; xmul < 4; ++xmul) {
@@ -114,12 +120,16 @@ void cal::atm_sim::compress_volume()
 
     hit2.resize(0);
 
+    if (MPI_Allreduce(MPI_IN_PLACE, hit.data(), (int)nn,
+                      MPI_UNSIGNED_CHAR, MPI_LOR, comm)) throw std::runtime_error(
+                  "Failed to gather hits");
+
     if ((rank == 0) && (verbosity > 0)) {
         std::cerr << "Creating compression table" << std::endl;
     }
 
-    // Then create the mappings between the compressed and full indices
-
+    // Then create the mappings between the compressed and
+    // full indices
     long i = 0;
     for (long ifull = 0; ifull < nn; ++ifull) {
         if (hit[ifull]) {
@@ -134,21 +144,21 @@ void cal::atm_sim::compress_volume()
 
     full_index->resize(nelem);
 
-    tm.stop();
+    double t2 = MPI_Wtime();
 
     if (rank == 0) {
-        // if ( verbosity > 0 ) {
-        tm.report("Volume compressed in");
-        std::cout << i << " / " << nn << "(" << i * 100. / nn << " %)"
-                  << " volume elements are needed for the simulation"
-                  << std::endl
-                  << "nx = " << nx << " ny = " << ny << " nz = " << nz
-                  << std::endl
-                  << "wx = " << wx << " wy = " << wy << " wz = " << wz
-                  << std::endl;
-
-        // }
+        std::cout << "Volume compressed in " << t2 - t1
+          << " s." << std::endl
+          << i << " / " << nn
+          << "(" << i * 100. / nn << " %)"
+          << " volume elements are needed for the simulation"
+          << std::endl
+          << "nx = " << nx << " ny = " << ny << " nz = " << nz
+          << std::endl
+          << "wx = " << wx << " wy = " << wy << " wz = " << wz
+          << std::endl;
     }
 
-    if (nelem == 0) throw std::runtime_error("No elements in the observation cone.");
+    if (nelem == 0)
+        throw std::runtime_error("No elements in the observation cone.");
 }
