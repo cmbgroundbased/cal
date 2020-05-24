@@ -19,20 +19,24 @@
 #include <cmath>
 #include <algorithm> // per fare il std::sort
 
-void cal::atm_sim::apply_sparse_covariance(cholmod_sparse * sqrt_cov,
+/**
+* Apply the Cholesky-decomposed (square-root) sparse covariance
+* matrix to a vector of Gaussian random numbers to impose the
+* desired correlation properties.
+*
+* Copy the slice realization over appropriate indices in
+* the full realization
+* FIXME: This is where we would blend slices
+*/
+void cal::mpi_atm_sim::apply_sparse_covariance(cholmod_sparse * sqrt_cov,
                              long ind_start, long ind_stop)
 {
-    // Apply the Cholesky-decomposed (square-root) sparse covariance
-    // matrix to a vector of Gaussian random numbers to impose the
-    // desired correlation properties.
+    double t1 = MPI_Wtime();
 
-    cal::Timer tm;
-    tm.start();
-
-    size_t nelem = ind_stop - ind_start; // Number of elements in the slice
+    // Number of elements in the slice
+    size_t nelem = ind_stop - ind_start;
 
     // Draw the Gaussian variates in a single call
-
     cholmod_dense * noise_in = cholmod_allocate_dense(nelem, 1, nelem,
                                                       CHOLMOD_REAL, chcommon);
     cal::rng_dist_normal(nelem, key1, key2, counter1, counter2,
@@ -42,18 +46,21 @@ void cal::atm_sim::apply_sparse_covariance(cholmod_sparse * sqrt_cov,
                                                        CHOLMOD_REAL, chcommon);
 
     // Apply the sqrt covariance to impose correlations
-
     int notranspose = 0;
-    double one[2] = {1, 0};  // Complex one
-    double zero[2] = {0, 0}; // Complex zero
+
+    //Complex one
+    double one[2] = {1, 0};
+
+    //Complex zero
+    double zero[2] = {0, 0};
 
     cholmod_sdmult(sqrt_cov, notranspose, one, zero, noise_in, noise_out, chcommon);
     if (chcommon->status != CHOLMOD_OK) throw std::runtime_error(
                   "cholmod_sdmult failed.");
     cholmod_free_dense(&noise_in, chcommon);
 
-    // Subtract the mean of the slice to reduce step between the slices
-
+    // Subtract the mean of the slice to reduce step
+    // between the slices
     double * p = (double *)noise_out->x;
     double mean = 0, var = 0;
     for (long i = 0; i < nelem; ++i) {
@@ -64,12 +71,14 @@ void cal::atm_sim::apply_sparse_covariance(cholmod_sparse * sqrt_cov,
     var = var / nelem - mean * mean;
     for (long i = 0; i < nelem; ++i) p[i] -= mean;
 
-    tm.stop();
+    double t2 = MPI_Wtime();
+
     if (verbosity > 0) {
-        std::ostringstream o;
-        o << "Realization slice (" << ind_start << " -- "
-          << ind_stop << ") var = " << var << ", constructed in";
-        tm.report(o.str().c_str());
+        std::cerr << std::endl;
+        std::cerr << rank
+                  << " : Realization slice (" << ind_start << " -- " << ind_stop
+                  << ") var = " << var << ", constructed in "
+                  << t2 - t1 << " s." << std::endl;
     }
 
     if (verbosity > 10) {
@@ -90,7 +99,6 @@ void cal::atm_sim::apply_sparse_covariance(cholmod_sparse * sqrt_cov,
     // Copy the slice realization over appropriate indices in
     // the full realization
     // FIXME: This is where we would blend slices
-
     for (long i = ind_start; i < ind_stop; ++i) {
         (*realization)[i] = p[i - ind_start];
     }

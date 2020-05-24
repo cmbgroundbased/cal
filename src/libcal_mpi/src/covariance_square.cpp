@@ -19,18 +19,20 @@
 #include <cmath>
 #include <algorithm> // per fare il std::sort
 
-cholmod_sparse * cal::atm_sim::sqrt_sparse_covariance(cholmod_sparse * cov,
+/**
+* Cholesky-factorize the provided sparse matrix and return
+* the sparse matrix representation of the factorization
+*
+* Extract band diagonal of the matrix and try
+* factorizing again int ndiag = ntry - itry - 1;
+*/
+cholmod_sparse * cal::mpi_atm_sim::sqrt_sparse_covariance(cholmod_sparse * cov,
                                         long ind_start, long ind_stop)
 {
-    /*
-       Cholesky-factorize the provided sparse matrix and return the
-       sparse matrix representation of the factorization
-     */
+    // Number of elements
+    size_t nelem = ind_stop - ind_start;
 
-    size_t nelem = ind_stop - ind_start; // Number of elements in the slice
-
-    cal::Timer tm;
-    tm.start();
+    double t1 = MPI_Wtime();
 
     if (verbosity > 0) {
         std::cerr << rank
@@ -75,7 +77,9 @@ cholmod_sparse * cal::atm_sim::sqrt_sparse_covariance(cholmod_sparse * cov,
                               << "diagonal matrix. ndiag = " << ndiag
                               << std::endl;
                 }
-                int mode = 1; // Numerical (not pattern) matrix
+
+                // Numerical (not pattern) matrix
+                int mode = 1;
                 cholmod_band_inplace(ilower, iupper, mode, cov, chcommon);
                 if (chcommon->status != CHOLMOD_OK) throw std::runtime_error(
                               "cholmod_band_inplace failed.");
@@ -85,15 +89,16 @@ cholmod_sparse * cal::atm_sim::sqrt_sparse_covariance(cholmod_sparse * cov,
         }
     }
 
-    tm.stop();
+    double t2 = MPI_Wtime();
     if (verbosity > 0) {
-        tm.report("Cholesky decomposition done in");
-        std::cout << " s. N = " << nelem << std::endl;
+        std::cerr << std::endl;
+        std::cerr << rank
+                  << " : Cholesky decomposition done in " << t2 - t1
+                  << " sec. N = " << nelem << std::endl;
     }
 
     // Report memory usage (only counting the non-zero elements, no
     // supernode information)
-
     size_t nnz = factorization->nzmax;
     double tot_mem = (nelem * sizeof(int) + nnz * (sizeof(int) + sizeof(double)))
                      / pow(2.0, 20.0);
@@ -109,7 +114,6 @@ cholmod_sparse * cal::atm_sim::sqrt_sparse_covariance(cholmod_sparse * cov,
     cholmod_free_factor(&factorization, chcommon);
 
     // Report memory usage
-
     nnz = sqrt_cov->nzmax;
     tot_mem = (nelem * sizeof(int) + nnz * (sizeof(int) + sizeof(double)))
               / pow(2.0, 20.0);
