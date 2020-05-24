@@ -19,7 +19,7 @@
 #include <cmath>
 #include <algorithm> // per fare il std::sort
 
-void cal::atm_sim::print(std::ostream & out) const
+void cal::mpi_atm_sim::print(std::ostream & out) const
 {
     for (int i = 0; i < ntask; ++i) {
         MPI_Barrier(comm);
