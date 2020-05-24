@@ -19,11 +19,14 @@
 #include <cmath>
 #include <algorithm> // per fare il std::sort
 
-void cal::atm_sim::get_slice(long & ind_start, long & ind_stop)
+/**
+* Identify a manageable slice of compressed indices
+* to simulate next move element counter to the end of
+* the most recent simulated slice
+*/
+void cal::mpi_atm_sim::get_slice(long & ind_start, long & ind_stop)
 {
-    // Identify a manageable slice of compressed indices to simulate next
 
-    // Move element counter to the end of the most recent simulated slice
     ind_start = ind_stop;
 
     long ix_start = (*full_index)[ind_start] * xstrideinv;

@@ -22,6 +22,7 @@
 void cal::atm_sim::print(std::ostream & out) const
 {
     for (int i = 0; i < ntask; ++i) {
+        MPI_Barrier(comm);
         if (rank != i) continue;
         out << rank << " : cachedir " << cachedir << std::endl;
         out << rank << " : ntask = " << ntask
@@ -55,4 +56,5 @@ void cal::atm_sim::print(std::ostream & out) const
             << ", T0_sigma = " << T0_sigma
             << ", z0inv = " << z0inv << std::endl;
     }
+    MPI_Barrier(comm);
 }

@@ -19,8 +19,7 @@
 #include <cmath>
 #include <algorithm> // per fare il std::sort
 
-void cal::atm_sim::load_realization()
-{
+void cal::mpi_atm_sim::load_realization() {
     cached = false;
 
     std::ostringstream name;
@@ -38,7 +37,10 @@ void cal::atm_sim::load_realization()
         fname << cachedir << "/" << name.str() << "_metadata.txt";
 
         std::ifstream f(fname.str());
-        if (f.good()) {
+        bool there = f.good();
+
+        success = 0;
+        if (there) {
             f >> nn;
             f >> nelem;
             f >> nx;
@@ -60,44 +62,118 @@ void cal::atm_sim::load_realization()
             f >> wdir;
             f >> z0;
             f >> T0;
+            success = f.good();
             f.close();
+        }
 
-            if (rank == 0 and verbosity > 0) {
+        if (success) {
+            if (verbosity > 0) {
                 std::cerr << "Loaded metada from "
                           << fname.str() << std::endl;
+                std::cerr << std::endl;
+                std::cerr << "Simulation volume:" << std::endl;
+                std::cerr << "   delta_x = " << delta_x << " m" << std::endl;
+                std::cerr << "   delta_y = " << delta_y << " m" << std::endl;
+                std::cerr << "   delta_z = " << delta_z << " m" << std::endl;
+                std::cerr << "    xstart = " << xstart << " m" << std::endl;
+                std::cerr << "    ystart = " << ystart << " m" << std::endl;
+                std::cerr << "    zstart = " << zstart << " m" << std::endl;
+                std::cerr << "   maxdist = " << maxdist << " m" << std::endl;
+                std::cerr << "        nx = " << nx << std::endl;
+                std::cerr << "        ny = " << ny << std::endl;
+                std::cerr << "        nz = " << nz << std::endl;
+                std::cerr << "        nn = " << nn << std::endl;
+                std::cerr << "Atmospheric realization parameters:" << std::endl;
+                std::cerr << " lmin = " << lmin << " m" << std::endl;
+                std::cerr << " lmax = " << lmax << " m" << std::endl;
+                std::cerr << "    w = " << w << " m/s" << std::endl;
+                std::cerr << "   wx = " << wx << " m/s" << std::endl;
+                std::cerr << "   wy = " << wy << " m/s" << std::endl;
+                std::cerr << "   wz = " << wz << " m/s" << std::endl;
+                std::cerr << " wdir = " << wdir * 180. / M_PI << " degrees" <<
+                    std::endl;
+                std::cerr << "   z0 = " << z0 << " m" << std::endl;
+                std::cerr << "   T0 = " << T0 << " K" << std::endl;
+                std::cerr << "rcorr = " << rcorr << " m (corrlim = "
+                          << corrlim << ")" << std::endl;
             }
-        } else success = 0;
-
-        if ((verbosity > 0) && success) {
-            std::cerr << std::endl;
-            std::cerr << "Simulation volume:" << std::endl;
-            std::cerr << "   delta_x = " << delta_x << " m" << std::endl;
-            std::cerr << "   delta_y = " << delta_y << " m" << std::endl;
-            std::cerr << "   delta_z = " << delta_z << " m" << std::endl;
-            std::cerr << "    xstart = " << xstart << " m" << std::endl;
-            std::cerr << "    ystart = " << ystart << " m" << std::endl;
-            std::cerr << "    zstart = " << zstart << " m" << std::endl;
-            std::cerr << "   maxdist = " << maxdist << " m" << std::endl;
-            std::cerr << "        nx = " << nx << std::endl;
-            std::cerr << "        ny = " << ny << std::endl;
-            std::cerr << "        nz = " << nz << std::endl;
-            std::cerr << "        nn = " << nn << std::endl;
-            std::cerr << "Atmospheric realization parameters:" << std::endl;
-            std::cerr << " lmin = " << lmin << " m" << std::endl;
-            std::cerr << " lmax = " << lmax << " m" << std::endl;
-            std::cerr << "    w = " << w << " m/s" << std::endl;
-            std::cerr << "   wx = " << wx << " m/s" << std::endl;
-            std::cerr << "   wy = " << wy << " m/s" << std::endl;
-            std::cerr << "   wz = " << wz << " m/s" << std::endl;
-            std::cerr << " wdir = " << wdir * 180. / M_PI << " degrees" << std::endl;
-            std::cerr << "   z0 = " << z0 << " m" << std::endl;
-            std::cerr << "   T0 = " << T0 << " K" << std::endl;
-            std::cerr << "rcorr = " << rcorr << " m (corrlim = "
-                      << corrlim << ")" << std::endl;
+        } else {
+            if (there) {
+                std::cerr << "FAILED to load metadata from "
+                          << fname.str() << std::endl;
+            }
         }
     }
 
+    // Send out the atmosphere configuration parameters
+    // to all processes
+    if (MPI_Bcast(&success, 1, MPI_CHAR, 0, comm))
+        throw std::runtime_error("Failed to bcast success");
+
     if (!success) return;
+
+    if (MPI_Bcast(&nn, 1, MPI_LONG, 0, comm))
+        throw std::runtime_error("Failed to bcast nn");
+
+    if (MPI_Bcast(&nelem, 1, MPI_LONG, 0, comm))
+        throw std::runtime_error("Failed to bcast nn");
+
+    if (MPI_Bcast(&nx, 1, MPI_LONG, 0, comm))
+        throw std::runtime_error("Failed to bcast nx");
+
+    if (MPI_Bcast(&ny, 1, MPI_LONG, 0, comm))
+        throw std::runtime_error("Failed to bcast ny");
+
+    if (MPI_Bcast(&nz, 1, MPI_LONG, 0, comm))
+        throw std::runtime_error("Failed to bcast nz");
+
+    if (MPI_Bcast(&delta_x, 1, MPI_DOUBLE, 0, comm))
+        throw std::runtime_error("Failed to bcast delta_x");
+
+    if (MPI_Bcast(&delta_y, 1, MPI_DOUBLE, 0, comm))
+        throw std::runtime_error("Failed to bcast delta_y");
+
+    if (MPI_Bcast(&delta_z, 1, MPI_DOUBLE, 0, comm))
+        throw std::runtime_error("Failed to bcast delta_z");
+
+    if (MPI_Bcast(&xstart, 1, MPI_DOUBLE, 0, comm))
+        throw std::runtime_error("Failed to bcast xstart");
+
+    if (MPI_Bcast(&ystart, 1, MPI_DOUBLE, 0, comm))
+        throw std::runtime_error("Failed to bcast ystart");
+
+    if (MPI_Bcast(&zstart, 1, MPI_DOUBLE, 0, comm))
+        throw std::runtime_error("Failed to bcast zstart");
+
+    if (MPI_Bcast(&maxdist, 1, MPI_DOUBLE, 0, comm))
+        throw std::runtime_error("Failed to bcast maxdist");
+
+    if (MPI_Bcast(&wx, 1, MPI_DOUBLE, 0, comm))
+        throw std::runtime_error("Failed to bcast wx");
+
+    if (MPI_Bcast(&wy, 1, MPI_DOUBLE, 0, comm))
+        throw std::runtime_error("Failed to bcast wy");
+
+    if (MPI_Bcast(&wz, 1, MPI_DOUBLE, 0, comm))
+        throw std::runtime_error("Failed to bcast wz");
+
+    if (MPI_Bcast(&lmin, 1, MPI_DOUBLE, 0, comm))
+        throw std::runtime_error("Failed to bcast lmin");
+
+    if (MPI_Bcast(&lmax, 1, MPI_DOUBLE, 0, comm))
+        throw std::runtime_error("Failed to bcast lmax");
+
+    if (MPI_Bcast(&w, 1, MPI_DOUBLE, 0, comm))
+        throw std::runtime_error("Failed to bcast w");
+
+    if (MPI_Bcast(&wdir, 1, MPI_DOUBLE, 0, comm))
+        throw std::runtime_error("Failed to bcast wdir");
+
+    if (MPI_Bcast(&z0, 1, MPI_DOUBLE, 0, comm))
+        throw std::runtime_error("Failed to bcast z0");
+
+    if (MPI_Bcast(&T0, 1, MPI_DOUBLE, 0, comm))
+        throw std::runtime_error("Failed to bcast T0");
 
     zstride = 1;
     ystride = zstride * nz;
@@ -110,11 +186,11 @@ void cal::atm_sim::load_realization()
     // Load realization
 
     try {
-        compressed_index.reset(new AlignedVector <long> (nn));
-        std::fill(compressed_index->begin(), compressed_index->end(), -1);
+        compressed_index = new mpi_shmem_long(nn, comm);
+        compressed_index->set(-1);
 
-        full_index.reset(new AlignedVector <long> (nelem));
-        std::fill(full_index->begin(), full_index->end(), -1);
+        full_index = new mpi_shmem_long(nelem, comm);
+        full_index->set(-1);
     } catch (...) {
         std::cerr << rank
                   << " : Failed to allocate element indices. nn = "
@@ -122,43 +198,67 @@ void cal::atm_sim::load_realization()
         throw;
     }
     try {
-        realization.reset(new AlignedVector <double> (nelem));
-        std::fill(realization->begin(), realization->end(), 0.0);
+        realization = new mpi_shmem_double(nelem, comm);
+        realization->set(0);
     } catch (...) {
         std::cerr << rank
                   << " : Failed to allocate realization. nelem = "
                   << nelem << std::endl;
         throw;
     }
-    // if (full_index->rank() == 0) {
-    std::ostringstream fname_real;
-    fname_real << cachedir << "/" << name.str() << "_realization.dat";
-    std::ifstream freal(fname_real.str(),
-                        std::ios::in | std::ios::binary);
+    if (full_index->rank() == 0) {
+        std::ostringstream fname_real;
+        fname_real << cachedir << "/" << name.str() << "_realization.dat";
+        std::ifstream freal(fname_real.str(),
+                            std::ios::in | std::ios::binary);
 
-    freal.read((char *)&(*full_index)[0],
-               full_index->size() * sizeof(long));
-    for (int i = 0; i < nelem; ++i) {
-        long ifull = (*full_index)[i];
-        (*compressed_index)[ifull] = i;
+        freal.read((char *)&(*full_index)[0],
+                   full_index->size() * sizeof(long));
+        success = freal.good();
+
+        if (success) {
+            for (int i = 0; i < nelem; ++i) {
+                long ifull = (*full_index)[i];
+                if ((ifull < 0) || (ifull > compressed_index->size() - 1)) {
+                    // Cached file must be corrupt
+                    success = false;
+                    break;
+                }
+                (*compressed_index)[ifull] = i;
+            }
+            if (success) {
+                freal.read((char *)&(*realization)[0],
+                           realization->size() * sizeof(double));
+                success = freal.good();
+            }
+        }
+        freal.close();
+
+        if (success) {
+            if (verbosity > 0) std::cerr << "Loaded realization from "
+                                         << fname_real.str() << std::endl;
+        } else {
+            std::cerr << "FAILED to load realization from "
+                      << fname_real.str() << std::endl;
+        }
     }
 
-    freal.read((char *)&(*realization)[0],
-               realization->size() * sizeof(double));
+    if (MPI_Allreduce(MPI_IN_PLACE, &success, 1, MPI_CHAR, MPI_MIN, comm))
+        throw std::runtime_error("Failed to allreduce success");
 
-    freal.close();
-
-    if (verbosity > 0) std::cerr << "Loaded realization from "
-                                 << fname_real.str() << std::endl;
-
-    // }
-
-    cached = true;
+    if (!success) {
+        delete compressed_index;
+        delete full_index;
+        delete realization;
+    } else {
+        cached = true;
+    }
 
     return;
 }
-void cal::atm_sim::save_realization()
-{
+
+
+void cal::mpi_atm_sim::save_realization() {
     if (rank == 0) {
         std::ostringstream name;
         name << key1 << "_" << key2 << "_"

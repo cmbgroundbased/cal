@@ -19,29 +19,38 @@
 #include <cmath>
 #include <algorithm> // per fare il std::sort
 
-/**Bla bla bla qualcosa su simulate*/
-int cal::atm_sim::simulate(bool use_cache)
+/** Simulate the atmosphere in indipendent slices, each slice is assigned at one process. */
+int cal::mpi_atm_sim::simulate(bool use_cache)
 {
     if (use_cache) load_realization();
+
     if (cached) return 0;
 
     try {
+
         draw();
+
         get_volume();
+
         compress_volume();
+
+        if(rank == 0 and verbosity > 0)
+            std:cerr << "Resizing to " << nelem << std::endl;
+
         try {
-            realization.reset(new AlignedVector <double> (nelem));
-            std:fill(realization->begin(), realization->end(), 0.0);
+            realization = new mpi_shmem_double(nelem, comm);
+            realization->set(0);
         } catch (...) {
-            std::cerr << rank << " : Allocation failed. nelem = " << nelem << std::endl;
+            std::cerr << rank
+                      << " : Allocation failed. nelem = "
+                      << nelem << std::endl;
             throw;
         }
-        cal::Timer tm;
-        tm.start();
+        double t1 = MPI_Wtime();
 
         long ind_start = 0, ind_stop = 0, slice = 0;
 
-        // Simulate the atmosphere in indipendent slices, each slice is assigned at one process.
+        // Assign each slice to a process
 
         std::vector <int> slice_starts;
         std::vector <int> slice_stops;
@@ -65,12 +74,23 @@ int cal::atm_sim::simulate(bool use_cache)
             if (ind_stop == nelem) break;
             ++slice;
         }
-        // smooth();?
-        tm.stop();
+        // smooth();
+
+        // Process Synchronize 
+        MPI_Barrier(comm);
+        double t2 = MPI_Wtime();
+
+        if ((rank == 0) && (verbosity > 0)) {
+            std::cerr << std::endl;
+            std::cerr << "Realization constructed in " << t2 - t1 << " s."
+                      << std::endl;
+        }
     } catch (const std::exception & e) {
-        std::cerr << "ERROR: atm::simulate failed with: " << e.what() << std::endl;
+        std::cerr << "WARNING: atm::simulate failed with: " << e.what()
+                  << std::endl;
     }
     cached = true;
+
     if (use_cache) save_realization();
 
     return 0;

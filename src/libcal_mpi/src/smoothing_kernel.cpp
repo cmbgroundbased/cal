@@ -38,12 +38,14 @@ double mean(std::vector <double> vec) {
     return sum / vec.size();
 }
 
-void cal::atm_sim::smooth()
+/**
+* Replace each vertex with a mean of its first-N-neighbors.
+* The smoothing length is driven by the w parameter.
+* In this implementation w = 3
+*/
+void cal::mpi_atm_sim::smooth()
 {
-    // Replace each vertex with a mean of its immediate vicinity
-
-    cal::Timer tm;
-    tm.start();
+    double t1 = MPI_Wtime();
 
     double coord[3];
 
@@ -57,12 +59,11 @@ void cal::atm_sim::smooth()
 
         long offset = ix * xstride + iy * ystride + iz * zstride;
 
-        long w = 3; // width of the smoothing kernel
+        long w = 3;
         long ifullmax = compressed_index->size();
 
         std::vector <double> vals;
 
-        // for (int xoff=-w; xoff <= w; ++xoff) {
         for (int xoff = 0; xoff <= 0; ++xoff) {
             if (ix + xoff < 0) continue;
             if (ix + xoff >= nx) break;
@@ -95,17 +96,16 @@ void cal::atm_sim::smooth()
         smoothed_realization[i] = mean(vals);
     }
 
-    // if (realization->rank() == 0) {
-    for (int i = 0; i < realization->size(); ++i) {
-        (*realization)[i] = smoothed_realization[i];
+    if (realization->rank() == 0) {
+        for (int i = 0; i < realization->size(); ++i) {
+            (*realization)[i] = smoothed_realization[i];
+        }
     }
 
-    // }
-
-    tm.stop();
+    double t2 = MPI_Wtime();
 
     if ((rank == 0) && (verbosity > 0)) {
-        tm.report("Realization smoothed in");
+        std::cerr << "Realization smoothed in " << t2 - t1 << " sec." << std::endl;
     }
     return;
 }
