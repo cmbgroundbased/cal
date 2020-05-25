@@ -14,17 +14,13 @@ extern "C" {
 #include <sys_utils.hpp>
 #include <atm_shm.hpp>
 
-/**
-*@namespace cal
-*@brief The API to create, simulate and observe an atmosphere are contained in the cal namespace.
-*/
 namespace cal{
 using mpi_shmem_double = mpi_shmem <double>;
 using mpi_shmem_long = mpi_shmem <long>;
 
 /**
 * \class mpi_atm_sim
-* \brief Atmosphere creation, evolution and observation
+* \brief Atmosphere creation, evolution and observation with MPI support
 */
 class mpi_atm_sim{
     public:

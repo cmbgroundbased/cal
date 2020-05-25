@@ -1,0 +1,102 @@
+\hypertarget{classcal_1_1mpi__shmem}{}\doxysection{cal\+::mpi\+\_\+shmem$<$ T $>$ Class Template Reference}
+\label{classcal_1_1mpi__shmem}\index{cal::mpi\_shmem$<$ T $>$@{cal::mpi\_shmem$<$ T $>$}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__shmem_ab591ef36224eedfb0e7b450291b39dce}\label{classcal_1_1mpi__shmem_ab591ef36224eedfb0e7b450291b39dce}} 
+{\bfseries mpi\+\_\+shmem} (M\+P\+I\+\_\+\+Comm comm=M\+P\+I\+\_\+\+C\+O\+M\+M\+\_\+\+W\+O\+R\+LD)
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__shmem_a8baabd5400fc69e4c40aeccd94d778cf}\label{classcal_1_1mpi__shmem_a8baabd5400fc69e4c40aeccd94d778cf}} 
+{\bfseries mpi\+\_\+shmem} (size\+\_\+t n, M\+P\+I\+\_\+\+Comm comm=M\+P\+I\+\_\+\+C\+O\+M\+M\+\_\+\+W\+O\+R\+LD)
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__shmem_a2cfab14c5e498921c7bde8618e60b19d}\label{classcal_1_1mpi__shmem_a2cfab14c5e498921c7bde8618e60b19d}} 
+T {\bfseries operator\mbox{[}$\,$\mbox{]}} (int i) const
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__shmem_a405546a4e7ad53af2cd1da38e4659d24}\label{classcal_1_1mpi__shmem_a405546a4e7ad53af2cd1da38e4659d24}} 
+T \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (int i)
+\item 
+T $\ast$ \mbox{\hyperlink{classcal_1_1mpi__shmem_a1f9f3de09ef5b87435c1ee88d9b1d78c}{allocate}} (size\+\_\+t n)
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__shmem_a5a30a1591948a22ad24c7b83185e4e6e}\label{classcal_1_1mpi__shmem_a5a30a1591948a22ad24c7b83185e4e6e}} 
+void {\bfseries free} ()
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__shmem_a7ce92b5754c2c3b075017e6d778432a7}\label{classcal_1_1mpi__shmem_a7ce92b5754c2c3b075017e6d778432a7}} 
+void {\bfseries set} (T val)
+\item 
+T $\ast$ \mbox{\hyperlink{classcal_1_1mpi__shmem_a63e74a861a8b9aa7a77554096af5a8c8}{resize}} (size\+\_\+t n)
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__shmem_a3a15dab17a14bdd1f35d8b432203941b}\label{classcal_1_1mpi__shmem_a3a15dab17a14bdd1f35d8b432203941b}} 
+T $\ast$ {\bfseries data} ()
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__shmem_a5e9a296c1bfa0376bdaf73991082aec2}\label{classcal_1_1mpi__shmem_a5e9a296c1bfa0376bdaf73991082aec2}} 
+size\+\_\+t {\bfseries size} ()
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__shmem_a9ce107a4118c8a3e239a43226aae9b6f}\label{classcal_1_1mpi__shmem_a9ce107a4118c8a3e239a43226aae9b6f}} 
+int {\bfseries rank} ()
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__shmem_a62eced4169f0fc6fad9c8d07d0c6f50d}\label{classcal_1_1mpi__shmem_a62eced4169f0fc6fad9c8d07d0c6f50d}} 
+int {\bfseries ntasks} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__shmem_aaf4ff4d5a06d1356092240cd5c9f1b39}\label{classcal_1_1mpi__shmem_aaf4ff4d5a06d1356092240cd5c9f1b39}} 
+T $\ast$ {\bfseries local\+\_\+} = N\+U\+LL
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__shmem_a028ba33268f87de854b657b7caf1b18f}\label{classcal_1_1mpi__shmem_a028ba33268f87de854b657b7caf1b18f}} 
+T $\ast$ {\bfseries global\+\_\+} = N\+U\+LL
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__shmem_ab21d877eec2db3b8fbf474e3b3bca946}\label{classcal_1_1mpi__shmem_ab21d877eec2db3b8fbf474e3b3bca946}} 
+size\+\_\+t {\bfseries n\+\_\+} = 0
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__shmem_a476fcde230ef2b28b0917f231b6ed793}\label{classcal_1_1mpi__shmem_a476fcde230ef2b28b0917f231b6ed793}} 
+size\+\_\+t {\bfseries nlocal\+\_\+} = 0
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__shmem_a67fcc894aff60a37d60c5612d428d115}\label{classcal_1_1mpi__shmem_a67fcc894aff60a37d60c5612d428d115}} 
+M\+P\+I\+\_\+\+Comm {\bfseries comm\+\_\+} = M\+P\+I\+\_\+\+C\+O\+M\+M\+\_\+\+N\+U\+LL
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__shmem_a9320302ac3d9694ee535b3366f82f6eb}\label{classcal_1_1mpi__shmem_a9320302ac3d9694ee535b3366f82f6eb}} 
+M\+P\+I\+\_\+\+Comm {\bfseries shmcomm\+\_\+} = M\+P\+I\+\_\+\+C\+O\+M\+M\+\_\+\+N\+U\+LL
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__shmem_a9b5c92ba230e6eaaf2ac3fd010f189ea}\label{classcal_1_1mpi__shmem_a9b5c92ba230e6eaaf2ac3fd010f189ea}} 
+M\+P\+I\+\_\+\+Win {\bfseries win\+\_\+} = M\+P\+I\+\_\+\+W\+I\+N\+\_\+\+N\+U\+LL
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__shmem_a86d72d07a299f0338ca0a372c05f2c85}\label{classcal_1_1mpi__shmem_a86d72d07a299f0338ca0a372c05f2c85}} 
+int {\bfseries ntasks\+\_\+}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__shmem_a9be50ec3189ebefae5b8b7489dde07c3}\label{classcal_1_1mpi__shmem_a9be50ec3189ebefae5b8b7489dde07c3}} 
+int {\bfseries rank\+\_\+}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__shmem_a6ebe3f9e5f5ff3c113daa38fef1fa0ea}\label{classcal_1_1mpi__shmem_a6ebe3f9e5f5ff3c113daa38fef1fa0ea}} 
+int {\bfseries world\+\_\+rank\+\_\+}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class cal\+::mpi\+\_\+shmem$<$ T $>$}
+
+Split the provided communicator into groups that share memory (are on the same node). 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcal_1_1mpi__shmem_a1f9f3de09ef5b87435c1ee88d9b1d78c}\label{classcal_1_1mpi__shmem_a1f9f3de09ef5b87435c1ee88d9b1d78c}} 
+\index{cal::mpi\_shmem$<$ T $>$@{cal::mpi\_shmem$<$ T $>$}!allocate@{allocate}}
+\index{allocate@{allocate}!cal::mpi\_shmem$<$ T $>$@{cal::mpi\_shmem$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{allocate()}{allocate()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+T$\ast$ \mbox{\hyperlink{classcal_1_1mpi__shmem}{cal\+::mpi\+\_\+shmem}}$<$ T $>$\+::allocate (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{n }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Determine the number of elements each process should offer for the shared allocation Allocate the shared memory
+
+Get a pointer to the beginning of the shared memory on rank \# 0\mbox{\Hypertarget{classcal_1_1mpi__shmem_a63e74a861a8b9aa7a77554096af5a8c8}\label{classcal_1_1mpi__shmem_a63e74a861a8b9aa7a77554096af5a8c8}} 
+\index{cal::mpi\_shmem$<$ T $>$@{cal::mpi\_shmem$<$ T $>$}!resize@{resize}}
+\index{resize@{resize}!cal::mpi\_shmem$<$ T $>$@{cal::mpi\_shmem$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{resize()}{resize()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+T$\ast$ \mbox{\hyperlink{classcal_1_1mpi__shmem}{cal\+::mpi\+\_\+shmem}}$<$ T $>$\+::resize (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{n }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+If there is memory already allocated, preserve its contents. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/algebrato/\+Progetti/\+C\+M\+B4\+G/libcal/src/libcal\+\_\+mpi/include/atm\+\_\+shm.\+hpp\end{DoxyCompactItemize}

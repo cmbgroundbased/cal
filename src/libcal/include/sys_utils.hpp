@@ -104,7 +104,7 @@ class Timer {
 
 
 /**
-* \calss GlobalTimers
+* \class GlobalTimers
 * \brief Singleton registry of global timers that can be accessed from anywhere.
 */
 class GlobalTimers {

@@ -1,0 +1,680 @@
+\hypertarget{classcal_1_1mpi__atm__sim}{}\doxysection{cal\+::mpi\+\_\+atm\+\_\+sim Class Reference}
+\label{classcal_1_1mpi__atm__sim}\index{cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}}
+
+
+Atmosphere creation, evolution and observation with M\+PI support.  
+
+
+
+
+Collaboration diagram for cal\+::mpi\+\_\+atm\+\_\+sim\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=235pt]{classcal_1_1mpi__atm__sim__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classcal_1_1mpi__atm__sim}{mpi\+\_\+atm\+\_\+sim}} $>$ \mbox{\hyperlink{classcal_1_1mpi__atm__sim_abf42824b9beb670cc010ea44cc649640}{pshr}}
+\item 
+typedef std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classcal_1_1mpi__atm__sim}{mpi\+\_\+atm\+\_\+sim}} $>$ \mbox{\hyperlink{classcal_1_1mpi__atm__sim_add9711542d8f0a61908f606e50c8cedc}{puniq}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcal_1_1mpi__atm__sim_acde90f60b6705631bac070390b314e0e}{mpi\+\_\+atm\+\_\+sim}} (double azmin, double azmax, double elmin, double elmax, double tmin, double tmax, double lmin\+\_\+center=.\+01, double lmin\+\_\+sigma=.\+001, double lmax\+\_\+center=10, double lmax\+\_\+sigma=10, double w\+\_\+center=25, double w\+\_\+sigma=10, double wdir\+\_\+center=0, double wdir\+\_\+sigma=100, double z0\+\_\+center=2000, double z0\+\_\+sigma=0, double T0\+\_\+center=280, double T0\+\_\+sigma=10, double zatm=40000, double zmax=2000, double xstep=100, double ystep=100, double zstep=100, long \mbox{\hyperlink{classcal_1_1mpi__atm__sim_a0eae386d18257e5ed689d742467d390d}{nelem\+\_\+sim\+\_\+max}}=1000, int verbosity=0, M\+P\+I\+\_\+\+Comm comm=M\+P\+I\+\_\+\+C\+O\+M\+M\+\_\+\+W\+O\+R\+LD, uint64\+\_\+t key1=0, uint64\+\_\+t key2=0, uint64\+\_\+t counterval1=0, uint64\+\_\+t counterval2=0, std\+::string cachedir=std\+::string(), double \mbox{\hyperlink{classcal_1_1mpi__atm__sim_ab741ee3a28ec4668e9ccd16757a96d01}{rmin}}=0, double rmax=10000)
+\item 
+\mbox{\hyperlink{classcal_1_1mpi__atm__sim_add5e6b1af0cefd6f3b91ff143d029548}{$\sim$mpi\+\_\+atm\+\_\+sim}} ()
+\item 
+int \mbox{\hyperlink{classcal_1_1mpi__atm__sim_a52c1496f8a7aed634b509e873ff1aae8}{simulate}} (bool use\+\_\+cache)
+\item 
+int \mbox{\hyperlink{classcal_1_1mpi__atm__sim_a7fba376df3be33c52ba21aeabaf00e6d}{observe}} (double $\ast$t, double $\ast$az, double $\ast$el, double $\ast$tod, long nsamp, double fixed\+\_\+r=-\/1)
+\item 
+void \mbox{\hyperlink{classcal_1_1mpi__atm__sim_ab3e9a8a4e02d7cf637f453c979c1b0e0}{print}} (std\+::ostream \&out=std\+::cout) const
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcal_1_1mpi__atm__sim_ab3b68a9b3d9a1771b0a2819e19ee2292}{draw}} ()
+\item 
+void \mbox{\hyperlink{classcal_1_1mpi__atm__sim_af3f82895dc6b9d7428287097169e23e2}{get\+\_\+volume}} ()
+\item 
+bool \mbox{\hyperlink{classcal_1_1mpi__atm__sim_add80419c1a7fc88b21fafb026dcc3d66}{in\+\_\+cone}} (double x, double y, double z, double t\+\_\+in=-\/1)
+\item 
+void \mbox{\hyperlink{classcal_1_1mpi__atm__sim_a0e6e97d40f52f7722dc9ecfd4c80b854}{compress\+\_\+volume}} ()
+\item 
+void \mbox{\hyperlink{classcal_1_1mpi__atm__sim_ab0a7384394f30859b92d1a7449358245}{get\+\_\+slice}} (long \&ind\+\_\+start, long \&ind\+\_\+stop)
+\item 
+cholmod\+\_\+sparse $\ast$ \mbox{\hyperlink{classcal_1_1mpi__atm__sim_a104df232c41e3b88e67d16d07c5e9a38}{sqrt\+\_\+sparse\+\_\+covariance}} (cholmod\+\_\+sparse $\ast$cov, long ind\+\_\+start, long ind\+\_\+stop)
+\item 
+cholmod\+\_\+sparse $\ast$ \mbox{\hyperlink{classcal_1_1mpi__atm__sim_a41a32382f158d3465ef1c61209782ac1}{build\+\_\+sparse\+\_\+covariance}} (long ind\+\_\+start, long ind\+\_\+stop)
+\item 
+void \mbox{\hyperlink{classcal_1_1mpi__atm__sim_a9a45e22f3fe7856742c860e0c3a5cd88}{apply\+\_\+sparse\+\_\+covariance}} (cholmod\+\_\+sparse $\ast$sqrt\+\_\+cov, long ind\+\_\+start, long ind\+\_\+stop)
+\item 
+void \mbox{\hyperlink{classcal_1_1mpi__atm__sim_a54b67379b62c3b1a86690c3f7d126bcb}{ind2coord}} (long i, double $\ast$coord)
+\item 
+long \mbox{\hyperlink{classcal_1_1mpi__atm__sim_addaac0ae73aac5a931ec4a0bcb925ed8}{coord2ind}} (double x, double y, double z)
+\item 
+double \mbox{\hyperlink{classcal_1_1mpi__atm__sim_a58998faf6f9fcad0c3b389ba94304371}{interp}} (double x, double y, double z, std\+::vector$<$ long $>$ \&last\+\_\+ind, std\+::vector$<$ double $>$ \&last\+\_\+nodes)
+\item 
+double \mbox{\hyperlink{classcal_1_1mpi__atm__sim_a10b842b6e86b9956b103d1d6d242769c}{cov\+\_\+eval}} (double $\ast$coord1, double $\ast$coord2)
+\item 
+void \mbox{\hyperlink{classcal_1_1mpi__atm__sim_aa5c52f70344da8885c0f83cc4ac39ff2}{initialize\+\_\+kolmogorov}} ()
+\item 
+double \mbox{\hyperlink{classcal_1_1mpi__atm__sim_a4c3d9def372814fa429a8ad20e9f9e67}{kolmogorov}} (double r)
+\item 
+void \mbox{\hyperlink{classcal_1_1mpi__atm__sim_a510f7befa1310831fb9553de4d273d18}{smooth}} ()
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a08bd5423cc64e7901428c84d93ce5042}\label{classcal_1_1mpi__atm__sim_a08bd5423cc64e7901428c84d93ce5042}} 
+void {\bfseries load\+\_\+realization} ()
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a77fb83f4b4c5339bae9ab732ae73efe3}\label{classcal_1_1mpi__atm__sim_a77fb83f4b4c5339bae9ab732ae73efe3}} 
+void {\bfseries save\+\_\+realization} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_afe0827a87f53f28dbfba699f362ed94f}\label{classcal_1_1mpi__atm__sim_afe0827a87f53f28dbfba699f362ed94f}} 
+M\+P\+I\+\_\+\+Comm {\bfseries comm} = M\+P\+I\+\_\+\+C\+O\+M\+M\+\_\+\+N\+U\+LL
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_af1fbeb01a0cec7f3e3e09057e3af4e92}\label{classcal_1_1mpi__atm__sim_af1fbeb01a0cec7f3e3e09057e3af4e92}} 
+std\+::string {\bfseries cachedir}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_ae564cf9fbbd1829e4994a1f6507087b0}\label{classcal_1_1mpi__atm__sim_ae564cf9fbbd1829e4994a1f6507087b0}} 
+int {\bfseries rank}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_af1fc79f86d7b26548a7b55c82fb823b5}\label{classcal_1_1mpi__atm__sim_af1fc79f86d7b26548a7b55c82fb823b5}} 
+int {\bfseries ntask}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a4d45b2a2ab7e557569872dc30adb62a3}\label{classcal_1_1mpi__atm__sim_a4d45b2a2ab7e557569872dc30adb62a3}} 
+int {\bfseries nthread}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a3ac2012ef5cbeb1f195143500f773204}\label{classcal_1_1mpi__atm__sim_a3ac2012ef5cbeb1f195143500f773204}} 
+int {\bfseries verbosity}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_ade9311e8ba47c48a5685f68c7f2d40bf}\label{classcal_1_1mpi__atm__sim_ade9311e8ba47c48a5685f68c7f2d40bf}} 
+uint64\+\_\+t {\bfseries key1}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_ac8768656cd73c04543fbfdd3ceafff4e}\label{classcal_1_1mpi__atm__sim_ac8768656cd73c04543fbfdd3ceafff4e}} 
+uint64\+\_\+t {\bfseries key2}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a142b6b68c6bb41a2483c88d3f05e69d4}\label{classcal_1_1mpi__atm__sim_a142b6b68c6bb41a2483c88d3f05e69d4}} 
+uint64\+\_\+t {\bfseries counter1}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a136683b61b544245839e1eb70acbabb0}\label{classcal_1_1mpi__atm__sim_a136683b61b544245839e1eb70acbabb0}} 
+uint64\+\_\+t {\bfseries counter2}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_aac520a46e25b978e58a6e311e1f5333e}\label{classcal_1_1mpi__atm__sim_aac520a46e25b978e58a6e311e1f5333e}} 
+uint64\+\_\+t {\bfseries counter1start}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a524afc18658c381418920478a6846ee3}\label{classcal_1_1mpi__atm__sim_a524afc18658c381418920478a6846ee3}} 
+uint64\+\_\+t {\bfseries counter2start}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a5912202a0d710f73b1baecd57b51bb09}\label{classcal_1_1mpi__atm__sim_a5912202a0d710f73b1baecd57b51bb09}} 
+double {\bfseries azmin}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a99a2983d8eab59100307aac80d175608}\label{classcal_1_1mpi__atm__sim_a99a2983d8eab59100307aac80d175608}} 
+double {\bfseries azmax}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a0331b41a47a8aa701a27477486787510}\label{classcal_1_1mpi__atm__sim_a0331b41a47a8aa701a27477486787510}} 
+double {\bfseries elmin}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a97d8ee5d84f9117fd9c0b3b00a8c2949}\label{classcal_1_1mpi__atm__sim_a97d8ee5d84f9117fd9c0b3b00a8c2949}} 
+double {\bfseries elmax}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a0d27ae7d4f2ad4136b3e751b64428495}\label{classcal_1_1mpi__atm__sim_a0d27ae7d4f2ad4136b3e751b64428495}} 
+double {\bfseries tmin}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_ae33f93711e9788bc922356546d14c627}\label{classcal_1_1mpi__atm__sim_ae33f93711e9788bc922356546d14c627}} 
+double {\bfseries tmax}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a7478ea3ea4924a4f87b1b2836afd77c2}\label{classcal_1_1mpi__atm__sim_a7478ea3ea4924a4f87b1b2836afd77c2}} 
+double {\bfseries sinel0}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a0a842cd51a2748677dbdf5835ccc708a}\label{classcal_1_1mpi__atm__sim_a0a842cd51a2748677dbdf5835ccc708a}} 
+double {\bfseries cosel0}
+\item 
+double \mbox{\hyperlink{classcal_1_1mpi__atm__sim_a565dc0bc8a483889547967690f946ae7}{tanmin}}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a54e368c8263e1e1ea891fec729de3ce3}\label{classcal_1_1mpi__atm__sim_a54e368c8263e1e1ea891fec729de3ce3}} 
+double {\bfseries tanmax}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_acb2c83146715970a925ee8d29071741e}\label{classcal_1_1mpi__atm__sim_acb2c83146715970a925ee8d29071741e}} 
+double {\bfseries lmin\+\_\+center}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a0645c4d17b0ab8a0406c9aef5f0262a0}\label{classcal_1_1mpi__atm__sim_a0645c4d17b0ab8a0406c9aef5f0262a0}} 
+double {\bfseries lmin\+\_\+sigma}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_ab8c4cf80726bb5000fa7d1b63d7d7088}\label{classcal_1_1mpi__atm__sim_ab8c4cf80726bb5000fa7d1b63d7d7088}} 
+double {\bfseries lmax\+\_\+center}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a5332a67826cb165eb9ea68649a1e1ef3}\label{classcal_1_1mpi__atm__sim_a5332a67826cb165eb9ea68649a1e1ef3}} 
+double {\bfseries lmax\+\_\+sigma}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_af0ca4a056314bc99b79a271c8af4ad92}\label{classcal_1_1mpi__atm__sim_af0ca4a056314bc99b79a271c8af4ad92}} 
+double {\bfseries w\+\_\+center}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a81d130e7eacda0ca536f8f36160beb58}\label{classcal_1_1mpi__atm__sim_a81d130e7eacda0ca536f8f36160beb58}} 
+double {\bfseries w\+\_\+sigma}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a505bb727fbf9968713dd2f943e986ada}\label{classcal_1_1mpi__atm__sim_a505bb727fbf9968713dd2f943e986ada}} 
+double {\bfseries wdir\+\_\+center}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a89cfe5b677e90a380e557f28ffa9fd9a}\label{classcal_1_1mpi__atm__sim_a89cfe5b677e90a380e557f28ffa9fd9a}} 
+double {\bfseries wdir\+\_\+sigma}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a793b3b18a8de7b18e09d8ed78330db55}\label{classcal_1_1mpi__atm__sim_a793b3b18a8de7b18e09d8ed78330db55}} 
+double {\bfseries z0\+\_\+center}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a12b4e6e228e22b77365af5a79e7dc658}\label{classcal_1_1mpi__atm__sim_a12b4e6e228e22b77365af5a79e7dc658}} 
+double {\bfseries z0\+\_\+sigma}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a8c67303a0241464ba3bfae6b71d90a07}\label{classcal_1_1mpi__atm__sim_a8c67303a0241464ba3bfae6b71d90a07}} 
+double {\bfseries T0\+\_\+center}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a46ce5889fc905141d3b457f031951d41}\label{classcal_1_1mpi__atm__sim_a46ce5889fc905141d3b457f031951d41}} 
+double {\bfseries T0\+\_\+sigma}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a823ff47e84d1f794be0dd186bbc9d0cd}\label{classcal_1_1mpi__atm__sim_a823ff47e84d1f794be0dd186bbc9d0cd}} 
+double {\bfseries z0inv}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a67642cc55826759556089e763caceab7}\label{classcal_1_1mpi__atm__sim_a67642cc55826759556089e763caceab7}} 
+double {\bfseries az0}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a1c76fc8f26d696b9011e7efd67b0925a}\label{classcal_1_1mpi__atm__sim_a1c76fc8f26d696b9011e7efd67b0925a}} 
+double {\bfseries el0}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a6b5f50016ac864d67dd66837bbc7d1b1}\label{classcal_1_1mpi__atm__sim_a6b5f50016ac864d67dd66837bbc7d1b1}} 
+double {\bfseries delta\+\_\+az}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_af5ab7489468b9223eeeca1dc859ddb85}\label{classcal_1_1mpi__atm__sim_af5ab7489468b9223eeeca1dc859ddb85}} 
+double {\bfseries delta\+\_\+el}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a4d3807ecec445ecc05130fa75a5e0742}\label{classcal_1_1mpi__atm__sim_a4d3807ecec445ecc05130fa75a5e0742}} 
+double {\bfseries delta\+\_\+t}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a1327bf5fb26a0116cc6c69169ad0cefc}\label{classcal_1_1mpi__atm__sim_a1327bf5fb26a0116cc6c69169ad0cefc}} 
+double {\bfseries zatm}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a7a0cc68a3e48bcf29305ade6aee53c77}\label{classcal_1_1mpi__atm__sim_a7a0cc68a3e48bcf29305ade6aee53c77}} 
+double {\bfseries zmax}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a3a5082207cd84eb46d0da3aadc3f87d7}\label{classcal_1_1mpi__atm__sim_a3a5082207cd84eb46d0da3aadc3f87d7}} 
+double {\bfseries xstep}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a02ae7e462d623c8253237a388ec71a13}\label{classcal_1_1mpi__atm__sim_a02ae7e462d623c8253237a388ec71a13}} 
+double {\bfseries ystep}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_acb403517f680ca52c2ba9f80c79d4315}\label{classcal_1_1mpi__atm__sim_acb403517f680ca52c2ba9f80c79d4315}} 
+double {\bfseries zstep}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a08c264a6374973022e197c1f680bdb39}\label{classcal_1_1mpi__atm__sim_a08c264a6374973022e197c1f680bdb39}} 
+double {\bfseries delta\+\_\+x}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a176f0d60c5e890a1a074014d12161920}\label{classcal_1_1mpi__atm__sim_a176f0d60c5e890a1a074014d12161920}} 
+double {\bfseries delta\+\_\+y}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_ab77053cf68f28c84a02dbc80ca032e82}\label{classcal_1_1mpi__atm__sim_ab77053cf68f28c84a02dbc80ca032e82}} 
+double {\bfseries delta\+\_\+z}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a299bee99c356a0ebfbdec3903482f45f}\label{classcal_1_1mpi__atm__sim_a299bee99c356a0ebfbdec3903482f45f}} 
+double {\bfseries xstart}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a2cfb84d000dc4d73fbe00d444462ca2b}\label{classcal_1_1mpi__atm__sim_a2cfb84d000dc4d73fbe00d444462ca2b}} 
+double {\bfseries ystart}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a8389174d2f6057ada27c266f32d3a138}\label{classcal_1_1mpi__atm__sim_a8389174d2f6057ada27c266f32d3a138}} 
+double {\bfseries zstart}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a7da4d2ea84dad9864d768b84baa10044}\label{classcal_1_1mpi__atm__sim_a7da4d2ea84dad9864d768b84baa10044}} 
+double {\bfseries xxstep}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_aedc6dad20ff5c1597d4727f91897aeee}\label{classcal_1_1mpi__atm__sim_aedc6dad20ff5c1597d4727f91897aeee}} 
+double {\bfseries yystep}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a76d1662fe163edb53e697e47e7e30bc6}\label{classcal_1_1mpi__atm__sim_a76d1662fe163edb53e697e47e7e30bc6}} 
+double {\bfseries zzstep}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a3f66117546b294e7d004a5a17589db5d}\label{classcal_1_1mpi__atm__sim_a3f66117546b294e7d004a5a17589db5d}} 
+double {\bfseries delta\+\_\+y\+\_\+cone}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a6777a2ba2247fc572789d8198d6e4686}\label{classcal_1_1mpi__atm__sim_a6777a2ba2247fc572789d8198d6e4686}} 
+double {\bfseries delta\+\_\+z\+\_\+cone}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a7d6fe2dee5110923a2778a17fd081213}\label{classcal_1_1mpi__atm__sim_a7d6fe2dee5110923a2778a17fd081213}} 
+double {\bfseries maxdist}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a5150c1ca5cd1cae11cbd1b78869ea8a9}\label{classcal_1_1mpi__atm__sim_a5150c1ca5cd1cae11cbd1b78869ea8a9}} 
+double {\bfseries xstepinv}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a29b6a5668736d9be5816fb9439eace61}\label{classcal_1_1mpi__atm__sim_a29b6a5668736d9be5816fb9439eace61}} 
+double {\bfseries ystepinv}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a842b1fcd9e3f630bd569608704aae7ac}\label{classcal_1_1mpi__atm__sim_a842b1fcd9e3f630bd569608704aae7ac}} 
+double {\bfseries zstepinv}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_ab34f8962bb69cf56c47bc680f970da4f}\label{classcal_1_1mpi__atm__sim_ab34f8962bb69cf56c47bc680f970da4f}} 
+long {\bfseries nx}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_abf3976f0f3453aa642c63e62c6dfd41c}\label{classcal_1_1mpi__atm__sim_abf3976f0f3453aa642c63e62c6dfd41c}} 
+long {\bfseries ny}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a5e588af01628be73b2c9d3c2a667a66d}\label{classcal_1_1mpi__atm__sim_a5e588af01628be73b2c9d3c2a667a66d}} 
+long {\bfseries nz}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_aeabb65479ba522da3bea04faaa653f25}\label{classcal_1_1mpi__atm__sim_aeabb65479ba522da3bea04faaa653f25}} 
+long {\bfseries nn}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a7f380eae646c31dd45c75cd519bf2cd6}\label{classcal_1_1mpi__atm__sim_a7f380eae646c31dd45c75cd519bf2cd6}} 
+long {\bfseries xstride}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a2170ab5e52448114cb7ec4515851eb14}\label{classcal_1_1mpi__atm__sim_a2170ab5e52448114cb7ec4515851eb14}} 
+long {\bfseries ystride}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_ad8c9389609a2b447ef7a81a34b09367d}\label{classcal_1_1mpi__atm__sim_ad8c9389609a2b447ef7a81a34b09367d}} 
+long {\bfseries zstride}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_af44287d2c04d783d857192c5f31f71b2}\label{classcal_1_1mpi__atm__sim_af44287d2c04d783d857192c5f31f71b2}} 
+double {\bfseries xstrideinv}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a1b98b01b9bb5cacc9f604e4510467944}\label{classcal_1_1mpi__atm__sim_a1b98b01b9bb5cacc9f604e4510467944}} 
+double {\bfseries ystrideinv}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a0e8d907e64c7822469b001f8eb1b8c4b}\label{classcal_1_1mpi__atm__sim_a0e8d907e64c7822469b001f8eb1b8c4b}} 
+double {\bfseries zstrideinv}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_ab66fcd9eb6b8b3d45ca5a79efd760415}\label{classcal_1_1mpi__atm__sim_ab66fcd9eb6b8b3d45ca5a79efd760415}} 
+size\+\_\+t {\bfseries nelem}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a55e9af957f175121176cb786101c97dc}\label{classcal_1_1mpi__atm__sim_a55e9af957f175121176cb786101c97dc}} 
+bool {\bfseries cached} = false
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a7e343eb9b39b31d1cf54c96c886dd0ba}\label{classcal_1_1mpi__atm__sim_a7e343eb9b39b31d1cf54c96c886dd0ba}} 
+double {\bfseries lmin}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a035e4eaa1b34d892f288d80ac9486dd7}\label{classcal_1_1mpi__atm__sim_a035e4eaa1b34d892f288d80ac9486dd7}} 
+double {\bfseries lmax}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_aa4a998ae82353d8aa547457138db78f6}\label{classcal_1_1mpi__atm__sim_aa4a998ae82353d8aa547457138db78f6}} 
+double {\bfseries w}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a6736272ba2fa7155825284eaa4b01aee}\label{classcal_1_1mpi__atm__sim_a6736272ba2fa7155825284eaa4b01aee}} 
+double {\bfseries wdir}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a63fa33e6d00281ed4073fd08f03c4acf}\label{classcal_1_1mpi__atm__sim_a63fa33e6d00281ed4073fd08f03c4acf}} 
+double {\bfseries z0}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_afa33a7e9f4a77917ff2c202b59d21477}\label{classcal_1_1mpi__atm__sim_afa33a7e9f4a77917ff2c202b59d21477}} 
+double {\bfseries T0}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a6708add0de6682d687978d2e7af11755}\label{classcal_1_1mpi__atm__sim_a6708add0de6682d687978d2e7af11755}} 
+double {\bfseries wx}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_ae59e7679de544839eac6c32a6eff7206}\label{classcal_1_1mpi__atm__sim_ae59e7679de544839eac6c32a6eff7206}} 
+double {\bfseries wy}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a12f4c4da2869e09c9b192b00ff59a2a5}\label{classcal_1_1mpi__atm__sim_a12f4c4da2869e09c9b192b00ff59a2a5}} 
+double {\bfseries wz}
+\item 
+long \mbox{\hyperlink{classcal_1_1mpi__atm__sim_a2a125c7eb5f3035072b4c3b226e602f8}{nr}}
+\item 
+long \mbox{\hyperlink{classcal_1_1mpi__atm__sim_a0eae386d18257e5ed689d742467d390d}{nelem\+\_\+sim\+\_\+max}}
+\item 
+double \mbox{\hyperlink{classcal_1_1mpi__atm__sim_a1b103396821703f7ae68472ac275dcc6}{rmin\+\_\+kolmo}}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a0d217c95d24af678d7226929eef04667}\label{classcal_1_1mpi__atm__sim_a0d217c95d24af678d7226929eef04667}} 
+double {\bfseries rmax\+\_\+kolmo}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a4966a6e9556f6efdb45695c68e96eb94}\label{classcal_1_1mpi__atm__sim_a4966a6e9556f6efdb45695c68e96eb94}} 
+double {\bfseries rstep}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_af238050760f3497c7d860164e57a7ace}\label{classcal_1_1mpi__atm__sim_af238050760f3497c7d860164e57a7ace}} 
+double {\bfseries rstep\+\_\+inv}
+\item 
+double \mbox{\hyperlink{classcal_1_1mpi__atm__sim_aaf0f5bce33029dd80e9863b271977894}{rcorr}}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a88181a77af732f55513cf01df4ca7359}\label{classcal_1_1mpi__atm__sim_a88181a77af732f55513cf01df4ca7359}} 
+double {\bfseries rcorrsq}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a1b0db8417076a77b055cd52dd65f368d}\label{classcal_1_1mpi__atm__sim_a1b0db8417076a77b055cd52dd65f368d}} 
+double {\bfseries corrlim}
+\item 
+double \mbox{\hyperlink{classcal_1_1mpi__atm__sim_ab741ee3a28ec4668e9ccd16757a96d01}{rmin}}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a4aaa022f0f505041c801a9a7060042fc}\label{classcal_1_1mpi__atm__sim_a4aaa022f0f505041c801a9a7060042fc}} 
+double {\bfseries rmax}
+\item 
+\mbox{\hyperlink{classcal_1_1mpi__shmem}{mpi\+\_\+shmem\+\_\+long}} $\ast$ \mbox{\hyperlink{classcal_1_1mpi__atm__sim_a34a4da442e435263906b8ea03936f690}{compressed\+\_\+index}} = N\+U\+LL
+\item 
+\mbox{\hyperlink{classcal_1_1mpi__shmem}{mpi\+\_\+shmem\+\_\+long}} $\ast$ \mbox{\hyperlink{classcal_1_1mpi__atm__sim_acd082378607d90f3ca6dd710f8634544}{full\+\_\+index}} = N\+U\+LL
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_aa6c2db4e29c6fcaa84634a1a6d6ccd51}\label{classcal_1_1mpi__atm__sim_aa6c2db4e29c6fcaa84634a1a6d6ccd51}} 
+cholmod\+\_\+common {\bfseries cholcommon}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_ac1713f42738611cd9cf42db43661d74f}\label{classcal_1_1mpi__atm__sim_ac1713f42738611cd9cf42db43661d74f}} 
+cholmod\+\_\+common $\ast$ {\bfseries chcommon}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a2c9dd839ed69bff642f17758060a7f72}\label{classcal_1_1mpi__atm__sim_a2c9dd839ed69bff642f17758060a7f72}} 
+\mbox{\hyperlink{classcal_1_1mpi__shmem}{mpi\+\_\+shmem\+\_\+double}} $\ast$ {\bfseries realization} = N\+U\+LL
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_afa424a239c2242bf80360c63221bfd91}\label{classcal_1_1mpi__atm__sim_afa424a239c2242bf80360c63221bfd91}} 
+std\+::vector$<$ double $>$ {\bfseries kolmo\+\_\+x}
+\item 
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a45e11ae50b2891f79f3c907feac17977}\label{classcal_1_1mpi__atm__sim_a45e11ae50b2891f79f3c907feac17977}} 
+std\+::vector$<$ double $>$ {\bfseries kolmo\+\_\+y}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Atmosphere creation, evolution and observation with M\+PI support. 
+
+\doxysubsection{Member Typedef Documentation}
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_abf42824b9beb670cc010ea44cc649640}\label{classcal_1_1mpi__atm__sim_abf42824b9beb670cc010ea44cc649640}} 
+\index{cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}!pshr@{pshr}}
+\index{pshr@{pshr}!cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}}
+\doxysubsubsection{\texorpdfstring{pshr}{pshr}}
+{\footnotesize\ttfamily typedef std\+::shared\+\_\+ptr$<$\mbox{\hyperlink{classcal_1_1mpi__atm__sim}{mpi\+\_\+atm\+\_\+sim}}$>$ \mbox{\hyperlink{classcal_1_1mpi__atm__sim_abf42824b9beb670cc010ea44cc649640}{cal\+::mpi\+\_\+atm\+\_\+sim\+::pshr}}}
+
+Helper name for shared pointer (Objects of shared\+\_\+ptr types have the ability of taking ownership of a pointer and share that ownership\+: once they take ownership, the group of owners of a pointer become responsible for its deletion when the last one of them releases that ownership.) \mbox{\Hypertarget{classcal_1_1mpi__atm__sim_add9711542d8f0a61908f606e50c8cedc}\label{classcal_1_1mpi__atm__sim_add9711542d8f0a61908f606e50c8cedc}} 
+\index{cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}!puniq@{puniq}}
+\index{puniq@{puniq}!cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}}
+\doxysubsubsection{\texorpdfstring{puniq}{puniq}}
+{\footnotesize\ttfamily typedef std\+::unique\+\_\+ptr$<$\mbox{\hyperlink{classcal_1_1mpi__atm__sim}{mpi\+\_\+atm\+\_\+sim}}$>$ \mbox{\hyperlink{classcal_1_1mpi__atm__sim_add9711542d8f0a61908f606e50c8cedc}{cal\+::mpi\+\_\+atm\+\_\+sim\+::puniq}}}
+
+Helper name for unique pointer (These objects have the ability of taking ownership of a pointer\+: once they take ownership they manage the pointed object by becoming responsible for its deletion at some point. The unique\+\_\+ptr objects automatically delete the object they manage (using a deleter) as soon as they themselves are destroyed, or as soon as their value changes either by an assignment operation or by an explicit call to unique\+\_\+ptr\+::reset. ) 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_acde90f60b6705631bac070390b314e0e}\label{classcal_1_1mpi__atm__sim_acde90f60b6705631bac070390b314e0e}} 
+\index{cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}!mpi\_atm\_sim@{mpi\_atm\_sim}}
+\index{mpi\_atm\_sim@{mpi\_atm\_sim}!cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}}
+\doxysubsubsection{\texorpdfstring{mpi\_atm\_sim()}{mpi\_atm\_sim()}}
+{\footnotesize\ttfamily cal\+::mpi\+\_\+atm\+\_\+sim\+::mpi\+\_\+atm\+\_\+sim (\begin{DoxyParamCaption}\item[{double}]{azmin,  }\item[{double}]{azmax,  }\item[{double}]{elmin,  }\item[{double}]{elmax,  }\item[{double}]{tmin,  }\item[{double}]{tmax,  }\item[{double}]{lmin\+\_\+center = {\ttfamily .01},  }\item[{double}]{lmin\+\_\+sigma = {\ttfamily .001},  }\item[{double}]{lmax\+\_\+center = {\ttfamily 10},  }\item[{double}]{lmax\+\_\+sigma = {\ttfamily 10},  }\item[{double}]{w\+\_\+center = {\ttfamily 25},  }\item[{double}]{w\+\_\+sigma = {\ttfamily 10},  }\item[{double}]{wdir\+\_\+center = {\ttfamily 0},  }\item[{double}]{wdir\+\_\+sigma = {\ttfamily 100},  }\item[{double}]{z0\+\_\+center = {\ttfamily 2000},  }\item[{double}]{z0\+\_\+sigma = {\ttfamily 0},  }\item[{double}]{T0\+\_\+center = {\ttfamily 280},  }\item[{double}]{T0\+\_\+sigma = {\ttfamily 10},  }\item[{double}]{zatm = {\ttfamily 40000},  }\item[{double}]{zmax = {\ttfamily 2000},  }\item[{double}]{xstep = {\ttfamily 100},  }\item[{double}]{ystep = {\ttfamily 100},  }\item[{double}]{zstep = {\ttfamily 100},  }\item[{long}]{nelem\+\_\+sim\+\_\+max = {\ttfamily 1000},  }\item[{int}]{verbosity = {\ttfamily 0},  }\item[{M\+P\+I\+\_\+\+Comm}]{comm = {\ttfamily MPI\+\_\+COMM\+\_\+WORLD},  }\item[{uint64\+\_\+t}]{key1 = {\ttfamily 0},  }\item[{uint64\+\_\+t}]{key2 = {\ttfamily 0},  }\item[{uint64\+\_\+t}]{counterval1 = {\ttfamily 0},  }\item[{uint64\+\_\+t}]{counterval2 = {\ttfamily 0},  }\item[{std\+::string}]{cachedir = {\ttfamily std\+:\+:string()},  }\item[{double}]{rmin = {\ttfamily 0},  }\item[{double}]{rmax = {\ttfamily 10000} }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em azmin} & C\+ES azimutal range \\
+\hline
+{\em azmax} & C\+ES azimutal range \\
+\hline
+{\em elmin} & C\+ES elevation range \\
+\hline
+{\em elmax} & C\+ES elevation range \\
+\hline
+{\em tmin} & C\+ES time range \\
+\hline
+{\em tmax} & C\+ES time range \\
+\hline
+{\em lmin\+\_\+center} & Dissipation scale of the Kolmogorov turbulence \mbox{[}m\mbox{]} with its sigma \\
+\hline
+{\em lmax\+\_\+center} & Injection scale of the Kolmogorov turbulence \mbox{[}m\mbox{]} with its sigma \\
+\hline
+{\em w\+\_\+center} & Wind speed \mbox{[}m/s\mbox{]} with its sigma \\
+\hline
+{\em wdir\+\_\+center} & Wind direction \mbox{[}radians\mbox{]} with its sigma \\
+\hline
+{\em z0\+\_\+center} & Water vapor distribution \mbox{[}m\mbox{]} with its sigma \\
+\hline
+{\em T0\+\_\+center} & Ground temperature \mbox{[}K\mbox{]} with its sigma \\
+\hline
+{\em zatm} & Atmosphere extent for temperature profile \mbox{[}m\mbox{]} \\
+\hline
+{\em zmax} & Water vapor extent for integration \mbox{[}m\mbox{]} \\
+\hline
+{\em xstep} & Size of the volume elements \mbox{[}elements\mbox{]} \\
+\hline
+{\em nelem\+\_\+sim\+\_\+max} & Size of the simulation slices \mbox{[}elements\mbox{]} \\
+\hline
+{\em verbosity} & Verbosity \mbox{[}bool\mbox{]} \\
+\hline
+{\em key1} & The R\+NG keys. In this constructur the \mbox{\hyperlink{classcal_1_1atm__sim}{atm\+\_\+sim}} R\+NG has two different keys, key1 and key2 \\
+\hline
+{\em counterval1} & The R\+NG counters\+: counterval1 and 2. Define the quantity of numbers that every thrads have to extract. \\
+\hline
+{\em cachedir} & The chacedir is used by the class in order to save atmospheric realizations in order to save time for multi-\/color simulation. The same atmosphere is just scaling for the extintion (provided by lib A\+A\+TM) \\
+\hline
+{\em rmin} & Line-\/of-\/sight observing limit \mbox{[}m\mbox{]} (rmin and rmax by default 0, 10000) \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_add5e6b1af0cefd6f3b91ff143d029548}\label{classcal_1_1mpi__atm__sim_add5e6b1af0cefd6f3b91ff143d029548}} 
+\index{cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}!````~mpi\_atm\_sim@{$\sim$mpi\_atm\_sim}}
+\index{````~mpi\_atm\_sim@{$\sim$mpi\_atm\_sim}!cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}}
+\doxysubsubsection{\texorpdfstring{$\sim$mpi\_atm\_sim()}{~mpi\_atm\_sim()}}
+{\footnotesize\ttfamily cal\+::mpi\+\_\+atm\+\_\+sim\+::$\sim$mpi\+\_\+atm\+\_\+sim (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+We don\textquotesingle{}t neet a D\+T\+OR carefully definition. The unique\+\_\+ptr(s) are authomatically free once they are derefenced. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a9a45e22f3fe7856742c860e0c3a5cd88}\label{classcal_1_1mpi__atm__sim_a9a45e22f3fe7856742c860e0c3a5cd88}} 
+\index{cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}!apply\_sparse\_covariance@{apply\_sparse\_covariance}}
+\index{apply\_sparse\_covariance@{apply\_sparse\_covariance}!cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}}
+\doxysubsubsection{\texorpdfstring{apply\_sparse\_covariance()}{apply\_sparse\_covariance()}}
+{\footnotesize\ttfamily void cal\+::mpi\+\_\+atm\+\_\+sim\+::apply\+\_\+sparse\+\_\+covariance (\begin{DoxyParamCaption}\item[{cholmod\+\_\+sparse $\ast$}]{sqrt\+\_\+cov,  }\item[{long}]{ind\+\_\+start,  }\item[{long}]{ind\+\_\+stop }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+Create a realization out of the square root covariance matrix
+
+Apply the Cholesky-\/decomposed (square-\/root) sparse covariance matrix to a vector of Gaussian random numbers to impose the desired correlation properties.
+
+Copy the slice realization over appropriate indices in the full realization F\+I\+X\+ME\+: This is where we would blend slices \mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a41a32382f158d3465ef1c61209782ac1}\label{classcal_1_1mpi__atm__sim_a41a32382f158d3465ef1c61209782ac1}} 
+\index{cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}!build\_sparse\_covariance@{build\_sparse\_covariance}}
+\index{build\_sparse\_covariance@{build\_sparse\_covariance}!cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}}
+\doxysubsubsection{\texorpdfstring{build\_sparse\_covariance()}{build\_sparse\_covariance()}}
+{\footnotesize\ttfamily cholmod\+\_\+sparse $\ast$ cal\+::mpi\+\_\+atm\+\_\+sim\+::build\+\_\+sparse\+\_\+covariance (\begin{DoxyParamCaption}\item[{long}]{ind\+\_\+start,  }\item[{long}]{ind\+\_\+stop }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+Build a sparse covariance matrix first in the triplet form then cast it to the column-\/packed format. \mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a0e6e97d40f52f7722dc9ecfd4c80b854}\label{classcal_1_1mpi__atm__sim_a0e6e97d40f52f7722dc9ecfd4c80b854}} 
+\index{cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}!compress\_volume@{compress\_volume}}
+\index{compress\_volume@{compress\_volume}!cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}}
+\doxysubsubsection{\texorpdfstring{compress\_volume()}{compress\_volume()}}
+{\footnotesize\ttfamily void cal\+::mpi\+\_\+atm\+\_\+sim\+::compress\+\_\+volume (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+Find the volume elements really needed
+
+Establish a mapping between full volume indices and observed volume indices. \mbox{\Hypertarget{classcal_1_1mpi__atm__sim_addaac0ae73aac5a931ec4a0bcb925ed8}\label{classcal_1_1mpi__atm__sim_addaac0ae73aac5a931ec4a0bcb925ed8}} 
+\index{cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}!coord2ind@{coord2ind}}
+\index{coord2ind@{coord2ind}!cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}}
+\doxysubsubsection{\texorpdfstring{coord2ind()}{coord2ind()}}
+{\footnotesize\ttfamily long cal\+::mpi\+\_\+atm\+\_\+sim\+::coord2ind (\begin{DoxyParamCaption}\item[{double}]{x,  }\item[{double}]{y,  }\item[{double}]{z }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+X Y Z -\/ coordinates to Compressed index
+
+Translate scan frame xyz-\/coordinates into a compressed index \mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a10b842b6e86b9956b103d1d6d242769c}\label{classcal_1_1mpi__atm__sim_a10b842b6e86b9956b103d1d6d242769c}} 
+\index{cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}!cov\_eval@{cov\_eval}}
+\index{cov\_eval@{cov\_eval}!cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}}
+\doxysubsubsection{\texorpdfstring{cov\_eval()}{cov\_eval()}}
+{\footnotesize\ttfamily double cal\+::mpi\+\_\+atm\+\_\+sim\+::cov\+\_\+eval (\begin{DoxyParamCaption}\item[{double $\ast$}]{coord1,  }\item[{double $\ast$}]{coord2 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+Evaluate the covariance matrix
+
+Evaluate the atmospheric absorption covariance between two coordinates Church (1995) Eq.(6) \& (9). Coordinates are in the horizontal frame.
+
+A smoothing kernel can be applied to the covariance matrix. To activate the smoothing you have to uncomment the lines\+: {\ttfamily U\+N\+C\+O\+M\+M\+E\+N\+T\+ER F\+OR S\+M\+O\+O\+TH} \mbox{\Hypertarget{classcal_1_1mpi__atm__sim_ab3b68a9b3d9a1771b0a2819e19ee2292}\label{classcal_1_1mpi__atm__sim_ab3b68a9b3d9a1771b0a2819e19ee2292}} 
+\index{cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}!draw@{draw}}
+\index{draw@{draw}!cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily void cal\+::mpi\+\_\+atm\+\_\+sim\+::draw (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+Draw values of lmin, lmax, w, wdir T0 (and optionally z0).
+
+Draw 10 000 gaussian variates to use in the drawing the simulation parameters
+
+Precalculate the ratio for covariance
+
+The wind is parallel to the surface, and it\textquotesingle{}s indipendent to z. It\textquotesingle{}s a good practice transform the coordinate in order to rotate the frame where the scan is across the X-\/axis.
+
+We take into account the opposite of the wind speed v = -\/v, in this way we can apply this to the telescope position. By example, S. Church 1995 (the paragraph of the wind) \mbox{\Hypertarget{classcal_1_1mpi__atm__sim_ab0a7384394f30859b92d1a7449358245}\label{classcal_1_1mpi__atm__sim_ab0a7384394f30859b92d1a7449358245}} 
+\index{cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}!get\_slice@{get\_slice}}
+\index{get\_slice@{get\_slice}!cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}}
+\doxysubsubsection{\texorpdfstring{get\_slice()}{get\_slice()}}
+{\footnotesize\ttfamily void cal\+::mpi\+\_\+atm\+\_\+sim\+::get\+\_\+slice (\begin{DoxyParamCaption}\item[{long \&}]{ind\+\_\+start,  }\item[{long \&}]{ind\+\_\+stop }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+Find the next range of compressed indices to simulate
+
+Identify a manageable slice of compressed indices to simulate next move element counter to the end of the most recent simulated slice \mbox{\Hypertarget{classcal_1_1mpi__atm__sim_af3f82895dc6b9d7428287097169e23e2}\label{classcal_1_1mpi__atm__sim_af3f82895dc6b9d7428287097169e23e2}} 
+\index{cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}!get\_volume@{get\_volume}}
+\index{get\_volume@{get\_volume}!cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}}
+\doxysubsubsection{\texorpdfstring{get\_volume()}{get\_volume()}}
+{\footnotesize\ttfamily void cal\+::mpi\+\_\+atm\+\_\+sim\+::get\+\_\+volume (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+Determine the rectangular volume needed
+
+Trim zmax if rmax sets a more stringent limit Horizontal volume Cone witdth \mbox{\Hypertarget{classcal_1_1mpi__atm__sim_add80419c1a7fc88b21fafb026dcc3d66}\label{classcal_1_1mpi__atm__sim_add80419c1a7fc88b21fafb026dcc3d66}} 
+\index{cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}!in\_cone@{in\_cone}}
+\index{in\_cone@{in\_cone}!cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}}
+\doxysubsubsection{\texorpdfstring{in\_cone()}{in\_cone()}}
+{\footnotesize\ttfamily bool cal\+::mpi\+\_\+atm\+\_\+sim\+::in\+\_\+cone (\begin{DoxyParamCaption}\item[{double}]{x,  }\item[{double}]{y,  }\item[{double}]{z,  }\item[{double}]{t\+\_\+in = {\ttfamily -\/1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+determine of the given coordinates are within observed volume
+
+Input coordinates are in the scan frame, rotate to horizontal frame \mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a54b67379b62c3b1a86690c3f7d126bcb}\label{classcal_1_1mpi__atm__sim_a54b67379b62c3b1a86690c3f7d126bcb}} 
+\index{cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}!ind2coord@{ind2coord}}
+\index{ind2coord@{ind2coord}!cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}}
+\doxysubsubsection{\texorpdfstring{ind2coord()}{ind2coord()}}
+{\footnotesize\ttfamily void cal\+::mpi\+\_\+atm\+\_\+sim\+::ind2coord (\begin{DoxyParamCaption}\item[{long}]{i,  }\item[{double $\ast$}]{coord }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+Compressed index to X Y Z -\/ coordinates
+
+Translate a compressed index into xyz-\/coordinates in the horizontal frame x, y, z are the coordinates in the scan frame, coord\mbox{[}0,1,2\mbox{]} are the coordinates in the horizontal frame \mbox{\Hypertarget{classcal_1_1mpi__atm__sim_aa5c52f70344da8885c0f83cc4ac39ff2}\label{classcal_1_1mpi__atm__sim_aa5c52f70344da8885c0f83cc4ac39ff2}} 
+\index{cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}!initialize\_kolmogorov@{initialize\_kolmogorov}}
+\index{initialize\_kolmogorov@{initialize\_kolmogorov}!cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}}
+\doxysubsubsection{\texorpdfstring{initialize\_kolmogorov()}{initialize\_kolmogorov()}}
+{\footnotesize\ttfamily void cal\+::mpi\+\_\+atm\+\_\+sim\+::initialize\+\_\+kolmogorov (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+Integrate the correlation from the Kolmorov spectrum
+
+Numerically integrate the modified Kolmogorov correlation function at grid points. We integrate down from 10$\ast$kappamax to 0 for numerical precision. \mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a58998faf6f9fcad0c3b389ba94304371}\label{classcal_1_1mpi__atm__sim_a58998faf6f9fcad0c3b389ba94304371}} 
+\index{cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}!interp@{interp}}
+\index{interp@{interp}!cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}}
+\doxysubsubsection{\texorpdfstring{interp()}{interp()}}
+{\footnotesize\ttfamily double cal\+::mpi\+\_\+atm\+\_\+sim\+::interp (\begin{DoxyParamCaption}\item[{double}]{x,  }\item[{double}]{y,  }\item[{double}]{z,  }\item[{std\+::vector$<$ long $>$ \&}]{last\+\_\+ind,  }\item[{std\+::vector$<$ double $>$ \&}]{last\+\_\+nodes }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+Interpolate the realization value to given coordinates \mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a4c3d9def372814fa429a8ad20e9f9e67}\label{classcal_1_1mpi__atm__sim_a4c3d9def372814fa429a8ad20e9f9e67}} 
+\index{cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}!kolmogorov@{kolmogorov}}
+\index{kolmogorov@{kolmogorov}!cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}}
+\doxysubsubsection{\texorpdfstring{kolmogorov()}{kolmogorov()}}
+{\footnotesize\ttfamily double cal\+::mpi\+\_\+atm\+\_\+sim\+::kolmogorov (\begin{DoxyParamCaption}\item[{double}]{r }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+Interpolate the correlation from precomputed grid
+
+Return the autocovariance of a Kolmogorov process at at separation r. Simple linear interpolation for now. Use a bisection method to find the rigth elements. \mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a7fba376df3be33c52ba21aeabaf00e6d}\label{classcal_1_1mpi__atm__sim_a7fba376df3be33c52ba21aeabaf00e6d}} 
+\index{cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}!observe@{observe}}
+\index{observe@{observe}!cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}}
+\doxysubsubsection{\texorpdfstring{observe()}{observe()}}
+{\footnotesize\ttfamily int cal\+::mpi\+\_\+atm\+\_\+sim\+::observe (\begin{DoxyParamCaption}\item[{double $\ast$}]{t,  }\item[{double $\ast$}]{az,  }\item[{double $\ast$}]{el,  }\item[{double $\ast$}]{tod,  }\item[{long}]{nsamp,  }\item[{double}]{fixed\+\_\+r = {\ttfamily -\/1} }\end{DoxyParamCaption})}
+
+Observe the atmosphere at that specific time along a specific line of sight
+
+For each sample, integrate alogn the line of sight by summing the atmosphere values. See Church (1995) Section 2.\+2 first equation. We omit the optical depth fatction which is close to unity.
+
+Coordinates at distance r. The scan is centered on the X-\/axis. Check if the top of the focal plane hits Z-\/\+M\+AX at this distance. This way all lines-\/of-\/sight get integrated to the same distance
+
+The observe frame is co-\/moving with the wind.
+
+Combine atmospheric emission (via interpolation) with the ambient temperature. Note that the r$^\wedge$2 (beam area) and 1/r$^\wedge$2 (source distance) factors cancel in the integral. Relative to the center of field\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_ab3e9a8a4e02d7cf637f453c979c1b0e0}\label{classcal_1_1mpi__atm__sim_ab3e9a8a4e02d7cf637f453c979c1b0e0}} 
+\index{cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}!print@{print}}
+\index{print@{print}!cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}}
+\doxysubsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void cal\+::mpi\+\_\+atm\+\_\+sim\+::print (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{out = {\ttfamily std\+:\+:cout} }\end{DoxyParamCaption}) const}
+
+Helper function for print \mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a52c1496f8a7aed634b509e873ff1aae8}\label{classcal_1_1mpi__atm__sim_a52c1496f8a7aed634b509e873ff1aae8}} 
+\index{cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}!simulate@{simulate}}
+\index{simulate@{simulate}!cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}}
+\doxysubsubsection{\texorpdfstring{simulate()}{simulate()}}
+{\footnotesize\ttfamily int cal\+::mpi\+\_\+atm\+\_\+sim\+::simulate (\begin{DoxyParamCaption}\item[{bool}]{use\+\_\+cache }\end{DoxyParamCaption})}
+
+Simulate the atmosphere time evolution
+
+Simulate the atmosphere in indipendent slices, each slice is assigned at one process. \mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a510f7befa1310831fb9553de4d273d18}\label{classcal_1_1mpi__atm__sim_a510f7befa1310831fb9553de4d273d18}} 
+\index{cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}!smooth@{smooth}}
+\index{smooth@{smooth}!cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}}
+\doxysubsubsection{\texorpdfstring{smooth()}{smooth()}}
+{\footnotesize\ttfamily void cal\+::mpi\+\_\+atm\+\_\+sim\+::smooth (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+Smooths the realization
+
+Replace each vertex with a mean of its first-\/\+N-\/neighbors. The smoothing length is driven by the w parameter. In this implementation w = 3 \mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a104df232c41e3b88e67d16d07c5e9a38}\label{classcal_1_1mpi__atm__sim_a104df232c41e3b88e67d16d07c5e9a38}} 
+\index{cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}!sqrt\_sparse\_covariance@{sqrt\_sparse\_covariance}}
+\index{sqrt\_sparse\_covariance@{sqrt\_sparse\_covariance}!cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}}
+\doxysubsubsection{\texorpdfstring{sqrt\_sparse\_covariance()}{sqrt\_sparse\_covariance()}}
+{\footnotesize\ttfamily cholmod\+\_\+sparse $\ast$ cal\+::mpi\+\_\+atm\+\_\+sim\+::sqrt\+\_\+sparse\+\_\+covariance (\begin{DoxyParamCaption}\item[{cholmod\+\_\+sparse $\ast$}]{cov,  }\item[{long}]{ind\+\_\+start,  }\item[{long}]{ind\+\_\+stop }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+Use the atmospheric parameters for volume element covariance Cholesky decompose (square root) the covariance matrix
+
+Cholesky-\/factorize the provided sparse matrix and return the sparse matrix representation of the factorization
+
+Extract band diagonal of the matrix and try factorizing again int ndiag = ntry -\/ itry -\/ 1; 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a34a4da442e435263906b8ea03936f690}\label{classcal_1_1mpi__atm__sim_a34a4da442e435263906b8ea03936f690}} 
+\index{cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}!compressed\_index@{compressed\_index}}
+\index{compressed\_index@{compressed\_index}!cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}}
+\doxysubsubsection{\texorpdfstring{compressed\_index}{compressed\_index}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcal_1_1mpi__shmem}{mpi\+\_\+shmem\+\_\+long}}$\ast$ cal\+::mpi\+\_\+atm\+\_\+sim\+::compressed\+\_\+index = N\+U\+LL\hspace{0.3cm}{\ttfamily [private]}}
+
+Mapping between full volume and observation cone \mbox{\Hypertarget{classcal_1_1mpi__atm__sim_acd082378607d90f3ca6dd710f8634544}\label{classcal_1_1mpi__atm__sim_acd082378607d90f3ca6dd710f8634544}} 
+\index{cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}!full\_index@{full\_index}}
+\index{full\_index@{full\_index}!cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}}
+\doxysubsubsection{\texorpdfstring{full\_index}{full\_index}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcal_1_1mpi__shmem}{mpi\+\_\+shmem\+\_\+long}}$\ast$ cal\+::mpi\+\_\+atm\+\_\+sim\+::full\+\_\+index = N\+U\+LL\hspace{0.3cm}{\ttfamily [private]}}
+
+Inverse mapping between full volume and observation cone \mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a0eae386d18257e5ed689d742467d390d}\label{classcal_1_1mpi__atm__sim_a0eae386d18257e5ed689d742467d390d}} 
+\index{cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}!nelem\_sim\_max@{nelem\_sim\_max}}
+\index{nelem\_sim\_max@{nelem\_sim\_max}!cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}}
+\doxysubsubsection{\texorpdfstring{nelem\_sim\_max}{nelem\_sim\_max}}
+{\footnotesize\ttfamily long cal\+::mpi\+\_\+atm\+\_\+sim\+::nelem\+\_\+sim\+\_\+max\hspace{0.3cm}{\ttfamily [private]}}
+
+Size of the independent X-\/direction slices \mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a2a125c7eb5f3035072b4c3b226e602f8}\label{classcal_1_1mpi__atm__sim_a2a125c7eb5f3035072b4c3b226e602f8}} 
+\index{cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}!nr@{nr}}
+\index{nr@{nr}!cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}}
+\doxysubsubsection{\texorpdfstring{nr}{nr}}
+{\footnotesize\ttfamily long cal\+::mpi\+\_\+atm\+\_\+sim\+::nr\hspace{0.3cm}{\ttfamily [private]}}
+
+Number of steps in the Kolmogorov grid \mbox{\Hypertarget{classcal_1_1mpi__atm__sim_aaf0f5bce33029dd80e9863b271977894}\label{classcal_1_1mpi__atm__sim_aaf0f5bce33029dd80e9863b271977894}} 
+\index{cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}!rcorr@{rcorr}}
+\index{rcorr@{rcorr}!cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}}
+\doxysubsubsection{\texorpdfstring{rcorr}{rcorr}}
+{\footnotesize\ttfamily double cal\+::mpi\+\_\+atm\+\_\+sim\+::rcorr\hspace{0.3cm}{\ttfamily [private]}}
+
+Correlation length \mbox{\Hypertarget{classcal_1_1mpi__atm__sim_ab741ee3a28ec4668e9ccd16757a96d01}\label{classcal_1_1mpi__atm__sim_ab741ee3a28ec4668e9ccd16757a96d01}} 
+\index{cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}!rmin@{rmin}}
+\index{rmin@{rmin}!cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}}
+\doxysubsubsection{\texorpdfstring{rmin}{rmin}}
+{\footnotesize\ttfamily double cal\+::mpi\+\_\+atm\+\_\+sim\+::rmin\hspace{0.3cm}{\ttfamily [private]}}
+
+Line-\/of-\/sight integration limits \mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a1b103396821703f7ae68472ac275dcc6}\label{classcal_1_1mpi__atm__sim_a1b103396821703f7ae68472ac275dcc6}} 
+\index{cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}!rmin\_kolmo@{rmin\_kolmo}}
+\index{rmin\_kolmo@{rmin\_kolmo}!cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}}
+\doxysubsubsection{\texorpdfstring{rmin\_kolmo}{rmin\_kolmo}}
+{\footnotesize\ttfamily double cal\+::mpi\+\_\+atm\+\_\+sim\+::rmin\+\_\+kolmo\hspace{0.3cm}{\ttfamily [private]}}
+
+Kolmogorov correlation grid \mbox{\Hypertarget{classcal_1_1mpi__atm__sim_a565dc0bc8a483889547967690f946ae7}\label{classcal_1_1mpi__atm__sim_a565dc0bc8a483889547967690f946ae7}} 
+\index{cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}!tanmin@{tanmin}}
+\index{tanmin@{tanmin}!cal::mpi\_atm\_sim@{cal::mpi\_atm\_sim}}
+\doxysubsubsection{\texorpdfstring{tanmin}{tanmin}}
+{\footnotesize\ttfamily double cal\+::mpi\+\_\+atm\+\_\+sim\+::tanmin\hspace{0.3cm}{\ttfamily [private]}}
+
+Helper coordinate for the in-\/cone calculation 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/algebrato/\+Progetti/\+C\+M\+B4\+G/libcal/src/libcal\+\_\+mpi/include/C\+A\+L\+\_\+\+M\+P\+I\+\_\+\+Atm\+Sim.\+hpp\item 
+/home/algebrato/\+Progetti/\+C\+M\+B4\+G/libcal/src/libcal\+\_\+mpi/src/C\+A\+L\+\_\+\+M\+P\+I\+\_\+\+Atm\+Sim.\+cpp\item 
+/home/algebrato/\+Progetti/\+C\+M\+B4\+G/libcal/src/libcal\+\_\+mpi/src/compress\+\_\+volume.\+cpp\item 
+/home/algebrato/\+Progetti/\+C\+M\+B4\+G/libcal/src/libcal\+\_\+mpi/src/coord\+\_\+transform.\+cpp\item 
+/home/algebrato/\+Progetti/\+C\+M\+B4\+G/libcal/src/libcal\+\_\+mpi/src/covariance\+\_\+apply.\+cpp\item 
+/home/algebrato/\+Progetti/\+C\+M\+B4\+G/libcal/src/libcal\+\_\+mpi/src/covariance\+\_\+build.\+cpp\item 
+/home/algebrato/\+Progetti/\+C\+M\+B4\+G/libcal/src/libcal\+\_\+mpi/src/covariance\+\_\+eval.\+cpp\item 
+/home/algebrato/\+Progetti/\+C\+M\+B4\+G/libcal/src/libcal\+\_\+mpi/src/covariance\+\_\+square.\+cpp\item 
+/home/algebrato/\+Progetti/\+C\+M\+B4\+G/libcal/src/libcal\+\_\+mpi/src/draw.\+cpp\item 
+/home/algebrato/\+Progetti/\+C\+M\+B4\+G/libcal/src/libcal\+\_\+mpi/src/get\+\_\+slice.\+cpp\item 
+/home/algebrato/\+Progetti/\+C\+M\+B4\+G/libcal/src/libcal\+\_\+mpi/src/get\+\_\+volume.\+cpp\item 
+/home/algebrato/\+Progetti/\+C\+M\+B4\+G/libcal/src/libcal\+\_\+mpi/src/in\+\_\+cone.\+cpp\item 
+/home/algebrato/\+Progetti/\+C\+M\+B4\+G/libcal/src/libcal\+\_\+mpi/src/kolmogorov\+\_\+init.\+cpp\item 
+/home/algebrato/\+Progetti/\+C\+M\+B4\+G/libcal/src/libcal\+\_\+mpi/src/kolmovorov\+\_\+autocov.\+cpp\item 
+/home/algebrato/\+Progetti/\+C\+M\+B4\+G/libcal/src/libcal\+\_\+mpi/src/load\+\_\+save\+\_\+realization.\+cpp\item 
+/home/algebrato/\+Progetti/\+C\+M\+B4\+G/libcal/src/libcal\+\_\+mpi/src/observe.\+cpp\item 
+/home/algebrato/\+Progetti/\+C\+M\+B4\+G/libcal/src/libcal\+\_\+mpi/src/print.\+cpp\item 
+/home/algebrato/\+Progetti/\+C\+M\+B4\+G/libcal/src/libcal\+\_\+mpi/src/simulation.\+cpp\item 
+/home/algebrato/\+Progetti/\+C\+M\+B4\+G/libcal/src/libcal\+\_\+mpi/src/smooth\+\_\+interpolation.\+cpp\item 
+/home/algebrato/\+Progetti/\+C\+M\+B4\+G/libcal/src/libcal\+\_\+mpi/src/smoothing\+\_\+kernel.\+cpp\end{DoxyCompactItemize}
