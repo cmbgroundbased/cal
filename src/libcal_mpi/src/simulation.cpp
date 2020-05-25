@@ -4,20 +4,7 @@
    a BSD-style license that can be found in the LICENSE file.
  */
 
-#include <CALAtmSim.hpp>
-#include <sys_utils.hpp>
-#include <sys_env.hpp>
-#include <math_rng.hpp>
-// #inluce <qualcosa per PRNG>
-
-#include <sstream>
-#include <iostream>
-#include <fstream>
-#include <cstring>
-#include <random>    // Ha un sacco di generatori
-#include <functional>
-#include <cmath>
-#include <algorithm> // per fare il std::sort
+#include <CAL_MPI_AtmSim.hpp>
 
 /** Simulate the atmosphere in indipendent slices, each slice is assigned at one process. */
 int cal::mpi_atm_sim::simulate(bool use_cache)
@@ -35,7 +22,7 @@ int cal::mpi_atm_sim::simulate(bool use_cache)
         compress_volume();
 
         if(rank == 0 and verbosity > 0)
-            std:cerr << "Resizing to " << nelem << std::endl;
+            std::cerr << "Resizing to " << nelem << std::endl;
 
         try {
             realization = new mpi_shmem_double(nelem, comm);
@@ -76,7 +63,7 @@ int cal::mpi_atm_sim::simulate(bool use_cache)
         }
         // smooth();
 
-        // Process Synchronize 
+        // Process Synchronize
         MPI_Barrier(comm);
         double t2 = MPI_Wtime();
 

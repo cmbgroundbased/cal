@@ -4,20 +4,8 @@
    a BSD-style license that can be found in the LICENSE file.
  */
 
-#include <CALAtmSim.hpp>
-#include <sys_utils.hpp>
-#include <sys_env.hpp>
-#include <math_rng.hpp>
-// #inluce <qualcosa per PRNG>
-
-#include <sstream>
-#include <iostream>
+#include <CAL_MPI_AtmSim.hpp>
 #include <fstream>
-#include <cstring>
-#include <random>    // Ha un sacco di generatori
-#include <functional>
-#include <cmath>
-#include <algorithm> // per fare il std::sort
 
 void cal::mpi_atm_sim::load_realization() {
     cached = false;

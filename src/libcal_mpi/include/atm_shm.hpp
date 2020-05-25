@@ -167,7 +167,7 @@ class mpi_shmem {
         T * resize(size_t n) {
 
             size_t n_copy = 0;
-            toast::AlignedVector <T> temp;
+            cal::AlignedVector <T> temp;
 
             if (n < n_) {
                 // We are shrinking the memory

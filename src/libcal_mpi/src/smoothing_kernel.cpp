@@ -4,20 +4,8 @@
    a BSD-style license that can be found in the LICENSE file.
  */
 
-#include <CALAtmSim.hpp>
-#include <sys_utils.hpp>
-#include <sys_env.hpp>
-#include <math_rng.hpp>
-// #inluce <qualcosa per PRNG>
-
-#include <sstream>
-#include <iostream>
-#include <fstream>
-#include <cstring>
-#include <random>    // Ha un sacco di generatori
-#include <functional>
-#include <cmath>
-#include <algorithm> // per fare il std::sort
+#include <CAL_MPI_AtmSim.hpp>
+#include <algorithm>
 
 double median(std::vector <double> vec) {
     if (vec.size() == 0) return 0;

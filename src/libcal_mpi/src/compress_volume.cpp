@@ -4,21 +4,8 @@
    a BSD-style license that can be found in the LICENSE file.
  */
 
-#include <CALAtmSim.hpp>
-#include <sys_utils.hpp>
-#include <sys_env.hpp>
-#include <math_rng.hpp>
-// #inluce <qualcosa per PRNG>
-
-#include <sstream>
-#include <iostream>
-#include <fstream>
-#include <cstring>
-#include <random>    // Ha un sacco di generatori
-#include <functional>
-#include <cmath>
-#include <algorithm> // per fare il std::sort
-
+#include <CAL_MPI_AtmSim.hpp>
+#include <vector>
 /**
 * Establish a mapping between full volume indices and observed
 * volume indices.
@@ -33,11 +20,11 @@ void cal::mpi_atm_sim::compress_volume()
 
     std::vector <unsigned char> hit;
     try {
-        compressed_index.reset(new AlignedVector <long> (nn));
-        std::fill(compressed_index->begin(), compressed_index->end(), -1);
+        compressed_index = new mpi_shmem_long(nn, comm);
+        compressed_index->set(-1);
 
-        full_index.reset(new AlignedVector <long> (nn));
-        std::fill(full_index->begin(), full_index->end(), -1);
+        full_index = new mpi_shmem_long(nn, comm);
+        full_index->set(-1);
 
         hit.resize(nn, false);
     } catch (...) {

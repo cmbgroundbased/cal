@@ -4,20 +4,8 @@
    a BSD-style license that can be found in the LICENSE file.
  */
 
-#include <CALAtmSim.hpp>
-#include <sys_utils.hpp>
-#include <sys_env.hpp>
-#include <math_rng.hpp>
-// #inluce <qualcosa per PRNG>
-
-#include <sstream>
-#include <iostream>
-#include <fstream>
+#include <CAL_MPI_AtmSim.hpp>
 #include <cstring>
-#include <random>    // Ha un sacco di generatori
-#include <functional>
-#include <cmath>
-#include <algorithm> // per fare il std::sort
 
 /**
 * Build a sparse covariance matrix first in the triplet form
@@ -116,7 +104,7 @@ cholmod_sparse * cal::mpi_atm_sim::build_sparse_covariance(long ind_start, long 
                   "cholmod_triplet_to_sparse failed.");
     cholmod_free_triplet(&cov_triplet, chcommon);
 
-    t2 = MPI_Wtime()
+    t2 = MPI_Wtime();
 
     if (verbosity > 0) {
         std::cerr << rank << " : Sparse covariance constructed in "

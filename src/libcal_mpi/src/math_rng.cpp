@@ -8,10 +8,6 @@
 #include <math_sf.hpp>
 #include <math_rng.hpp>
 
-#include <cmath>
-#include <vector>
-#include <algorithm>
-
 #include <Random123/threefry.h>
 #include <Random123/uniform.hpp>
 

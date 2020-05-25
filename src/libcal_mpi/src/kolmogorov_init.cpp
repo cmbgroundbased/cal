@@ -4,21 +4,8 @@
    a BSD-style license that can be found in the LICENSE file.
  */
 
-#include <CALAtmSim.hpp>
-#include <sys_utils.hpp>
-#include <sys_env.hpp>
-#include <math_rng.hpp>
-// #inluce <qualcosa per PRNG>
-
-#include <sstream>
-#include <iostream>
+#include <CAL_MPI_AtmSim.hpp>
 #include <fstream>
-#include <cstring>
-#include <random>    // Ha un sacco di generatori
-#include <functional>
-#include <cmath>
-#include <algorithm> // per fare il std::sort
-
 /**
 * Numerically integrate the modified Kolmogorov correlation
 * function at grid points. We integrate down from 10*kappamax
@@ -130,7 +117,7 @@ void cal::mpi_atm_sim::initialize_kolmogorov()
 
     if (MPI_Allreduce(MPI_IN_PLACE, kolmo_y.data(), (int)nr,
                       MPI_DOUBLE, MPI_SUM, comm))
-        throw  std::runtime_error("Failed to allreduce kolmo_y")
+        throw  std::runtime_error("Failed to allreduce kolmo_y");
 
     // Normalize
     double norm = 1. / kolmo_y[0];
