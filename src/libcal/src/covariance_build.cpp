@@ -5,19 +5,7 @@
  */
 
 #include <CALAtmSim.hpp>
-#include <sys_utils.hpp>
-#include <sys_env.hpp>
-#include <math_rng.hpp>
-// #inluce <qualcosa per PRNG>
-
-#include <sstream>
-#include <iostream>
-#include <fstream>
 #include <cstring>
-#include <random>    // Ha un sacco di generatori
-#include <functional>
-#include <cmath>
-#include <algorithm> // per fare il std::sort
 
 cholmod_sparse * cal::atm_sim::build_sparse_covariance(long ind_start, long ind_stop)
 {

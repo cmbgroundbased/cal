@@ -7,17 +7,10 @@
 #include <sys_utils.hpp>
 #include <math_sf.hpp>
 #include <math_rng.hpp>
-
-#include <cmath>
-#include <vector>
-#include <algorithm>
-
 #include <Random123/threefry.h>
 #include <Random123/uniform.hpp>
 
-
 typedef r123::Threefry2x64 RNG;
-
 
 /** Unsigned 64bit random integers */
 void cal::rng_dist_uint64(size_t n, uint64_t key1, uint64_t key2,

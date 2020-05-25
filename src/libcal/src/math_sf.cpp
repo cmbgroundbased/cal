@@ -11,10 +11,6 @@
 # include <mkl.h>
 #endif // ifdef HAVE_MKL
 
-#include <cmath>
-#include <vector>
-
-
 #ifdef HAVE_MKL
 
 /**These call MKL VM functions with "High Accuracy" mode.*/

@@ -5,20 +5,6 @@
  */
 
 #include <CALAtmSim.hpp>
-#include <sys_utils.hpp>
-#include <sys_env.hpp>
-#include <math_rng.hpp>
-// #inluce <qualcosa per PRNG>
-
-#include <sstream>
-#include <iostream>
-#include <fstream>
-#include <cstring>
-#include <random>    // Ha un sacco di generatori
-#include <functional>
-#include <cmath>
-#include <algorithm> // per fare il std::sort
-
 
 double cal::atm_sim::interp(double x, double y, double z, std::vector <long> & last_ind,
               std::vector <double> & last_nodes)

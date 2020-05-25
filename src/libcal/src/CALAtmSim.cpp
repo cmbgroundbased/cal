@@ -5,22 +5,16 @@
  */
 
 #include <CALAtmSim.hpp>
-#include <sys_utils.hpp>
-#include <sys_env.hpp>
-#include <math_rng.hpp>
-// #inluce <qualcosa per PRNG>
 
-#include <sstream>
-#include <iostream>
-#include <fstream>
-#include <cstring>
-#include <random>    // Ha un sacco di generatori
-#include <functional>
-#include <cmath>
-#include <algorithm> // per fare il std::sort
-
-// public methods
-
+/**
+* Contructror for atm_sim class. This is the version NON-MPI.
+* The class get from the Environment class the MAX_THRS_NUM and
+* split the parallelization from them. This version of the library
+* is not indicated from HPC-cluster but it's for personal use on your
+* laptop.
+*
+* For a more cluster-oriented implementation see the class mpi_atm_sim.
+*/
 cal::atm_sim::atm_sim(double azmin, double azmax, double elmin, double elmax,
                         double tmin, double tmax,
                         double lmin_center, double lmin_sigma,
@@ -56,7 +50,6 @@ cal::atm_sim::atm_sim(double azmin, double azmax, double elmin, double elmax,
                         rmin(rmin), rmax(rmax)
 {
 
-    /* Costruiamo l'oggetto simulazione iniziando col definire il numero di processi e il numero di threads per processo, dedicati.*/
     std::cout << "CTOR atm_sim class" << std::endl;
     counter1 = counter1start;
     counter2 = counter2start;
@@ -73,9 +66,12 @@ cal::atm_sim::atm_sim(double azmin, double azmax, double elmin, double elmax,
         std::cerr << "atmsim constructed with " << ntask << " process, " << nthread << " threads per process." << std::endl;
     }
 
-    /*Controlliamo i limiti entro i quali fare la scansione dell'atmosfera.*/
-
-    if (azmin >= azmax) throw std::runtime_error("CTOR_atmsim ERROR: azmin >= azmax."); //Here we have to modify!
+    /**
+    * Check the sky patch boundary that you are going to observe
+    * Not it works fine only for sky-patch. A lot of efforts are needed to
+    * improve a continuos scanning strategy like QUIJOTE / STRIP / and others (LAT?)
+    */
+    if (azmin >= azmax) throw std::runtime_error("CTOR_atmsim ERROR: azmin >= azmax.");
 
     if (elmin < 0) throw std::runtime_error("CTOR_atmsim ERROR: elmin < 0, you are going to observe the ground ... ");
 
@@ -87,14 +83,11 @@ cal::atm_sim::atm_sim(double azmin, double azmax, double elmin, double elmax,
 
     if (lmin_center > lmax_center) throw std::runtime_error("CTOR_atmsim ERROR: lmin_center > lmax_center");
 
-    // Griglia dell'atmosfera, inizializzazione di alcune variabili di supporto.
-
     xstepinv = 1 / xstep;
     ystepinv = 1 / ystep;
     zstepinv = 1 / zstep;
 
-    // Span angolare che viene osservato
-
+    // Angular span observed
     delta_az = (azmax - azmin);
     delta_el = (elmax - elmin);
     delta_t = (tmax - tmin);
@@ -105,8 +98,7 @@ cal::atm_sim::atm_sim(double azmin, double azmax, double elmin, double elmax,
     sinel0 = sin(el0);
     cosel0 = cos(el0);
 
-    // Rotate the coordinate system. Align \hat{z} axis with \hat{r}. I don't undestand the utility. (I have to go deeper.)
-
+    // Rotate the coordinate system. Align \hat{z} axis with \hat{r}.
     xxstep = xstep * cosel0 - zstep * sinel0;
     yystep = ystep;
     zzstep = xstep * sinel0 + zstep * cosel0;
@@ -117,7 +109,6 @@ cal::atm_sim::atm_sim(double azmin, double azmax, double elmin, double elmax,
     tanmax = tan(0.5 * delta_az + tol);
 
     // Some prints
-
     if ((rank == 0) && (verbosity > 0)) {
         std::cerr << std::endl;
         std::cerr << "Input parameters:" << std::endl;
@@ -159,7 +150,6 @@ cal::atm_sim::atm_sim(double azmin, double azmax, double elmin, double elmax,
     }
 
     // Cholesky decomposition
-
     chcommon = &cholcommon;
     cholmod_start(chcommon);
     if (verbosity > 1){
@@ -170,13 +160,17 @@ cal::atm_sim::atm_sim(double azmin, double azmax, double elmin, double elmax,
     }
     chcommon->itype = CHOLMOD_INT;
     chcommon->dtype = CHOLMOD_DOUBLE;
+
     // The factorization is LL' no LDL'
     chcommon->final_ll = 1;
 }
 
+/**
+* We don't neet a DTOR carefully definition. The unique_ptr(s) are authomatically
+* free once they are derefenced.
+*/
 cal::atm_sim::~atm_sim()
 {
-    // We don't neet a DTOR carefully definition. The unique_ptr(s) are authomatically free once they are derefenced.
     std::cout << "DTOR atm_sim class" << std::endl;
     compressed_index.reset();
     full_index.reset();

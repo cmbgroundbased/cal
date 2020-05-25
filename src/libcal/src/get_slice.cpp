@@ -5,19 +5,6 @@
  */
 
 #include <CALAtmSim.hpp>
-#include <sys_utils.hpp>
-#include <sys_env.hpp>
-#include <math_rng.hpp>
-// #inluce <qualcosa per PRNG>
-
-#include <sstream>
-#include <iostream>
-#include <fstream>
-#include <cstring>
-#include <random>    // Ha un sacco di generatori
-#include <functional>
-#include <cmath>
-#include <algorithm> // per fare il std::sort
 
 void cal::atm_sim::get_slice(long & ind_start, long & ind_stop)
 {

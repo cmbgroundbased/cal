@@ -5,27 +5,14 @@
  */
 
 #include <CALAtmSim.hpp>
-#include <sys_utils.hpp>
-#include <sys_env.hpp>
-#include <math_rng.hpp>
-// #inluce <qualcosa per PRNG>
 
-#include <sstream>
-#include <iostream>
-#include <fstream>
-#include <cstring>
-#include <random>    // Ha un sacco di generatori
-#include <functional>
-#include <cmath>
-#include <algorithm> // per fare il std::sort
-
+/**
+* Cholesky-factorize the provided sparse matrix and return the
+* sparse matrix representation of the factorization
+ */
 cholmod_sparse * cal::atm_sim::sqrt_sparse_covariance(cholmod_sparse * cov,
                                         long ind_start, long ind_stop)
 {
-    /*
-       Cholesky-factorize the provided sparse matrix and return the
-       sparse matrix representation of the factorization
-     */
 
     size_t nelem = ind_stop - ind_start; // Number of elements in the slice
 

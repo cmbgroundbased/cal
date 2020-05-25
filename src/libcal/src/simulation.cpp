@@ -5,19 +5,6 @@
  */
 
 #include <CALAtmSim.hpp>
-#include <sys_utils.hpp>
-#include <sys_env.hpp>
-#include <math_rng.hpp>
-// #inluce <qualcosa per PRNG>
-
-#include <sstream>
-#include <iostream>
-#include <fstream>
-#include <cstring>
-#include <random>    // Ha un sacco di generatori
-#include <functional>
-#include <cmath>
-#include <algorithm> // per fare il std::sort
 
 /**Bla bla bla qualcosa su simulate*/
 int cal::atm_sim::simulate(bool use_cache)
