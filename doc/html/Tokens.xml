@@ -2,6 +2,13 @@
 <Tokens version="1.0">
   <Token>
     <TokenIdentifier>
+      <Name>porting</Name>
+      <APILanguage>c</APILanguage>
+    </TokenIdentifier>
+    <Path>porting.html</Path>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>atm</Name>
       <APILanguage>c</APILanguage>
       <Type>ns</Type>
@@ -1491,5 +1498,63 @@
     <Path>classcal_1_1_timer.html</Path>
     <Abstract>Simple timer class that tracks elapsed seconds and number of times it was started.</Abstract>
     <DeclaredIn>sys_utils.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>r123</Name>
+      <APILanguage>c</APILanguage>
+      <Type>ns</Type>
+      <Scope>r123</Scope>
+    </TokenIdentifier>
+    <Path>namespacer123.html</Path>
+    <Abstract>Most of the Random123 C++ API is contained in the r123 namespace.</Abstract>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>r123::Engine</Name>
+      <APILanguage>c</APILanguage>
+      <Type>tmplt</Type>
+      <Scope>r123::Engine</Scope>
+    </TokenIdentifier>
+    <Path>structr123_1_1_engine.html</Path>
+    <DeclaredIn>Engine.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>r123::make_signed</Name>
+      <APILanguage>c</APILanguage>
+      <Type>tmplt</Type>
+      <Scope>r123::make_signed</Scope>
+    </TokenIdentifier>
+    <Path>structr123_1_1make__signed.html</Path>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>r123::make_unsigned</Name>
+      <APILanguage>c</APILanguage>
+      <Type>tmplt</Type>
+      <Scope>r123::make_unsigned</Scope>
+    </TokenIdentifier>
+    <Path>structr123_1_1make__unsigned.html</Path>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>r123::MicroURNG</Name>
+      <APILanguage>c</APILanguage>
+      <Type>tmplt</Type>
+      <Scope>r123::MicroURNG</Scope>
+    </TokenIdentifier>
+    <Path>classr123_1_1_micro_u_r_n_g.html</Path>
+    <DeclaredIn>MicroURNG.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>r123::ReinterpretCtr</Name>
+      <APILanguage>c</APILanguage>
+      <Type>tmplt</Type>
+      <Scope>r123::ReinterpretCtr</Scope>
+    </TokenIdentifier>
+    <Path>structr123_1_1_reinterpret_ctr.html</Path>
+    <DeclaredIn>ReinterpretCtr.hpp</DeclaredIn>
   </Token>
 </Tokens>

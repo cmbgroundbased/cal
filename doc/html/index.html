@@ -66,12 +66,11 @@ $(function() {
 <div class="title">CAL - CMB Atmospheric Library Documentation</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>CAL e' una libreria che permette di simulare in modo molto avanzato il contributo dell'atmosfera alle misure della CMB nel range di frequenze delle microonde.</p>
-<p>Il codice originale di questa libreria e' merito dei creatori del framework TOAST (link): Theodore Kisner <a href="#" onclick="location.href='mai'+'lto:'+'wor'+'k@'+'the'+'od'+'ore'+'ki'+'sne'+'r.'+'com'; return false;">work@<span style="display: none;">.nosp@m.</span>theo<span style="display: none;">.nosp@m.</span>dorek<span style="display: none;">.nosp@m.</span>isne<span style="display: none;">.nosp@m.</span>r.com</a> <br  />
-Reijo Keskitalo <a href="#" onclick="location.href='mai'+'lto:'+'rei'+'jo'+'.ke'+'sk'+'ita'+'lo'+'@gm'+'ai'+'l.c'+'om'; return false;">reijo<span style="display: none;">.nosp@m.</span>.kes<span style="display: none;">.nosp@m.</span>kital<span style="display: none;">.nosp@m.</span>o@gm<span style="display: none;">.nosp@m.</span>ail.c<span style="display: none;">.nosp@m.</span>om</a> <br  />
-Andrea Zonca <a href="#" onclick="location.href='mai'+'lto:'+'zon'+'ca'+'@sd'+'sc'+'.ed'+'u'; return false;">zonca<span style="display: none;">.nosp@m.</span>@sds<span style="display: none;">.nosp@m.</span>c.edu</a><br  />
- L'impegno dietro allo sviluppo di CAL arriva dalla necessita' in cui molti esperimenti da terra per l'osservazione della polarizzazione della CMB, concepiti in modo molto diverso tra loro, devono tutti scontrarsi con necessita' di caratterizzare e simulare gli effetti dell'atmosfera.</p>
-<p>CAL e' una libreria dinamica scritta un C++ che puo' essere buildata indipendentemente dal framework di lavoro utilizzato.</p>
+<div class="textblock"><p>The CAL library is born from the needs of the CMB ground-based telescope simulation framework to have a module that can take into account the atmospheric effects. Different experiments are lead by different people that choose different programming solutions to implement the characteristic of their instruments.</p>
+<p>In general, this approach is not particularly problematic even if some guys working for multiple frameworks that are written not in the same code. In this case, the porting of parts of code, that they do the same things, is not easy and the result is a colossal waste of time spent, for first to get used to with the framework, maybe with the language and finally to re-implement the same algorithm within it.</p>
+<p>One of these tasks is represented by atmospheric simulations. The atmospheric time evolution and emission proprieties are the same for the same locations and are not up to the instrumental feature.</p>
+<p>Out of this consideration, we decided to extract the code that does the atmospheric simulation from the TOAST framework. This bunch of code is released by (Who actually do release this?) under the &lt;LICENSE&gt; license.</p>
+<p>The maintenance and future improvements actions of the CAL library are up to the CAL authors, that are listed in the AUTHORS file in this repository.</p>
 <h2><a class="anchor" id="autotoc_md0"></a>
 Install</h2>
 <h2><a class="anchor" id="autotoc_md1"></a>

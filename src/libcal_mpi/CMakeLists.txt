@@ -31,6 +31,7 @@ set(MPI_CAL_SOURCES
     src/smooth_interpolation.cpp
     src/sys_env.cpp
     src/sys_utils.cpp
+    src/mpi_init.cpp
 )
 
 # Add the internal library target

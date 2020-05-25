@@ -1,11 +1,12 @@
-C\+AL e\textquotesingle{} una libreria che permette di simulare in modo molto avanzato il contributo dell\textquotesingle{}atmosfera alle misure della C\+MB nel range di frequenze delle microonde.
+The C\+AL library is born from the needs of the C\+MB ground-\/based telescope simulation framework to have a module that can take into account the atmospheric effects. Different experiments are lead by different people that choose different programming solutions to implement the characteristic of their instruments.
 
-Il codice originale di questa libreria e\textquotesingle{} merito dei creatori del framework T\+O\+A\+ST (link)\+: Theodore Kisner \href{mailto:work@theodorekisner.com}{\texttt{ work@theodorekisner.\+com}} ~\newline
-Reijo Keskitalo \href{mailto:reijo.keskitalo@gmail.com}{\texttt{ reijo.\+keskitalo@gmail.\+com}} ~\newline
-Andrea Zonca \href{mailto:zonca@sdsc.edu}{\texttt{ zonca@sdsc.\+edu}}~\newline
- L\textquotesingle{}impegno dietro allo sviluppo di C\+AL arriva dalla necessita\textquotesingle{} in cui molti esperimenti da terra per l\textquotesingle{}osservazione della polarizzazione della C\+MB, concepiti in modo molto diverso tra loro, devono tutti scontrarsi con necessita\textquotesingle{} di caratterizzare e simulare gli effetti dell\textquotesingle{}atmosfera.
+In general, this approach is not particularly problematic even if some guys working for multiple frameworks that are written not in the same code. In this case, the porting of parts of code, that they do the same things, is not easy and the result is a colossal waste of time spent, for first to get used to with the framework, maybe with the language and finally to re-\/implement the same algorithm within it.
 
-C\+AL e\textquotesingle{} una libreria dinamica scritta un C++ che puo\textquotesingle{} essere buildata indipendentemente dal framework di lavoro utilizzato.\hypertarget{index_autotoc_md0}{}\doxysubsection{Install}\label{index_autotoc_md0}
+One of these tasks is represented by atmospheric simulations. The atmospheric time evolution and emission proprieties are the same for the same locations and are not up to the instrumental feature.
+
+Out of this consideration, we decided to extract the code that does the atmospheric simulation from the T\+O\+A\+ST framework. This bunch of code is released by (Who actually do release this?) under the $<$\+L\+I\+C\+E\+N\+S\+E$>$ license.
+
+The maintenance and future improvements actions of the C\+AL library are up to the C\+AL authors, that are listed in the A\+U\+T\+H\+O\+RS file in this repository.\hypertarget{index_autotoc_md0}{}\doxysubsection{Install}\label{index_autotoc_md0}
 \hypertarget{index_autotoc_md1}{}\doxysubsection{Contribution guidelines}\label{index_autotoc_md1}
 \hypertarget{index_autotoc_md2}{}\doxysubsection{Continuous build status}\label{index_autotoc_md2}
 \hypertarget{index_autotoc_md3}{}\doxysubsubsection{Official Builds}\label{index_autotoc_md3}

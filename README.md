@@ -1,14 +1,12 @@
-CAL e' una libreria che permette di simulare in modo molto avanzato il contributo dell'atmosfera alle misure della CMB nel range di frequenze delle microonde.
+The CAL library is born from the needs of the CMB ground-based telescope simulation framework to have a module that can take into account the atmospheric effects. Different experiments are lead by different people that choose different programming solutions to implement the characteristic of their instruments.
 
-Il codice originale di questa libreria e' merito dei creatori del framework TOAST (link):
-Theodore Kisner <work@theodorekisner.com> \n
-Reijo Keskitalo <reijo.keskitalo@gmail.com> \n
-Andrea Zonca <zonca@sdsc.edu>\n
+In general, this approach is not particularly problematic even if some guys working for multiple frameworks that are written not in the same code. In this case, the porting of parts of code, that they do the same things, is not easy and the result is a colossal waste of time spent, for first to get used to with the framework, maybe with the language and finally to re-implement the same algorithm within it.
 
-L'impegno dietro allo sviluppo di CAL arriva dalla necessita' in cui molti esperimenti da terra per l'osservazione della polarizzazione della CMB, concepiti in modo molto diverso tra loro, devono tutti scontrarsi con necessita' di caratterizzare e simulare gli effetti dell'atmosfera.
+One of these tasks is represented by atmospheric simulations. The atmospheric time evolution and emission proprieties are the same for the same locations and are not up to the instrumental feature.
 
-CAL e' una libreria dinamica scritta un C++ che puo' essere buildata indipendentemente dal framework di lavoro utilizzato. 
+Out of this consideration, we decided to extract the code that does the atmospheric simulation from the TOAST framework. This bunch of code is released by (Who actually do release this?) under the <LICENSE> license.
 
+The maintenance and future improvements actions of the CAL library are up to the CAL authors, that are listed in the AUTHORS file in this repository.
 
 ## Install
 

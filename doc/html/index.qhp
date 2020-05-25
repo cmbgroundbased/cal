@@ -15,10 +15,12 @@
         <section title="Resources" ref="index.html#autotoc_md5" />
         <section title="License" ref="index.html#autotoc_md6" />
       </section>
+      <section title="Preprocessor symbols for porting Random123 to different platforms." ref="porting.html" />
       <section title="Namespaces" ref="namespaces.html">
         <section title="Namespace List" ref="namespaces.html">
           <section title="atm" ref="namespaceatm.html" />
           <section title="cal" ref="namespacecal.html" />
+          <section title="r123" ref="namespacer123.html" />
         </section>
         <section title="Namespace Members" ref="namespacemembers.html">
           <section title="All" ref="namespacemembers.html" />
@@ -486,6 +488,84 @@
               <section title="total_" ref="classcal_1_1_timer.html#a346ebabd222112fc15c32bef7abc36fa" />
             </section>
           </section>
+          <section title="r123" ref="namespacer123.html">
+            <section title="Engine" ref="structr123_1_1_engine.html">
+              <section title="cbrng_type" ref="structr123_1_1_engine.html#a45ee0086cf8cd6d10febb76dc88f8b22" />
+              <section title="ctr_type" ref="structr123_1_1_engine.html#a96e0f5f039d5efd6aae77b63bafaad90" />
+              <section title="elem_type" ref="structr123_1_1_engine.html#a8fb9eb1ab76ad9b5374a47cf84ecd306" />
+              <section title="key_type" ref="structr123_1_1_engine.html#a18132a79d2327990c4809b37300eddc3" />
+              <section title="result_type" ref="structr123_1_1_engine.html#a3d7cb66d43f99f5e227990af985ecb45" />
+              <section title="ukey_type" ref="structr123_1_1_engine.html#a32973bdda8697bcbb4dde11c0366a5e3" />
+              <section title="Engine" ref="structr123_1_1_engine.html#ac5676bbe189b0cdc1bef0dd812262ccd" />
+              <section title="Engine" ref="structr123_1_1_engine.html#ae1a249af828cfdac77db6c16e3f8f8eb" />
+              <section title="Engine" ref="structr123_1_1_engine.html#a37dd55cee849b59d678f74780f785672" />
+              <section title="Engine" ref="structr123_1_1_engine.html#a478b486b166316597a51ffdd7b5b2d0c" />
+              <section title="Engine" ref="structr123_1_1_engine.html#abd535170be11324a31b5657c2465d388" />
+              <section title="Engine" ref="structr123_1_1_engine.html#ab5f45b4eb97995cc45350abee3ec8388" />
+              <section title="Engine" ref="structr123_1_1_engine.html#aeb178b9305cbf1fb7e11e8e33a631ba7" />
+              <section title="discard" ref="structr123_1_1_engine.html#a3166cda5ff3d602244aef5dc96d489a4" />
+              <section title="fix_invariant" ref="structr123_1_1_engine.html#aa7ad87d7238a0f820ee37640071dee7d" />
+              <section title="getcounter" ref="structr123_1_1_engine.html#a2299c07f7ba9aa6e6dd5f885853c7fe4" />
+              <section title="getseed" ref="structr123_1_1_engine.html#aad20265a828ee32399b1879ad622a73d" />
+              <section title="operator()" ref="structr123_1_1_engine.html#aca309d0b4f2a8fff1f6f2ab38c6caf93" />
+              <section title="operator()" ref="structr123_1_1_engine.html#a4df4747f3b6129428537f6300e4b94c0" />
+              <section title="R123_NO_MACRO_SUBST" ref="structr123_1_1_engine.html#af5441fc62932c3d099f8b16150d2aa81" />
+              <section title="R123_NO_MACRO_SUBST" ref="structr123_1_1_engine.html#a112318f7d0015ecf4c3c6a8a5c76371b" />
+              <section title="seed" ref="structr123_1_1_engine.html#aff36bc97d11bc66f6c0edb75d8dc88e5" />
+              <section title="seed" ref="structr123_1_1_engine.html#a5c4d68dbbccfc71f467f3c902f5b93da" />
+              <section title="seed" ref="structr123_1_1_engine.html#a93429593bdb12b202b4b8ed38fe08bc4" />
+              <section title="seed" ref="structr123_1_1_engine.html#aac89ba287bdb118699c8eb8483c2c52a" />
+              <section title="seed" ref="structr123_1_1_engine.html#a7bd6d3417cefb904c879f41d2c29e15e" />
+              <section title="setcounter" ref="structr123_1_1_engine.html#a6104bf5ee89450403379d5680bfae172" />
+              <section title="operator!=" ref="structr123_1_1_engine.html#af0947cdcfc03aef7ec30c9fafa660445" />
+              <section title="operator&lt;&lt;" ref="structr123_1_1_engine.html#ae0321571f689fca00c608d11ecad7d8d" />
+              <section title="operator==" ref="structr123_1_1_engine.html#a606e3ba824542e52f12df1345126e721" />
+              <section title="operator&gt;&gt;" ref="structr123_1_1_engine.html#ae708b771ab5ac17700d34bad875a16d9" />
+              <section title="_Max" ref="structr123_1_1_engine.html#a546708e82de5590ac8989af141b3c954" />
+              <section title="_Min" ref="structr123_1_1_engine.html#a20307cf1c144618523e2c190058824a8" />
+              <section title="b" ref="structr123_1_1_engine.html#a5e430e850badcc4fd0f74de4a49a673b" />
+              <section title="c" ref="structr123_1_1_engine.html#afb056ed93053f4175aabc9f4e5dd7b8d" />
+              <section title="elem" ref="structr123_1_1_engine.html#a7b40128e9dc7427cd13d27477647b319" />
+              <section title="key" ref="structr123_1_1_engine.html#adb9e1841a81f213a115e9f092f5c4654" />
+              <section title="ukey" ref="structr123_1_1_engine.html#a11a79253c3a7b07e697f7bf4c7edb52f" />
+              <section title="v" ref="structr123_1_1_engine.html#a6169d4fbce1fd7725fabda4c693bf250" />
+            </section>
+            <section title="make_signed" ref="structr123_1_1make__signed.html" />
+            <section title="make_unsigned" ref="structr123_1_1make__unsigned.html" />
+            <section title="MicroURNG" ref="classr123_1_1_micro_u_r_n_g.html">
+              <section title="cbrng_type" ref="classr123_1_1_micro_u_r_n_g.html#ab0b3a77c9408dbcb2f9d6b5c67e9c3f7" />
+              <section title="ctr_type" ref="classr123_1_1_micro_u_r_n_g.html#a5aba882fd21e4d8f1a445f546e1e4476" />
+              <section title="key_type" ref="classr123_1_1_micro_u_r_n_g.html#aef90e6157f360434342ad0df4ce5f364" />
+              <section title="result_type" ref="classr123_1_1_micro_u_r_n_g.html#a512957c3e7b3d22741ef0a436b973c2b" />
+              <section title="ukey_type" ref="classr123_1_1_micro_u_r_n_g.html#a7e6fd93fec2fe138ee36b401ff376cfc" />
+              <section title="MicroURNG" ref="classr123_1_1_micro_u_r_n_g.html#a19afb80312c370e1670bf8afc73d802e" />
+              <section title="MicroURNG" ref="classr123_1_1_micro_u_r_n_g.html#a7ecf43819bc96804892a78c6715f587b" />
+              <section title="chkhighbits" ref="classr123_1_1_micro_u_r_n_g.html#a3a1ff961ed3a96eedac10eaf669db957" />
+              <section title="counter" ref="classr123_1_1_micro_u_r_n_g.html#a1729ed31ddf93325fee2e5413c3d3817" />
+              <section title="operator()" ref="classr123_1_1_micro_u_r_n_g.html#a64cd4d33b4cab5d3d9c556db68407b77" />
+              <section title="R123_NO_MACRO_SUBST" ref="classr123_1_1_micro_u_r_n_g.html#aa05c857c01053cf9185406d69757b101" />
+              <section title="R123_NO_MACRO_SUBST" ref="classr123_1_1_micro_u_r_n_g.html#a3af623b6366d6e848d67d72e4b0f363c" />
+              <section title="R123_STATIC_ASSERT" ref="classr123_1_1_micro_u_r_n_g.html#a82982e0df155e33f0899867f5d7cca53" />
+              <section title="reset" ref="classr123_1_1_micro_u_r_n_g.html#add2f214254ddc2291e3b2c8b5dbe791a" />
+              <section title="_Max" ref="classr123_1_1_micro_u_r_n_g.html#afc5cde67b30d39662f344cc9b4b5ad1f" />
+              <section title="_Min" ref="classr123_1_1_micro_u_r_n_g.html#ab28a3411d56e76ff3f06113cd3069d7e" />
+              <section title="b" ref="classr123_1_1_micro_u_r_n_g.html#ad08d8685a19fd45df0e957f772808541" />
+              <section title="BITS" ref="classr123_1_1_micro_u_r_n_g.html#ac55cddda8fe0808f922f39beee587b27" />
+              <section title="c0" ref="classr123_1_1_micro_u_r_n_g.html#a4d8b23096879a0fdc34b2152e4f12931" />
+              <section title="k" ref="classr123_1_1_micro_u_r_n_g.html#aa242985c7947264b47f77f92bdd356e7" />
+              <section title="last_elem" ref="classr123_1_1_micro_u_r_n_g.html#af55053899ed76eceffd4a6ea2a3ffd24" />
+              <section title="n" ref="classr123_1_1_micro_u_r_n_g.html#ad7044d03d8de81d29234d0b3beed9a9f" />
+              <section title="rdata" ref="classr123_1_1_micro_u_r_n_g.html#a6cb5dbb4387ac0e982ffc779c7dc7040" />
+            </section>
+            <section title="ReinterpretCtr" ref="structr123_1_1_reinterpret_ctr.html">
+              <section title="bctype" ref="structr123_1_1_reinterpret_ctr.html#ae0accaee618b5eb28a24acd516b3a4c6" />
+              <section title="ctr_type" ref="structr123_1_1_reinterpret_ctr.html#a26cf9e933b35411c37070c948085ba02" />
+              <section title="key_type" ref="structr123_1_1_reinterpret_ctr.html#a470b21676ed709aa9d9ad524a67410f1" />
+              <section title="ukey_type" ref="structr123_1_1_reinterpret_ctr.html#a4b0b69c1aa58d62bb22e51e16c586bee" />
+              <section title="operator()" ref="structr123_1_1_reinterpret_ctr.html#a91edc5103397372cc5509ad17c0fc83a" />
+              <section title="R123_STATIC_ASSERT" ref="structr123_1_1_reinterpret_ctr.html#ad6fe140cb2f1aa215c4741f646249b16" />
+            </section>
+          </section>
         </section>
         <section title="Class Index" ref="classes.html" />
         <section title="Class Members" ref="functions.html">
@@ -500,6 +580,35 @@
           <section title="src" ref="dir_68267d1309a1af8e8297ef4c3efbcdba.html">
             <section title="libcal" ref="dir_baf61ba8974bc96039a3dcd752f00a43.html">
               <section title="include" ref="dir_6555b628ccbf8364812c27238755d763.html">
+                <section title="Random123" ref="dir_f4a64907064478b1dfc4fa39dc66e175.html">
+                  <section title="conventional" ref="dir_116bb45d4e983dae34208075fe4d073d.html">
+                    <section title="Engine.hpp" ref="_engine_8hpp_source.html" />
+                    <section title="gsl_cbrng.h" ref="gsl__cbrng_8h_source.html" />
+                  </section>
+                  <section title="features" ref="dir_3f0d6b35befd1e9fb15b35b523e5557c.html">
+                    <section title="clangfeatures.h" ref="clangfeatures_8h_source.html" />
+                    <section title="compilerfeatures.h" ref="compilerfeatures_8h_source.html" />
+                    <section title="gccfeatures.h" ref="gccfeatures_8h_source.html" />
+                    <section title="iccfeatures.h" ref="iccfeatures_8h_source.html" />
+                    <section title="msvcfeatures.h" ref="msvcfeatures_8h_source.html" />
+                    <section title="nvccfeatures.h" ref="nvccfeatures_8h_source.html" />
+                    <section title="open64features.h" ref="open64features_8h_source.html" />
+                    <section title="openclfeatures.h" ref="openclfeatures_8h_source.html" />
+                    <section title="pgccfeatures.h" ref="pgccfeatures_8h_source.html" />
+                    <section title="sse.h" ref="sse_8h_source.html" />
+                    <section title="sunprofeatures.h" ref="sunprofeatures_8h_source.html" />
+                    <section title="xlcfeatures.h" ref="xlcfeatures_8h_source.html" />
+                  </section>
+                  <section title="aes.h" ref="aes_8h_source.html" />
+                  <section title="array.h" ref="array_8h_source.html" />
+                  <section title="ars.h" ref="ars_8h_source.html" />
+                  <section title="gsl_microrng.h" ref="gsl__microrng_8h_source.html" />
+                  <section title="MicroURNG.hpp" ref="_micro_u_r_n_g_8hpp_source.html" />
+                  <section title="philox.h" ref="philox_8h_source.html" />
+                  <section title="ReinterpretCtr.hpp" ref="_reinterpret_ctr_8hpp_source.html" />
+                  <section title="threefry.h" ref="threefry_8h_source.html" />
+                  <section title="uniform.hpp" ref="uniform_8hpp_source.html" />
+                </section>
                 <section title="AATM_fun.hpp" ref="include_2_a_a_t_m__fun_8hpp_source.html" />
                 <section title="CALAtmSim.hpp" ref="_c_a_l_atm_sim_8hpp_source.html" />
                 <section title="math_rng.hpp" ref="include_2math__rng_8hpp_source.html" />
@@ -531,6 +640,7 @@
     </section>
   </toc>
     <keywords>
+      <keyword name="Preprocessor symbols for porting Random123 to different platforms." id="Preprocessor symbols for porting Random123 to different platforms." ref="porting.html" />
       <keyword name="atm" id="atm" ref="namespaceatm.html" />
       <keyword name="cal" id="cal" ref="namespacecal.html" />
       <keyword name="vec_long" id="cal::vec_long" ref="namespacecal.html#a339c57a1cf1c477280eb709ba5cb0687" />
@@ -1074,6 +1184,87 @@
       <keyword name="stop_" id="cal::Timer::stop_" ref="classcal_1_1_timer.html#a99862375b862f61e9ece6518a36a2101" />
       <keyword name="running_" id="cal::Timer::running_" ref="classcal_1_1_timer.html#a11eb8bd3f8ff7af74508282f5fbf1e2b" />
       <keyword name="calls_" id="cal::Timer::calls_" ref="classcal_1_1_timer.html#a3b120e5135e9b7e54714fb8b549600f9" />
+      <keyword name="r123" id="r123" ref="namespacer123.html" />
+      <keyword name="R123_MK_SIGNED_UNSIGNED" id="r123::R123_MK_SIGNED_UNSIGNED" ref="namespacer123.html#a8c0d8906be4027e32f8c968fdfeed73b" />
+      <keyword name="R123_MK_SIGNED_UNSIGNED" id="r123::R123_MK_SIGNED_UNSIGNED" ref="namespacer123.html#afe0be8c3a6acfa31f37c7d4aece04903" />
+      <keyword name="R123_MK_SIGNED_UNSIGNED" id="r123::R123_MK_SIGNED_UNSIGNED" ref="namespacer123.html#a16158cf2528d01b0a6eb0c305bb3164c" />
+      <keyword name="R123_MK_SIGNED_UNSIGNED" id="r123::R123_MK_SIGNED_UNSIGNED" ref="namespacer123.html#a7ad1ca2e311d5091fe12d9c360e5693e" />
+      <keyword name="maxTvalue" id="r123::maxTvalue" ref="namespacer123.html#a7f7e853ac6707b1f17c73e27fd9f8ded" />
+      <keyword name="u01" id="r123::u01" ref="namespacer123.html#afc96ad616364743e209c836450cc4107" />
+      <keyword name="uneg11" id="r123::uneg11" ref="namespacer123.html#a49eb4e2f3522f1b5e22b66bdc86345ce" />
+      <keyword name="u01fixedpt" id="r123::u01fixedpt" ref="namespacer123.html#a6d75b90f162a67226c8044c6f3198b96" />
+      <keyword name="r123::Engine" id="r123::Engine" ref="structr123_1_1_engine.html" />
+      <keyword name="cbrng_type" id="r123::Engine::cbrng_type" ref="structr123_1_1_engine.html#a45ee0086cf8cd6d10febb76dc88f8b22" />
+      <keyword name="ctr_type" id="r123::Engine::ctr_type" ref="structr123_1_1_engine.html#a96e0f5f039d5efd6aae77b63bafaad90" />
+      <keyword name="key_type" id="r123::Engine::key_type" ref="structr123_1_1_engine.html#a18132a79d2327990c4809b37300eddc3" />
+      <keyword name="ukey_type" id="r123::Engine::ukey_type" ref="structr123_1_1_engine.html#a32973bdda8697bcbb4dde11c0366a5e3" />
+      <keyword name="result_type" id="r123::Engine::result_type" ref="structr123_1_1_engine.html#a3d7cb66d43f99f5e227990af985ecb45" />
+      <keyword name="elem_type" id="r123::Engine::elem_type" ref="structr123_1_1_engine.html#a8fb9eb1ab76ad9b5374a47cf84ecd306" />
+      <keyword name="Engine" id="r123::Engine::Engine" ref="structr123_1_1_engine.html#ae1a249af828cfdac77db6c16e3f8f8eb" />
+      <keyword name="Engine" id="r123::Engine::Engine" ref="structr123_1_1_engine.html#a37dd55cee849b59d678f74780f785672" />
+      <keyword name="Engine" id="r123::Engine::Engine" ref="structr123_1_1_engine.html#a478b486b166316597a51ffdd7b5b2d0c" />
+      <keyword name="Engine" id="r123::Engine::Engine" ref="structr123_1_1_engine.html#abd535170be11324a31b5657c2465d388" />
+      <keyword name="seed" id="r123::Engine::seed" ref="structr123_1_1_engine.html#a93429593bdb12b202b4b8ed38fe08bc4" />
+      <keyword name="seed" id="r123::Engine::seed" ref="structr123_1_1_engine.html#aac89ba287bdb118699c8eb8483c2c52a" />
+      <keyword name="seed" id="r123::Engine::seed" ref="structr123_1_1_engine.html#aff36bc97d11bc66f6c0edb75d8dc88e5" />
+      <keyword name="operator()" id="r123::Engine::operator()" ref="structr123_1_1_engine.html#aca309d0b4f2a8fff1f6f2ab38c6caf93" />
+      <keyword name="discard" id="r123::Engine::discard" ref="structr123_1_1_engine.html#a3166cda5ff3d602244aef5dc96d489a4" />
+      <keyword name="Engine" id="r123::Engine::Engine" ref="structr123_1_1_engine.html#ab5f45b4eb97995cc45350abee3ec8388" />
+      <keyword name="Engine" id="r123::Engine::Engine" ref="structr123_1_1_engine.html#aeb178b9305cbf1fb7e11e8e33a631ba7" />
+      <keyword name="seed" id="r123::Engine::seed" ref="structr123_1_1_engine.html#a5c4d68dbbccfc71f467f3c902f5b93da" />
+      <keyword name="seed" id="r123::Engine::seed" ref="structr123_1_1_engine.html#a7bd6d3417cefb904c879f41d2c29e15e" />
+      <keyword name="operator()" id="r123::Engine::operator()" ref="structr123_1_1_engine.html#a4df4747f3b6129428537f6300e4b94c0" />
+      <keyword name="getseed" id="r123::Engine::getseed" ref="structr123_1_1_engine.html#aad20265a828ee32399b1879ad622a73d" />
+      <keyword name="getcounter" id="r123::Engine::getcounter" ref="structr123_1_1_engine.html#a2299c07f7ba9aa6e6dd5f885853c7fe4" />
+      <keyword name="setcounter" id="r123::Engine::setcounter" ref="structr123_1_1_engine.html#a6104bf5ee89450403379d5680bfae172" />
+      <keyword name="R123_NO_MACRO_SUBST" id="r123::Engine::R123_NO_MACRO_SUBST" ref="structr123_1_1_engine.html#af5441fc62932c3d099f8b16150d2aa81" />
+      <keyword name="R123_NO_MACRO_SUBST" id="r123::Engine::R123_NO_MACRO_SUBST" ref="structr123_1_1_engine.html#a112318f7d0015ecf4c3c6a8a5c76371b" />
+      <keyword name="_Min" id="r123::Engine::_Min" ref="structr123_1_1_engine.html#a20307cf1c144618523e2c190058824a8" />
+      <keyword name="_Max" id="r123::Engine::_Max" ref="structr123_1_1_engine.html#a546708e82de5590ac8989af141b3c954" />
+      <keyword name="fix_invariant" id="r123::Engine::fix_invariant" ref="structr123_1_1_engine.html#aa7ad87d7238a0f820ee37640071dee7d" />
+      <keyword name="b" id="r123::Engine::b" ref="structr123_1_1_engine.html#a5e430e850badcc4fd0f74de4a49a673b" />
+      <keyword name="key" id="r123::Engine::key" ref="structr123_1_1_engine.html#adb9e1841a81f213a115e9f092f5c4654" />
+      <keyword name="ukey" id="r123::Engine::ukey" ref="structr123_1_1_engine.html#a11a79253c3a7b07e697f7bf4c7edb52f" />
+      <keyword name="c" id="r123::Engine::c" ref="structr123_1_1_engine.html#afb056ed93053f4175aabc9f4e5dd7b8d" />
+      <keyword name="elem" id="r123::Engine::elem" ref="structr123_1_1_engine.html#a7b40128e9dc7427cd13d27477647b319" />
+      <keyword name="v" id="r123::Engine::v" ref="structr123_1_1_engine.html#a6169d4fbce1fd7725fabda4c693bf250" />
+      <keyword name="operator==" id="r123::Engine::operator==" ref="structr123_1_1_engine.html#a606e3ba824542e52f12df1345126e721" />
+      <keyword name="operator!=" id="r123::Engine::operator!=" ref="structr123_1_1_engine.html#af0947cdcfc03aef7ec30c9fafa660445" />
+      <keyword name="operator&lt;&lt;" id="r123::Engine::operator&lt;&lt;" ref="structr123_1_1_engine.html#ae0321571f689fca00c608d11ecad7d8d" />
+      <keyword name="operator&gt;&gt;" id="r123::Engine::operator&gt;&gt;" ref="structr123_1_1_engine.html#ae708b771ab5ac17700d34bad875a16d9" />
+      <keyword name="r123::make_signed" id="r123::make_signed" ref="structr123_1_1make__signed.html" />
+      <keyword name="r123::make_unsigned" id="r123::make_unsigned" ref="structr123_1_1make__unsigned.html" />
+      <keyword name="r123::MicroURNG" id="r123::MicroURNG" ref="classr123_1_1_micro_u_r_n_g.html" />
+      <keyword name="cbrng_type" id="r123::MicroURNG::cbrng_type" ref="classr123_1_1_micro_u_r_n_g.html#ab0b3a77c9408dbcb2f9d6b5c67e9c3f7" />
+      <keyword name="ctr_type" id="r123::MicroURNG::ctr_type" ref="classr123_1_1_micro_u_r_n_g.html#a5aba882fd21e4d8f1a445f546e1e4476" />
+      <keyword name="key_type" id="r123::MicroURNG::key_type" ref="classr123_1_1_micro_u_r_n_g.html#aef90e6157f360434342ad0df4ce5f364" />
+      <keyword name="ukey_type" id="r123::MicroURNG::ukey_type" ref="classr123_1_1_micro_u_r_n_g.html#a7e6fd93fec2fe138ee36b401ff376cfc" />
+      <keyword name="result_type" id="r123::MicroURNG::result_type" ref="classr123_1_1_micro_u_r_n_g.html#a512957c3e7b3d22741ef0a436b973c2b" />
+      <keyword name="R123_STATIC_ASSERT" id="r123::MicroURNG::R123_STATIC_ASSERT" ref="classr123_1_1_micro_u_r_n_g.html#a82982e0df155e33f0899867f5d7cca53" />
+      <keyword name="operator()" id="r123::MicroURNG::operator()" ref="classr123_1_1_micro_u_r_n_g.html#a64cd4d33b4cab5d3d9c556db68407b77" />
+      <keyword name="MicroURNG" id="r123::MicroURNG::MicroURNG" ref="classr123_1_1_micro_u_r_n_g.html#a19afb80312c370e1670bf8afc73d802e" />
+      <keyword name="MicroURNG" id="r123::MicroURNG::MicroURNG" ref="classr123_1_1_micro_u_r_n_g.html#a7ecf43819bc96804892a78c6715f587b" />
+      <keyword name="counter" id="r123::MicroURNG::counter" ref="classr123_1_1_micro_u_r_n_g.html#a1729ed31ddf93325fee2e5413c3d3817" />
+      <keyword name="reset" id="r123::MicroURNG::reset" ref="classr123_1_1_micro_u_r_n_g.html#add2f214254ddc2291e3b2c8b5dbe791a" />
+      <keyword name="R123_NO_MACRO_SUBST" id="r123::MicroURNG::R123_NO_MACRO_SUBST" ref="classr123_1_1_micro_u_r_n_g.html#aa05c857c01053cf9185406d69757b101" />
+      <keyword name="R123_NO_MACRO_SUBST" id="r123::MicroURNG::R123_NO_MACRO_SUBST" ref="classr123_1_1_micro_u_r_n_g.html#a3af623b6366d6e848d67d72e4b0f363c" />
+      <keyword name="BITS" id="r123::MicroURNG::BITS" ref="classr123_1_1_micro_u_r_n_g.html#ac55cddda8fe0808f922f39beee587b27" />
+      <keyword name="_Min" id="r123::MicroURNG::_Min" ref="classr123_1_1_micro_u_r_n_g.html#ab28a3411d56e76ff3f06113cd3069d7e" />
+      <keyword name="_Max" id="r123::MicroURNG::_Max" ref="classr123_1_1_micro_u_r_n_g.html#afc5cde67b30d39662f344cc9b4b5ad1f" />
+      <keyword name="chkhighbits" id="r123::MicroURNG::chkhighbits" ref="classr123_1_1_micro_u_r_n_g.html#a3a1ff961ed3a96eedac10eaf669db957" />
+      <keyword name="b" id="r123::MicroURNG::b" ref="classr123_1_1_micro_u_r_n_g.html#ad08d8685a19fd45df0e957f772808541" />
+      <keyword name="c0" id="r123::MicroURNG::c0" ref="classr123_1_1_micro_u_r_n_g.html#a4d8b23096879a0fdc34b2152e4f12931" />
+      <keyword name="k" id="r123::MicroURNG::k" ref="classr123_1_1_micro_u_r_n_g.html#aa242985c7947264b47f77f92bdd356e7" />
+      <keyword name="n" id="r123::MicroURNG::n" ref="classr123_1_1_micro_u_r_n_g.html#ad7044d03d8de81d29234d0b3beed9a9f" />
+      <keyword name="last_elem" id="r123::MicroURNG::last_elem" ref="classr123_1_1_micro_u_r_n_g.html#af55053899ed76eceffd4a6ea2a3ffd24" />
+      <keyword name="rdata" id="r123::MicroURNG::rdata" ref="classr123_1_1_micro_u_r_n_g.html#a6cb5dbb4387ac0e982ffc779c7dc7040" />
+      <keyword name="r123::ReinterpretCtr" id="r123::ReinterpretCtr" ref="structr123_1_1_reinterpret_ctr.html" />
+      <keyword name="ctr_type" id="r123::ReinterpretCtr::ctr_type" ref="structr123_1_1_reinterpret_ctr.html#a26cf9e933b35411c37070c948085ba02" />
+      <keyword name="key_type" id="r123::ReinterpretCtr::key_type" ref="structr123_1_1_reinterpret_ctr.html#a470b21676ed709aa9d9ad524a67410f1" />
+      <keyword name="bctype" id="r123::ReinterpretCtr::bctype" ref="structr123_1_1_reinterpret_ctr.html#ae0accaee618b5eb28a24acd516b3a4c6" />
+      <keyword name="ukey_type" id="r123::ReinterpretCtr::ukey_type" ref="structr123_1_1_reinterpret_ctr.html#a4b0b69c1aa58d62bb22e51e16c586bee" />
+      <keyword name="R123_STATIC_ASSERT" id="r123::ReinterpretCtr::R123_STATIC_ASSERT" ref="structr123_1_1_reinterpret_ctr.html#ad6fe140cb2f1aa215c4741f646249b16" />
+      <keyword name="operator()" id="r123::ReinterpretCtr::operator()" ref="structr123_1_1_reinterpret_ctr.html#a91edc5103397372cc5509ad17c0fc83a" />
     </keywords>
     <files>
       <file>tabs.css</file>
@@ -1107,6 +1298,29 @@
       <file>mpi_2include_2math__rng_8hpp_source.html</file>
       <file>include_2math__sf_8hpp_source.html</file>
       <file>mpi_2include_2math__sf_8hpp_source.html</file>
+      <file>aes_8h_source.html</file>
+      <file>array_8h_source.html</file>
+      <file>ars_8h_source.html</file>
+      <file>_engine_8hpp_source.html</file>
+      <file>gsl__cbrng_8h_source.html</file>
+      <file>clangfeatures_8h_source.html</file>
+      <file>compilerfeatures_8h_source.html</file>
+      <file>gccfeatures_8h_source.html</file>
+      <file>iccfeatures_8h_source.html</file>
+      <file>msvcfeatures_8h_source.html</file>
+      <file>nvccfeatures_8h_source.html</file>
+      <file>open64features_8h_source.html</file>
+      <file>openclfeatures_8h_source.html</file>
+      <file>pgccfeatures_8h_source.html</file>
+      <file>sse_8h_source.html</file>
+      <file>sunprofeatures_8h_source.html</file>
+      <file>xlcfeatures_8h_source.html</file>
+      <file>gsl__microrng_8h_source.html</file>
+      <file>_micro_u_r_n_g_8hpp_source.html</file>
+      <file>philox_8h_source.html</file>
+      <file>_reinterpret_ctr_8hpp_source.html</file>
+      <file>threefry_8h_source.html</file>
+      <file>uniform_8hpp_source.html</file>
       <file>include_2sys__env_8hpp_source.html</file>
       <file>mpi_2include_2sys__env_8hpp_source.html</file>
       <file>include_2sys__utils_8hpp_source.html</file>
@@ -1115,6 +1329,7 @@
       <file>_c_a_l___m_p_i___atm_sim_8hpp_source.html</file>
       <file>atmosphere_8hpp_source.html</file>
       <file>mpi_2atmosphere_8hpp_source.html</file>
+      <file>porting.html</file>
       <file>namespaceatm.html</file>
       <file>namespacecal.html</file>
       <file>classcal_1_1_aligned_allocator.html</file>
@@ -1137,18 +1352,31 @@
       <file>classcal_1_1mpi__shmem-members.html</file>
       <file>classcal_1_1_timer.html</file>
       <file>classcal_1_1_timer-members.html</file>
+      <file>namespacer123.html</file>
+      <file>structr123_1_1_engine.html</file>
+      <file>structr123_1_1_engine-members.html</file>
+      <file>structr123_1_1make__signed.html</file>
+      <file>structr123_1_1make__unsigned.html</file>
+      <file>classr123_1_1_micro_u_r_n_g.html</file>
+      <file>classr123_1_1_micro_u_r_n_g-members.html</file>
+      <file>structr123_1_1_reinterpret_ctr.html</file>
+      <file>structr123_1_1_reinterpret_ctr-members.html</file>
       <file>graph_legend.png</file>
       <file>graph_legend.html</file>
+      <file>dir_116bb45d4e983dae34208075fe4d073d.html</file>
+      <file>dir_3f0d6b35befd1e9fb15b35b523e5557c.html</file>
       <file>dir_6555b628ccbf8364812c27238755d763.html</file>
       <file>dir_9c526ca000b1c9a35425d73a6b71425e.html</file>
       <file>dir_baf61ba8974bc96039a3dcd752f00a43.html</file>
       <file>dir_4eaad2053844b128b17a2c9179b6a43f.html</file>
-      <file>dir_68267d1309a1af8e8297ef4c3efbcdba.html</file>
+      <file>dir_f4a64907064478b1dfc4fa39dc66e175.html</file>
       <file>dir_ab2ad315f76867454911ba8e87d1a431.html</file>
       <file>dir_a81934cb0d09606300d596ad070e1d61.html</file>
+      <file>dir_68267d1309a1af8e8297ef4c3efbcdba.html</file>
       <file>dir_120ed4da3e3217b1e7fc0b4f48568e79.html</file>
       <file>dir_0d31d1d0598acdf94e5a0d8eb3e1acb2.html</file>
       <file>index.html</file>
+      <file>pages.html</file>
       <file>namespaces.html</file>
       <file>namespacemembers.html</file>
       <file>namespacemembers.html</file>
