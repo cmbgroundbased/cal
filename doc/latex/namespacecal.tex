@@ -199,6 +199,11 @@ void \mbox{\hyperlink{namespacecal_a386b2fd552bee380dded079e25942fd3}{aligned\+\
 \item 
 \mbox{\Hypertarget{namespacecal_a85158d526cedffed1ba5bcad50cb90af}\label{namespacecal_a85158d526cedffed1ba5bcad50cb90af}} 
 {\footnotesize template$<$typename T1 , class T2 $>$ }\\bool {\bfseries operator!=} (\mbox{\hyperlink{classcal_1_1_aligned_allocator}{Aligned\+Allocator}}$<$ T1 $>$ const \&, \mbox{\hyperlink{classcal_1_1_aligned_allocator}{Aligned\+Allocator}}$<$ T2 $>$ const \&)  throw ()
+\item 
+void \mbox{\hyperlink{namespacecal_a7bcb0ec3f9aac1061e3281f30e720501}{mpi\+\_\+init}} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\item 
+\mbox{\Hypertarget{namespacecal_ac60a12fdb7e61f436aab108eba8b87d5}\label{namespacecal_ac60a12fdb7e61f436aab108eba8b87d5}} 
+void {\bfseries mpi\+\_\+finalize} ()
 \end{DoxyCompactItemize}
 \doxysubsection*{Variables}
 \begin{DoxyCompactItemize}
@@ -485,7 +490,13 @@ Args\+:~\newline
 {\footnotesize\ttfamily template$<$typename T $>$ \\
 bool cal\+::is\+\_\+aligned (\begin{DoxyParamCaption}\item[{T $\ast$}]{ptr }\end{DoxyParamCaption})}
 
-Check for alignment of a pointer \mbox{\Hypertarget{namespacecal_ac006cd5b1735a42dce13253f638fe5db}\label{namespacecal_ac006cd5b1735a42dce13253f638fe5db}} 
+Check for alignment of a pointer \mbox{\Hypertarget{namespacecal_a7bcb0ec3f9aac1061e3281f30e720501}\label{namespacecal_a7bcb0ec3f9aac1061e3281f30e720501}} 
+\index{cal@{cal}!mpi\_init@{mpi\_init}}
+\index{mpi\_init@{mpi\_init}!cal@{cal}}
+\doxysubsubsection{\texorpdfstring{mpi\_init()}{mpi\_init()}}
+{\footnotesize\ttfamily void cal\+::mpi\+\_\+init (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
+
+If M\+PI is not yet initialized (by mpi4py or some other place), then initialize it here. \mbox{\Hypertarget{namespacecal_ac006cd5b1735a42dce13253f638fe5db}\label{namespacecal_ac006cd5b1735a42dce13253f638fe5db}} 
 \index{cal@{cal}!operator==@{operator==}}
 \index{operator==@{operator==}!cal@{cal}}
 \doxysubsubsection{\texorpdfstring{operator==()}{operator==()}}

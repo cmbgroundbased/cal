@@ -9,6 +9,13 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>church_model</Name>
+      <APILanguage>markdown</APILanguage>
+    </TokenIdentifier>
+    <Path>church_model.html</Path>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>atm</Name>
       <APILanguage>c</APILanguage>
       <Type>ns</Type>
@@ -213,6 +220,17 @@
     <Path>namespacecal.html</Path>
     <Anchor>ac006cd5b1735a42dce13253f638fe5db</Anchor>
     <DeclaredIn>sys_utils.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>mpi_init</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>func</Type>
+      <Scope>cal</Scope>
+    </TokenIdentifier>
+    <Path>namespacecal.html</Path>
+    <Anchor>a7bcb0ec3f9aac1061e3281f30e720501</Anchor>
+    <DeclaredIn>mpi_init.hpp</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>

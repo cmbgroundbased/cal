@@ -12,6 +12,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -71,19 +78,21 @@ $(function() {
 <p>One of these tasks is represented by atmospheric simulations. The atmospheric time evolution and emission proprieties are the same for the same locations and are not up to the instrumental feature.</p>
 <p>Out of this consideration, we decided to extract the code that does the atmospheric simulation from the TOAST framework. This bunch of code is released by (Who actually do release this?) under the &lt;LICENSE&gt; license.</p>
 <p>The maintenance and future improvements actions of the CAL library are up to the CAL authors, that are listed in the AUTHORS file in this repository.</p>
+<p>The atmospheric model is based on the S. Church 1995 paper. The mathematical description is available on <a class="el" href="church_model.html">The atmospheric model</a></p>
+<p class="formulaDsp">
+\[r = \sqrt{x^2+y^2}\]
+</p>
 <h2><a class="anchor" id="autotoc_md0"></a>
-Install</h2>
-<h2><a class="anchor" id="autotoc_md1"></a>
 Contribution guidelines</h2>
-<h2><a class="anchor" id="autotoc_md2"></a>
+<h2><a class="anchor" id="autotoc_md1"></a>
 Continuous build status</h2>
-<h3><a class="anchor" id="autotoc_md3"></a>
+<h3><a class="anchor" id="autotoc_md2"></a>
 Official Builds</h3>
-<h3><a class="anchor" id="autotoc_md4"></a>
+<h3><a class="anchor" id="autotoc_md3"></a>
 Community Supported Builds</h3>
-<h2><a class="anchor" id="autotoc_md5"></a>
+<h2><a class="anchor" id="autotoc_md4"></a>
 Resources</h2>
-<h2><a class="anchor" id="autotoc_md6"></a>
+<h2><a class="anchor" id="autotoc_md5"></a>
 License</h2>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->

@@ -8,7 +8,9 @@ Out of this consideration, we decided to extract the code that does the atmosphe
 
 The maintenance and future improvements actions of the CAL library are up to the CAL authors, that are listed in the AUTHORS file in this repository.
 
-## Install
+The atmospheric model is based on the S. Church 1995 paper. The mathematical description is available on @ref church_model
+
+\f[r = \sqrt{x^2+y^2}\f]
 
 ## Contribution guidelines
 

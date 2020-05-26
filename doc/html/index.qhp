@@ -6,16 +6,18 @@
     <filterAttribute>doxygen</filterAttribute>
     <toc>
       <section title="CAL - CMB Atmospheric Library" ref="index.html">
-        <section title="Install" ref="index.html#autotoc_md0" />
-        <section title="Contribution guidelines" ref="index.html#autotoc_md1" />
-        <section title="Continuous build status" ref="index.html#autotoc_md2">
-          <section title="Official Builds" ref="index.html#autotoc_md3" />
-          <section title="Community Supported Builds" ref="index.html#autotoc_md4" />
+        <section title="Contribution guidelines" ref="index.html#autotoc_md0" />
+        <section title="Continuous build status" ref="index.html#autotoc_md1">
+          <section title="Official Builds" ref="index.html#autotoc_md2" />
+          <section title="Community Supported Builds" ref="index.html#autotoc_md3" />
         </section>
-        <section title="Resources" ref="index.html#autotoc_md5" />
-        <section title="License" ref="index.html#autotoc_md6" />
+        <section title="Resources" ref="index.html#autotoc_md4" />
+        <section title="License" ref="index.html#autotoc_md5" />
       </section>
       <section title="Preprocessor symbols for porting Random123 to different platforms." ref="porting.html" />
+      <section title="The atmospheric model" ref="church_model.html">
+        <section title="The Atmosphere as a dispersive medium" ref="church_model.html#autotoc_md6" />
+      </section>
       <section title="Namespaces" ref="namespaces.html">
         <section title="Namespace List" ref="namespaces.html">
           <section title="atm" ref="namespaceatm.html" />
@@ -624,6 +626,7 @@
                 <section title="CAL_MPI_AtmSim.hpp" ref="_c_a_l___m_p_i___atm_sim_8hpp_source.html" />
                 <section title="math_rng.hpp" ref="mpi_2include_2math__rng_8hpp_source.html" />
                 <section title="math_sf.hpp" ref="mpi_2include_2math__sf_8hpp_source.html" />
+                <section title="mpi_init.hpp" ref="mpi__init_8hpp_source.html" />
                 <section title="sys_env.hpp" ref="mpi_2include_2sys__env_8hpp_source.html" />
                 <section title="sys_utils.hpp" ref="mpi_2include_2sys__utils_8hpp_source.html" />
               </section>
@@ -641,6 +644,7 @@
   </toc>
     <keywords>
       <keyword name="Preprocessor symbols for porting Random123 to different platforms." id="Preprocessor symbols for porting Random123 to different platforms." ref="porting.html" />
+      <keyword name="The atmospheric model" id="The atmospheric model" ref="church_model.html" />
       <keyword name="atm" id="atm" ref="namespaceatm.html" />
       <keyword name="cal" id="cal" ref="namespacecal.html" />
       <keyword name="vec_long" id="cal::vec_long" ref="namespacecal.html#a339c57a1cf1c477280eb709ba5cb0687" />
@@ -693,6 +697,8 @@
       <keyword name="is_aligned" id="cal::is_aligned" ref="namespacecal.html#acff47c45d5620ce01acfc4b02a6a55d5" />
       <keyword name="operator==" id="cal::operator==" ref="namespacecal.html#ac006cd5b1735a42dce13253f638fe5db" />
       <keyword name="operator!=" id="cal::operator!=" ref="namespacecal.html#a85158d526cedffed1ba5bcad50cb90af" />
+      <keyword name="mpi_init" id="cal::mpi_init" ref="namespacecal.html#a7bcb0ec3f9aac1061e3281f30e720501" />
+      <keyword name="mpi_finalize" id="cal::mpi_finalize" ref="namespacecal.html#ac60a12fdb7e61f436aab108eba8b87d5" />
       <keyword name="PI" id="cal::PI" ref="namespacecal.html#a425f2050d321af837dccf72f448c5caa" />
       <keyword name="PI_2" id="cal::PI_2" ref="namespacecal.html#a4dca4fa2947c5a401eb8376cf41c01aa" />
       <keyword name="PI_4" id="cal::PI_4" ref="namespacecal.html#a2b595f2dba9f4b168d21116b03d69a36" />
@@ -1327,9 +1333,12 @@
       <file>mpi_2include_2sys__utils_8hpp_source.html</file>
       <file>atm__shm_8hpp_source.html</file>
       <file>_c_a_l___m_p_i___atm_sim_8hpp_source.html</file>
+      <file>mpi__init_8hpp_source.html</file>
       <file>atmosphere_8hpp_source.html</file>
       <file>mpi_2atmosphere_8hpp_source.html</file>
       <file>porting.html</file>
+      <file>church_model.html</file>
+      <file>emission_atm.jpg</file>
       <file>namespaceatm.html</file>
       <file>namespacecal.html</file>
       <file>classcal_1_1_aligned_allocator.html</file>
@@ -1364,15 +1373,16 @@
       <file>graph_legend.png</file>
       <file>graph_legend.html</file>
       <file>dir_116bb45d4e983dae34208075fe4d073d.html</file>
+      <file>dir_1b76bd0b32738ff94257316dc7fe263e.html</file>
       <file>dir_3f0d6b35befd1e9fb15b35b523e5557c.html</file>
-      <file>dir_6555b628ccbf8364812c27238755d763.html</file>
       <file>dir_9c526ca000b1c9a35425d73a6b71425e.html</file>
+      <file>dir_6555b628ccbf8364812c27238755d763.html</file>
       <file>dir_baf61ba8974bc96039a3dcd752f00a43.html</file>
       <file>dir_4eaad2053844b128b17a2c9179b6a43f.html</file>
       <file>dir_f4a64907064478b1dfc4fa39dc66e175.html</file>
-      <file>dir_ab2ad315f76867454911ba8e87d1a431.html</file>
-      <file>dir_a81934cb0d09606300d596ad070e1d61.html</file>
       <file>dir_68267d1309a1af8e8297ef4c3efbcdba.html</file>
+      <file>dir_a81934cb0d09606300d596ad070e1d61.html</file>
+      <file>dir_ab2ad315f76867454911ba8e87d1a431.html</file>
       <file>dir_120ed4da3e3217b1e7fc0b4f48568e79.html</file>
       <file>dir_0d31d1d0598acdf94e5a0d8eb3e1acb2.html</file>
       <file>index.html</file>
@@ -1385,6 +1395,8 @@
       <file>namespacemembers.html</file>
       <file>namespacemembers.html</file>
       <file>namespacemembers.html</file>
+      <file>namespacemembers.html</file>
+      <file>namespacemembers_func.html</file>
       <file>namespacemembers_func.html</file>
       <file>namespacemembers_func.html</file>
       <file>namespacemembers_func.html</file>

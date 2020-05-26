@@ -7,46 +7,52 @@
       <Subnodes>
         <Subnodes>
          <Node>
-          <Name>Install</Name>
+          <Name>Contribution guidelines</Name>
           <Path>index.html</Path>
           <Anchor>autotoc_md0</Anchor>
          </Node>
          <Node>
-          <Name>Contribution guidelines</Name>
-          <Path>index.html</Path>
-          <Anchor>autotoc_md1</Anchor>
-         </Node>
-         <Node>
           <Name>Continuous build status</Name>
           <Path>index.html</Path>
-          <Anchor>autotoc_md2</Anchor>
+          <Anchor>autotoc_md1</Anchor>
           <Subnodes>
            <Node>
             <Name>Official Builds</Name>
             <Path>index.html</Path>
-            <Anchor>autotoc_md3</Anchor>
+            <Anchor>autotoc_md2</Anchor>
            </Node>
            <Node>
             <Name>Community Supported Builds</Name>
             <Path>index.html</Path>
-            <Anchor>autotoc_md4</Anchor>
+            <Anchor>autotoc_md3</Anchor>
            </Node>
           </Subnodes>
          </Node>
          <Node>
           <Name>Resources</Name>
           <Path>index.html</Path>
-          <Anchor>autotoc_md5</Anchor>
+          <Anchor>autotoc_md4</Anchor>
          </Node>
          <Node>
           <Name>License</Name>
           <Path>index.html</Path>
-          <Anchor>autotoc_md6</Anchor>
+          <Anchor>autotoc_md5</Anchor>
          </Node>
         </Subnodes>
        <Node>
         <Name>Preprocessor symbols for porting Random123 to different platforms.</Name>
         <Path>porting.html</Path>
+       </Node>
+       <Node>
+        <Name>The atmospheric model</Name>
+        <Path>church_model.html</Path>
+        <Subnodes>
+         <Node>
+          <Name>The Atmosphere as a dispersive medium</Name>
+          <Path>church_model.html</Path>
+          <Anchor>autotoc_md6</Anchor>
+         </Node>
+        </Subnodes>
        </Node>
        <Node>
         <Name>Namespaces</Name>
@@ -2934,6 +2940,10 @@
                  <Node>
                   <Name>math_sf.hpp</Name>
                   <Path>mpi_2include_2math__sf_8hpp_source.html</Path>
+                 </Node>
+                 <Node>
+                  <Name>mpi_init.hpp</Name>
+                  <Path>mpi__init_8hpp_source.html</Path>
                  </Node>
                  <Node>
                   <Name>sys_env.hpp</Name>

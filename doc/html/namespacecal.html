@@ -12,6 +12,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -283,6 +290,11 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>format_here</b
 template&lt;typename T1 , class T2 &gt; </td></tr>
 <tr class="memitem:a85158d526cedffed1ba5bcad50cb90af"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator!=</b> (<a class="el" href="classcal_1_1_aligned_allocator.html">AlignedAllocator</a>&lt; T1 &gt; const &amp;, <a class="el" href="classcal_1_1_aligned_allocator.html">AlignedAllocator</a>&lt; T2 &gt; const &amp;)  throw ()</td></tr>
 <tr class="separator:a85158d526cedffed1ba5bcad50cb90af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7bcb0ec3f9aac1061e3281f30e720501"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecal.html#a7bcb0ec3f9aac1061e3281f30e720501">mpi_init</a> (int argc, char *argv[])</td></tr>
+<tr class="separator:a7bcb0ec3f9aac1061e3281f30e720501"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac60a12fdb7e61f436aab108eba8b87d5"><td class="memItemLeft" align="right" valign="top"><a id="ac60a12fdb7e61f436aab108eba8b87d5"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>mpi_finalize</b> ()</td></tr>
+<tr class="separator:ac60a12fdb7e61f436aab108eba8b87d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -791,6 +803,35 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 <p>Check for alignment of a pointer </p>
+
+</div>
+</div>
+<a id="a7bcb0ec3f9aac1061e3281f30e720501"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7bcb0ec3f9aac1061e3281f30e720501">&#9670;&nbsp;</a></span>mpi_init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cal::mpi_init </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>argc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>argv</em>[]&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>If MPI is not yet initialized (by mpi4py or some other place), then initialize it here. </p>
 
 </div>
 </div>
