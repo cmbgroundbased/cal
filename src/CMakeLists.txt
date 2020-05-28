@@ -6,3 +6,5 @@ add_subdirectory(libcal)
 add_subdirectory(libcal_mpi)
 
 add_subdirectory(test)
+
+add_subdirectory(test_mpi)

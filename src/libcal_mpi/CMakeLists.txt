@@ -1,3 +1,5 @@
+string(STRIP "${MPI_CXX_COMPILE_FLAGS}" mpi_comp_flags)
+string(STRIP "${MPI_CXX_LINK_FLAGS}" mpi_link_flags)
 
 # Name of the internal static library
 set(MPI_CAL_LIB cal_mpi_)
@@ -44,10 +46,6 @@ target_include_directories(${MPI_CAL_LIB} PUBLIC
     PRIVATE src
 )
 
-if(MPI_FOUND)
-    target_compile_definitions(${MPI_CAL_LIB} PRIVATE HAVE_MPI=1)
-endif(MPI_FOUND)
-
 # Dependencies
 
 if(OpenMP_CXX_FOUND)
@@ -87,7 +85,11 @@ if(LAPACK_FOUND)
     target_link_libraries(${MPI_CAL_LIB} "${BLAS_LIBRARIES}")
 endif(LAPACK_FOUND)
 
+target_include_directories(${MPI_CAL_LIB} PRIVATE "${MPI_CXX_INCLUDE_PATH}")
 
+target_compile_options(${MPI_CAL_LIB} PRIVATE "${mpi_comp_flags}")
+
+set_target_properties(${MPI_CAL_LIB} PROPERTIES LINK_FLAGS "${mpi_link_flags}")
 
 # Now define rules for the shared library
 
