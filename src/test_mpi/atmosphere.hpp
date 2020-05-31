@@ -11,11 +11,11 @@
 
 double azmin = 0.0;
 double azmax = M_PI/2;
-double elmin = M_PI/3;
-double elmax = M_PI/2.5;
+double elmin = M_PI/3.1;
+double elmax = M_PI/2.9;
 
 double tmin = 0;
-double tmax = 600;
+double tmax = 60;
 
 double lmin_center = 0.01;
 double lmin_sigma = 0.001;

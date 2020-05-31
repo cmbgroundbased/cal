@@ -11,6 +11,7 @@
 */
 void cal::mpi_init(int argc, char * argv[])
 {
+    std::cout << "Initialize MPI" << std::endl;
     int ret;
     int initialized;
     int threadprovided;
@@ -27,6 +28,7 @@ void cal::mpi_init(int argc, char * argv[])
 }
 
 void cal::mpi_finalize() {
+    std::cout << "Finalize MPI" << std::endl;
     int ret = MPI_Finalize();
     return;
 }
