@@ -10,13 +10,13 @@
 #define ATM_TEST_HPP
 
 
-double azmin = M_PI/3.0;
-double azmax = M_PI/2.7;
-double elmin = M_PI/3.0;
-double elmax = M_PI/2.7;
+double azmin = 0.0;
+double azmax = M_PI/2;
+double elmin = M_PI/4;
+double elmax = M_PI/2.5;
 
 double tmin = 0;
-double tmax = 60*60*2;
+double tmax = 60;
 
 double lmin_center = 0.01;
 double lmin_sigma = 0.001;

@@ -10,20 +10,20 @@
 #define ATM_TEST_HPP
 
 double azmin = 0.0;
-double azmax = M_PI/2;
-double elmin = M_PI/3.1;
-double elmax = M_PI/2.9;
+double azmax = M_PI;
+double elmin = 0;
+double elmax = M_PI/2;
 
 double tmin = 0;
 double tmax = 60;
 
-double lmin_center = 0.01;
+double lmin_center = 10.0;
 double lmin_sigma = 0.001;
 
 double lmax_center = 10;
 double lmax_sigma = 10;
 
-double w_center = 0;
+double w_center = 40;
 double w_sigma = 10;
 
 double wdir_center = 0;
@@ -44,7 +44,7 @@ double zstep = 100;
 
 long nelem_sim_max = 100;
 
-int verbosity = 0;
+int verbosity = 1;
 
 uint64_t key1 = 0;
 uint64_t key2 = 11;

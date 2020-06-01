@@ -20,9 +20,10 @@ target_include_directories(mpi_atm_obs PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/../libcal_mpi/src"
 )
 
+# it works only if mpi is hardcoded...
 target_link_libraries(mpi_atm_ctor ${MPI_CAL_LIB} mpi)
 
-target_link_libraries(mpi_atm_obs ${MPI_CAL_LIB})
+target_link_libraries(mpi_atm_obs ${MPI_CAL_LIB} mpi)
 
 # install(TARGETS aatm_test_basic DESTINATION ${CMAKE_INSTALL_BINDIR})
 
