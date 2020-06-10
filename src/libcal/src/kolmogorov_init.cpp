@@ -35,7 +35,9 @@ void cal::atm_sim::initialize_kolmogorov()
     double kappa0 = 0.75 * kappamin;
     double kappa0sq = kappa0 * kappa0;
 
-    long nkappa = 100000; // Integration steps (has to be optimize!)
+    long nkappa = 100000; // Integration steps
+    double kappastart = 1e-4;
+    double kappastop = 10 * kappamax;
 
     /*double upper_limit = 10 * kappamax;
     double kappastep = upper_limit / (nkappa - 1);*/
@@ -71,7 +73,7 @@ void cal::atm_sim::initialize_kolmogorov()
     # pragma omp parallel for schedule(static, 10)
     for (long ikappa = first_kappa; ikappa < last_kappa; ++ikappa) {
         double k = exp(ikappa * kappascale) * kappastart;
-        double kkl = kappa * invkappal;
+        double kkl = k * invkappal;
         phi[ikappa - first_kappa] =
             (1. + 1.802 * kkl - 0.254 * pow(kkl, slope1))
             * exp(-kkl * kkl) * pow(k * k + kappa0sq, slope2);
@@ -113,7 +115,7 @@ void cal::atm_sim::initialize_kolmogorov()
             for (long ikappa = first_kappa; ikappa < last_kappa - 1; ++ikappa) {
                 double k = kappa[ikappa - first_kappa];
                 double kstep = kappa[ikappa + 1 - first_kappa] - k;
-                double kappa2 = kappa * kappa;
+                double kappa2 = k * k;
                 double kappa4 = kappa2 * kappa2;
                 val += phi[ikappa - first_kappa] * (kappa2 - r2 * kappa4 * ifac3) * kstep;
             }

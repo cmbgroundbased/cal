@@ -40,6 +40,8 @@ void cal::mpi_atm_sim::initialize_kolmogorov()
 
     // Integration steps (has to be optimize!)
     long nkappa = 100000;
+    double kappastart = 1e-4;
+    double kappastop = 10 * kappamax;
 
     double kappascale = log(kappastop / kappastart) / (nkappa - 1);
 
@@ -75,7 +77,7 @@ void cal::mpi_atm_sim::initialize_kolmogorov()
     # pragma omp parallel for schedule(static, 10)
     for (long ikappa = first_kappa; ikappa < last_kappa; ++ikappa) {
         double k = kappa[ikappa - first_kappa];
-        double kkl = kappa * invkappal;
+        double kkl = k * invkappal;
         phi[ikappa - first_kappa] =
             (1. + 1.802 * kkl - 0.254 * pow(kkl, slope1))
             * exp(-kkl * kkl) * pow(k * k + kappa0sq, slope2);
