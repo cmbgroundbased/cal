@@ -27,7 +27,8 @@ double cal::mpi_atm_sim::kolmogorov(double r)
         throw std::runtime_error(o.str().c_str());
     }
 
-    // Linear interpolation
+    // Linear interpolation, using a bisection methon
+    // to find the right elements
     long low = 0, high = nr - 1;
     long ir;
 
