@@ -47,7 +47,7 @@ void cal::mpi_atm_sim::smooth()
 
         long offset = ix * xstride + iy * ystride + iz * zstride;
 
-        long w = 3;
+        long w = 2;
         long ifullmax = compressed_index->size();
 
         std::vector <double> vals;

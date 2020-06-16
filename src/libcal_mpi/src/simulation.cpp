@@ -61,7 +61,9 @@ int cal::mpi_atm_sim::simulate(bool use_cache)
             if (ind_stop == nelem) break;
             ++slice;
         }
-        // smooth();
+
+        // A simply average on the first neighbors.
+	    smooth();
 
         // Process Synchronize
         MPI_Barrier(comm);

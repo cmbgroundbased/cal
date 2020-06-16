@@ -15,3 +15,6 @@ endif()
 add_subdirectory(test)
 
 add_subdirectory(test_mpi)
+
+# python wrappers for CAL
+# add_subdirectory(pycal)

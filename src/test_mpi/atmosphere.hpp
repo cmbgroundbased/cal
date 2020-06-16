@@ -20,14 +20,14 @@ double tmax = 60;
 double lmin_center = 10.0;
 double lmin_sigma = 0.001;
 
-double lmax_center = 10;
+double lmax_center = 300;
 double lmax_sigma = 10;
 
-double w_center = 40;
-double w_sigma = 10;
+double w_center = 5;
+double w_sigma = 5;
 
 double wdir_center = 0;
-double wdir_sigma = 100;
+double wdir_sigma = 0.5;
 
 double z0_center = 2000;
 double z0_sigma = 0;
@@ -42,7 +42,7 @@ double xstep = 100;
 double ystep = 100;
 double zstep = 100;
 
-long nelem_sim_max = 100;
+long nelem_sim_max = 200;
 
 int verbosity = 1;
 
