@@ -23,8 +23,8 @@ double lmin_sigma = 0.001;
 double lmax_center = 300;
 double lmax_sigma = 10;
 
-double w_center = 5;
-double w_sigma = 5;
+double w_center = 10;
+double w_sigma = 2;
 
 double wdir_center = 0;
 double wdir_sigma = 0.5;
@@ -38,9 +38,9 @@ double T0_sigma = 10;
 double zatm = 40000;
 double zmax = 2000;
 
-double xstep = 100;
-double ystep = 100;
-double zstep = 100;
+double xstep = 50;
+double ystep = 50;
+double zstep = 50;
 
 long nelem_sim_max = 200;
 

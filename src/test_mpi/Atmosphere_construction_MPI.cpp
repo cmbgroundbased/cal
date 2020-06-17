@@ -77,7 +77,10 @@ int main(int argc, char * argv[]){
 
 
     atm_strip->simulate(true);
+    MPI_Barrier(comm);
+
     atm_strip->observe(&(*t), &(*az), &(*el), &(*tod), nsamp);
+    MPI_Barrier(comm);
 
     // if(rank==0){
     //     for(int i=0; i<nsamp; i++){
