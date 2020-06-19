@@ -34,6 +34,7 @@ set(MPI_CAL_SOURCES
     src/sys_env.cpp
     src/sys_utils.cpp
     src/mpi_init.cpp
+    src/math_qarray.cpp
 )
 
 # Add the internal library target

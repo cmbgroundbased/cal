@@ -209,5 +209,6 @@ void init_sys(py::module & m);
 void init_math_sf(py::module & m);
 void init_math_rng(py::module & m);
 void init_mpi_atm(py::module & m);
+void init_math_qarray(py::module & m);
 
 #endif // ifndef LIBCAL_HPP

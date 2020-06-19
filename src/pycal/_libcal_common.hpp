@@ -22,6 +22,7 @@
 #include <mpi_init.hpp>
 #include <sys_env.hpp>
 #include <sys_utils.hpp>
+#include <math_qarray.hpp>
 
 #include <string>
 #include <sstream>

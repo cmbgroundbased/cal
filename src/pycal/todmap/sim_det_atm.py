@@ -27,7 +27,7 @@ if available_mpi:
 
 from pycal.mpi import MPI
 
-import toast.qarray as qa # questa manca!
+import pycal.qarray as qa
 
 
 class OpSimAtmosphere(Operator):
@@ -121,7 +121,7 @@ class OpSimAtmosphere(Operator):
     ):
         if not available:
             msg = (
-                "TOAST not compiled with atmosphere simulation support (requires "
+                "CAL not compiled with atmosphere simulation support (requires "
                 "SuiteSparse)"
             )
             raise RuntimeError(msg)
@@ -167,7 +167,7 @@ class OpSimAtmosphere(Operator):
         the atmosphere timestreams.
 
         Args:
-            data (toast.Data): The distributed data.
+            data (cal.Data): The distributed data.
 
         Returns:
             None
@@ -176,7 +176,7 @@ class OpSimAtmosphere(Operator):
         if data.comm.comm_world is not None:
             if not available_mpi:
                 msg = (
-                    "MPI is used by the data distribution, but TOAST was not built "
+                    "MPI is used by the data distribution, but CAL was not built "
                     "with MPI-enabled atmosphere simulation support."
                 )
                 raise RuntimeError(msg)
@@ -526,7 +526,7 @@ class OpSimAtmosphere(Operator):
         if self._freq is not None:
             if not available_utils:
                 msg = (
-                    "TOAST not compiled with libaatm support- absorption and "
+                    "CAL not compiled with libaatm support - absorption and "
                     "loading unavailable"
                 )
                 raise RuntimeError(msg)

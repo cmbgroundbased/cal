@@ -29,6 +29,7 @@ pybind11_add_module(_libcal_mpi MODULE
     _libcal_sys.cpp
     _libcal_math_sf.cpp
     _libcal_math_rng.cpp
+    _libcal_math_qarray.cpp
     _libcal_atm_mpi.cpp
 )
 
@@ -74,6 +75,7 @@ install(FILES
     vis.py
     rng.py
     weather.py
+    qarray.py
     RELEASE
     DESTINATION ${PYTHON_SITE}/pycal
 )

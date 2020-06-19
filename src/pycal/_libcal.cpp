@@ -30,31 +30,6 @@ PYBIND11_MODULE(_libcal_mpi, m) {
     init_math_sf(m);
     init_math_rng(m);
     init_mpi_atm(m);
+    init_math_qarray(m);
 
-    // Internal unit test runner
-    // m.def(
-    //     "libcal_tests", [](py::list argv) {
-    //         size_t narg = argv.size();
-    //         std::vector <std::string> argbuffer;
-    //         for (auto const & a : argv) {
-    //             argbuffer.push_back(py::cast <std::string> (a));
-    //         }
-    //         char ** carg = (char **)std::malloc(narg * sizeof(char *));
-    //         for (size_t i = 0; i < narg; ++i) {
-    //             carg[i] = &(argbuffer[i][0]);
-    //         }
-    //         cal::test_runner(narg, carg);
-    //         free(carg);
-    //         return;
-    //     }, py::arg(
-    //         "argv"), R"(
-    //     Run serial compiled tests from the internal libcal.
-    //
-    //     Args:
-    //         argv (list):  The sys.argv or compatible list.
-    //
-    //     Returns:
-    //         None
-    //
-    // )");
 }
