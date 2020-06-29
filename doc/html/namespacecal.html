@@ -290,6 +290,114 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>format_here</b
 template&lt;typename T1 , class T2 &gt; </td></tr>
 <tr class="memitem:a85158d526cedffed1ba5bcad50cb90af"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator!=</b> (<a class="el" href="classcal_1_1_aligned_allocator.html">AlignedAllocator</a>&lt; T1 &gt; const &amp;, <a class="el" href="classcal_1_1_aligned_allocator.html">AlignedAllocator</a>&lt; T2 &gt; const &amp;)  throw ()</td></tr>
 <tr class="separator:a85158d526cedffed1ba5bcad50cb90af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae43af044fcf97dee5f6a25077456f15a"><td class="memItemLeft" align="right" valign="top"><a id="ae43af044fcf97dee5f6a25077456f15a"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>qa_list_dot</b> (size_t n, size_t m, size_t d, double const *a, double const *b, double *dotprod)</td></tr>
+<tr class="separator:ae43af044fcf97dee5f6a25077456f15a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8376e36a759403312f955dd5e074233b"><td class="memItemLeft" align="right" valign="top"><a id="a8376e36a759403312f955dd5e074233b"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>qa_inv</b> (size_t n, double *q)</td></tr>
+<tr class="separator:a8376e36a759403312f955dd5e074233b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb6194e7eb773ff1892a7f3946de9335"><td class="memItemLeft" align="right" valign="top"><a id="aeb6194e7eb773ff1892a7f3946de9335"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>qa_amplitude_one</b> (size_t d, double const *v, double *norm)</td></tr>
+<tr class="separator:aeb6194e7eb773ff1892a7f3946de9335"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a544dcba542343fd8872b3e59e7441b88"><td class="memItemLeft" align="right" valign="top"><a id="a544dcba542343fd8872b3e59e7441b88"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>qa_amplitude</b> (size_t n, size_t m, size_t d, double const *v, double *norm)</td></tr>
+<tr class="separator:a544dcba542343fd8872b3e59e7441b88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83e3116f0da3daea6c6490324e24c7e3"><td class="memItemLeft" align="right" valign="top"><a id="a83e3116f0da3daea6c6490324e24c7e3"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>qa_normalize_one</b> (size_t d, double const *q_in, double *q_out)</td></tr>
+<tr class="separator:a83e3116f0da3daea6c6490324e24c7e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae18cece9810a1ffe80462686e33f61d9"><td class="memItemLeft" align="right" valign="top"><a id="ae18cece9810a1ffe80462686e33f61d9"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>qa_normalize</b> (size_t n, size_t m, size_t d, double const *q_in, double *q_out)</td></tr>
+<tr class="separator:ae18cece9810a1ffe80462686e33f61d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a104a6c5c96e2c4e39aeeb8e28bd78396"><td class="memItemLeft" align="right" valign="top"><a id="a104a6c5c96e2c4e39aeeb8e28bd78396"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>qa_normalize_inplace_one</b> (size_t d, double *q)</td></tr>
+<tr class="separator:a104a6c5c96e2c4e39aeeb8e28bd78396"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84f7ee155aeb3227cf8c1379e728e152"><td class="memItemLeft" align="right" valign="top"><a id="a84f7ee155aeb3227cf8c1379e728e152"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>qa_normalize_inplace</b> (size_t n, size_t m, size_t d, double *q)</td></tr>
+<tr class="separator:a84f7ee155aeb3227cf8c1379e728e152"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa01800a63146c3583ce421a619bf2bbd"><td class="memItemLeft" align="right" valign="top"><a id="aa01800a63146c3583ce421a619bf2bbd"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>qa_rotate_one_one</b> (double const *q, double const *v_in, double *v_out)</td></tr>
+<tr class="separator:aa01800a63146c3583ce421a619bf2bbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c513b7ac756f9ead3c225827f4781b6"><td class="memItemLeft" align="right" valign="top"><a id="a6c513b7ac756f9ead3c225827f4781b6"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>qa_rotate_many_one</b> (size_t nq, double const *q, double const *v_in, double *v_out)</td></tr>
+<tr class="separator:a6c513b7ac756f9ead3c225827f4781b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9005a4d5ceb7546e844d0d51d1b2d2c8"><td class="memItemLeft" align="right" valign="top"><a id="a9005a4d5ceb7546e844d0d51d1b2d2c8"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>qa_rotate_one_many</b> (double const *q, size_t nv, double const *v_in, double *v_out)</td></tr>
+<tr class="separator:a9005a4d5ceb7546e844d0d51d1b2d2c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a804805b6b1dc8317f06a917479cc7540"><td class="memItemLeft" align="right" valign="top"><a id="a804805b6b1dc8317f06a917479cc7540"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>qa_rotate_many_many</b> (size_t n, double const *q, double const *v_in, double *v_out)</td></tr>
+<tr class="separator:a804805b6b1dc8317f06a917479cc7540"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf1f9abeb94620efbd3ad4dece66cce6"><td class="memItemLeft" align="right" valign="top"><a id="acf1f9abeb94620efbd3ad4dece66cce6"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>qa_rotate</b> (size_t nq, double const *q, size_t nv, double const *v_in, double *v_out)</td></tr>
+<tr class="separator:acf1f9abeb94620efbd3ad4dece66cce6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a4eca1189c7da1d16fad6e35951c6b6"><td class="memItemLeft" align="right" valign="top"><a id="a8a4eca1189c7da1d16fad6e35951c6b6"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>qa_mult_one_one</b> (double const *p, double const *q, double *r)</td></tr>
+<tr class="separator:a8a4eca1189c7da1d16fad6e35951c6b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0c1f8ad8463b7a557917bfc1c497974"><td class="memItemLeft" align="right" valign="top"><a id="ae0c1f8ad8463b7a557917bfc1c497974"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>qa_mult_one_many</b> (double const *p, size_t nq, double const *q, double *r)</td></tr>
+<tr class="separator:ae0c1f8ad8463b7a557917bfc1c497974"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa5c650258a83ce169e6375979b3a87b"><td class="memItemLeft" align="right" valign="top"><a id="afa5c650258a83ce169e6375979b3a87b"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>qa_mult_many_one</b> (size_t np, double const *p, double const *q, double *r)</td></tr>
+<tr class="separator:afa5c650258a83ce169e6375979b3a87b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86dfac7c0110ee00a3903b9ad4f38ab6"><td class="memItemLeft" align="right" valign="top"><a id="a86dfac7c0110ee00a3903b9ad4f38ab6"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>qa_mult_many_many</b> (size_t np, double const *p, size_t nq, double const *q, double *r)</td></tr>
+<tr class="separator:a86dfac7c0110ee00a3903b9ad4f38ab6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a722966c305b3b15dab0cd97cfd32c53c"><td class="memItemLeft" align="right" valign="top"><a id="a722966c305b3b15dab0cd97cfd32c53c"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>qa_mult</b> (size_t np, double const *p, size_t nq, double const *q, double *r)</td></tr>
+<tr class="separator:a722966c305b3b15dab0cd97cfd32c53c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb9b561abb615447ad77e659b29eca9e"><td class="memItemLeft" align="right" valign="top"><a id="adb9b561abb615447ad77e659b29eca9e"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>qa_slerp</b> (size_t n_time, size_t n_targettime, double const *time, double const *targettime, double const *q_in, double *q_interp)</td></tr>
+<tr class="separator:adb9b561abb615447ad77e659b29eca9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a19d7d623e9e2e7a77671f5893dde8e"><td class="memItemLeft" align="right" valign="top"><a id="a8a19d7d623e9e2e7a77671f5893dde8e"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>qa_exp</b> (size_t n, double const *q_in, double *q_out)</td></tr>
+<tr class="separator:a8a19d7d623e9e2e7a77671f5893dde8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ab383bb3f1a1f16c10a1468e62c112b"><td class="memItemLeft" align="right" valign="top"><a id="a4ab383bb3f1a1f16c10a1468e62c112b"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>qa_ln</b> (size_t n, double const *q_in, double *q_out)</td></tr>
+<tr class="separator:a4ab383bb3f1a1f16c10a1468e62c112b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4216e117341ba41f2542c85071445997"><td class="memItemLeft" align="right" valign="top"><a id="a4216e117341ba41f2542c85071445997"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>qa_pow</b> (size_t nq, size_t np, double const *p, double const *q_in, double *q_out)</td></tr>
+<tr class="separator:a4216e117341ba41f2542c85071445997"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac870b67136e8d2928ae95b54e4e20411"><td class="memItemLeft" align="right" valign="top"><a id="ac870b67136e8d2928ae95b54e4e20411"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>qa_from_axisangle_one_one</b> (double const *axis, double angle, double *q_out)</td></tr>
+<tr class="separator:ac870b67136e8d2928ae95b54e4e20411"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a211fdd43c2853708135008034b87692f"><td class="memItemLeft" align="right" valign="top"><a id="a211fdd43c2853708135008034b87692f"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>qa_from_axisangle_one_many</b> (size_t nang, double const *axis, double const *angle, double *q_out)</td></tr>
+<tr class="separator:a211fdd43c2853708135008034b87692f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0147454581823dd343a5c370f3ab4203"><td class="memItemLeft" align="right" valign="top"><a id="a0147454581823dd343a5c370f3ab4203"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>qa_from_axisangle_many_one</b> (size_t naxis, double const *axis, double angle, double *q_out)</td></tr>
+<tr class="separator:a0147454581823dd343a5c370f3ab4203"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8134d7ae31765e2d784ce58c169baeab"><td class="memItemLeft" align="right" valign="top"><a id="a8134d7ae31765e2d784ce58c169baeab"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>qa_from_axisangle_many_many</b> (size_t n, double const *axis, double const *angle, double *q_out)</td></tr>
+<tr class="separator:a8134d7ae31765e2d784ce58c169baeab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca2b0787d4ff4677f888aa0b1efea080"><td class="memItemLeft" align="right" valign="top"><a id="aca2b0787d4ff4677f888aa0b1efea080"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>qa_from_axisangle</b> (size_t naxis, double const *axis, size_t nang, double const *angle, double *q_out)</td></tr>
+<tr class="separator:aca2b0787d4ff4677f888aa0b1efea080"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7cef7d58f2fbd35392e66f833598254"><td class="memItemLeft" align="right" valign="top"><a id="af7cef7d58f2fbd35392e66f833598254"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>qa_to_axisangle_one</b> (double const *q, double *axis, double *angle)</td></tr>
+<tr class="separator:af7cef7d58f2fbd35392e66f833598254"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41f0d74d1b08b5d48a7506c908b820cc"><td class="memItemLeft" align="right" valign="top"><a id="a41f0d74d1b08b5d48a7506c908b820cc"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>qa_to_axisangle</b> (size_t n, double const *q, double *axis, double *angle)</td></tr>
+<tr class="separator:a41f0d74d1b08b5d48a7506c908b820cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7c761f8c067eaf5992b78688201c16f"><td class="memItemLeft" align="right" valign="top"><a id="aa7c761f8c067eaf5992b78688201c16f"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>qa_to_rotmat</b> (double const *q, double *rotmat)</td></tr>
+<tr class="separator:aa7c761f8c067eaf5992b78688201c16f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75305678672f7d938ba4656133babd72"><td class="memItemLeft" align="right" valign="top"><a id="a75305678672f7d938ba4656133babd72"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>qa_from_rotmat</b> (const double *rotmat, double *q)</td></tr>
+<tr class="separator:a75305678672f7d938ba4656133babd72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d7cb69b65c98ca1aa8b7edfbd009f2f"><td class="memItemLeft" align="right" valign="top"><a id="a9d7cb69b65c98ca1aa8b7edfbd009f2f"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>qa_from_vectors</b> (size_t n, double const *vec1, double const *vec2, double *q)</td></tr>
+<tr class="separator:a9d7cb69b65c98ca1aa8b7edfbd009f2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8581a1d0da3c280053a0800e6fb8360b"><td class="memItemLeft" align="right" valign="top"><a id="a8581a1d0da3c280053a0800e6fb8360b"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>qa_from_angles</b> (size_t n, double const *theta, double const *phi, double *const pa, double *quat, bool IAU=false)</td></tr>
+<tr class="separator:a8581a1d0da3c280053a0800e6fb8360b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a578061c4b021a157fe7c574d9d3e636f"><td class="memItemLeft" align="right" valign="top"><a id="a578061c4b021a157fe7c574d9d3e636f"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>qa_to_angles</b> (size_t n, double const *quat, double *theta, double *phi, double *pa, bool IAU=false)</td></tr>
+<tr class="separator:a578061c4b021a157fe7c574d9d3e636f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf6af2376c3e089b1e999d7f93dbe961"><td class="memItemLeft" align="right" valign="top"><a id="abf6af2376c3e089b1e999d7f93dbe961"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>qa_from_position</b> (size_t n, double const *theta, double const *phi, double *quat)</td></tr>
+<tr class="separator:abf6af2376c3e089b1e999d7f93dbe961"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40f22b89514140df02d4161fb5edc926"><td class="memItemLeft" align="right" valign="top"><a id="a40f22b89514140df02d4161fb5edc926"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>qa_to_position</b> (size_t n, double const *quat, double *theta, double *phi)</td></tr>
+<tr class="separator:a40f22b89514140df02d4161fb5edc926"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7bcb0ec3f9aac1061e3281f30e720501"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecal.html#a7bcb0ec3f9aac1061e3281f30e720501">mpi_init</a> (int argc, char *argv[])</td></tr>
 <tr class="separator:a7bcb0ec3f9aac1061e3281f30e720501"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac60a12fdb7e61f436aab108eba8b87d5"><td class="memItemLeft" align="right" valign="top"><a id="ac60a12fdb7e61f436aab108eba8b87d5"></a>

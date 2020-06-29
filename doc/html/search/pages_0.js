@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['preprocessor_20symbols_20for_20porting_20random123_20to_20different_20platforms_2e_172',['Preprocessor symbols for porting Random123 to different platforms.',['../porting.html',1,'']]]
+  ['contributing_1726',['CONTRIBUTING',['../md__home_algebrato__progetti__c_m_b4_g_libcal_src_pycal_pybind11__c_o_n_t_r_i_b_u_t_i_n_g.html',1,'']]]
 ];

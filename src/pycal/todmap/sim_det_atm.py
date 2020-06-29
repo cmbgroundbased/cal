@@ -12,7 +12,9 @@ from ..timing import function_timer, Timer
 
 from ..op import Operator
 
-from .atm import available, available_utils, available_mpi
+from .atm import available_utils, available_mpi
+
+available=True
 
 if available_utils:
     from .atm import (

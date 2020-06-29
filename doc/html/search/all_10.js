@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['the_20atmospheric_20model_77',['The atmospheric model',['../church_model.html',1,'']]],
-  ['tanmin_78',['tanmin',['../classcal_1_1atm__sim.html#a00553913e9d0f5a9a0a5c1348ba1e0fc',1,'cal::atm_sim::tanmin()'],['../classcal_1_1mpi__atm__sim.html#a565dc0bc8a483889547967690f946ae7',1,'cal::mpi_atm_sim::tanmin()']]],
-  ['timer_79',['Timer',['../classcal_1_1_timer.html',1,'cal']]]
+  ['qarraytest_606',['QarrayTest',['../classpycal_1_1tests_1_1qarray_1_1_qarray_test.html',1,'pycal::tests::qarray']]]
 ];

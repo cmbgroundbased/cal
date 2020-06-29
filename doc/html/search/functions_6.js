@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['kolmogorov_129',['kolmogorov',['../classcal_1_1atm__sim.html#ab0e9c8b8c73323a1d134c9643c381891',1,'cal::atm_sim::kolmogorov()'],['../classcal_1_1mpi__atm__sim.html#a4c3d9def372814fa429a8ad20e9f9e67',1,'cal::mpi_atm_sim::kolmogorov()']]]
+  ['flags_1511',['flags',['../classarray.html#a38eb48c793621c12119ab7b64714955b',1,'array']]],
+  ['from_5fargs_1512',['from_args',['../classdtype.html#ac32ee9257455ed7879d124fb225b0baa',1,'dtype']]]
 ];

@@ -21,7 +21,14 @@ execute_process(
     OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
-set(PYTHON_SITE "${CMAKE_INSTALL_LIBDIR}/python${PYTHON_MAJORMINOR}/site-packages")
+execute_process(
+    COMMAND "${PYTHON_EXECUTABLE}" -m site --user-site
+    OUTPUT_VARIABLE PYTHON_SITE
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+message("-- Python exe:  " ${PYTHON_EXECUTABLE})
+message("-- Python Path: " ${PYTHON_SITE})
 
 pybind11_add_module(_libcal_mpi MODULE
     _libcal_common.cpp
@@ -123,9 +130,4 @@ if(MPI_FOUND AND MPI4PY_FOUND)
 endif(MPI_FOUND AND MPI4PY_FOUND)
 
 # Process the sub directories
-#add_subdirectory(tests)
-#add_subdirectory(tod)
-#add_subdirectory(map)
-#add_subdirectory(todmap)
-#add_subdirectory(fod)
-#add_subdirectory(pipeline_tools)
+add_subdirectory(todmap)

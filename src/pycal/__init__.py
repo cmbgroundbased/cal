@@ -11,6 +11,7 @@ data as timestreams (rather than images).
 """
 import sys
 import os
+from ._libcal_mpi import *
 
 # Get the package version from the libcal environment if possible.  If this
 # import fails, it is likely due to the cal package being imported prior to

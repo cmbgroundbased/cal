@@ -1,10 +1,23 @@
 var searchData=
 [
-  ['cal_13',['cal',['../namespacecal.html',1,'']]],
-  ['compress_5fvolume_14',['compress_volume',['../classcal_1_1atm__sim.html#a5d0e5635f88133858fa32fd1399481e7',1,'cal::atm_sim::compress_volume()'],['../classcal_1_1mpi__atm__sim.html#a0e6e97d40f52f7722dc9ecfd4c80b854',1,'cal::mpi_atm_sim::compress_volume()']]],
-  ['compressed_5findex_15',['compressed_index',['../classcal_1_1atm__sim.html#ab961936c27c9b58799e845234dea0486',1,'cal::atm_sim::compressed_index()'],['../classcal_1_1mpi__atm__sim.html#a34a4da442e435263906b8ea03936f690',1,'cal::mpi_atm_sim::compressed_index()']]],
-  ['construct_16',['construct',['../classcal_1_1_aligned_allocator.html#ac255471f9f681c53b6d9180e28f38a97',1,'cal::AlignedAllocator::construct(pointer p, T const &amp;value)'],['../classcal_1_1_aligned_allocator.html#ac255471f9f681c53b6d9180e28f38a97',1,'cal::AlignedAllocator::construct(pointer p, T const &amp;value)']]],
-  ['coord2ind_17',['coord2ind',['../classcal_1_1atm__sim.html#a926aeaeed11baaf629bbeacdd1182fa8',1,'cal::atm_sim::coord2ind()'],['../classcal_1_1mpi__atm__sim.html#addaac0ae73aac5a931ec4a0bcb925ed8',1,'cal::mpi_atm_sim::coord2ind()']]],
-  ['cov_5feval_18',['cov_eval',['../classcal_1_1atm__sim.html#a1d355122632b5761cda5e782e6bd9b56',1,'cal::atm_sim::cov_eval()'],['../classcal_1_1mpi__atm__sim.html#a10b842b6e86b9956b103d1d6d242769c',1,'cal::mpi_atm_sim::cov_eval()']]],
-  ['critical_19',['critical',['../namespacecal.html#a3138bdc499850a0f54c75de0ffa0a650a7e85bcb66fb9a809d5ab4f62a8b8bea8',1,'cal::critical()'],['../namespacecal.html#a3138bdc499850a0f54c75de0ffa0a650a7e85bcb66fb9a809d5ab4f62a8b8bea8',1,'cal::critical()'],['../namespacecal.html#a3138bdc499850a0f54c75de0ffa0a650a7e85bcb66fb9a809d5ab4f62a8b8bea8',1,'cal::critical()'],['../namespacecal.html#a3138bdc499850a0f54c75de0ffa0a650a7e85bcb66fb9a809d5ab4f62a8b8bea8',1,'cal::critical()']]]
+  ['b_67',['B',['../struct_b.html',1,'']]],
+  ['b_5frepeat_68',['B_Repeat',['../class_b___repeat.html',1,'']]],
+  ['b_5ftpl_69',['B_Tpl',['../class_b___tpl.html',1,'']]],
+  ['base_70',['base',['../structbase.html',1,'base&lt; T &gt;'],['../struct_base.html',1,'Base'],['../classarray.html#a33a2f2933da6ca35a8ac82709df90038',1,'array::base()']]],
+  ['basen_71',['BaseN',['../struct_base_n.html',1,'']]],
+  ['bases_72',['bases',['../structtype__record.html#ae84dc75887eb2af0bd2b3d1bcfe5496c',1,'type_record']]],
+  ['begin_73',['begin',['../classobject__api.html#a18ff315942ef1238c6c9d28c0ef9301f',1,'object_api']]],
+  ['binnedtest_74',['BinnedTest',['../classpycal_1_1tests_1_1binned_1_1_binned_test.html',1,'pycal::tests::binned']]],
+  ['bool_5f_75',['bool_',['../classbool__.html',1,'']]],
+  ['bools_76',['bools',['../structbools.html',1,'']]],
+  ['borrowed_5ft_77',['borrowed_t',['../structobject_1_1borrowed__t.html',1,'object']]],
+  ['breaksbase_78',['BreaksBase',['../class_breaks_base.html',1,'']]],
+  ['breakstramp_79',['BreaksTramp',['../class_breaks_tramp.html',1,'']]],
+  ['buffer_80',['buffer',['../classbuffer.html',1,'']]],
+  ['buffer_5finfo_81',['buffer_info',['../structbuffer__info.html',1,'']]],
+  ['buffer_5fprotocol_82',['buffer_protocol',['../structbuffer__protocol.html',1,'buffer_protocol'],['../structtype__record.html#ab5910eea61616c06a02acc36efc21a57',1,'type_record::buffer_protocol()']]],
+  ['build_5fsparse_5fcovariance_83',['build_sparse_covariance',['../classcal_1_1mpi__atm__sim.html#a41a32382f158d3465ef1c61209782ac1',1,'cal::mpi_atm_sim']]],
+  ['buildpy_84',['BuildPy',['../classsetup_1_1_build_py.html',1,'setup']]],
+  ['builtin_5fexception_85',['builtin_exception',['../classbuiltin__exception.html',1,'']]],
+  ['bytes_86',['bytes',['../classbytes.html',1,'']]]
 ];
