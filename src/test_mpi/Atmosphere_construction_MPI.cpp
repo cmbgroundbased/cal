@@ -57,11 +57,11 @@ int main(int argc, char * argv[]){
             if(direction_lr){
                 az_now += d_az;
                 az[i] = az_now;
-                if(az_now > 0.017*15-2*d_az) direction_lr = !direction_lr;
+                if(az_now > 0.017*15-d_az) direction_lr = !direction_lr;
             } else {
                 az_now -= d_az;
                 az[i] = az_now;
-                if(az_now < 0+2*d_az) direction_lr = !direction_lr;
+                if(az_now < 0+d_az) direction_lr = !direction_lr;
             }
         }
 
@@ -79,7 +79,8 @@ int main(int argc, char * argv[]){
     atm_strip->simulate(true);
     MPI_Barrier(comm);
 
-    atm_strip->observe(&(*t), &(*az), &(*el), &(*tod), nsamp);
+
+    atm_strip->observe(&(*t), &(*az), &(*el), &(*tod), nsamp, -1.0);
     MPI_Barrier(comm);
 
     // if(rank==0){
@@ -89,10 +90,10 @@ int main(int argc, char * argv[]){
     // }
 
     MPI_Finalize();
-    std::cout << "#Time\tElevation\tAzimuth\tTOD" << std::endl;
-    for(int i=0; i<nsamp; i++){
-        std::cout << t[i] << " " << el[i] << " " << az[i] << " " <<  tod[i]/tod[1] << std::endl;
-    }
+    // std::cout << "#Time\tElevation\tAzimuth\tTOD" << std::endl;
+    // for(int i=0; i<nsamp; i++){
+    //     std::cout << t[i] << " " << el[i] << " " << az[i] << " " <<  tod[i]/tod[1] << std::endl;
+    // }
 
     return 0;
 }

@@ -63,7 +63,7 @@ int cal::mpi_atm_sim::simulate(bool use_cache)
         }
 
         // A simply average on the first neighbors.
-	    smooth();
+	    // smooth();
 
         // Process Synchronize
         MPI_Barrier(comm);

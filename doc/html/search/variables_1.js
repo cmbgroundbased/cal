@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['bases_1650',['bases',['../structtype__record.html#ae84dc75887eb2af0bd2b3d1bcfe5496c',1,'type_record']]],
-  ['buffer_5fprotocol_1651',['buffer_protocol',['../structtype__record.html#ab5910eea61616c06a02acc36efc21a57',1,'type_record']]]
+  ['data_327',['data',['../classcal_1_1_global_timers.html#aed40e4295d4629ea44d40ff6a2417eef',1,'cal::GlobalTimers']]]
 ];
