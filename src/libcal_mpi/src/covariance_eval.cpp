@@ -10,19 +10,11 @@
 * Evaluate the atmospheric absorption covariance between
 * two coordinates Church (1995) Eq.(6) & (9).
 * Coordinates are in the horizontal frame.
-*
-* A smoothing kernel can be applied to the covariance
-* matrix. To activate the smoothing you have to uncomment
-* the lines: `UNCOMMENTER FOR SMOOTH`
 */
 double cal::mpi_atm_sim::cov_eval(double * coord1, double * coord2)
 {
-    const long nn = 1;
-
-    // Uncomment these lines for smoothing
-    // const double ndxinv = xxstep / (nn-1);
-    // const double ndzinv = zzstep / (nn-1);
-    const double ninv = 1.; // / (nn * nn);
+    const int64_t nn = 1;
+    const double ninv = 1.;
 
     double val = 0;
 
@@ -31,22 +23,10 @@ double cal::mpi_atm_sim::cov_eval(double * coord1, double * coord2)
         double yy1 = coord1[1];
         double zz1 = coord1[2];
 
-        // Uncomment these lines for smoothing
-        // if ( ii1 ) {
-        //    xx1 += ii1 * ndxinv;
-        //    zz1 += ii1 * ndzinv;
-        // }
-
         for (int ii2 = 0; ii2 < nn; ++ii2) {
             double xx2 = coord2[0];
             double yy2 = coord2[1];
             double zz2 = coord2[2];
-
-            // Uncomment these lines for smoothing
-            // if ( ii2 ) {
-            //    xx2 += ii2 * ndxinv;
-            //    zz2 += ii2 * ndzinv;
-            // }
 
             double dx = xx1 - xx2;
             double dy = yy1 - yy2;

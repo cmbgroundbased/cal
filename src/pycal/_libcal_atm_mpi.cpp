@@ -52,7 +52,7 @@ void init_mpi_atm(py::module & m) {
 
     )");
 
-    m.def("atm_atmospheric_loading", &cal::atm_get_absorption_coefficient,
+    m.def("atm_atmospheric_loading", &cal::atm_get_atmospheric_loading,
           py::arg("altitude"), py::arg("temperature"), py::arg("pressure"),
           py::arg("pwv"), py::arg(
               "freq"), R"(

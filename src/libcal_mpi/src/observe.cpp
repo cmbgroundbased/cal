@@ -39,8 +39,8 @@ int cal::mpi_atm_sim::observe(double * t, double * az, double * el, double * tod
     o.precision(16);
     int error = 0;
 
-    # pragma omp parallel for schedule(static, 100)
-    for (long i = 0; i < nsamp; i++) {
+    # pragma omp parallel for schedule(dynamic, 100)
+    for (int64_t i = 0; i < nsamp; i++) {
         # pragma omp flush(error)
         if(error) continue;
 
@@ -114,7 +114,7 @@ int cal::mpi_atm_sim::observe(double * t, double * az, double * el, double * tod
                           << "y = " << y << std::endl
                           << "z = " << z << std::endl;
                 error = 1;
-                #  pragma omp flush (error)
+                # pragma omp flush (error)
                 break;
             }
 # endif // ifdef DEBUG
@@ -143,10 +143,10 @@ int cal::mpi_atm_sim::observe(double * t, double * az, double * el, double * tod
                   << std::endl << e.what() << std::endl;
                 error = 1;
                 # pragma omp flush(error)
+                val = 0;
                 break;
             }
             val += step_val;
-
             // Prepare for the next step
             r += rstep;
 

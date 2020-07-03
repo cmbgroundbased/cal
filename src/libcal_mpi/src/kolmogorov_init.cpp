@@ -39,14 +39,12 @@ void cal::mpi_atm_sim::initialize_kolmogorov()
     double kappa0sq = kappa0 * kappa0;
 
     // Integration steps (has to be optimize!)
-    long nkappa = 100000;
+    long nkappa = 10000;
     double kappastart = 1e-4;
     double kappastop = 10 * kappamax;
 
     double kappascale = log(kappastop / kappastart) / (nkappa - 1);
 
-    // double upper_limit = 10 * kappamax;
-    // double kappastep = upper_limit / (nkappa - 1);
     double slope1 = 7. / 6.;
     double slope2 = -11. / 6.;
 
@@ -69,6 +67,7 @@ void cal::mpi_atm_sim::initialize_kolmogorov()
     // Precalculate the power spectrum function
     std::vector <double> phi(last_kappa - first_kappa);
     std::vector <double> kappa(last_kappa - first_kappa);
+
     # pragma omp parallel for schedule(static, 10)
     for (long ikappa = first_kappa; ikappa < last_kappa; ++ikappa) {
         kappa[ikappa - first_kappa] = exp(ikappa * kappascale) * kappastart;
@@ -86,7 +85,7 @@ void cal::mpi_atm_sim::initialize_kolmogorov()
     if ((rank == 0) && (verbosity > 0)) {
         std::ofstream f;
         std::ostringstream fname;
-        fname << "kolmogorov_f.txt";
+        fname << "kolmogorov_f_" << rank << ".txt";
         f.open(fname.str(), std::ios::out);
         for (int ikappa = 0; ikappa < nkappa; ++ikappa) {
             f << kappa[ikappa] << " " << phi[ikappa] << std::endl;
@@ -106,7 +105,7 @@ void cal::mpi_atm_sim::initialize_kolmogorov()
     double ifac3 = 1. / (2. * 3.);
 
     # pragma omp parallel for schedule(static, 10)
-    for (long ir = 0; ir < nr; ++ir) {
+    for (int64_t ir = 0; ir < nr; ++ir) {
         double r = rmin_kolmo
                    + (exp(ir * nri * tau) - 1) * enorm * (rmax_kolmo - rmin_kolmo);
         double rinv = 1 / r;
@@ -115,7 +114,7 @@ void cal::mpi_atm_sim::initialize_kolmogorov()
             // special limit r -> 0,
             // sin(kappa.r)/r -> kappa - kappa^3*r^2/3!
             double r2 = r * r;
-            for (long ikappa = first_kappa; ikappa < last_kappa - 1; ++ikappa) {
+            for (int64_t ikappa = first_kappa; ikappa < last_kappa - 1; ++ikappa) {
                 double k = kappa[ikappa-first_kappa];
                 double kstep = kappa[ikappa + 1 - first_kappa] - k;
                 double kappa2 = k * k;
@@ -123,7 +122,7 @@ void cal::mpi_atm_sim::initialize_kolmogorov()
                 val += phi[ikappa - first_kappa] * (kappa2 - r2 * kappa4 * ifac3) * kstep;
             }
         } else {
-            for (long ikappa = first_kappa; ikappa < last_kappa - 1; ++ikappa) {
+            for (int64_t ikappa = first_kappa; ikappa < last_kappa - 1; ++ikappa) {
                 double k1 = kappa[ikappa - first_kappa];
                 double k2 = kappa[ikappa +1 - first_kappa];
                 double phi1 = phi[ikappa - first_kappa];
@@ -142,7 +141,7 @@ void cal::mpi_atm_sim::initialize_kolmogorov()
 
     // Normalize
     double norm = 1. / kolmo_y[0];
-    for (int i = 0; i < nr; ++i) kolmo_y[i] *= norm;
+    for (int64_t i = 0; i < nr; ++i) kolmo_y[i] *= norm;
 
     if ((rank == 0) && (verbosity > 0)) {
         std::ofstream f;

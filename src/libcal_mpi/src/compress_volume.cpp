@@ -35,22 +35,20 @@ void cal::mpi_atm_sim::compress_volume()
     }
 
     // Start by flagging all elements that are hit
-    for (long ix = 0; ix < nx - 1; ++ix) {
-        if (ix % ntask != rank) continue;
+    for (int64_t ix = 0; ix < nx - 1; ++ix) {
+        if (ix % ntask != rank){
+            continue;
+        }
         double x = xstart + ix * xstep;
 
         # pragma omp parallel for schedule(static, 10)
-        for (long iy = 0; iy < ny - 1; ++iy) {
+        for (int64_t iy = 0; iy < ny - 1; ++iy) {
             double y = ystart + iy * ystep;
 
-            for (long iz = 0; iz < nz - 1; ++iz) {
+            for (int64_t iz = 0; iz < nz - 1; ++iz) {
                 double z = zstart + iz * zstep;
                 if (in_cone(x, y, z)) {
-# ifdef DEBUG
-                    hit.at(ix * xstride + iy * ystride + iz * zstride) = true;
-# else // ifdef DEBUG
                     hit[ix * xstride + iy * ystride + iz * zstride] = true;
-# endif // ifdef DEBUG
                 }
             }
         }
@@ -68,35 +66,28 @@ void cal::mpi_atm_sim::compress_volume()
 
     std::vector <unsigned char> hit2 = hit;
 
-    for (long ix = 1; ix < nx - 1; ++ix) {
+    for (int64_t ix = 1; ix < nx - 1; ++ix) {
         if (ix % ntask != rank) continue;
 
         # pragma omp parallel for schedule(static, 10)
-        for (long iy = 1; iy < ny - 1; ++iy) {
-            for (long iz = 1; iz < nz - 1; ++iz) {
-                long offset = ix * xstride + iy * ystride + iz * zstride;
+        for (int64_t iy = 1; iy < ny - 1; ++iy) {
+            for (int64_t iz = 1; iz < nz - 1; ++iz) {
+                int64_t offset = ix * xstride + iy * ystride + iz * zstride;
 
                 if (hit2[offset]) {
                     // Flag this element but also its
                     // neighbours to facilitate
                     // interpolation
 
-                    for (double xmul = -2; xmul < 4; ++xmul) {
+                    for (int64_t xmul = -2; xmul < 4; ++xmul) {
                         if ((ix + xmul < 0) || (ix + xmul > nx - 1)) continue;
 
-                        for (double ymul = -2; ymul < 4; ++ymul) {
+                        for (int64_t ymul = -2; ymul < 4; ++ymul) {
                             if ((iy + ymul < 0) || (iy + ymul > ny - 1)) continue;
 
-                            for (double zmul = -2; zmul < 4; ++zmul) {
+                            for (int64_t zmul = -2; zmul < 4; ++zmul) {
                                 if ((iz + zmul < 0) || (iz + zmul > nz - 1)) continue;
-
-# ifdef DEBUG
-                                hit.at(offset + xmul * xstride
-                                       + ymul * ystride + zmul * zstride) = true;
-# else // ifdef DEBUG
-                                hit[offset + xmul * xstride
-                                    + ymul * ystride + zmul * zstride] = true;
-# endif // ifdef DEBUG
+                                hit[offset + xmul * xstride + ymul * ystride + zmul * zstride] = true;
                             }
                         }
                     }

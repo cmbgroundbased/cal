@@ -102,7 +102,17 @@ atm::SkyStatus get_sky_status_vec(double altitude, double temperature,
     atm::SkyStatus ss(rip);
     return ss;
 }
+/**
+Return the dimensionless absorption coefficient for a zenith
+line of sight.
 
+Args:
+  altitude : Observation altitude in meters.
+  temperature : Observing temperature in Kelvins.
+  pressure : Observing pressure in Pascals.
+  pwv : Precipitable water vapor column height in mm.
+  freq : Observing frequency in GHz.
+**/
 double cal::atm_get_absorption_coefficient(double altitude,
                                              double temperature,
                                              double pressure,
@@ -116,6 +126,17 @@ double cal::atm_get_absorption_coefficient(double altitude,
     return 1 - exp(-opacity);
 }
 
+/**
+Return the dimensionless absorption coefficient for a zenith
+line of sight.
+
+Args:
+altitude : Observation altitude in meters.
+temperature : Observing temperature in Kelvins.
+pressure : Observing pressure in Pascals.
+pwv : Precipitable water vapor column height in mm.
+freq : Observing frequency in GHz.
+**/
 int cal::atm_get_absorption_coefficient_vec(double altitude,
                                               double temperature,
                                               double pressure,
@@ -135,6 +156,16 @@ int cal::atm_get_absorption_coefficient_vec(double altitude,
     return 0;
 }
 
+/**
+Return the equivalent black body temperature in Kelvin.
+
+Args:
+  altitude : Observation altitude in meters.
+  temperature : Observing temperature in Kelvins.
+  pressure : Observing pressure in Pascals.
+  pwv : Precipitable water vapor column height in mm.
+  freq : Observing frequency in GHz.
+**/
 double cal::atm_get_atmospheric_loading(double altitude,
                                           double temperature,
                                           double pressure,
@@ -147,6 +178,16 @@ double cal::atm_get_atmospheric_loading(double altitude,
     return ss.getTebbSky().get();
 }
 
+/**
+Return the equivalent black body temperature in Kelvin.
+
+Args:
+  altitude : Observation altitude in meters.
+  temperature : Observing temperature in Kelvins.
+  pressure : Observing pressure in Pascals.
+  pwv : Precipitable water vapor column height in mm.
+  freq : Observing frequency in GHz.
+**/
 int cal::atm_get_atmospheric_loading_vec(double altitude,
                                            double temperature,
                                            double pressure,

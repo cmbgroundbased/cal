@@ -16,7 +16,8 @@ cholmod_sparse * cal::mpi_atm_sim::build_sparse_covariance(long ind_start, long 
 
     double t1 = MPI_Wtime();
 
-    std::vector <int> rows, cols;
+    std::vector <int> rows;
+    std::vector <int> cols;
     std::vector <double> vals;
 
     // Number of elements in the slice
@@ -30,18 +31,18 @@ cholmod_sparse * cal::mpi_atm_sim::build_sparse_covariance(long ind_start, long 
         std::vector <double> myvals;
 
         # pragma omp for schedule(static, 10)
-        for (int i = 0; i < nelem; ++i) {
+        for (int64_t i = 0; i < nelem; ++i) {
             double coord[3];
             ind2coord(i + ind_start, coord);
             diagonal[i] = cov_eval(coord, coord);
         }
 
         # pragma omp for schedule(static, 10)
-        for (int icol = 0; icol < nelem; ++icol) {
+        for (int64_t icol = 0; icol < nelem; ++icol) {
             // Translate indices into coordinates
             double colcoord[3];
             ind2coord(icol + ind_start, colcoord);
-            for (int irow = icol; irow < nelem; ++irow) {
+            for (int64_t irow = icol; irow < nelem; ++irow) {
                 // Evaluate the covariance between the two coordinates
                 double rowcoord[3];
                 ind2coord(irow + ind_start, rowcoord);
@@ -50,6 +51,11 @@ cholmod_sparse * cal::mpi_atm_sim::build_sparse_covariance(long ind_start, long 
                 if (fabs(colcoord[2] - rowcoord[2]) > rcorr) continue;
 
                 double val = cov_eval(colcoord, rowcoord);
+
+                if(icol == irow){
+                    // Regularize the matrix promoting the diagonal
+                    val *= 1.01;
+                }
 
                 // If the covariance exceeds the threshold, add it to the
                 // sparse matrix
@@ -91,7 +97,7 @@ cholmod_sparse * cal::mpi_atm_sim::build_sparse_covariance(long ind_start, long 
     memcpy(cov_triplet->j, cols.data(), nnz * sizeof(int));
     memcpy(cov_triplet->x, vals.data(), nnz * sizeof(double));
 
-    // Ensure vector is freed
+    // Ensure vectors are freed
     std::vector <int>().swap(rows);
     std::vector <int>().swap(cols);
     std::vector <double>().swap(vals);
@@ -100,8 +106,10 @@ cholmod_sparse * cal::mpi_atm_sim::build_sparse_covariance(long ind_start, long 
     cholmod_sparse * cov_sparse = cholmod_triplet_to_sparse(cov_triplet,
                                                             nnz,
                                                             chcommon);
-    if (chcommon->status != CHOLMOD_OK) throw std::runtime_error(
-                  "cholmod_triplet_to_sparse failed.");
+    if (chcommon->status != CHOLMOD_OK) {
+         throw std::runtime_error("cholmod_triplet_to_sparse failed.");
+     }
+
     cholmod_free_triplet(&cov_triplet, chcommon);
 
     t2 = MPI_Wtime();
@@ -110,6 +118,7 @@ cholmod_sparse * cal::mpi_atm_sim::build_sparse_covariance(long ind_start, long 
         std::cerr << rank << " : Sparse covariance constructed in "
                   << t2 - t1 << " s." << std::endl;
     }
+
     // Report memory usage
 
     double tot_mem = (nelem * sizeof(int) + nnz * (sizeof(int) + sizeof(double)))
