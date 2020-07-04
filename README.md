@@ -20,14 +20,13 @@ Work in progress ...
 
 ## AUTHOR
 
-HPC4CMB/TOAST Author
+HPC4CMB/TOAST Author <br />
+Theodore Kisner <work@theodorekisner.com> <br />
+Reijo Keskitalo <reijo.keskitalo@gmail.com> <br />
+Andrea Zonca <zonca@sdsc.edu> <br />
+Giuseppe Puglisi <giuse.puglisi@gmail.com> <br />
 
-Theodore Kisner <work@theodorekisner.com>
-Reijo Keskitalo <reijo.keskitalo@gmail.com>
-Andrea Zonca <zonca@sdsc.edu>
-Giuseppe Puglisi <giuse.puglisi@gmail.com>
-
-CAL Maintainer
+CAL Maintainer <br />
 Stefano Mandelli <stefano.mandelli@unimi.it>
 
 
