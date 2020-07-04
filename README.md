@@ -23,10 +23,10 @@ The atmospheric model is based on the S. Church 1995 paper (https://doi.org/10.1
 
 Work in progress ...
 
-`mkdir build`
-`cd build; cmake ..`
-`make -J <N>`
-`make install`
+`mkdir build`<br />
+`cd build; cmake ..`<br />
+`make -J <N>`<br />
+`make install`<br />
 
 ## AUTHOR
 
