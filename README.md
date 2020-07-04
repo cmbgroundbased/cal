@@ -16,9 +16,7 @@ Work in progress ...
 
 ## Intall the C++ library and Python bindings
 
-### 
-
-### 
+Work in progress ...
 
 ## AUTHOR
 
