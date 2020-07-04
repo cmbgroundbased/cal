@@ -10,9 +10,12 @@ Out of this consideration, we decided to make independent the code that does the
 
 The atmospheric model is based on the S. Church 1995 paper (https://doi.org/10.1093/mnras/272.3.551). The mathematical description is available on @ref church_model
 
-## Contribution guidelines
+## Build status
 
-Work in progress ...
+| Distribution      | Status |
+|:-----------:|:------:|
+| Linux/Amd64 |  ![C/C++ CI](https://github.com/cmbgroundbased/libcal/workflows/C/C++%20CI/badge.svg) |   |   |   |
+
 
 ## Intall the C++ library and Python bindings
 
