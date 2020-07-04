@@ -1,14 +1,16 @@
-The CMB Atmospheric Library (CAL) project is born from the needs of the CMB ground-based telescope simulation framework to have a module that can take into account the atmospheric effects. Different experiments are led by various people that choose different programming solutions to implement their instruments' characteristics.
+# CMB Atmspheric Library (CAL)
 
-In general, this approach could be problematic for some guys that are working for multiple frameworks (that are written not in the same languages) ant they have to implement the same part of code. 
+The CAL code is extracted from the famous [TOAST framework](https://github.com/hpc4cmb/toast) with the goal to make indipendend the atmospheric effects simulation for CMB ground-based telescope.
 
-In this case, the porting of parts of code, that they do the same things, is not easy and the result is a colossal waste of time spent, for first, to get used to with the framework, maybe with the language and finally to re-implement the same algorithm within it.
+The project is born from the needs of the CMB ground-based telescope simulation framework to have a module that can take into account the atmospheric effects. Different experiments are led by various people that choose different programming solutions to implement their instruments' characteristics that, more often that not, are particulary exotic!
 
-Atmospheric simulations represent one of these tasks. The atmospheric time evolution and emission proprieties are the same for the same locations and are not up to the instrumental features.
+In general, this approach could be problematic for those DEVs that are working for multiple frameworks (that are written not in the same languages) and they have to implement the same part of code.
 
-Out of this consideration, we decided to make independent the code that does the atmospheric evolution and observation, and it is already provided by the TOAST framework. This bunch of code is released by  under the BSD/MIT license.
+The atmospheric simulations represent one of these tasks. The atmospheric time evolution and emission proprieties are the same for the same locations and are not up to the instrumental features.
 
-The atmospheric model is based on the S. Church 1995 paper (https://doi.org/10.1093/mnras/272.3.551). The mathematical description is available on @ref church_model
+Out of this consideration, we decided to make independent the code that does the atmospheric evolution and observation, and it is already provided by the TOAST framework, with python binding (in order to make easy the implementation in your instrumental python framework) and for the future we are planning to release wrappers also for julia (>1.0) language.
+
+The atmospheric model is based on the S. Church 1995 paper (https://doi.org/10.1093/mnras/272.3.551). The mathematical description is available on @ref church_model 
 
 ## Build status
 
@@ -20,6 +22,11 @@ The atmospheric model is based on the S. Church 1995 paper (https://doi.org/10.1
 ## Intall the C++ library and Python bindings
 
 Work in progress ...
+
+`mkdir build`
+`cd build; cmake ..`
+`make -J <N>`
+`make install`
 
 ## AUTHOR
 
