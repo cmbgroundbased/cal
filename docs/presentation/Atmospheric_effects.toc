@@ -1,4 +1,0 @@
-\beamer@sectionintoc {1}{Introduction}{3}{0}{1}
-\beamer@sectionintoc {2}{The Model}{11}{0}{2}
-\beamer@sectionintoc {3}{Implementation}{49}{0}{3}
-\beamer@sectionintoc {4}{Parameters}{50}{0}{4}
