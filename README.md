@@ -12,18 +12,41 @@ Out of this consideration, we decided to make independent the code that does the
 
 The atmospheric model is based on the S. Church 1995 paper (https://doi.org/10.1093/mnras/272.3.551). The mathematical description is available on @ref church_model 
 
+# Build status and informations
+
+<center>
+
+<table>
+  <tr><th>Build status</th><th>Documentation</th><th>Code coverage</th></tr>
+<tr><td>
+  
+| Distribution| Status |  
+|:-----------:|:------:| 
+| Linux/Amd64 |  ![C/C++ CI](https://github.com/cmbgroundbased/libcal/workflows/C/C++%20CI/badge.svg) | 
+
+</td><td>
+
 | Version      | Status |
 |:-----------:|:------:|
 | 0.9 |  [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://cmbgroundbased.github.io/cal/)|
 
-## Build status
 
-| Distribution      | Status |
-|:-----------:|:------:|
-| Linux/Amd64 |  ![C/C++ CI](https://github.com/cmbgroundbased/libcal/workflows/C/C++%20CI/badge.svg) |   |   |   |
+</td><td>
+  
+ |             |             |
+ |:-----------:|:-----------:|
+ |             |             |
+
+</tr> </table>
 
 
-## Intall the C++ library and Python bindings
+
+</center>
+
+
+
+
+# Install the C++ library and Python bindings
 
 Work in progress ...
 
@@ -31,6 +54,13 @@ Work in progress ...
 `cd build; cmake ..`<br />
 `make -J <N>`<br />
 `make install`<br />
+
+## CAL depens on the following requirements:
+
+`openompi (>= 4.0.0)` <br/>
+`libaatm`<br/>
+`SuiteSparse`<br/>
+`LAPACK`<br/>
 
 ## AUTHOR
 
