@@ -14,7 +14,7 @@ The atmospheric model is based on the S. Church 1995 paper (https://doi.org/10.1
 
 | Version      | Status |
 |:-----------:|:------:|
-| 0.9 |  [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https:/https://github.com/cmbgroundbased/cal/doc)|
+| 0.9 |  [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://cmbgroundbased.github.io/cal/)|
 
 ## Build status
 
