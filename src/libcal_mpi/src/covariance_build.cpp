@@ -21,7 +21,7 @@ cholmod_sparse * cal::mpi_atm_sim::build_sparse_covariance(long ind_start, long 
     std::vector <double> vals;
 
     // Number of elements in the slice
-    size_t nelem = ind_stop - ind_start;
+    uint64_t nelem = ind_stop - ind_start;
     std::vector <double> diagonal(nelem);
 
     // Fill the elements of the covariance matrix.
@@ -31,18 +31,18 @@ cholmod_sparse * cal::mpi_atm_sim::build_sparse_covariance(long ind_start, long 
         std::vector <double> myvals;
 
         # pragma omp for schedule(static, 10)
-        for (int64_t i = 0; i < nelem; ++i) {
+        for (uint64_t i = 0; i < nelem; ++i) {
             double coord[3];
             ind2coord(i + ind_start, coord);
             diagonal[i] = cov_eval(coord, coord);
         }
 
         # pragma omp for schedule(static, 10)
-        for (int64_t icol = 0; icol < nelem; ++icol) {
+        for (uint64_t icol = 0; icol < nelem; ++icol) {
             // Translate indices into coordinates
             double colcoord[3];
             ind2coord(icol + ind_start, colcoord);
-            for (int64_t irow = icol; irow < nelem; ++irow) {
+            for (uint64_t irow = icol; irow < nelem; ++irow) {
                 // Evaluate the covariance between the two coordinates
                 double rowcoord[3];
                 ind2coord(irow + ind_start, rowcoord);

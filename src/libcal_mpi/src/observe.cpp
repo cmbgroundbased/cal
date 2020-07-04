@@ -39,7 +39,7 @@ int cal::mpi_atm_sim::observe(double * t, double * az, double * el, double * tod
     o.precision(16);
     int error = 0;
 
-    # pragma omp parallel for schedule(dynamic, 100)
+    //# pragma omp parallel for schedule(dynamic, 100)
     for (int64_t i = 0; i < nsamp; i++) {
         # pragma omp flush(error)
         if(error) continue;
@@ -104,6 +104,8 @@ int cal::mpi_atm_sim::observe(double * t, double * az, double * el, double * tod
             x += xtel_now;
             y += ytel_now;
             z += ztel_now;
+
+            o << x << " " << y << " " << z << std::endl;
 # ifdef DEBUG
             if ((x < xstart) || (x > xstart + delta_x) ||
                 (y < ystart) || (y > ystart + delta_y) ||

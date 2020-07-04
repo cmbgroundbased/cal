@@ -12,9 +12,9 @@ double cal::mpi_atm_sim::interp(double x, double y, double z, std::vector <long>
 {
     // Trilinear interpolation
 
-    int64_t ix = (x - xstart) * xstepinv;
-    int64_t iy = (y - ystart) * ystepinv;
-    int64_t iz = (z - zstart) * zstepinv;
+    int64_t ix = (x - xstart) * xstepinv; // Cell number in x dir
+    int64_t iy = (y - ystart) * ystepinv; // Cell number in y dir
+    int64_t iz = (z - zstart) * zstepinv; // Cell number in z dir
 
     double dx = (x - (xstart + (double)ix * xstep)) * xstepinv;
     double dy = (y - (ystart + (double)iy * ystep)) * ystepinv;
@@ -36,7 +36,7 @@ double cal::mpi_atm_sim::interp(double x, double y, double z, std::vector <long>
     } else {
         std::ostringstream o;
         o.precision(16);
-        o << "Firs check passed" << std::endl;
+        o << "First check passed" << std::endl;
     }
 # endif //ifdef DEBUG
 

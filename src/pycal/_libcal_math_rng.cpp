@@ -163,7 +163,7 @@ void init_math_rng(py::module & m) {
             uint64_t * raw_k2 = reinterpret_cast <uint64_t *> (info_k2.ptr);
             uint64_t * raw_c1 = reinterpret_cast <uint64_t *> (info_c1.ptr);
             uint64_t * raw_c2 = reinterpret_cast <uint64_t *> (info_c2.ptr);
-            size_t nstream = lengths.size();
+            long int nstream = lengths.size();
             if ((info_k1.size != nstream) || (info_k2.size != nstream) ||
                 (info_c1.size != nstream) || (info_c2.size != nstream)) {
                 auto log = cal::Logger::get();
@@ -173,11 +173,11 @@ void init_math_rng(py::module & m) {
                 throw std::runtime_error(o.str().c_str());
             }
             py::list out;
-            for (size_t i = 0; i < nstream; ++i) {
+            for (long int i = 0; i < nstream; ++i) {
                 out.append(py::cast(cal::AlignedU64(lengths[i])));
             }
             std::vector <uint64_t *> bufs(nstream);
-            for (size_t i = 0; i < nstream; ++i) {
+            for (long int i = 0; i < nstream; ++i) {
                 auto ap = out[i].cast <cal::AlignedU64 *> ();
                 bufs[i] = ap->data();
             }
@@ -228,7 +228,7 @@ void init_math_rng(py::module & m) {
             uint64_t * raw_k2 = reinterpret_cast <uint64_t *> (info_k2.ptr);
             uint64_t * raw_c1 = reinterpret_cast <uint64_t *> (info_c1.ptr);
             uint64_t * raw_c2 = reinterpret_cast <uint64_t *> (info_c2.ptr);
-            size_t nstream = lengths.size();
+            long int nstream = lengths.size();
             if ((info_k1.size != nstream) || (info_k2.size != nstream) ||
                 (info_c1.size != nstream) || (info_c2.size != nstream)) {
                 auto log = cal::Logger::get();
@@ -238,11 +238,11 @@ void init_math_rng(py::module & m) {
                 throw std::runtime_error(o.str().c_str());
             }
             py::list out;
-            for (size_t i = 0; i < nstream; ++i) {
+            for (long int i = 0; i < nstream; ++i) {
                 out.append(py::cast(cal::AlignedF64(lengths[i])));
             }
             std::vector <double *> bufs(nstream);
-            for (size_t i = 0; i < nstream; ++i) {
+            for (long int i = 0; i < nstream; ++i) {
                 auto ap = out[i].cast <cal::AlignedF64 *> ();
                 bufs[i] = ap->data();
             }
@@ -294,7 +294,7 @@ void init_math_rng(py::module & m) {
             uint64_t * raw_k2 = reinterpret_cast <uint64_t *> (info_k2.ptr);
             uint64_t * raw_c1 = reinterpret_cast <uint64_t *> (info_c1.ptr);
             uint64_t * raw_c2 = reinterpret_cast <uint64_t *> (info_c2.ptr);
-            size_t nstream = lengths.size();
+            long int nstream = lengths.size();
             if ((info_k1.size != nstream) || (info_k2.size != nstream) ||
                 (info_c1.size != nstream) || (info_c2.size != nstream)) {
                 auto log = cal::Logger::get();
@@ -304,11 +304,11 @@ void init_math_rng(py::module & m) {
                 throw std::runtime_error(o.str().c_str());
             }
             py::list out;
-            for (size_t i = 0; i < nstream; ++i) {
+            for (long int i = 0; i < nstream; ++i) {
                 out.append(py::cast(cal::AlignedF64(lengths[i])));
             }
             std::vector <double *> bufs(nstream);
-            for (size_t i = 0; i < nstream; ++i) {
+            for (long int i = 0; i < nstream; ++i) {
                 auto ap = out[i].cast <cal::AlignedF64 *> ();
                 bufs[i] = ap->data();
             }
@@ -360,7 +360,7 @@ void init_math_rng(py::module & m) {
             uint64_t * raw_k2 = reinterpret_cast <uint64_t *> (info_k2.ptr);
             uint64_t * raw_c1 = reinterpret_cast <uint64_t *> (info_c1.ptr);
             uint64_t * raw_c2 = reinterpret_cast <uint64_t *> (info_c2.ptr);
-            size_t nstream = lengths.size();
+            long int nstream = lengths.size();
             if ((info_k1.size != nstream) || (info_k2.size != nstream) ||
                 (info_c1.size != nstream) || (info_c2.size != nstream)) {
                 auto log = cal::Logger::get();
@@ -370,11 +370,11 @@ void init_math_rng(py::module & m) {
                 throw std::runtime_error(o.str().c_str());
             }
             py::list out;
-            for (size_t i = 0; i < nstream; ++i) {
+            for (long int i = 0; i < nstream; ++i) {
                 out.append(py::cast(cal::AlignedF64(lengths[i])));
             }
             std::vector <double *> bufs(nstream);
-            for (size_t i = 0; i < nstream; ++i) {
+            for (long int i = 0; i < nstream; ++i) {
                 auto ap = out[i].cast <cal::AlignedF64 *> ();
                 bufs[i] = ap->data();
             }

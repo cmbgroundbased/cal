@@ -85,7 +85,7 @@ void cal::mpi_atm_sim::smooth()
     }
 
     if (realization->rank() == 0) {
-        for (int i = 0; i < realization->size(); ++i) {
+        for (size_t i = 0; i < realization->size(); ++i) {
             (*realization)[i] = smoothed_realization[i];
         }
     }

@@ -11,14 +11,14 @@
 * to simulate next move element counter to the end of
 * the most recent simulated slice
 */
-void cal::mpi_atm_sim::get_slice(long & ind_start, long & ind_stop)
+void cal::mpi_atm_sim::get_slice(uint64_t & ind_start, uint64_t & ind_stop)
 {
 
     ind_start = ind_stop;
 
-    long ix_start = (*full_index)[ind_start] * xstrideinv;
-    long ix1 = ix_start;
-    long ix2;
+    uint64_t ix_start = (*full_index)[ind_start] * xstrideinv;
+    uint64_t ix1 = ix_start;
+    uint64_t ix2;
 
     while (true) {
         // Advance element counter by one layer of elements

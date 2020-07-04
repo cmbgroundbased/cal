@@ -8,16 +8,16 @@
 
 #include <_libcal_common.hpp>
 
-PYBIND11_MAKE_OPAQUE(cal::AlignedI8);
-PYBIND11_MAKE_OPAQUE(cal::AlignedU8);
-PYBIND11_MAKE_OPAQUE(cal::AlignedI16);
-PYBIND11_MAKE_OPAQUE(cal::AlignedU16);
-PYBIND11_MAKE_OPAQUE(cal::AlignedI32);
-PYBIND11_MAKE_OPAQUE(cal::AlignedU32);
-PYBIND11_MAKE_OPAQUE(cal::AlignedI64);
-PYBIND11_MAKE_OPAQUE(cal::AlignedU64);
-PYBIND11_MAKE_OPAQUE(cal::AlignedF32);
-PYBIND11_MAKE_OPAQUE(cal::AlignedF64);
+PYBIND11_MAKE_OPAQUE(cal::AlignedI8)
+PYBIND11_MAKE_OPAQUE(cal::AlignedU8)
+PYBIND11_MAKE_OPAQUE(cal::AlignedI16)
+PYBIND11_MAKE_OPAQUE(cal::AlignedU16)
+PYBIND11_MAKE_OPAQUE(cal::AlignedI32)
+PYBIND11_MAKE_OPAQUE(cal::AlignedU32)
+PYBIND11_MAKE_OPAQUE(cal::AlignedI64)
+PYBIND11_MAKE_OPAQUE(cal::AlignedU64)
+PYBIND11_MAKE_OPAQUE(cal::AlignedF32)
+PYBIND11_MAKE_OPAQUE(cal::AlignedF64)
 
 
 template <typename C>
@@ -89,7 +89,7 @@ void register_aligned(py::module & m, char const * name) {
          })
     .def("__setitem__",
          [](C & self, py::slice slice, py::buffer other) {
-             size_t start, stop, step, slicelength;
+             long int start, stop, step, slicelength;
              if (!slice.compute(self.size(), &start, &stop, &step,
                                 &slicelength)) {
                  throw py::error_already_set();
@@ -104,7 +104,7 @@ void register_aligned(py::module & m, char const * name) {
                      "Left and right hand size of slice assignment have different sizes!");
              }
 
-             for (size_t i = 0; i < slicelength; ++i) {
+             for (long int i = 0; i < slicelength; ++i) {
                  self[start] = raw[i];
                  start += step;
              }

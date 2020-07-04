@@ -35,7 +35,7 @@ int cal::mpi_atm_sim::simulate(bool use_cache)
         }
         double t1 = MPI_Wtime();
 
-        long ind_start = 0, ind_stop = 0, slice = 0;
+        uint64_t ind_start = 0, ind_stop = 0, slice = 0;
 
         // Assign each slice to a process
 
@@ -63,6 +63,7 @@ int cal::mpi_atm_sim::simulate(bool use_cache)
         }
 
         // A simply average on the first neighbors.
+        // It doesn't work... return a NULL TOD.
 	    // smooth();
 
         // Process Synchronize

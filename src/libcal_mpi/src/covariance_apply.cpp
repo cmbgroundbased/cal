@@ -22,7 +22,7 @@ void cal::mpi_atm_sim::apply_sparse_covariance(cholmod_sparse * sqrt_cov,
     double t1 = MPI_Wtime();
 
     // Number of elements in the slice
-    size_t nelem = ind_stop - ind_start;
+    uint64_t nelem = ind_stop - ind_start;
 
     // Draw the Gaussian variates in a single call
     cholmod_dense * noise_in = cholmod_allocate_dense(nelem, 1, nelem,
@@ -51,13 +51,13 @@ void cal::mpi_atm_sim::apply_sparse_covariance(cholmod_sparse * sqrt_cov,
     // between the slices
     double * p = (double *)noise_out->x;
     double mean = 0, var = 0;
-    for (long i = 0; i < nelem; ++i) {
+    for (uint64_t i = 0; i < nelem; ++i) {
         mean += p[i];
         var += p[i] * p[i];
     }
     mean /= nelem;
     var = var / nelem - mean * mean;
-    for (long i = 0; i < nelem; ++i) p[i] -= mean;
+    for (uint64_t i = 0; i < nelem; ++i) p[i] -= mean;
 
     double t2 = MPI_Wtime();
 
@@ -75,7 +75,7 @@ void cal::mpi_atm_sim::apply_sparse_covariance(cholmod_sparse * sqrt_cov,
         fname << "realization_"
               << ind_start << "_" << ind_stop << ".txt";
         f.open(fname.str(), std::ios::out);
-        for (long ielem = 0; ielem < nelem; ielem++) {
+        for (uint64_t ielem = 0; ielem < nelem; ielem++) {
             double coord[3];
             ind2coord(ielem, coord);
             f << coord[0] << " " << coord[1] << " " << coord[2] << " "

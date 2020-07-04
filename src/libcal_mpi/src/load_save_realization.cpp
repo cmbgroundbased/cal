@@ -205,9 +205,9 @@ void cal::mpi_atm_sim::load_realization() {
         success = freal.good();
 
         if (success) {
-            for (int i = 0; i < nelem; ++i) {
-                long ifull = (*full_index)[i];
-                if ((ifull < 0) || (ifull > compressed_index->size() - 1)) {
+            for (uint64_t i = 0; i < nelem; ++i) {
+                uint64_t ifull = (*full_index)[i];
+                if (ifull > compressed_index->size() - 1) {
                     // Cached file must be corrupt
                     success = false;
                     break;

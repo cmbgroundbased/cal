@@ -38,7 +38,7 @@ void init_math_qarray(py::module & m) {
             pybuffer_check_1D <double> (out);
             py::buffer_info info_in = in.request();
             py::buffer_info info_out = out.request();
-            size_t nquat = (size_t)(info_in.size / 4);
+            long int nquat = (size_t)(info_in.size / 4);
             if (info_out.size != nquat) {
                 auto log = cal::Logger::get();
                 std::ostringstream o;

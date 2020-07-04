@@ -25,12 +25,12 @@
 void cal::mpi_atm_sim::draw()
 {
     // Draw 10 000 gaussian variates to use in the drawing the simulation parameters
-    const size_t nrand = 10000;
+    const uint64_t nrand = 10000;
     double randn[nrand];
     cal::rng_dist_normal(nrand, key1, key2, counter1, counter2, randn);
     counter2 += nrand;
     double * prand = randn;
-    long irand = 0;
+    uint64_t irand = 0;
 
     if (rank == 0){
         lmin = 0;

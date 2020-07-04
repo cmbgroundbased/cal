@@ -142,8 +142,8 @@ $(function() {
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            }</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        }</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <a class="code" href="classcal_1_1mpi__shmem.html">mpi_shmem</a>(<span class="keywordtype">size_t</span> n, MPI_Comm comm = MPI_COMM_WORLD) : <a class="code" href="classcal_1_1mpi__shmem.html">mpi_shmem</a>(comm) {</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            <a class="code" href="classcal_1_1mpi__shmem.html#a1f9f3de09ef5b87435c1ee88d9b1d78c">allocate</a>(n);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <a class="code" href="classcal_1_1mpi__shmem.html">mpi_shmem</a>(<span class="keywordtype">int</span> n, MPI_Comm comm = MPI_COMM_WORLD) : <a class="code" href="classcal_1_1mpi__shmem.html">mpi_shmem</a>(comm) {</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            <a class="code" href="classcal_1_1mpi__shmem.html#aaa88f97c1299704c0a526a583e0ffe9c">allocate</a>(n);</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        }</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        T operator[](<span class="keywordtype">int</span> i)<span class="keyword"> const </span>{</div>
@@ -154,7 +154,7 @@ $(function() {
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            <span class="keywordflow">return</span> global_[i];</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        }</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
-<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="classcal_1_1mpi__shmem.html#a1f9f3de09ef5b87435c1ee88d9b1d78c">   86</a></span>&#160;        T * <a class="code" href="classcal_1_1mpi__shmem.html#a1f9f3de09ef5b87435c1ee88d9b1d78c">allocate</a>(<span class="keywordtype">size_t</span> n) {</div>
+<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="classcal_1_1mpi__shmem.html#aaa88f97c1299704c0a526a583e0ffe9c">   86</a></span>&#160;        T * <a class="code" href="classcal_1_1mpi__shmem.html#aaa88f97c1299704c0a526a583e0ffe9c">allocate</a>(<span class="keywordtype">int</span> n) {</div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            nlocal_ = n / ntasks_;</div>
@@ -220,15 +220,15 @@ $(function() {
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        }</div>
 <div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160; </div>
 <div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        <span class="keywordtype">void</span> set(T val) {</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; nlocal_; ++i) {</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;            <span class="keywordflow">for</span> (int64_t i = 0; i &lt; nlocal_; ++i) {</div>
 <div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;                local_[i] = val;</div>
 <div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;            }</div>
 <div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;            <span class="keywordflow">return</span>;</div>
 <div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        }</div>
 <div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160; </div>
-<div class="line"><a name="l00167"></a><span class="lineno"><a class="line" href="classcal_1_1mpi__shmem.html#a63e74a861a8b9aa7a77554096af5a8c8">  167</a></span>&#160;        T * <a class="code" href="classcal_1_1mpi__shmem.html#a63e74a861a8b9aa7a77554096af5a8c8">resize</a>(<span class="keywordtype">size_t</span> n) {</div>
+<div class="line"><a name="l00167"></a><span class="lineno"><a class="line" href="classcal_1_1mpi__shmem.html#ac06e026d159e3fd215110ef2ea6f4f20">  167</a></span>&#160;        T * <a class="code" href="classcal_1_1mpi__shmem.html#ac06e026d159e3fd215110ef2ea6f4f20">resize</a>(int64_t n) {</div>
 <div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160; </div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;            <span class="keywordtype">size_t</span> n_copy = 0;</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;            int64_t n_copy = 0;</div>
 <div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;            cal::AlignedVector &lt;T&gt; temp;</div>
 <div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160; </div>
 <div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;            <span class="keywordflow">if</span> (n &lt; n_) {</div>
@@ -246,7 +246,7 @@ $(function() {
 <div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;            }</div>
 <div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160; </div>
 <div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;            free();</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;            <a class="code" href="classcal_1_1mpi__shmem.html#a1f9f3de09ef5b87435c1ee88d9b1d78c">allocate</a>(n);</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;            <a class="code" href="classcal_1_1mpi__shmem.html#aaa88f97c1299704c0a526a583e0ffe9c">allocate</a>(n);</div>
 <div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160; </div>
 <div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;            <span class="keywordflow">if</span> ((n_copy &gt; 0) &amp;&amp; (rank_ == 0)) {</div>
 <div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;                std::copy(temp.begin(), temp.end(), global_);</div>
@@ -283,8 +283,8 @@ $(function() {
 <div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160; </div>
 <div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;        T * local_ = NULL;</div>
 <div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        T * global_ = NULL;</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;        <span class="keywordtype">size_t</span> n_ = 0;</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;        <span class="keywordtype">size_t</span> nlocal_ = 0;</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;        <span class="keywordtype">int</span> n_ = 0;</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;        <span class="keywordtype">int</span> nlocal_ = 0;</div>
 <div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;        MPI_Comm comm_ = MPI_COMM_NULL;</div>
 <div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;        MPI_Comm shmcomm_ = MPI_COMM_NULL;</div>
 <div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;        MPI_Win win_ = MPI_WIN_NULL;</div>
@@ -296,10 +296,10 @@ $(function() {
 <div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160; </div>
 <div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;<span class="preprocessor">#endif // ifndef CAL_MPI_SHM_HPP</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aclasscal_1_1mpi__shmem_html_a63e74a861a8b9aa7a77554096af5a8c8"><div class="ttname"><a href="classcal_1_1mpi__shmem.html#a63e74a861a8b9aa7a77554096af5a8c8">cal::mpi_shmem::resize</a></div><div class="ttdeci">T * resize(size_t n)</div><div class="ttdef"><b>Definition:</b> atm_shm.hpp:167</div></div>
 <div class="ttc" id="anamespacecal_html"><div class="ttname"><a href="namespacecal.html">cal</a></div><div class="ttdoc">The API to create, simulate and observe an atmosphere are contained in the cal namespace.</div><div class="ttdef"><b>Definition:</b> AATM_fun.hpp:13</div></div>
 <div class="ttc" id="aclasscal_1_1mpi__shmem_html"><div class="ttname"><a href="classcal_1_1mpi__shmem.html">cal::mpi_shmem</a></div><div class="ttdef"><b>Definition:</b> atm_shm.hpp:22</div></div>
-<div class="ttc" id="aclasscal_1_1mpi__shmem_html_a1f9f3de09ef5b87435c1ee88d9b1d78c"><div class="ttname"><a href="classcal_1_1mpi__shmem.html#a1f9f3de09ef5b87435c1ee88d9b1d78c">cal::mpi_shmem::allocate</a></div><div class="ttdeci">T * allocate(size_t n)</div><div class="ttdef"><b>Definition:</b> atm_shm.hpp:86</div></div>
+<div class="ttc" id="aclasscal_1_1mpi__shmem_html_aaa88f97c1299704c0a526a583e0ffe9c"><div class="ttname"><a href="classcal_1_1mpi__shmem.html#aaa88f97c1299704c0a526a583e0ffe9c">cal::mpi_shmem::allocate</a></div><div class="ttdeci">T * allocate(int n)</div><div class="ttdef"><b>Definition:</b> atm_shm.hpp:86</div></div>
+<div class="ttc" id="aclasscal_1_1mpi__shmem_html_ac06e026d159e3fd215110ef2ea6f4f20"><div class="ttname"><a href="classcal_1_1mpi__shmem.html#ac06e026d159e3fd215110ef2ea6f4f20">cal::mpi_shmem::resize</a></div><div class="ttdeci">T * resize(int64_t n)</div><div class="ttdef"><b>Definition:</b> atm_shm.hpp:167</div></div>
 <div class="ttc" id="aclasscal_1_1_logger_html_a5dd5ea55fa2dea98ff7b3a4fa2732b1f"><div class="ttname"><a href="classcal_1_1_logger.html#a5dd5ea55fa2dea98ff7b3a4fa2732b1f">cal::Logger::get</a></div><div class="ttdeci">static Logger &amp; get()</div><div class="ttdef"><b>Definition:</b> sys_utils.cpp:280</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

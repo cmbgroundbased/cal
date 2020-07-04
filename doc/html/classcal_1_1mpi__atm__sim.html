@@ -105,8 +105,8 @@ Public Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:acde90f60b6705631bac070390b314e0e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcal_1_1mpi__atm__sim.html#acde90f60b6705631bac070390b314e0e">mpi_atm_sim</a> (double azmin, double azmax, double elmin, double elmax, double tmin, double tmax, double lmin_center=.01, double lmin_sigma=.001, double lmax_center=10, double lmax_sigma=10, double w_center=25, double w_sigma=10, double wdir_center=0, double wdir_sigma=100, double z0_center=2000, double z0_sigma=0, double T0_center=280, double T0_sigma=10, double zatm=40000, double zmax=2000, double xstep=100, double ystep=100, double zstep=100, long <a class="el" href="classcal_1_1mpi__atm__sim.html#a0eae386d18257e5ed689d742467d390d">nelem_sim_max</a>=1000, int verbosity=0, MPI_Comm comm=MPI_COMM_WORLD, uint64_t key1=0, uint64_t key2=0, uint64_t counterval1=0, uint64_t counterval2=0, std::string cachedir=std::string(), double <a class="el" href="classcal_1_1mpi__atm__sim.html#ab741ee3a28ec4668e9ccd16757a96d01">rmin</a>=0, double rmax=10000)</td></tr>
-<tr class="separator:acde90f60b6705631bac070390b314e0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62f55df4b44a7eb237925cb39f21e047"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcal_1_1mpi__atm__sim.html#a62f55df4b44a7eb237925cb39f21e047">mpi_atm_sim</a> (double azmin, double azmax, double elmin, double elmax, double tmin, double tmax, double lmin_center=.01, double lmin_sigma=.001, double lmax_center=10, double lmax_sigma=10, double w_center=25, double w_sigma=10, double wdir_center=0, double wdir_sigma=100, double z0_center=2000, double z0_sigma=0, double T0_center=280, double T0_sigma=10, double zatm=40000, double zmax=2000, double xstep=100, double ystep=100, double zstep=100, uint64_t <a class="el" href="classcal_1_1mpi__atm__sim.html#a9fdb06bc424b5bbafc9cecef650101ba">nelem_sim_max</a>=1000, int verbosity=0, MPI_Comm comm=MPI_COMM_WORLD, uint64_t key1=0, uint64_t key2=0, uint64_t counterval1=0, uint64_t counterval2=0, std::string cachedir=std::string(), double <a class="el" href="classcal_1_1mpi__atm__sim.html#ab741ee3a28ec4668e9ccd16757a96d01">rmin</a>=0, double rmax=10000)</td></tr>
+<tr class="separator:a62f55df4b44a7eb237925cb39f21e047"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:add5e6b1af0cefd6f3b91ff143d029548"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcal_1_1mpi__atm__sim.html#add5e6b1af0cefd6f3b91ff143d029548">~mpi_atm_sim</a> ()</td></tr>
 <tr class="separator:add5e6b1af0cefd6f3b91ff143d029548"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a52c1496f8a7aed634b509e873ff1aae8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcal_1_1mpi__atm__sim.html#a52c1496f8a7aed634b509e873ff1aae8">simulate</a> (bool use_cache)</td></tr>
@@ -126,8 +126,8 @@ Private Member Functions</h2></td></tr>
 <tr class="separator:add80419c1a7fc88b21fafb026dcc3d66"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0e6e97d40f52f7722dc9ecfd4c80b854"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcal_1_1mpi__atm__sim.html#a0e6e97d40f52f7722dc9ecfd4c80b854">compress_volume</a> ()</td></tr>
 <tr class="separator:a0e6e97d40f52f7722dc9ecfd4c80b854"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab0a7384394f30859b92d1a7449358245"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcal_1_1mpi__atm__sim.html#ab0a7384394f30859b92d1a7449358245">get_slice</a> (long &amp;ind_start, long &amp;ind_stop)</td></tr>
-<tr class="separator:ab0a7384394f30859b92d1a7449358245"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9432ca804af35f217c2be3582bdf076d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcal_1_1mpi__atm__sim.html#a9432ca804af35f217c2be3582bdf076d">get_slice</a> (uint64_t &amp;ind_start, uint64_t &amp;ind_stop)</td></tr>
+<tr class="separator:a9432ca804af35f217c2be3582bdf076d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a104df232c41e3b88e67d16d07c5e9a38"><td class="memItemLeft" align="right" valign="top">cholmod_sparse *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcal_1_1mpi__atm__sim.html#a104df232c41e3b88e67d16d07c5e9a38">sqrt_sparse_covariance</a> (cholmod_sparse *cov, long ind_start, long ind_stop)</td></tr>
 <tr class="separator:a104df232c41e3b88e67d16d07c5e9a38"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a41a32382f158d3465ef1c61209782ac1"><td class="memItemLeft" align="right" valign="top">cholmod_sparse *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcal_1_1mpi__atm__sim.html#a41a32382f158d3465ef1c61209782ac1">build_sparse_covariance</a> (long ind_start, long ind_stop)</td></tr>
@@ -366,9 +366,9 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>ystrideinv</b></td>
 <tr class="memitem:a0e8d907e64c7822469b001f8eb1b8c4b"><td class="memItemLeft" align="right" valign="top"><a id="a0e8d907e64c7822469b001f8eb1b8c4b"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><b>zstrideinv</b></td></tr>
 <tr class="separator:a0e8d907e64c7822469b001f8eb1b8c4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab66fcd9eb6b8b3d45ca5a79efd760415"><td class="memItemLeft" align="right" valign="top"><a id="ab66fcd9eb6b8b3d45ca5a79efd760415"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><b>nelem</b></td></tr>
-<tr class="separator:ab66fcd9eb6b8b3d45ca5a79efd760415"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47dc5ab95595163fa2b47aee8c9098e9"><td class="memItemLeft" align="right" valign="top"><a id="a47dc5ab95595163fa2b47aee8c9098e9"></a>
+uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>nelem</b></td></tr>
+<tr class="separator:a47dc5ab95595163fa2b47aee8c9098e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a55e9af957f175121176cb786101c97dc"><td class="memItemLeft" align="right" valign="top"><a id="a55e9af957f175121176cb786101c97dc"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>cached</b> = false</td></tr>
 <tr class="separator:a55e9af957f175121176cb786101c97dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -401,8 +401,8 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>wz</b></td></tr>
 <tr class="separator:a12f4c4da2869e09c9b192b00ff59a2a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2a125c7eb5f3035072b4c3b226e602f8"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcal_1_1mpi__atm__sim.html#a2a125c7eb5f3035072b4c3b226e602f8">nr</a></td></tr>
 <tr class="separator:a2a125c7eb5f3035072b4c3b226e602f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0eae386d18257e5ed689d742467d390d"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcal_1_1mpi__atm__sim.html#a0eae386d18257e5ed689d742467d390d">nelem_sim_max</a></td></tr>
-<tr class="separator:a0eae386d18257e5ed689d742467d390d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9fdb06bc424b5bbafc9cecef650101ba"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcal_1_1mpi__atm__sim.html#a9fdb06bc424b5bbafc9cecef650101ba">nelem_sim_max</a></td></tr>
+<tr class="separator:a9fdb06bc424b5bbafc9cecef650101ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1b103396821703f7ae68472ac275dcc6"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcal_1_1mpi__atm__sim.html#a1b103396821703f7ae68472ac275dcc6">rmin_kolmo</a></td></tr>
 <tr class="separator:a1b103396821703f7ae68472ac275dcc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0d217c95d24af678d7226929eef04667"><td class="memItemLeft" align="right" valign="top"><a id="a0d217c95d24af678d7226929eef04667"></a>
@@ -481,8 +481,8 @@ std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="acde90f60b6705631bac070390b314e0e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acde90f60b6705631bac070390b314e0e">&#9670;&nbsp;</a></span>mpi_atm_sim()</h2>
+<a id="a62f55df4b44a7eb237925cb39f21e047"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a62f55df4b44a7eb237925cb39f21e047">&#9670;&nbsp;</a></span>mpi_atm_sim()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -628,7 +628,7 @@ std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">long&#160;</td>
+          <td class="paramtype">uint64_t&#160;</td>
           <td class="paramname"><em>nelem_sim_max</em> = <code>1000</code>, </td>
         </tr>
         <tr>
@@ -927,8 +927,7 @@ std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><
 </table>
 </div><div class="memdoc">
 <p>Evaluate the covariance matrix</p>
-<p>Evaluate the atmospheric absorption covariance between two coordinates Church (1995) Eq.(6) &amp; (9). Coordinates are in the horizontal frame.</p>
-<p>A smoothing kernel can be applied to the covariance matrix. To activate the smoothing you have to uncomment the lines: <code>UNCOMMENTER FOR SMOOTH</code> </p>
+<p>Evaluate the atmospheric absorption covariance between two coordinates Church (1995) Eq.(6) &amp; (9). Coordinates are in the horizontal frame. </p>
 
 </div>
 </div>
@@ -962,8 +961,8 @@ std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><
 
 </div>
 </div>
-<a id="ab0a7384394f30859b92d1a7449358245"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab0a7384394f30859b92d1a7449358245">&#9670;&nbsp;</a></span>get_slice()</h2>
+<a id="a9432ca804af35f217c2be3582bdf076d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9432ca804af35f217c2be3582bdf076d">&#9670;&nbsp;</a></span>get_slice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -974,13 +973,13 @@ std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><
         <tr>
           <td class="memname">void cal::mpi_atm_sim::get_slice </td>
           <td>(</td>
-          <td class="paramtype">long &amp;&#160;</td>
+          <td class="paramtype">uint64_t &amp;&#160;</td>
           <td class="paramname"><em>ind_start</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">long &amp;&#160;</td>
+          <td class="paramtype">uint64_t &amp;&#160;</td>
           <td class="paramname"><em>ind_stop</em>&#160;</td>
         </tr>
         <tr>
@@ -1441,8 +1440,8 @@ std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><
 
 </div>
 </div>
-<a id="a0eae386d18257e5ed689d742467d390d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0eae386d18257e5ed689d742467d390d">&#9670;&nbsp;</a></span>nelem_sim_max</h2>
+<a id="a9fdb06bc424b5bbafc9cecef650101ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9fdb06bc424b5bbafc9cecef650101ba">&#9670;&nbsp;</a></span>nelem_sim_max</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1451,7 +1450,7 @@ std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">long cal::mpi_atm_sim::nelem_sim_max</td>
+          <td class="memname">uint64_t cal::mpi_atm_sim::nelem_sim_max</td>
         </tr>
       </table>
   </td>

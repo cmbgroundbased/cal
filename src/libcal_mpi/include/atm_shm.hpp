@@ -67,7 +67,7 @@ class mpi_shmem {
             }
         }
 
-        mpi_shmem(size_t n, MPI_Comm comm = MPI_COMM_WORLD) : mpi_shmem(comm) {
+        mpi_shmem(int n, MPI_Comm comm = MPI_COMM_WORLD) : mpi_shmem(comm) {
             allocate(n);
         }
 
@@ -83,7 +83,7 @@ class mpi_shmem {
         * Determine the number of elements each process should offer
         * for the shared allocation
         */
-        T * allocate(size_t n) {
+        T * allocate(int n) {
 
 
             nlocal_ = n / ntasks_;
@@ -154,7 +154,7 @@ class mpi_shmem {
         }
 
         void set(T val) {
-            for (int i = 0; i < nlocal_; ++i) {
+            for (int64_t i = 0; i < nlocal_; ++i) {
                 local_[i] = val;
             }
             return;
@@ -164,9 +164,9 @@ class mpi_shmem {
         * If there is memory already allocated, preserve its
         * contents.
         */
-        T * resize(size_t n) {
+        T * resize(int64_t n) {
 
-            size_t n_copy = 0;
+            int64_t n_copy = 0;
             cal::AlignedVector <T> temp;
 
             if (n < n_) {
@@ -221,8 +221,8 @@ class mpi_shmem {
 
         T * local_ = NULL;
         T * global_ = NULL;
-        size_t n_ = 0;
-        size_t nlocal_ = 0;
+        int n_ = 0;
+        int nlocal_ = 0;
         MPI_Comm comm_ = MPI_COMM_NULL;
         MPI_Comm shmcomm_ = MPI_COMM_NULL;
         MPI_Win win_ = MPI_WIN_NULL;

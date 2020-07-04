@@ -7,7 +7,7 @@ var searchData=
   ['aligned_5falloc_11',['aligned_alloc',['../namespacecal.html#ab3145476ef45c8b3175f43deabdcbaa5',1,'cal']]],
   ['aligned_5ffree_12',['aligned_free',['../namespacecal.html#a386b2fd552bee380dded079e25942fd3',1,'cal']]],
   ['alignedallocator_13',['AlignedAllocator',['../classcal_1_1_aligned_allocator.html',1,'cal']]],
-  ['allocate_14',['allocate',['../classcal_1_1_aligned_allocator.html#ae432e8d27768e7843364e3c941aa8f07',1,'cal::AlignedAllocator::allocate()'],['../classcal_1_1mpi__shmem.html#a1f9f3de09ef5b87435c1ee88d9b1d78c',1,'cal::mpi_shmem::allocate()'],['../classcal_1_1_aligned_allocator.html#ae432e8d27768e7843364e3c941aa8f07',1,'cal::AlignedAllocator::allocate()']]],
+  ['allocate_14',['allocate',['../classcal_1_1_aligned_allocator.html#ae432e8d27768e7843364e3c941aa8f07',1,'cal::AlignedAllocator::allocate()'],['../classcal_1_1mpi__shmem.html#aaa88f97c1299704c0a526a583e0ffe9c',1,'cal::mpi_shmem::allocate()'],['../classcal_1_1_aligned_allocator.html#ae432e8d27768e7843364e3c941aa8f07',1,'cal::AlignedAllocator::allocate()']]],
   ['apply_5fsparse_5fcovariance_15',['apply_sparse_covariance',['../classcal_1_1atm__sim.html#afda9fbabb9aec95cae005f6f8c91cd9b',1,'cal::atm_sim::apply_sparse_covariance()'],['../classcal_1_1mpi__atm__sim.html#a9a45e22f3fe7856742c860e0c3a5cd88',1,'cal::mpi_atm_sim::apply_sparse_covariance()']]],
   ['atm_16',['atm',['../namespaceatm.html',1,'']]],
   ['atm_5fget_5fabsorption_5fcoefficient_17',['atm_get_absorption_coefficient',['../namespacecal.html#ae9f386cad2144ef71aa77bb3c80a10d5',1,'cal']]],

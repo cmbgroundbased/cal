@@ -16,7 +16,7 @@ cal::mpi_atm_sim::mpi_atm_sim(double azmin, double azmax, double elmin, double e
                         double T0_center, double T0_sigma,
                         double zatm, double zmax,
                         double xstep, double ystep, double zstep,
-                        long nelem_sim_max,
+                        uint64_t nelem_sim_max,
                         int verbosity, MPI_Comm comm,
                         uint64_t key1, uint64_t key2,
                         uint64_t counterval1, uint64_t counterval2,

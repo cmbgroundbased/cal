@@ -233,7 +233,7 @@ void init_mpi_atm(py::module & m) {
              py::buffer_info info_az = az.request();
              py::buffer_info info_el = el.request();
              py::buffer_info info_tod = tod.request();
-             size_t nsamp = info_times.size;
+             long int nsamp = info_times.size;
              if ((info_az.size != nsamp) ||
                  (info_el.size != nsamp) ||
                  (info_tod.size != nsamp)) {

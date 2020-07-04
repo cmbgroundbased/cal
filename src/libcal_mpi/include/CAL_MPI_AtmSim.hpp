@@ -73,7 +73,7 @@ class mpi_atm_sim{
             double xstep = 100, double ystep = 100, double zstep = 100,
 
             /** Size of the simulation slices [elements]*/
-            long nelem_sim_max = 1000,
+            uint64_t nelem_sim_max = 1000,
 
             /**Verbosity [bool]*/
             int verbosity = 0, MPI_Comm comm = MPI_COMM_WORLD,
@@ -136,7 +136,7 @@ class mpi_atm_sim{
 
         double xstrideinv, ystrideinv, zstrideinv;
 
-        size_t nelem;
+        uint64_t nelem;
 
         bool cached = false;
 
@@ -146,7 +146,7 @@ class mpi_atm_sim{
         long nr;
 
         /**Size of the independent X-direction slices*/
-        long nelem_sim_max;
+        uint64_t nelem_sim_max;
 
         /**Kolmogorov correlation grid*/
         double rmin_kolmo, rmax_kolmo, rstep, rstep_inv;
@@ -176,7 +176,7 @@ class mpi_atm_sim{
         mpi_shmem_double * realization = NULL;
 
         /**Find the next range of compressed indices to simulate*/
-        void get_slice(long & ind_start, long & ind_stop);
+        void get_slice(uint64_t & ind_start, uint64_t & ind_stop);
 
         /**
         * Use the atmospheric parameters for volume element covariance

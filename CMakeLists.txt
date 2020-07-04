@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 if (MSVC)
     add_compile_options(/std=c++11)
 else()
-    add_compile_options(-std=c++11)
+    add_compile_options(-std=c++11 -Wextra -pedantic)
 endif()
 
 project(cal VERSION 1.0.0 LANGUAGES C CXX)

@@ -308,7 +308,7 @@
             <section title="mpi_atm_sim" ref="classcal_1_1mpi__atm__sim.html">
               <section title="pshr" ref="classcal_1_1mpi__atm__sim.html#abf42824b9beb670cc010ea44cc649640" />
               <section title="puniq" ref="classcal_1_1mpi__atm__sim.html#add9711542d8f0a61908f606e50c8cedc" />
-              <section title="mpi_atm_sim" ref="classcal_1_1mpi__atm__sim.html#acde90f60b6705631bac070390b314e0e" />
+              <section title="mpi_atm_sim" ref="classcal_1_1mpi__atm__sim.html#a62f55df4b44a7eb237925cb39f21e047" />
               <section title="~mpi_atm_sim" ref="classcal_1_1mpi__atm__sim.html#add5e6b1af0cefd6f3b91ff143d029548" />
               <section title="apply_sparse_covariance" ref="classcal_1_1mpi__atm__sim.html#a9a45e22f3fe7856742c860e0c3a5cd88" />
               <section title="build_sparse_covariance" ref="classcal_1_1mpi__atm__sim.html#a41a32382f158d3465ef1c61209782ac1" />
@@ -316,7 +316,7 @@
               <section title="coord2ind" ref="classcal_1_1mpi__atm__sim.html#addaac0ae73aac5a931ec4a0bcb925ed8" />
               <section title="cov_eval" ref="classcal_1_1mpi__atm__sim.html#a10b842b6e86b9956b103d1d6d242769c" />
               <section title="draw" ref="classcal_1_1mpi__atm__sim.html#ab3b68a9b3d9a1771b0a2819e19ee2292" />
-              <section title="get_slice" ref="classcal_1_1mpi__atm__sim.html#ab0a7384394f30859b92d1a7449358245" />
+              <section title="get_slice" ref="classcal_1_1mpi__atm__sim.html#a9432ca804af35f217c2be3582bdf076d" />
               <section title="get_volume" ref="classcal_1_1mpi__atm__sim.html#af3f82895dc6b9d7428287097169e23e2" />
               <section title="in_cone" ref="classcal_1_1mpi__atm__sim.html#add80419c1a7fc88b21fafb026dcc3d66" />
               <section title="ind2coord" ref="classcal_1_1mpi__atm__sim.html#a54b67379b62c3b1a86690c3f7d126bcb" />
@@ -368,8 +368,8 @@
               <section title="lmin_center" ref="classcal_1_1mpi__atm__sim.html#acb2c83146715970a925ee8d29071741e" />
               <section title="lmin_sigma" ref="classcal_1_1mpi__atm__sim.html#a0645c4d17b0ab8a0406c9aef5f0262a0" />
               <section title="maxdist" ref="classcal_1_1mpi__atm__sim.html#a7d6fe2dee5110923a2778a17fd081213" />
-              <section title="nelem" ref="classcal_1_1mpi__atm__sim.html#ab66fcd9eb6b8b3d45ca5a79efd760415" />
-              <section title="nelem_sim_max" ref="classcal_1_1mpi__atm__sim.html#a0eae386d18257e5ed689d742467d390d" />
+              <section title="nelem" ref="classcal_1_1mpi__atm__sim.html#a47dc5ab95595163fa2b47aee8c9098e9" />
+              <section title="nelem_sim_max" ref="classcal_1_1mpi__atm__sim.html#a9fdb06bc424b5bbafc9cecef650101ba" />
               <section title="nn" ref="classcal_1_1mpi__atm__sim.html#aeabb65479ba522da3bea04faaa653f25" />
               <section title="nr" ref="classcal_1_1mpi__atm__sim.html#a2a125c7eb5f3035072b4c3b226e602f8" />
               <section title="ntask" ref="classcal_1_1mpi__atm__sim.html#af1fc79f86d7b26548a7b55c82fb823b5" />
@@ -432,23 +432,23 @@
             </section>
             <section title="mpi_shmem" ref="classcal_1_1mpi__shmem.html">
               <section title="mpi_shmem" ref="classcal_1_1mpi__shmem.html#ab591ef36224eedfb0e7b450291b39dce" />
-              <section title="mpi_shmem" ref="classcal_1_1mpi__shmem.html#a8baabd5400fc69e4c40aeccd94d778cf" />
+              <section title="mpi_shmem" ref="classcal_1_1mpi__shmem.html#a511d2a90031049a9c150b0fd573bce03" />
               <section title="~mpi_shmem" ref="classcal_1_1mpi__shmem.html#a1dbf9a456c99789bc1ba4a2fb5ed1635" />
-              <section title="allocate" ref="classcal_1_1mpi__shmem.html#a1f9f3de09ef5b87435c1ee88d9b1d78c" />
+              <section title="allocate" ref="classcal_1_1mpi__shmem.html#aaa88f97c1299704c0a526a583e0ffe9c" />
               <section title="data" ref="classcal_1_1mpi__shmem.html#a3a15dab17a14bdd1f35d8b432203941b" />
               <section title="free" ref="classcal_1_1mpi__shmem.html#a5a30a1591948a22ad24c7b83185e4e6e" />
               <section title="ntasks" ref="classcal_1_1mpi__shmem.html#a62eced4169f0fc6fad9c8d07d0c6f50d" />
               <section title="operator[]" ref="classcal_1_1mpi__shmem.html#a405546a4e7ad53af2cd1da38e4659d24" />
               <section title="operator[]" ref="classcal_1_1mpi__shmem.html#a2cfab14c5e498921c7bde8618e60b19d" />
               <section title="rank" ref="classcal_1_1mpi__shmem.html#a9ce107a4118c8a3e239a43226aae9b6f" />
-              <section title="resize" ref="classcal_1_1mpi__shmem.html#a63e74a861a8b9aa7a77554096af5a8c8" />
+              <section title="resize" ref="classcal_1_1mpi__shmem.html#ac06e026d159e3fd215110ef2ea6f4f20" />
               <section title="set" ref="classcal_1_1mpi__shmem.html#a7ce92b5754c2c3b075017e6d778432a7" />
               <section title="size" ref="classcal_1_1mpi__shmem.html#a5e9a296c1bfa0376bdaf73991082aec2" />
               <section title="comm_" ref="classcal_1_1mpi__shmem.html#a67fcc894aff60a37d60c5612d428d115" />
               <section title="global_" ref="classcal_1_1mpi__shmem.html#a028ba33268f87de854b657b7caf1b18f" />
               <section title="local_" ref="classcal_1_1mpi__shmem.html#aaf4ff4d5a06d1356092240cd5c9f1b39" />
-              <section title="n_" ref="classcal_1_1mpi__shmem.html#ab21d877eec2db3b8fbf474e3b3bca946" />
-              <section title="nlocal_" ref="classcal_1_1mpi__shmem.html#a476fcde230ef2b28b0917f231b6ed793" />
+              <section title="n_" ref="classcal_1_1mpi__shmem.html#a26dbd8273314a07b9f8cb72cff5747c8" />
+              <section title="nlocal_" ref="classcal_1_1mpi__shmem.html#aba36c83ee10d115109b7dff6be098da8" />
               <section title="ntasks_" ref="classcal_1_1mpi__shmem.html#a86d72d07a299f0338ca0a372c05f2c85" />
               <section title="rank_" ref="classcal_1_1mpi__shmem.html#a9be50ec3189ebefae5b8b7489dde07c3" />
               <section title="shmcomm_" ref="classcal_1_1mpi__shmem.html#a9320302ac3d9694ee535b3366f82f6eb" />
@@ -1991,7 +1991,7 @@
       <keyword name="cal::mpi_atm_sim" id="cal::mpi_atm_sim" ref="classcal_1_1mpi__atm__sim.html" />
       <keyword name="pshr" id="cal::mpi_atm_sim::pshr" ref="classcal_1_1mpi__atm__sim.html#abf42824b9beb670cc010ea44cc649640" />
       <keyword name="puniq" id="cal::mpi_atm_sim::puniq" ref="classcal_1_1mpi__atm__sim.html#add9711542d8f0a61908f606e50c8cedc" />
-      <keyword name="mpi_atm_sim" id="cal::mpi_atm_sim::mpi_atm_sim" ref="classcal_1_1mpi__atm__sim.html#acde90f60b6705631bac070390b314e0e" />
+      <keyword name="mpi_atm_sim" id="cal::mpi_atm_sim::mpi_atm_sim" ref="classcal_1_1mpi__atm__sim.html#a62f55df4b44a7eb237925cb39f21e047" />
       <keyword name="~mpi_atm_sim" id="cal::mpi_atm_sim::~mpi_atm_sim" ref="classcal_1_1mpi__atm__sim.html#add5e6b1af0cefd6f3b91ff143d029548" />
       <keyword name="simulate" id="cal::mpi_atm_sim::simulate" ref="classcal_1_1mpi__atm__sim.html#a52c1496f8a7aed634b509e873ff1aae8" />
       <keyword name="observe" id="cal::mpi_atm_sim::observe" ref="classcal_1_1mpi__atm__sim.html#a7fba376df3be33c52ba21aeabaf00e6d" />
@@ -2000,7 +2000,7 @@
       <keyword name="get_volume" id="cal::mpi_atm_sim::get_volume" ref="classcal_1_1mpi__atm__sim.html#af3f82895dc6b9d7428287097169e23e2" />
       <keyword name="in_cone" id="cal::mpi_atm_sim::in_cone" ref="classcal_1_1mpi__atm__sim.html#add80419c1a7fc88b21fafb026dcc3d66" />
       <keyword name="compress_volume" id="cal::mpi_atm_sim::compress_volume" ref="classcal_1_1mpi__atm__sim.html#a0e6e97d40f52f7722dc9ecfd4c80b854" />
-      <keyword name="get_slice" id="cal::mpi_atm_sim::get_slice" ref="classcal_1_1mpi__atm__sim.html#ab0a7384394f30859b92d1a7449358245" />
+      <keyword name="get_slice" id="cal::mpi_atm_sim::get_slice" ref="classcal_1_1mpi__atm__sim.html#a9432ca804af35f217c2be3582bdf076d" />
       <keyword name="sqrt_sparse_covariance" id="cal::mpi_atm_sim::sqrt_sparse_covariance" ref="classcal_1_1mpi__atm__sim.html#a104df232c41e3b88e67d16d07c5e9a38" />
       <keyword name="build_sparse_covariance" id="cal::mpi_atm_sim::build_sparse_covariance" ref="classcal_1_1mpi__atm__sim.html#a41a32382f158d3465ef1c61209782ac1" />
       <keyword name="apply_sparse_covariance" id="cal::mpi_atm_sim::apply_sparse_covariance" ref="classcal_1_1mpi__atm__sim.html#a9a45e22f3fe7856742c860e0c3a5cd88" />
@@ -2083,7 +2083,7 @@
       <keyword name="xstrideinv" id="cal::mpi_atm_sim::xstrideinv" ref="classcal_1_1mpi__atm__sim.html#af44287d2c04d783d857192c5f31f71b2" />
       <keyword name="ystrideinv" id="cal::mpi_atm_sim::ystrideinv" ref="classcal_1_1mpi__atm__sim.html#a1b98b01b9bb5cacc9f604e4510467944" />
       <keyword name="zstrideinv" id="cal::mpi_atm_sim::zstrideinv" ref="classcal_1_1mpi__atm__sim.html#a0e8d907e64c7822469b001f8eb1b8c4b" />
-      <keyword name="nelem" id="cal::mpi_atm_sim::nelem" ref="classcal_1_1mpi__atm__sim.html#ab66fcd9eb6b8b3d45ca5a79efd760415" />
+      <keyword name="nelem" id="cal::mpi_atm_sim::nelem" ref="classcal_1_1mpi__atm__sim.html#a47dc5ab95595163fa2b47aee8c9098e9" />
       <keyword name="cached" id="cal::mpi_atm_sim::cached" ref="classcal_1_1mpi__atm__sim.html#a55e9af957f175121176cb786101c97dc" />
       <keyword name="lmin" id="cal::mpi_atm_sim::lmin" ref="classcal_1_1mpi__atm__sim.html#a7e343eb9b39b31d1cf54c96c886dd0ba" />
       <keyword name="lmax" id="cal::mpi_atm_sim::lmax" ref="classcal_1_1mpi__atm__sim.html#a035e4eaa1b34d892f288d80ac9486dd7" />
@@ -2095,7 +2095,7 @@
       <keyword name="wy" id="cal::mpi_atm_sim::wy" ref="classcal_1_1mpi__atm__sim.html#ae59e7679de544839eac6c32a6eff7206" />
       <keyword name="wz" id="cal::mpi_atm_sim::wz" ref="classcal_1_1mpi__atm__sim.html#a12f4c4da2869e09c9b192b00ff59a2a5" />
       <keyword name="nr" id="cal::mpi_atm_sim::nr" ref="classcal_1_1mpi__atm__sim.html#a2a125c7eb5f3035072b4c3b226e602f8" />
-      <keyword name="nelem_sim_max" id="cal::mpi_atm_sim::nelem_sim_max" ref="classcal_1_1mpi__atm__sim.html#a0eae386d18257e5ed689d742467d390d" />
+      <keyword name="nelem_sim_max" id="cal::mpi_atm_sim::nelem_sim_max" ref="classcal_1_1mpi__atm__sim.html#a9fdb06bc424b5bbafc9cecef650101ba" />
       <keyword name="rmin_kolmo" id="cal::mpi_atm_sim::rmin_kolmo" ref="classcal_1_1mpi__atm__sim.html#a1b103396821703f7ae68472ac275dcc6" />
       <keyword name="rmax_kolmo" id="cal::mpi_atm_sim::rmax_kolmo" ref="classcal_1_1mpi__atm__sim.html#a0d217c95d24af678d7226929eef04667" />
       <keyword name="rstep" id="cal::mpi_atm_sim::rstep" ref="classcal_1_1mpi__atm__sim.html#a4966a6e9556f6efdb45695c68e96eb94" />
@@ -2114,21 +2114,21 @@
       <keyword name="kolmo_y" id="cal::mpi_atm_sim::kolmo_y" ref="classcal_1_1mpi__atm__sim.html#a45e11ae50b2891f79f3c907feac17977" />
       <keyword name="cal::mpi_shmem" id="cal::mpi_shmem" ref="classcal_1_1mpi__shmem.html" />
       <keyword name="mpi_shmem" id="cal::mpi_shmem::mpi_shmem" ref="classcal_1_1mpi__shmem.html#ab591ef36224eedfb0e7b450291b39dce" />
-      <keyword name="mpi_shmem" id="cal::mpi_shmem::mpi_shmem" ref="classcal_1_1mpi__shmem.html#a8baabd5400fc69e4c40aeccd94d778cf" />
+      <keyword name="mpi_shmem" id="cal::mpi_shmem::mpi_shmem" ref="classcal_1_1mpi__shmem.html#a511d2a90031049a9c150b0fd573bce03" />
       <keyword name="operator[]" id="cal::mpi_shmem::operator[]" ref="classcal_1_1mpi__shmem.html#a2cfab14c5e498921c7bde8618e60b19d" />
       <keyword name="operator[]" id="cal::mpi_shmem::operator[]" ref="classcal_1_1mpi__shmem.html#a405546a4e7ad53af2cd1da38e4659d24" />
-      <keyword name="allocate" id="cal::mpi_shmem::allocate" ref="classcal_1_1mpi__shmem.html#a1f9f3de09ef5b87435c1ee88d9b1d78c" />
+      <keyword name="allocate" id="cal::mpi_shmem::allocate" ref="classcal_1_1mpi__shmem.html#aaa88f97c1299704c0a526a583e0ffe9c" />
       <keyword name="free" id="cal::mpi_shmem::free" ref="classcal_1_1mpi__shmem.html#a5a30a1591948a22ad24c7b83185e4e6e" />
       <keyword name="set" id="cal::mpi_shmem::set" ref="classcal_1_1mpi__shmem.html#a7ce92b5754c2c3b075017e6d778432a7" />
-      <keyword name="resize" id="cal::mpi_shmem::resize" ref="classcal_1_1mpi__shmem.html#a63e74a861a8b9aa7a77554096af5a8c8" />
+      <keyword name="resize" id="cal::mpi_shmem::resize" ref="classcal_1_1mpi__shmem.html#ac06e026d159e3fd215110ef2ea6f4f20" />
       <keyword name="data" id="cal::mpi_shmem::data" ref="classcal_1_1mpi__shmem.html#a3a15dab17a14bdd1f35d8b432203941b" />
       <keyword name="size" id="cal::mpi_shmem::size" ref="classcal_1_1mpi__shmem.html#a5e9a296c1bfa0376bdaf73991082aec2" />
       <keyword name="rank" id="cal::mpi_shmem::rank" ref="classcal_1_1mpi__shmem.html#a9ce107a4118c8a3e239a43226aae9b6f" />
       <keyword name="ntasks" id="cal::mpi_shmem::ntasks" ref="classcal_1_1mpi__shmem.html#a62eced4169f0fc6fad9c8d07d0c6f50d" />
       <keyword name="local_" id="cal::mpi_shmem::local_" ref="classcal_1_1mpi__shmem.html#aaf4ff4d5a06d1356092240cd5c9f1b39" />
       <keyword name="global_" id="cal::mpi_shmem::global_" ref="classcal_1_1mpi__shmem.html#a028ba33268f87de854b657b7caf1b18f" />
-      <keyword name="n_" id="cal::mpi_shmem::n_" ref="classcal_1_1mpi__shmem.html#ab21d877eec2db3b8fbf474e3b3bca946" />
-      <keyword name="nlocal_" id="cal::mpi_shmem::nlocal_" ref="classcal_1_1mpi__shmem.html#a476fcde230ef2b28b0917f231b6ed793" />
+      <keyword name="n_" id="cal::mpi_shmem::n_" ref="classcal_1_1mpi__shmem.html#a26dbd8273314a07b9f8cb72cff5747c8" />
+      <keyword name="nlocal_" id="cal::mpi_shmem::nlocal_" ref="classcal_1_1mpi__shmem.html#aba36c83ee10d115109b7dff6be098da8" />
       <keyword name="comm_" id="cal::mpi_shmem::comm_" ref="classcal_1_1mpi__shmem.html#a67fcc894aff60a37d60c5612d428d115" />
       <keyword name="shmcomm_" id="cal::mpi_shmem::shmcomm_" ref="classcal_1_1mpi__shmem.html#a9320302ac3d9694ee535b3366f82f6eb" />
       <keyword name="win_" id="cal::mpi_shmem::win_" ref="classcal_1_1mpi__shmem.html#a9b5c92ba230e6eaaf2ac3fd010f189ea" />
