@@ -55,12 +55,13 @@ Work in progress ...
 `make -J <N>`<br />
 `make install`<br />
 
-## CAL depens on the following requirements:
+## CAL requirements:
 
 `openompi (>= 4.0.0)` <br/>
 `libaatm`<br/>
 `SuiteSparse`<br/>
 `LAPACK`<br/>
+`python3`
 
 ## AUTHOR
 
