@@ -1,32 +1,21 @@
-# This will run on Travis' 'new' container-based infrastructure
 sudo: false
 
-# Blacklist
 branches:
-  except:
-    - gh-pages
+  only:
+    - master
 
-# Environment variables
-env:
-  global:
-    - GH_REPO_NAME: cal
-    - DOXYFILE: docs/Doxyfile
-    - GH_REPO_REF: github.com/cmbgroundbased/cal.git
-
-# Install dependencies
 addons:
   apt:
     packages:
       - doxygen
-      - doxygen-doc
-      - doxygen-latex
-      - doxygen-gui
-      - graphviz
 
-# Generate and deploy documentation
-after_success:
-  - echo "" > .nojekyll
-  - doxygen $DOXYFILE 2>&1 | tee doxygen.log
-  - git add --all 
-  - git commit -m "Deploy code docs to GitHub Pages Travis build: ${TRAVIS_BUILD_NUMBER}" -m "Commit: ${TRAVIS_COMMIT}"
-  - git push --force "https://${GH_REPO_TOKEN}@${GH_REPO_REF}" > /dev/null 2>&1
+script:
+  - doxygen Doxyfile
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  local_dir: docs/html
+  github_token: $GH_REPO_TOKEN
+  on:
+    branch: master
