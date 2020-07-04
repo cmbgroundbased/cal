@@ -1,0 +1,119 @@
+Slide 1
+Buongiorno a tutti, l'argomento che ho scelto per l'esame sono gli effetti dell'atmosfera
+sulle osservazioni della CMB, ovviamente da terra. Come linea guida userò l'articolo di 
+Church 1995 in cui, anche se usando approssimazioni, parte da un modello di atmosfera
+completo e matematicamente non banale per ottenere dei primi risultati analitici.
+
+Slide 2
+sono uno studente phd al secondo anno, lavoro insieme al gruppo di cosmologia osservativa
+e sono principalmente collocato su due esperimenti entrambi con il principale scopo di 
+osservare la polarizzazione della radiazione di fondo cosmico a grandi scale angolari.
+LiteBIRD è un satellite e la mia attività riguarda più che altro la calibrazione ottica e 
+la caratterizzazione elettromangetica del telescopio a media/alta frequenza e la
+pianificazione delle strategie di calibrazione in-flight.
+
+LSPE/STRIP invece è un esperimento da terra sempre rivolto all'osservazione della
+polarizzazione della CMB su grande scala angolare e mi occupo delle simulazioni di
+sensibilità e della caratterizzazione delle sistematiche.
+
+Slide 3
+In questa presentazione, oltre ad una brevissima introduzione su cos'è la CMB, vedremo
+il modello dispersivo dell'atmosfera presentato nel paper di church. Come il regime
+turbulento dell'atmosfera crei delle strutture con diverso indice di rifrazione e 
+coefficiente di assorbimento e calcoleremo l'entità di queste fluttuazioni e la 
+loro evoluzione temporale.
+
+In conclusione vedremo le cose ongoing etcc...
+
+Slide 4
+La radiazione cosmica di fondo a microonde è una radiazione fossile, cioè rappresenta il
+nostro universo quando questo aveva solo 380.000 anni. Durante questa età, l'universo era
+sufficientemente freddo per permettere al plasma che vi era contenuto di formare materia 
+neutra, provocando una decisa diminuzione della sezione d'urto di thompson. In questo modo
+i fotoni furoni liberi di propagare nello spazio libero. A causa dell'espansione 
+dell'universo, oggi vediamo quei fotoni con lunghezze d'onda nelle microonde e come una
+radiazione di corpo nero a 2.7K, polarizzata linearmente e pressochè isotropa ed omogenea, 
+a meno di piccole anisotropie.
+
+Slide 5
+
+Le anisotropie raccontano quella che è stata la storia del nostro universo prima del momento 
+del disaccoppiamento. Le anisotropie in intensità (temperatura) sono legate alle fluttuazioni
+scalari del plasma primordiale, mentre lo studio della polarizzazione di cui una parte è legato strettamente 
+alle fluttuazioni tensoriali del plasma primordiale dovuta alla propagazione di onde
+gravitazionali in un universo primordiale.
+
+Lo strumento quantitativo che viene usato per esprimere la statistica delle strutture del CMB
+è lo spettro di potenza angolare.
+
+Slide 6
+Rappresenta lo spettro di potenza angolare in temperatura e polarizzazione. La polarizzazione
+può essere decomposta in modi E e modi B e le linee in verde e blu identificano il modo in cui
+andiamo a riconoscere nella volta celestre queste strutture ricorrenti. La polarizzazione
+dei modi E è stata osservata con successo sin dai primi anni 90, mentre la polarizzazione
+dei modi B non è stata ancora osservata, in blue viene rappresentato quello che dovebbe essere 
+il suo andamento teorico per un certo valore fissato del rapporto tensore-scalare.
+
+In un contesto in cui le informazioni cosmologiche vengono estratte dalle correlazioni angolari 
+che vediamo sulla mappa, è importante che tutto quello che introduce correlazione spuria
+sia sotto controllo e ben caratterizzato.
+
+Slide 7 
+Copertura in frequenza dei foregrounds // problema dell'atmosfera.
+
+
+Slide 8
+Presentazione delle proprietà dispersive dell'atmosfera. Permittività complessa, indice di
+rifrazione e coef. assorbimento, che sono legati tra loro dalle relazioni di K-K
+
+Il contributo maggiore alla dispersione è causato dall'ossigeno e dal vapor d'acqua che vi
+sono mescolati o in sospensione. L'ossigeno fornisce un contributo smooth e non tende a
+creare strutture spaziali particolarmente evidenti, il vapor acqueo si.
+
+Slide 9
+L'effetto delle fluttuazioni spaziali dell'indice di rifrazione è particolarmente evidente
+negli esperimenti di interferometria. In questo caso con due elementi, la linea di vista
+del primo intercetta zone con indice rifrazione diverso del secondo. Misure hanno mostrato
+che le fluttuazioni di fase causate da questo effetto sono legate alla baseline dello 
+interferometro e seguono una legge di potenza.
+
+C'e`un effetto anche sugli esperimento a single-dish, in cui il beam subisce delle
+distrosioni sempre diverse in funzione all'indice di rifrazione della bolla che intercetta,
+provocando una incertezza sulla direzione massimo guadagno, e quindi sul puntamento.
+Analisi sulle fluttuazioni di puntamento causate dalle fluttuazioni di indice di rifrazione
+sono state fatte usando telescopi di grande diametro come l'IRAM o il JCMT. Si è mostrato che
+per un beam size di circa un 1grado, e per lunghezze d'onda nell'ordine dei cm, l'incertezza
+nel puntamento è di circa 10 arcsec, totalmente trascurabile.
+
+
+
+Slide 10
+Per gli espeimenti a single-dish il problema è legato soprattutto alle fluttuazioni di alpha
+perchè ne dipende l'emissione dell'atmosfera. ...... Abbiamo zone quindi più brillanti e zone 
+meno brillanti la cui intensità non è trascurabile.
+
+Slide 11
+
+conoscere la funzione di correlazione spaziale
+
+Slide 12
+costruzione della funzione di struttura per indice di rifrazione può suggerire come costruire
+quella per alpha.
+
+Slide 13
+Funzione di struttura per alpha, che come obbiettivo quello di ricavare la funzione di correlazione
+
+
+Slide 14
+si arriva alla funzzione di correlazione, possiamo rilassare la parte della dipendenza
+dalla distanza alla 2/3 usando degli spettri più generici
+
+
+
+
+
+
+
+
+
+

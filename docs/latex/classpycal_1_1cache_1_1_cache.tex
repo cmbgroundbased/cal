@@ -1,0 +1,229 @@
+\hypertarget{classpycal_1_1cache_1_1_cache}{}\doxysection{pycal.\+cache.\+Cache Class Reference}
+\label{classpycal_1_1cache_1_1_cache}\index{pycal.cache.Cache@{pycal.cache.Cache}}
+
+
+Inheritance diagram for pycal.\+cache.\+Cache\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=187pt]{classpycal_1_1cache_1_1_cache__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for pycal.\+cache.\+Cache\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=187pt]{classpycal_1_1cache_1_1_cache__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classpycal_1_1cache_1_1_cache_a5e86dec7a3a5b4a4feac98895f5b6a13}\label{classpycal_1_1cache_1_1_cache_a5e86dec7a3a5b4a4feac98895f5b6a13}} 
+def {\bfseries \+\_\+\+\_\+init\+\_\+\+\_\+} (self, pymem=False)
+\item 
+def \mbox{\hyperlink{classpycal_1_1cache_1_1_cache_a103f2b2f042c41f44fea7eab4e9c9cf0}{clear}} (self, pattern=None)
+\item 
+def \mbox{\hyperlink{classpycal_1_1cache_1_1_cache_ad63f85b0fd7a19cfca1944f7ef1d2292}{create}} (self, name, type, shape)
+\item 
+def \mbox{\hyperlink{classpycal_1_1cache_1_1_cache_a4c7bdee7385a29e52b034f96bb751fcd}{put}} (self, name, data, replace=False)
+\item 
+def \mbox{\hyperlink{classpycal_1_1cache_1_1_cache_ae3b6273e52035f64154112f10aaf25bf}{add\+\_\+alias}} (self, alias, name)
+\item 
+def \mbox{\hyperlink{classpycal_1_1cache_1_1_cache_a3fd96ba982f1eca4cc117cdfa8f7908d}{destroy}} (self, name)
+\item 
+def \mbox{\hyperlink{classpycal_1_1cache_1_1_cache_a9d34e07145794bfc3d23dc9021a0e364}{exists}} (self, name)
+\item 
+def \mbox{\hyperlink{classpycal_1_1cache_1_1_cache_a0a8a9a795e258ffacb9b7570b7ca3b02}{reference}} (self, name)
+\item 
+def \mbox{\hyperlink{classpycal_1_1cache_1_1_cache_a487bb62878b52a8b0c465e31ba72bd83}{keys}} (self)
+\item 
+def \mbox{\hyperlink{classpycal_1_1cache_1_1_cache_a7c0f905cc54e8e16631bc7f13fa0e73b}{aliases}} (self)
+\item 
+def \mbox{\hyperlink{classpycal_1_1cache_1_1_cache_acda569b1528d4636658be7163691ef6b}{report}} (self, silent=False)
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classpycal_1_1cache_1_1_cache_a414fdbc56f3a2fe51baf409a31ccdfca}\label{classpycal_1_1cache_1_1_cache_a414fdbc56f3a2fe51baf409a31ccdfca}} 
+{\bfseries \+\_\+pymem}
+\item 
+\mbox{\Hypertarget{classpycal_1_1cache_1_1_cache_aa15919a59a1a9286e6ac1463a3fced59}\label{classpycal_1_1cache_1_1_cache_aa15919a59a1a9286e6ac1463a3fced59}} 
+{\bfseries \+\_\+buffers}
+\item 
+\mbox{\Hypertarget{classpycal_1_1cache_1_1_cache_a1a9f83f8394765e1bf3ccf1367b42857}\label{classpycal_1_1cache_1_1_cache_a1a9f83f8394765e1bf3ccf1367b42857}} 
+{\bfseries \+\_\+dtypes}
+\item 
+\mbox{\Hypertarget{classpycal_1_1cache_1_1_cache_a6c0818c9c1522f09b5bbff9721c0b3f1}\label{classpycal_1_1cache_1_1_cache_a6c0818c9c1522f09b5bbff9721c0b3f1}} 
+{\bfseries \+\_\+shapes}
+\item 
+\mbox{\Hypertarget{classpycal_1_1cache_1_1_cache_aca8ff92c611e44b318ea8e5a0367e152}\label{classpycal_1_1cache_1_1_cache_aca8ff92c611e44b318ea8e5a0367e152}} 
+{\bfseries \+\_\+aliases}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Data cache with explicit memory management.
+
+This class acts as a dictionary of named arrays.  Each array may be
+multi-dimensional.
+
+Args:
+    pymem (bool): if True, use python memory rather than external
+        allocations in C.  Only used for testing.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classpycal_1_1cache_1_1_cache_ae3b6273e52035f64154112f10aaf25bf}\label{classpycal_1_1cache_1_1_cache_ae3b6273e52035f64154112f10aaf25bf}} 
+\index{pycal.cache.Cache@{pycal.cache.Cache}!add\_alias@{add\_alias}}
+\index{add\_alias@{add\_alias}!pycal.cache.Cache@{pycal.cache.Cache}}
+\doxysubsubsection{\texorpdfstring{add\_alias()}{add\_alias()}}
+{\footnotesize\ttfamily def pycal.\+cache.\+Cache.\+add\+\_\+alias (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{alias,  }\item[{}]{name }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Add an alias to a name that already exists in the cache.
+
+Args:
+    alias (str): alias to create
+    name (str): an existing key in the cache
+
+Returns:
+    None\end{DoxyVerb}
+ \mbox{\Hypertarget{classpycal_1_1cache_1_1_cache_a7c0f905cc54e8e16631bc7f13fa0e73b}\label{classpycal_1_1cache_1_1_cache_a7c0f905cc54e8e16631bc7f13fa0e73b}} 
+\index{pycal.cache.Cache@{pycal.cache.Cache}!aliases@{aliases}}
+\index{aliases@{aliases}!pycal.cache.Cache@{pycal.cache.Cache}}
+\doxysubsubsection{\texorpdfstring{aliases()}{aliases()}}
+{\footnotesize\ttfamily def pycal.\+cache.\+Cache.\+aliases (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Return a dictionary of all the aliases to keys in the cache.
+
+Returns:
+    (dict): Dictionary of aliases.\end{DoxyVerb}
+ \mbox{\Hypertarget{classpycal_1_1cache_1_1_cache_a103f2b2f042c41f44fea7eab4e9c9cf0}\label{classpycal_1_1cache_1_1_cache_a103f2b2f042c41f44fea7eab4e9c9cf0}} 
+\index{pycal.cache.Cache@{pycal.cache.Cache}!clear@{clear}}
+\index{clear@{clear}!pycal.cache.Cache@{pycal.cache.Cache}}
+\doxysubsubsection{\texorpdfstring{clear()}{clear()}}
+{\footnotesize\ttfamily def pycal.\+cache.\+Cache.\+clear (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{pattern = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Clear one or more buffers.
+
+Args:
+    pattern (str): a regular expression to match against the buffer
+names when determining what should be cleared.  If None,
+then all buffers are cleared.
+
+Returns:
+    None\end{DoxyVerb}
+ \mbox{\Hypertarget{classpycal_1_1cache_1_1_cache_ad63f85b0fd7a19cfca1944f7ef1d2292}\label{classpycal_1_1cache_1_1_cache_ad63f85b0fd7a19cfca1944f7ef1d2292}} 
+\index{pycal.cache.Cache@{pycal.cache.Cache}!create@{create}}
+\index{create@{create}!pycal.cache.Cache@{pycal.cache.Cache}}
+\doxysubsubsection{\texorpdfstring{create()}{create()}}
+{\footnotesize\ttfamily def pycal.\+cache.\+Cache.\+create (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{name,  }\item[{}]{type,  }\item[{}]{shape }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Create a named data buffer of the given type and shape.
+
+Args:
+    name (str): the name to assign to the buffer.
+    type (numpy.dtype): one of the supported numpy types.
+    shape (tuple): a tuple containing the shape of the buffer.
+
+Returns:
+    (array): a reference to the allocated array.\end{DoxyVerb}
+ \mbox{\Hypertarget{classpycal_1_1cache_1_1_cache_a3fd96ba982f1eca4cc117cdfa8f7908d}\label{classpycal_1_1cache_1_1_cache_a3fd96ba982f1eca4cc117cdfa8f7908d}} 
+\index{pycal.cache.Cache@{pycal.cache.Cache}!destroy@{destroy}}
+\index{destroy@{destroy}!pycal.cache.Cache@{pycal.cache.Cache}}
+\doxysubsubsection{\texorpdfstring{destroy()}{destroy()}}
+{\footnotesize\ttfamily def pycal.\+cache.\+Cache.\+destroy (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{name }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Deallocate the specified buffer.
+
+Only call this if all numpy arrays that reference the memory
+are out of use.  If the specified name is an alias, then the alias
+is simply deleted.  If the specified name is an actual buffer, then
+all aliases pointing to that buffer are also deleted.
+
+Args:
+    name (str): the name of the buffer or alias to destroy.
+
+Returns:
+    None\end{DoxyVerb}
+ \mbox{\Hypertarget{classpycal_1_1cache_1_1_cache_a9d34e07145794bfc3d23dc9021a0e364}\label{classpycal_1_1cache_1_1_cache_a9d34e07145794bfc3d23dc9021a0e364}} 
+\index{pycal.cache.Cache@{pycal.cache.Cache}!exists@{exists}}
+\index{exists@{exists}!pycal.cache.Cache@{pycal.cache.Cache}}
+\doxysubsubsection{\texorpdfstring{exists()}{exists()}}
+{\footnotesize\ttfamily def pycal.\+cache.\+Cache.\+exists (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{name }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Check whether a buffer exists.
+
+Args:
+    name (str): the name of the buffer to search for.
+
+Returns:
+    (bool):  True if a buffer or alias exists with the given name.\end{DoxyVerb}
+ \mbox{\Hypertarget{classpycal_1_1cache_1_1_cache_a487bb62878b52a8b0c465e31ba72bd83}\label{classpycal_1_1cache_1_1_cache_a487bb62878b52a8b0c465e31ba72bd83}} 
+\index{pycal.cache.Cache@{pycal.cache.Cache}!keys@{keys}}
+\index{keys@{keys}!pycal.cache.Cache@{pycal.cache.Cache}}
+\doxysubsubsection{\texorpdfstring{keys()}{keys()}}
+{\footnotesize\ttfamily def pycal.\+cache.\+Cache.\+keys (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Return a list of all the keys in the cache.
+
+Returns:
+    (list): List of key strings.\end{DoxyVerb}
+ \mbox{\Hypertarget{classpycal_1_1cache_1_1_cache_a4c7bdee7385a29e52b034f96bb751fcd}\label{classpycal_1_1cache_1_1_cache_a4c7bdee7385a29e52b034f96bb751fcd}} 
+\index{pycal.cache.Cache@{pycal.cache.Cache}!put@{put}}
+\index{put@{put}!pycal.cache.Cache@{pycal.cache.Cache}}
+\doxysubsubsection{\texorpdfstring{put()}{put()}}
+{\footnotesize\ttfamily def pycal.\+cache.\+Cache.\+put (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{name,  }\item[{}]{data,  }\item[{}]{replace = {\ttfamily False} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Create a named data buffer to hold the provided data.
+
+If replace is True, existing buffer of the same name is first
+destroyed. If replace is True and the name is an alias, it is
+promoted to a new data buffer.
+
+Args:
+    name (str): the name to assign to the buffer.
+    data (numpy.ndarray): Numpy array
+    replace (bool): Overwrite any existing keys
+
+Returns:
+    (array): a numpy array wrapping the raw data buffer.\end{DoxyVerb}
+ \mbox{\Hypertarget{classpycal_1_1cache_1_1_cache_a0a8a9a795e258ffacb9b7570b7ca3b02}\label{classpycal_1_1cache_1_1_cache_a0a8a9a795e258ffacb9b7570b7ca3b02}} 
+\index{pycal.cache.Cache@{pycal.cache.Cache}!reference@{reference}}
+\index{reference@{reference}!pycal.cache.Cache@{pycal.cache.Cache}}
+\doxysubsubsection{\texorpdfstring{reference()}{reference()}}
+{\footnotesize\ttfamily def pycal.\+cache.\+Cache.\+reference (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{name }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Return a numpy array pointing to the buffer.
+
+The returned array will wrap a pointer to the raw buffer, but will
+not claim ownership.  When the numpy array is garbage collected, it
+will NOT attempt to free the memory (you must manually use the
+destroy method).
+
+Args:
+    name (str): the name of the buffer to return.
+
+Returns:
+    (array): a numpy array wrapping the raw data buffer.\end{DoxyVerb}
+ \mbox{\Hypertarget{classpycal_1_1cache_1_1_cache_acda569b1528d4636658be7163691ef6b}\label{classpycal_1_1cache_1_1_cache_acda569b1528d4636658be7163691ef6b}} 
+\index{pycal.cache.Cache@{pycal.cache.Cache}!report@{report}}
+\index{report@{report}!pycal.cache.Cache@{pycal.cache.Cache}}
+\doxysubsubsection{\texorpdfstring{report()}{report()}}
+{\footnotesize\ttfamily def pycal.\+cache.\+Cache.\+report (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{silent = {\ttfamily False} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Report memory usage.
+
+Args:
+    silent (bool):  Count and return the memory without printing.
+
+Returns:
+    (int):  Amount of allocated memory in bytes\end{DoxyVerb}
+ 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/algebrato/\+Progetti/\+C\+M\+B4\+G/libcal/src/pycal/cache.\+py\end{DoxyCompactItemize}

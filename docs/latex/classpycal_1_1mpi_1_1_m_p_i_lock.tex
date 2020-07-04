@@ -1,0 +1,142 @@
+\hypertarget{classpycal_1_1mpi_1_1_m_p_i_lock}{}\doxysection{pycal.\+mpi.\+M\+P\+I\+Lock Class Reference}
+\label{classpycal_1_1mpi_1_1_m_p_i_lock}\index{pycal.mpi.MPILock@{pycal.mpi.MPILock}}
+
+
+Inheritance diagram for pycal.\+mpi.\+M\+P\+I\+Lock\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=188pt]{classpycal_1_1mpi_1_1_m_p_i_lock__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for pycal.\+mpi.\+M\+P\+I\+Lock\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=188pt]{classpycal_1_1mpi_1_1_m_p_i_lock__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classpycal_1_1mpi_1_1_m_p_i_lock_ae973f62cfc3af259b08a119d267db885}\label{classpycal_1_1mpi_1_1_m_p_i_lock_ae973f62cfc3af259b08a119d267db885}} 
+def {\bfseries \+\_\+\+\_\+init\+\_\+\+\_\+} (self, \mbox{\hyperlink{classpycal_1_1mpi_1_1_m_p_i_lock_a17b755492462936b044a7c8f688f4d9f}{comm}}, root=0, debug=False)
+\item 
+\mbox{\Hypertarget{classpycal_1_1mpi_1_1_m_p_i_lock_a55309bf04ec5814808295c7633d75bbb}\label{classpycal_1_1mpi_1_1_m_p_i_lock_a55309bf04ec5814808295c7633d75bbb}} 
+def {\bfseries \+\_\+\+\_\+del\+\_\+\+\_\+} (self)
+\item 
+\mbox{\Hypertarget{classpycal_1_1mpi_1_1_m_p_i_lock_a4ec1fc3d44659426f042aa34e530c411}\label{classpycal_1_1mpi_1_1_m_p_i_lock_a4ec1fc3d44659426f042aa34e530c411}} 
+def {\bfseries \+\_\+\+\_\+enter\+\_\+\+\_\+} (self)
+\item 
+\mbox{\Hypertarget{classpycal_1_1mpi_1_1_m_p_i_lock_a0193887605e409997904ae9d0de4eaae}\label{classpycal_1_1mpi_1_1_m_p_i_lock_a0193887605e409997904ae9d0de4eaae}} 
+def {\bfseries \+\_\+\+\_\+exit\+\_\+\+\_\+} (self, type, value, tb)
+\item 
+\mbox{\Hypertarget{classpycal_1_1mpi_1_1_m_p_i_lock_aa763b1f91afd5896131e25c3dc71e3a3}\label{classpycal_1_1mpi_1_1_m_p_i_lock_aa763b1f91afd5896131e25c3dc71e3a3}} 
+def {\bfseries close} (self)
+\item 
+def \mbox{\hyperlink{classpycal_1_1mpi_1_1_m_p_i_lock_a17b755492462936b044a7c8f688f4d9f}{comm}} (self)
+\item 
+def \mbox{\hyperlink{classpycal_1_1mpi_1_1_m_p_i_lock_a108ddc5c77094d3dfbec8f228a440280}{lock}} (self)
+\item 
+def \mbox{\hyperlink{classpycal_1_1mpi_1_1_m_p_i_lock_af84f3c605f0812d5b46da80addfd6dc4}{unlock}} (self)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classpycal_1_1mpi_1_1_m_p_i_lock_ad5978858826ea25e26c3db245867b843}\label{classpycal_1_1mpi_1_1_m_p_i_lock_ad5978858826ea25e26c3db245867b843}} 
+{\bfseries newid} = next(itertools.\+count())
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classpycal_1_1mpi_1_1_m_p_i_lock_a8708b1f523d5b44ccb8dd84fcf9e7bc8}\label{classpycal_1_1mpi_1_1_m_p_i_lock_a8708b1f523d5b44ccb8dd84fcf9e7bc8}} 
+def {\bfseries \+\_\+checkabort} (self, \mbox{\hyperlink{classpycal_1_1mpi_1_1_m_p_i_lock_a17b755492462936b044a7c8f688f4d9f}{comm}}, status, msg)
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classpycal_1_1mpi_1_1_m_p_i_lock_ae82820987aaeea25021a9cb5678f0862}\label{classpycal_1_1mpi_1_1_m_p_i_lock_ae82820987aaeea25021a9cb5678f0862}} 
+{\bfseries \+\_\+comm}
+\item 
+\mbox{\Hypertarget{classpycal_1_1mpi_1_1_m_p_i_lock_a720f061503f332fc4cdb80419ce323c9}\label{classpycal_1_1mpi_1_1_m_p_i_lock_a720f061503f332fc4cdb80419ce323c9}} 
+{\bfseries \+\_\+root}
+\item 
+\mbox{\Hypertarget{classpycal_1_1mpi_1_1_m_p_i_lock_a406aa925b0d01d7ca89a3506cb87a15a}\label{classpycal_1_1mpi_1_1_m_p_i_lock_a406aa925b0d01d7ca89a3506cb87a15a}} 
+{\bfseries \+\_\+debug}
+\item 
+\mbox{\Hypertarget{classpycal_1_1mpi_1_1_m_p_i_lock_a378b3f242aa9fd6979650e4d77ab40ed}\label{classpycal_1_1mpi_1_1_m_p_i_lock_a378b3f242aa9fd6979650e4d77ab40ed}} 
+{\bfseries \+\_\+tag}
+\item 
+\mbox{\Hypertarget{classpycal_1_1mpi_1_1_m_p_i_lock_a056dcc66fadc0ca978a14813ac198376}\label{classpycal_1_1mpi_1_1_m_p_i_lock_a056dcc66fadc0ca978a14813ac198376}} 
+{\bfseries \+\_\+rank}
+\item 
+\mbox{\Hypertarget{classpycal_1_1mpi_1_1_m_p_i_lock_a15cf20e9a962cf4230e04a659b383316}\label{classpycal_1_1mpi_1_1_m_p_i_lock_a15cf20e9a962cf4230e04a659b383316}} 
+{\bfseries \+\_\+procs}
+\item 
+\mbox{\Hypertarget{classpycal_1_1mpi_1_1_m_p_i_lock_a3fb4655fb06d8e721d542fd051c9d112}\label{classpycal_1_1mpi_1_1_m_p_i_lock_a3fb4655fb06d8e721d542fd051c9d112}} 
+{\bfseries \+\_\+nlocal}
+\item 
+\mbox{\Hypertarget{classpycal_1_1mpi_1_1_m_p_i_lock_a9e3a582bcbe6dbc3a6567c3efdbb066b}\label{classpycal_1_1mpi_1_1_m_p_i_lock_a9e3a582bcbe6dbc3a6567c3efdbb066b}} 
+{\bfseries \+\_\+mpitype}
+\item 
+\mbox{\Hypertarget{classpycal_1_1mpi_1_1_m_p_i_lock_a0525eeea6ac19e230289a8ccd1736cad}\label{classpycal_1_1mpi_1_1_m_p_i_lock_a0525eeea6ac19e230289a8ccd1736cad}} 
+{\bfseries \+\_\+win}
+\item 
+\mbox{\Hypertarget{classpycal_1_1mpi_1_1_m_p_i_lock_a703b2eebdbb5d26513d91a7967306343}\label{classpycal_1_1mpi_1_1_m_p_i_lock_a703b2eebdbb5d26513d91a7967306343}} 
+{\bfseries \+\_\+have\+\_\+lock}
+\item 
+\mbox{\Hypertarget{classpycal_1_1mpi_1_1_m_p_i_lock_a55177cd59efb9909d36d9ca18823d319}\label{classpycal_1_1mpi_1_1_m_p_i_lock_a55177cd59efb9909d36d9ca18823d319}} 
+{\bfseries \+\_\+waiting}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Implement a MUTEX lock with MPI one-sided operations.
+
+The lock is created across the given communicator.  This uses an array
+of bytes (one per process) to track which processes have requested the
+lock.  When a given process releases the lock, it passes it to the next
+process in line.
+
+Args:
+    comm (MPI.Comm): the full communicator to use.
+    root (int): the rank which stores the list of waiting processes.
+    debug (bool): if True, print debugging info about the lock status.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classpycal_1_1mpi_1_1_m_p_i_lock_a17b755492462936b044a7c8f688f4d9f}\label{classpycal_1_1mpi_1_1_m_p_i_lock_a17b755492462936b044a7c8f688f4d9f}} 
+\index{pycal.mpi.MPILock@{pycal.mpi.MPILock}!comm@{comm}}
+\index{comm@{comm}!pycal.mpi.MPILock@{pycal.mpi.MPILock}}
+\doxysubsubsection{\texorpdfstring{comm()}{comm()}}
+{\footnotesize\ttfamily def pycal.\+mpi.\+M\+P\+I\+Lock.\+comm (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}The communicator.
+\end{DoxyVerb}
+ \mbox{\Hypertarget{classpycal_1_1mpi_1_1_m_p_i_lock_a108ddc5c77094d3dfbec8f228a440280}\label{classpycal_1_1mpi_1_1_m_p_i_lock_a108ddc5c77094d3dfbec8f228a440280}} 
+\index{pycal.mpi.MPILock@{pycal.mpi.MPILock}!lock@{lock}}
+\index{lock@{lock}!pycal.mpi.MPILock@{pycal.mpi.MPILock}}
+\doxysubsubsection{\texorpdfstring{lock()}{lock()}}
+{\footnotesize\ttfamily def pycal.\+mpi.\+M\+P\+I\+Lock.\+lock (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Request the lock and wait.
+
+This call blocks until lock is available.  Then it acquires
+the lock and returns.
+\end{DoxyVerb}
+ \mbox{\Hypertarget{classpycal_1_1mpi_1_1_m_p_i_lock_af84f3c605f0812d5b46da80addfd6dc4}\label{classpycal_1_1mpi_1_1_m_p_i_lock_af84f3c605f0812d5b46da80addfd6dc4}} 
+\index{pycal.mpi.MPILock@{pycal.mpi.MPILock}!unlock@{unlock}}
+\index{unlock@{unlock}!pycal.mpi.MPILock@{pycal.mpi.MPILock}}
+\doxysubsubsection{\texorpdfstring{unlock()}{unlock()}}
+{\footnotesize\ttfamily def pycal.\+mpi.\+M\+P\+I\+Lock.\+unlock (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Unlock and return.
+\end{DoxyVerb}
+ 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/algebrato/\+Progetti/\+C\+M\+B4\+G/libcal/src/pycal/mpi.\+py\end{DoxyCompactItemize}

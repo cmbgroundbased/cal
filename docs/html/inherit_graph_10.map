@@ -1,0 +1,34 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classpycal_1_1tests_1_1tidas_1_1_tidas_test.html" title=" " alt="" coords="5,844,199,871"/>
+<area shape="rect" id="node2" href="$classpycal_1_1tests_1_1mpi_1_1_m_p_i_test_case.html" title=" " alt="" coords="247,844,455,871"/>
+<area shape="rect" id="node3" href="$classpycal_1_1tests_1_1binned_1_1_binned_test.html" title=" " alt="" coords="533,5,749,32"/>
+<area shape="rect" id="node4" href="$classpycal_1_1tests_1_1cache_1_1_cache_test.html" title=" " alt="" coords="539,56,744,83"/>
+<area shape="rect" id="node5" href="$classpycal_1_1tests_1_1cov_1_1_covariance_test.html" title=" " alt="" coords="530,107,753,133"/>
+<area shape="rect" id="node6" href="$classpycal_1_1tests_1_1dist_1_1_data_test.html" title=" " alt="" coords="550,157,733,184"/>
+<area shape="rect" id="node7" href="$classpycal_1_1tests_1_1env_1_1_env_test.html" title=" " alt="" coords="554,208,729,235"/>
+<area shape="rect" id="node8" href="$classpycal_1_1tests_1_1fft_1_1_f_f_t_test.html" title=" " alt="" coords="558,259,725,285"/>
+<area shape="rect" id="node9" href="$classpycal_1_1tests_1_1healpix_1_1_healpix_test.html" title=" " alt="" coords="529,309,754,336"/>
+<area shape="rect" id="node10" href="$classpycal_1_1tests_1_1intervals_1_1_interval_test.html" title=" " alt="" coords="524,360,759,387"/>
+<area shape="rect" id="node11" href="$classpycal_1_1tests_1_1map__ground_1_1_map_ground_test.html" title=" " alt="" coords="536,411,747,453"/>
+<area shape="rect" id="node12" href="$classpycal_1_1tests_1_1map__satellite_1_1_map_satellite_test.html" title=" " alt="" coords="546,477,737,518"/>
+<area shape="rect" id="node13" href="$classpycal_1_1tests_1_1ops__applygain_1_1_test_apply_gain.html" title=" " alt="" coords="544,542,739,583"/>
+<area shape="rect" id="node14" href="$classpycal_1_1tests_1_1ops__dipole_1_1_op_sim_dipole_test.html" title=" " alt="" coords="547,607,736,649"/>
+<area shape="rect" id="node15" href="$classpycal_1_1tests_1_1ops__gainscrambler_1_1_op_gain_scrambler_test.html" title=" " alt="" coords="529,673,753,714"/>
+<area shape="rect" id="node16" href="$classpycal_1_1tests_1_1ops__groundfilter_1_1_op_ground_filter_test.html" title=" " alt="" coords="538,738,745,779"/>
+<area shape="rect" id="node17" href="$classpycal_1_1tests_1_1ops__madam_1_1_op_madam_test.html" title=" " alt="" coords="542,803,741,845"/>
+<area shape="rect" id="node18" href="$classpycal_1_1tests_1_1ops__memorycounter_1_1_op_memory_counter_test.html" title=" " alt="" coords="524,869,759,910"/>
+<area shape="rect" id="node19" href="$classpycal_1_1tests_1_1ops__pmat_1_1_op_pointing_hpix_test.html" title=" " alt="" coords="523,934,759,975"/>
+<area shape="rect" id="node20" href="$classpycal_1_1tests_1_1ops__polyfilter_1_1_op_poly_filter_test.html" title=" " alt="" coords="546,999,737,1041"/>
+<area shape="rect" id="node21" href="$classpycal_1_1tests_1_1ops__sim__atm_1_1_ops_sim_atmosphere_test.html" title=" " alt="" coords="534,1065,749,1106"/>
+<area shape="rect" id="node22" href="$classpycal_1_1tests_1_1ops__sim__pysm_1_1_op_sim_py_s_m_test.html" title=" " alt="" coords="554,1130,729,1171"/>
+<area shape="rect" id="node23" href="$classpycal_1_1tests_1_1ops__sim__pysm_1_1_op_sim_py_s_m_test_smooth.html" title=" " alt="" coords="529,1195,753,1237"/>
+<area shape="rect" id="node24" href="$classpycal_1_1tests_1_1ops__sim__sss_1_1_op_sim_scan_synchronous_signal_test.html" title=" " alt="" coords="503,1261,780,1302"/>
+<area shape="rect" id="node25" href="$classpycal_1_1tests_1_1ops__simnoise_1_1_op_sim_noise_test.html" title=" " alt="" coords="546,1326,737,1367"/>
+<area shape="rect" id="node26" href="$classpycal_1_1tests_1_1psd__math_1_1_p_s_d_test.html" title=" " alt="" coords="533,1392,750,1419"/>
+<area shape="rect" id="node27" href="$classpycal_1_1tests_1_1qarray_1_1_qarray_test.html" title=" " alt="" coords="536,1443,747,1469"/>
+<area shape="rect" id="node28" href="$classpycal_1_1tests_1_1rng_1_1_r_n_g_test.html" title=" " alt="" coords="553,1493,730,1520"/>
+<area shape="rect" id="node29" href="$classpycal_1_1tests_1_1sim__focalplane_1_1_sim_focalplane_test.html" title=" " alt="" coords="541,1545,741,1586"/>
+<area shape="rect" id="node30" href="$classpycal_1_1tests_1_1timing_1_1_timing_test.html" title=" " alt="" coords="535,1611,748,1637"/>
+<area shape="rect" id="node31" href="$classpycal_1_1tests_1_1tod_1_1_t_o_d_test.html" title=" " alt="" coords="553,1661,729,1688"/>
+<area shape="rect" id="node32" href="$classpycal_1_1tests_1_1tod__satellite_1_1_t_o_d_satellite_test.html" title=" " alt="" coords="550,1713,733,1754"/>
+</map>

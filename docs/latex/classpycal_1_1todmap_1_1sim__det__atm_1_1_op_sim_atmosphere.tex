@@ -1,0 +1,263 @@
+\hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere}{}\doxysection{pycal.\+todmap.\+sim\+\_\+det\+\_\+atm.\+Op\+Sim\+Atmosphere Class Reference}
+\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere}\index{pycal.todmap.sim\_det\_atm.OpSimAtmosphere@{pycal.todmap.sim\_det\_atm.OpSimAtmosphere}}
+
+
+Inheritance diagram for pycal.\+todmap.\+sim\+\_\+det\+\_\+atm.\+Op\+Sim\+Atmosphere\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=216pt]{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for pycal.\+todmap.\+sim\+\_\+det\+\_\+atm.\+Op\+Sim\+Atmosphere\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=216pt]{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a1ebcd144ea4f85bd254e8893aa68aeff}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a1ebcd144ea4f85bd254e8893aa68aeff}} 
+def {\bfseries \+\_\+\+\_\+init\+\_\+\+\_\+} (self, out=\char`\"{}atm\char`\"{}, realization=0, component=123456, lmin\+\_\+center=0.\+01, lmin\+\_\+sigma=0.\+001, lmax\+\_\+center=10, lmax\+\_\+sigma=10, zatm=40000.\+0, zmax=2000.\+0, xstep=100.\+0, ystep=100.\+0, zstep=100.\+0, nelem\+\_\+sim\+\_\+max=10000, verbosity=0, gain=1, z0\+\_\+center=2000, z0\+\_\+sigma=0, apply\+\_\+flags=False, common\+\_\+flag\+\_\+name=None, common\+\_\+flag\+\_\+mask=255, flag\+\_\+name=None, flag\+\_\+mask=255, report\+\_\+timing=True, wind\+\_\+dist=10000, cachedir=\char`\"{}.\char`\"{}, flush=False, freq=None)
+\item 
+def \mbox{\hyperlink{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_ab9550ae5cb9f0781ad6725ea2edae9e1}{exec}} (self, data)
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a26dfd39e6d7f5d043476b0b137106da4}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a26dfd39e6d7f5d043476b0b137106da4}} 
+def {\bfseries \+\_\+save\+\_\+tod} (self, obsname, tod, times, istart, nind, ind, comm, common\+\_\+ref)
+\item 
+def \mbox{\hyperlink{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_ab5b63b6c0214451081035031d5bcb5ef}{\+\_\+plot\+\_\+snapshots}} (self, sim, prefix, obsname, scan\+\_\+range, tmin, tmax, comm, rmin, rmax)
+\item 
+def \mbox{\hyperlink{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a4274842ca74bd599eaa5027d06f6152a}{\+\_\+get\+\_\+from\+\_\+obs}} (self, name, obs)
+\item 
+def \mbox{\hyperlink{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_aeb0ef04c1ae4a87d10d906ea572a4f9a}{\+\_\+get\+\_\+rng\+\_\+keys}} (self, obs)
+\item 
+\mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a1d2810dbf67bd2edf6c68681ed875af7}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a1d2810dbf67bd2edf6c68681ed875af7}} 
+def {\bfseries \+\_\+get\+\_\+absorption\+\_\+and\+\_\+loading} (self, obs)
+\item 
+\mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a306264e596b4a67cdd7942c6e412619d}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a306264e596b4a67cdd7942c6e412619d}} 
+def {\bfseries \+\_\+get\+\_\+cache\+\_\+dir} (self, obs, comm)
+\item 
+\mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a81cb44150501c90cf6f39e37e2cf2cf1}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a81cb44150501c90cf6f39e37e2cf2cf1}} 
+def {\bfseries \+\_\+get\+\_\+scan\+\_\+range} (self, obs, comm, prefix)
+\item 
+\mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a695a97610de372aa863e033da4a81424}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a695a97610de372aa863e033da4a81424}} 
+def {\bfseries \+\_\+get\+\_\+time\+\_\+range} (self, tmin, istart, times, tmax\+\_\+tot, common\+\_\+ref, tod, weather)
+\item 
+\mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a5fe60c9208d40a42cc9d5c0c49d59a5e}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a5fe60c9208d40a42cc9d5c0c49d59a5e}} 
+def {\bfseries \+\_\+simulate\+\_\+atmosphere} (self, weather, scan\+\_\+range, tmin, tmax, comm, key1, key2, counter1, counter2, cachedir, prefix, tmin\+\_\+tot, tmax\+\_\+tot, rmin, rmax)
+\item 
+\mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_aae939b81894c7b7597642368437b5dc8}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_aae939b81894c7b7597642368437b5dc8}} 
+def {\bfseries \+\_\+observe\+\_\+atmosphere} (self, sim, tod, comm, prefix, common\+\_\+ref, istart, nind, ind, scan\+\_\+range, times, absorption)
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a4fae59723eab0c745ef8e12a1f75e236}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a4fae59723eab0c745ef8e12a1f75e236}} 
+{\bfseries \+\_\+out}
+\item 
+\mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a170eadfd3e60cabfc3596e6aac1f2e1d}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a170eadfd3e60cabfc3596e6aac1f2e1d}} 
+{\bfseries \+\_\+realization}
+\item 
+\mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_aa333035c11a27fbd907693e4e3c5e991}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_aa333035c11a27fbd907693e4e3c5e991}} 
+{\bfseries \+\_\+component}
+\item 
+\mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_aded609d15586267d7b344c3ae0c76674}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_aded609d15586267d7b344c3ae0c76674}} 
+{\bfseries \+\_\+lmin\+\_\+center}
+\item 
+\mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a0790047c4037c96766260608ccb4118a}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a0790047c4037c96766260608ccb4118a}} 
+{\bfseries \+\_\+lmin\+\_\+sigma}
+\item 
+\mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_af51a50f95aa5bd4ae4e0b66793634da4}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_af51a50f95aa5bd4ae4e0b66793634da4}} 
+{\bfseries \+\_\+lmax\+\_\+center}
+\item 
+\mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_ace1a3cde3e3a6ac9c8bb58ab06a45b17}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_ace1a3cde3e3a6ac9c8bb58ab06a45b17}} 
+{\bfseries \+\_\+lmax\+\_\+sigma}
+\item 
+\mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_abc3a8e4f550bef536abbc371edcd7a2c}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_abc3a8e4f550bef536abbc371edcd7a2c}} 
+{\bfseries \+\_\+gain}
+\item 
+\mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a00541e476fb3535b3bec2b41fc1c6259}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a00541e476fb3535b3bec2b41fc1c6259}} 
+{\bfseries \+\_\+zatm}
+\item 
+\mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a5d6c2c90fb8fe536d0be206dc39a57da}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a5d6c2c90fb8fe536d0be206dc39a57da}} 
+{\bfseries \+\_\+zmax}
+\item 
+\mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_afa9d550b68952368d9f9269fc249a652}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_afa9d550b68952368d9f9269fc249a652}} 
+{\bfseries \+\_\+xstep}
+\item 
+\mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_ab3d7140d585083f55e40be151bca461b}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_ab3d7140d585083f55e40be151bca461b}} 
+{\bfseries \+\_\+ystep}
+\item 
+\mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a200ef6cdfc3f1a9171c187aa01126da7}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a200ef6cdfc3f1a9171c187aa01126da7}} 
+{\bfseries \+\_\+zstep}
+\item 
+\mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a5f1f82f926abd4cdda8deee7e57e9594}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a5f1f82f926abd4cdda8deee7e57e9594}} 
+{\bfseries \+\_\+nelem\+\_\+sim\+\_\+max}
+\item 
+\mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_aec6a0b6578fdda7e7764720d1fbf9468}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_aec6a0b6578fdda7e7764720d1fbf9468}} 
+{\bfseries \+\_\+verbosity}
+\item 
+\mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_abcc361996e0e86f70052803ad954ded7}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_abcc361996e0e86f70052803ad954ded7}} 
+{\bfseries \+\_\+cachedir}
+\item 
+\mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a93c4713ab956f59d8bba0c1eceb83da3}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a93c4713ab956f59d8bba0c1eceb83da3}} 
+{\bfseries \+\_\+flush}
+\item 
+\mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a68ca3e026588862de6a8fa87d16f81c2}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a68ca3e026588862de6a8fa87d16f81c2}} 
+{\bfseries \+\_\+freq}
+\item 
+\mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_af3b738e7fe62ca2ffbcd85dbd9a2bf9d}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_af3b738e7fe62ca2ffbcd85dbd9a2bf9d}} 
+{\bfseries \+\_\+z0\+\_\+center}
+\item 
+\mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a5fce0c8ba874ac36a0c51df28ee3a696}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a5fce0c8ba874ac36a0c51df28ee3a696}} 
+{\bfseries \+\_\+z0\+\_\+sigma}
+\item 
+\mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a771f4d356eda57412d042cd15f0d0b91}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a771f4d356eda57412d042cd15f0d0b91}} 
+{\bfseries \+\_\+apply\+\_\+flags}
+\item 
+\mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_addf4aa24c41f10139603b90d730e9a35}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_addf4aa24c41f10139603b90d730e9a35}} 
+{\bfseries \+\_\+common\+\_\+flag\+\_\+name}
+\item 
+\mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_af7b432af05c199d70a149ff2c6e31814}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_af7b432af05c199d70a149ff2c6e31814}} 
+{\bfseries \+\_\+common\+\_\+flag\+\_\+mask}
+\item 
+\mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a81d03d64c3106c2943a111308a135ed8}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a81d03d64c3106c2943a111308a135ed8}} 
+{\bfseries \+\_\+flag\+\_\+name}
+\item 
+\mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_adceb1b3d89bd97cb00b6ab028eba2c10}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_adceb1b3d89bd97cb00b6ab028eba2c10}} 
+{\bfseries \+\_\+flag\+\_\+mask}
+\item 
+\mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a8dde152eb6f528d59624d5f728f051ab}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a8dde152eb6f528d59624d5f728f051ab}} 
+{\bfseries \+\_\+report\+\_\+timing}
+\item 
+\mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_aa60322a7a88e6c1457b82f2a7b94393d}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_aa60322a7a88e6c1457b82f2a7b94393d}} 
+{\bfseries \+\_\+wind\+\_\+dist}
+\item 
+\mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a9386e27bdf9e3d4878dae66e084c83d3}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a9386e27bdf9e3d4878dae66e084c83d3}} 
+{\bfseries \+\_\+wind\+\_\+time}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Operator which generates atmosphere timestreams.
+
+All processes collectively generate the atmospheric realization.
+Then each process passes through its local data and observes the
+atmosphere.
+
+This operator is only compatible with TOD objects that can return
+AZ/EL pointing.
+
+Args:
+    out (str): accumulate data to the cache with name
+        <out>_<detector>.  If the named cache objects do not exist,
+        then they are created.
+    realization (int): if simulating multiple realizations, the
+        realization index.
+    component (int): the component index to use for this noise
+        simulation.
+    lmin_center (float): Kolmogorov turbulence dissipation scale
+        center.
+    lmin_sigma (float): Kolmogorov turbulence dissipation scale
+        sigma.
+    lmax_center (float): Kolmogorov turbulence injection scale
+         center.
+    lmax_sigma (float): Kolmogorov turbulence injection scale sigma.
+    gain (float): Scaling applied to the simulated TOD.
+    zatm (float): atmosphere extent for temperature profile.
+    zmax (float): atmosphere extent for water vapor integration.
+    xstep (float): size of volume elements in X direction.
+    ystep (float): size of volume elements in Y direction.
+    zstep (float): size of volume elements in Z direction.
+    nelem_sim_max (int): controls the size of the simulation slices.
+    verbosity (int): more information is printed for values > 0.
+    z0_center (float):  central value of the water vapor
+         distribution.
+    z0_sigma (float):  sigma of the water vapor distribution.
+    common_flag_name (str):  Cache name of the output common flags.
+        If it already exists, it is used.  Otherwise flags
+        are read from the tod object and stored in the cache under
+        common_flag_name.
+    common_flag_mask (byte):  Bitmask to use when flagging data
+       based on the common flags.
+    flag_name (str):  Cache name of the output detector flags will
+        be <flag_name>_<detector>.  If the object exists, it is
+        used.  Otherwise flags are read from the tod object.
+    flag_mask (byte):  Bitmask to use when flagging data
+       based on the detector flags.
+    apply_flags (bool):  When True, flagged samples are not
+         simulated.
+    report_timing (bool):  Print out time taken to initialize,
+         simulate and observe
+    wind_dist (float):  Maximum wind drift before discarding the
+        volume and creating a new one [meters].
+    cachedir (str):  Directory to use for loading and saving
+        atmosphere realizations.  Set to None to disable caching.
+    flush (bool):  Flush all print statements
+    freq (float):  Observing frequency in GHz.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a4274842ca74bd599eaa5027d06f6152a}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_a4274842ca74bd599eaa5027d06f6152a}} 
+\index{pycal.todmap.sim\_det\_atm.OpSimAtmosphere@{pycal.todmap.sim\_det\_atm.OpSimAtmosphere}!\_get\_from\_obs@{\_get\_from\_obs}}
+\index{\_get\_from\_obs@{\_get\_from\_obs}!pycal.todmap.sim\_det\_atm.OpSimAtmosphere@{pycal.todmap.sim\_det\_atm.OpSimAtmosphere}}
+\doxysubsubsection{\texorpdfstring{\_get\_from\_obs()}{\_get\_from\_obs()}}
+{\footnotesize\ttfamily def pycal.\+todmap.\+sim\+\_\+det\+\_\+atm.\+Op\+Sim\+Atmosphere.\+\_\+get\+\_\+from\+\_\+obs (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{name,  }\item[{}]{obs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+\begin{DoxyVerb}Extract value for name from observation.
+
+If name is not defined in observation, raise an exception.\end{DoxyVerb}
+ \mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_aeb0ef04c1ae4a87d10d906ea572a4f9a}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_aeb0ef04c1ae4a87d10d906ea572a4f9a}} 
+\index{pycal.todmap.sim\_det\_atm.OpSimAtmosphere@{pycal.todmap.sim\_det\_atm.OpSimAtmosphere}!\_get\_rng\_keys@{\_get\_rng\_keys}}
+\index{\_get\_rng\_keys@{\_get\_rng\_keys}!pycal.todmap.sim\_det\_atm.OpSimAtmosphere@{pycal.todmap.sim\_det\_atm.OpSimAtmosphere}}
+\doxysubsubsection{\texorpdfstring{\_get\_rng\_keys()}{\_get\_rng\_keys()}}
+{\footnotesize\ttfamily def pycal.\+todmap.\+sim\+\_\+det\+\_\+atm.\+Op\+Sim\+Atmosphere.\+\_\+get\+\_\+rng\+\_\+keys (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{obs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+\begin{DoxyVerb}The random number generator accepts a key and a counter,
+each made of two 64bit integers.
+Following tod_math.py we set
+key1 = realization * 2^32 + telescope * 2^16 + component
+key2 = obsindx * 2^32
+counter1 = hierarchical cone counter
+counter2 = sample in stream (incremented internally in the atm code)
+\end{DoxyVerb}
+ \mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_ab5b63b6c0214451081035031d5bcb5ef}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_ab5b63b6c0214451081035031d5bcb5ef}} 
+\index{pycal.todmap.sim\_det\_atm.OpSimAtmosphere@{pycal.todmap.sim\_det\_atm.OpSimAtmosphere}!\_plot\_snapshots@{\_plot\_snapshots}}
+\index{\_plot\_snapshots@{\_plot\_snapshots}!pycal.todmap.sim\_det\_atm.OpSimAtmosphere@{pycal.todmap.sim\_det\_atm.OpSimAtmosphere}}
+\doxysubsubsection{\texorpdfstring{\_plot\_snapshots()}{\_plot\_snapshots()}}
+{\footnotesize\ttfamily def pycal.\+todmap.\+sim\+\_\+det\+\_\+atm.\+Op\+Sim\+Atmosphere.\+\_\+plot\+\_\+snapshots (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{sim,  }\item[{}]{prefix,  }\item[{}]{obsname,  }\item[{}]{scan\+\_\+range,  }\item[{}]{tmin,  }\item[{}]{tmax,  }\item[{}]{comm,  }\item[{}]{rmin,  }\item[{}]{rmax }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+\begin{DoxyVerb}Create snapshots of the atmosphere\end{DoxyVerb}
+ \mbox{\Hypertarget{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_ab9550ae5cb9f0781ad6725ea2edae9e1}\label{classpycal_1_1todmap_1_1sim__det__atm_1_1_op_sim_atmosphere_ab9550ae5cb9f0781ad6725ea2edae9e1}} 
+\index{pycal.todmap.sim\_det\_atm.OpSimAtmosphere@{pycal.todmap.sim\_det\_atm.OpSimAtmosphere}!exec@{exec}}
+\index{exec@{exec}!pycal.todmap.sim\_det\_atm.OpSimAtmosphere@{pycal.todmap.sim\_det\_atm.OpSimAtmosphere}}
+\doxysubsubsection{\texorpdfstring{exec()}{exec()}}
+{\footnotesize\ttfamily def pycal.\+todmap.\+sim\+\_\+det\+\_\+atm.\+Op\+Sim\+Atmosphere.\+exec (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{data }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Generate atmosphere timestreams.
+
+This iterates over all observations and detectors and generates
+the atmosphere timestreams.
+
+Args:
+    data (cal.Data): The distributed data.
+
+Returns:
+    None\end{DoxyVerb}
+ 
+
+Reimplemented from \mbox{\hyperlink{classpycal_1_1op_1_1_operator_af40922bdae44d1b640f4271c03926302}{pycal.\+op.\+Operator}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/algebrato/\+Progetti/\+C\+M\+B4\+G/libcal/src/pycal/todmap/sim\+\_\+det\+\_\+atm.\+py\end{DoxyCompactItemize}
