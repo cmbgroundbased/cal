@@ -63,7 +63,7 @@ Work in progress ...
 `LAPACK`<br/>
 `python3`
 
-## AUTHOR
+# AUTHOR
 
 HPC4CMB/TOAST Author <br />
 Theodore Kisner <work@theodorekisner.com> <br />
@@ -75,7 +75,7 @@ CAL Maintainer <br />
 Stefano Mandelli <stefano.mandelli@unimi.it>
 
 
-## License
+# License
 
 
 Time Ordered Astrophysics Scalable Tools (TOAST)

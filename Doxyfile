@@ -920,8 +920,8 @@ RECURSIVE              = YES
 # run.
 
 EXCLUDE                =  src/libcal_mpi/include/Random123 \
+			  src/libcal/include/Random123 \
                           src/pycal/pybind11 \
-			  src/pycal
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
 # directories that are symbolic links (a Unix file system feature) are excluded
