@@ -12,6 +12,10 @@ Out of this consideration, we decided to make independent the code that does the
 
 The atmospheric model is based on the S. Church 1995 paper (https://doi.org/10.1093/mnras/272.3.551). The mathematical description is available on @ref church_model 
 
+| Version      | Status |
+|:-----------:|:------:|
+| 0.9 |  [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https:/https://github.com/cmbgroundbased/cal/doc)|
+
 ## Build status
 
 | Distribution      | Status |
