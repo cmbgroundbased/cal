@@ -35,17 +35,17 @@ void cal::mpi_atm_sim::compress_volume()
     }
 
     // Start by flagging all elements that are hit
-    for (int64_t ix = 0; ix < nx - 1; ++ix) {
+    for (int64_t ix = 0; ix < nx - 2; ++ix) {
         if (ix % ntask != rank){
             continue;
         }
         double x = xstart + ix * xstep;
 
         # pragma omp parallel for schedule(static, 10)
-        for (int64_t iy = 0; iy < ny - 1; ++iy) {
+        for (int64_t iy = 0; iy < ny - 2; ++iy) {
             double y = ystart + iy * ystep;
 
-            for (int64_t iz = 0; iz < nz - 1; ++iz) {
+            for (int64_t iz = 0; iz < nz - 2; ++iz) {
                 double z = zstart + iz * zstep;
                 if (in_cone(x, y, z)) {
                     hit[ix * xstride + iy * ystride + iz * zstride] = true;
@@ -66,12 +66,12 @@ void cal::mpi_atm_sim::compress_volume()
 
     std::vector <unsigned char> hit2 = hit;
 
-    for (int64_t ix = 1; ix < nx - 1; ++ix) {
+    for (int64_t ix = 1; ix < nx - 2; ++ix) {
         if (ix % ntask != rank) continue;
 
         # pragma omp parallel for schedule(static, 10)
-        for (int64_t iy = 1; iy < ny - 1; ++iy) {
-            for (int64_t iz = 1; iz < nz - 1; ++iz) {
+        for (int64_t iy = 1; iy < ny - 2; ++iy) {
+            for (int64_t iz = 1; iz < nz - 2; ++iz) {
                 int64_t offset = ix * xstride + iy * ystride + iz * zstride;
 
                 if (hit2[offset]) {
@@ -80,13 +80,13 @@ void cal::mpi_atm_sim::compress_volume()
                     // interpolation
 
                     for (int64_t xmul = -2; xmul < 4; ++xmul) {
-                        if ((ix + xmul < 0) || (ix + xmul > nx - 1)) continue;
+                        if ((ix + xmul < 0) || (ix + xmul > nx - 2)) continue;
 
                         for (int64_t ymul = -2; ymul < 4; ++ymul) {
-                            if ((iy + ymul < 0) || (iy + ymul > ny - 1)) continue;
+                            if ((iy + ymul < 0) || (iy + ymul > ny - 2)) continue;
 
                             for (int64_t zmul = -2; zmul < 4; ++zmul) {
-                                if ((iz + zmul < 0) || (iz + zmul > nz - 1)) continue;
+                                if ((iz + zmul < 0) || (iz + zmul > nz - 2)) continue;
                                 hit[offset + xmul * xstride + ymul * ystride + zmul * zstride] = true;
                             }
                         }

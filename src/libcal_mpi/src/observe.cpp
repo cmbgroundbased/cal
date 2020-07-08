@@ -105,7 +105,6 @@ int cal::mpi_atm_sim::observe(double * t, double * az, double * el, double * tod
             y += ytel_now;
             z += ztel_now;
 
-            o << x << " " << y << " " << z << std::endl;
 # ifdef DEBUG
             if ((x < xstart) || (x > xstart + delta_x) ||
                 (y < ystart) || (y > ystart + delta_y) ||
