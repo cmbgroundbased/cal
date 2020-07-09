@@ -66,7 +66,7 @@ int cal::mpi_atm_sim::simulate(bool use_cache)
         // It doesn't work... return a NULL TOD.
 	    // smooth();
 
-        // Process Synchronize
+        // Processes Syncronization
         MPI_Barrier(comm);
         double t2 = MPI_Wtime();
 

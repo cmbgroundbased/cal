@@ -32,7 +32,7 @@ void cal::mpi_atm_sim::get_volume()
 
     z = r * sin(elmin);
     rproj = r * cos(elmin);
-    x = rproj * cos(0);
+    x = rproj * cos(0); // ok! 
     z_min = -x * sinel0 + z * cosel0;
 
     z = r * sin(elmax);

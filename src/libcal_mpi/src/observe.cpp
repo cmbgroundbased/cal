@@ -154,6 +154,7 @@ int cal::mpi_atm_sim::observe(double * t, double * az, double * el, double * tod
             if (fixed_r > 0) break;
         }
         tod[i] = val * rstep * T0;
+        val = 0;
     }
 
     double t2 = MPI_Wtime();
