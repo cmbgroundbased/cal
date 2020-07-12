@@ -64,7 +64,8 @@ int cal::mpi_atm_sim::simulate(bool use_cache)
 
         // A simply average on the first neighbors.
         // It doesn't work... return a NULL TOD.
-	    // smooth();
+        std::cerr << "Smoothing..." << std::endl;
+        //smooth();
 
         // Processes Syncronization
         MPI_Barrier(comm);

@@ -9,6 +9,8 @@
 /**
 * Establish a mapping between full volume indices and observed
 * volume indices.
+*
+* Extremely time-consuming!! Has to be optimized!
 */
 void cal::mpi_atm_sim::compress_volume()
 {

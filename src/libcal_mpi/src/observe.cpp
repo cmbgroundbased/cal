@@ -57,7 +57,11 @@ int cal::mpi_atm_sim::observe(double * t, double * az, double * el, double * tod
             continue;
         }
 
+        // the _now variable are refered
+        // to this specific sample
+        // The variable t[i] moves the telescope position.
         double t_now = t[i] - tmin;
+
         /** Relative to the center of field */
         double az_now = az[i] - az0;
         double el_now = el[i];
