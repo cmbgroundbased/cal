@@ -1,10 +1,11 @@
-cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 
-if (MSVC)
-    add_compile_options(/std=c++11)
-else()
-    add_compile_options(-std=c++11 -Wextra -pedantic)
+if(POLICY CMP0074)
+	cmake_policy(SET CMP0074 NEW)
 endif()
+
+
+add_compile_options(-std=c++11 -Wextra -pedantic)
 
 project(cal VERSION 1.0.0 LANGUAGES C CXX)
 

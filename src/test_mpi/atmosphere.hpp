@@ -48,7 +48,7 @@ long nelem_sim_max = 100000;
 int verbosity = 1;
 
 uint64_t key1 = 0;
-uint64_t key2 = 2<<32;
+uint64_t key2 = 2<<5;
 uint64_t counterval1 = 0;
 uint64_t counterval2 = 0;
 std::string cachedir = std::string("/tmp/");

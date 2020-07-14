@@ -1,0 +1,6 @@
+[submodule "src/julia_wrappers/libcxxwrap-julia"]
+	path = src/julia_wrappers/libcxxwrap-julia
+	url = https://github.com/JuliaInterop/libcxxwrap-julia
+[submodule "src/pycal/pybind11"]
+	path = src/pycal/pybind11
+	url = https://github.com/pybind/pybind11
