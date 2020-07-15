@@ -21,7 +21,7 @@ int main(int argc, char * argv[]){
     long nsamp;
 
     double fs_hz = 25; // Hz
-    nsamp = long((tmax - tmin) * fs_hz);
+    nsamp = long((tmax_tod - tmin) * fs_hz);
     double ss = 0.017; // deg/sec
     bool direction_lr = true; // scanning direction
 
@@ -73,7 +73,7 @@ int main(int argc, char * argv[]){
         std::cout << "Number of samples: " << nsamp << std::endl;
     }
 
-    cal::mpi_atm_sim *atm_strip = new cal::mpi_atm_sim(azmin, azmax, elmin, elmax, tmin, tmax, lmin_center, lmin_sigma, lmax_center, lmax_sigma, w_center, w_sigma, wdir_center, wdir_sigma, z0_center, z0_sigma, T0_center, T0_sigma, zatm, zmax, xstep, ystep, zstep, nelem_sim_max, verbosity, comm, key1, key2, counterval1, counterval2, cachedir, rmin, rmax);
+    cal::mpi_atm_sim *atm_strip = new cal::mpi_atm_sim(azmin, azmax, elmin, elmax, tmin, tmax_sim, lmin_center, lmin_sigma, lmax_center, lmax_sigma, w_center, w_sigma, wdir_center, wdir_sigma, z0_center, z0_sigma, T0_center, T0_sigma, zatm, zmax, xstep, ystep, zstep, nelem_sim_max, verbosity, comm, key1, key2, counterval1, counterval2, cachedir, rmin, rmax);
 
 
     atm_strip->simulate(true);
