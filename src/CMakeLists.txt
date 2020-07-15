@@ -21,6 +21,6 @@ add_subdirectory(pycal)
 
 # Julia wappers for CAL
 if(JULIA)
-    message("-- Julia Wappers enabled...")
+    message("-- Julia Wappers are enabled")
     add_subdirectory(julia_wrappers)
 endif()
