@@ -13,9 +13,8 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: cal/checkout@master
+      uses: cmbgroundbased/cal/checkout@github_actions
       with:
         submodule_update: ON
     - name: Build the repository
-      uses: mkdir build; cd build \
-            cmake ../ 
+      uses: cmbgroundbased/cal/checkout@github_actions 
