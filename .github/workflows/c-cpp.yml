@@ -12,10 +12,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Create Build Dir
-      run: mkdir build
-    - name: run cmake
-      run: cd build; cmake ..
-    - name: compile
-      run:  cd build; make
+    - name: Checkout
+      uses: actions/checkout@master
+    - name: Build the repository
+      uses: nicledomaS/cmake_build_action@v1 
+      with:
+        submodule_update: ON

@@ -48,10 +48,21 @@ The atmospheric model is based on the S. Church 1995 paper (https://doi.org/10.1
 
 # Install the C++ library and Python bindings
 
-Work in progress ...
+Clone the repository and the submodules
+
+`git https://github.com/cmbgroundbased/cal` <br/>
+`cd cal`<br/>
+`git submodule update --init --recursive`<br/>
+
+Build the project
 
 `mkdir build`<br />
-`cd build; cmake ..`<br />
+
+If(you don't need `Julia` wraps)<br/>
+	&nbsp;&nbsp;`cd build; cmake ../`<br />
+else<br/>
+	&nbsp;&nbsp;`cd build; cmake -DJULIA=Y ../`<br/> 
+
 `make -J <N>`<br />
 `make install`<br />
 
@@ -62,6 +73,10 @@ Work in progress ...
 `SuiteSparse`<br/>
 `LAPACK`<br/>
 `python3`
+
+The `Julia` and `Python` wrappers are provided with `libcxxwraps-julia` and `pybind11`, respectively. These two packages has just been added as `git submodule` and to build the wrappers you have to fetch all the submodule in this way `git submodule update --init --recursive`
+
+
 
 # AUTHOR
 
