@@ -20,7 +20,7 @@ add_subdirectory(test_mpi)
 add_subdirectory(pycal)
 
 # Julia wappers for CAL
-if(JULIA)
-    message("-- Julia Wappers are enabled")
-    add_subdirectory(julia_wrappers)
-endif()
+#if(JULIA)
+#    message("-- Julia Wappers are enabled")
+#    add_subdirectory(julia_wrappers)
+#endif()
