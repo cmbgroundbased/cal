@@ -1,0 +1,1 @@
+/usr/bin/c++  -g  -rdynamic CMakeFiles/vector_test.dir/vector_test.cpp.o  -o vector_test  -Wl,-rpath,/usr/local/lib ../libcal/libcal_.a -lgomp -lpthread /usr/local/lib/libaatm.so /usr/local/lib/libcholmod.so -lfftw3 -lfftw3f -lfftw3l -lfftw3_threads -lfftw3f_threads -lfftw3l_threads -lfftw3_omp -lfftw3f_omp -lfftw3l_omp -lopenblas 
