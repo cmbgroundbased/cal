@@ -4,7 +4,7 @@
    a BSD-style license that can be found in the LICENSE file.
  */
 
-#include <CAL_MPI_AtmSim.hpp>
+#include <CALAtmSim.hpp>
 
 /**
 * For each sample, integrate alogn the line of sight by
@@ -24,14 +24,15 @@
 * Note that the r^2 (beam area) and 1/r^2 (source distance)
 * factors cancel in the integral.
 */
-int cal::mpi_atm_sim::observe(double * t, double * az, double * el, double * tod,
+int cal::atm_sim::observe(double * t, double * az, double * el, double * tod,
             long nsamp, double fixed_r)
 {
     if(!cached){
         throw std::runtime_error("There is no cached observation to observe.");
     }
 
-    double t1 = MPI_Wtime();
+    cal::Timer tm;
+    tm.start();
 
     double zatm_inv = 1. / zatm;
 
@@ -39,9 +40,9 @@ int cal::mpi_atm_sim::observe(double * t, double * az, double * el, double * tod
     o.precision(16);
     int error = 0;
 
-    # pragma omp parallel for schedule(static, 100)
+    #pragma omp parallel for schedule(static, 100)
     for (int64_t i = 0; i < nsamp; i++) {
-        # pragma omp flush(error)
+        #pragma omp flush(error)
         if(error) continue;
 
         if ((!((azmin <= az[i]) && (az[i] <= azmax)) && ! ((azmin <= az[i] - 2 * M_PI) && (az[i] - 2 * M_PI <= azmax))) || !((elmin <= el[i]) && (el[i] <= elmax))) {
@@ -57,13 +58,8 @@ int cal::mpi_atm_sim::observe(double * t, double * az, double * el, double * tod
             continue;
         }
 
-        // the _now variable are refered
-        // to this specific sample
-        // The variable t[i] moves the telescope position.
         double t_now = t[i] - tmin;
-
-        /** Relative to the center of field */
-        double az_now = az[i] - az0;
+        double az_now = az[i] - az0; // Relative to the center of field
         double el_now = el[i];
 
         double xtel_now = wx * t_now;
@@ -89,47 +85,40 @@ int cal::mpi_atm_sim::observe(double * t, double * az, double * el, double * tod
 
         while (true){
             if (r > rmax) break;
+            // Coordinate at distance r. The scan is centered on the X-axis.
+
+            // Check if the top of the focal plane hits zmax at this distance. This way all lines-of-sight get integrated to the same distance.
 
             double zz = r * sin_el_max;
             if (zz >= zmax) break;
 
             // Horizontal coordinates
+
             zz = r * sin_el;
             double rproj = r * cos_el;
             double xx = rproj * cos_az;
             double yy = rproj * sin_az;
 
             // Rotate to scan frame
+
             double x = xx * cosel0 + zz * sinel0;
             double y = yy;
             double z = -xx * sinel0 + zz * cosel0;
 
             // Translate by the wind
+
             x += xtel_now;
             y += ytel_now;
             z += ztel_now;
+            // Combine atmospheric emission (via interpolation) with the
+            // ambient temperature.
+            // Note that the r^2 (beam area) and 1/r^2 (source
+            // distance) factors cancel in the integral.
 
-# ifdef DEBUG
-            if ((x < xstart) || (x > xstart + delta_x) ||
-                (y < ystart) || (y > ystart + delta_y) ||
-                (z < zstart) || (z > zstart + delta_z)) {
-                std::cerr << "atmsim::observe : (x,y,z) out of bounds: "
-                          << std::endl
-                          << "x = " << x << std::endl
-                          << "y = " << y << std::endl
-                          << "z = " << z << std::endl;
-                error = 1;
-                # pragma omp flush (error)
-                break;
-            }
-# endif // ifdef DEBUG
-
-            // Atmospheric emission with ambient temperature
             double step_val;
             try {
-
-                step_val = interp(x, y, z, last_ind, last_nodes) * (1. - z * zatm_inv);
-
+                step_val = interp(x, y, z, last_ind, last_nodes)
+                           * (1. - z * zatm_inv);
             } catch (const std::runtime_error & e) {
                 std::ostringstream o;
                 o << "atmsim::observe : interp failed at " << std::endl
@@ -148,38 +137,37 @@ int cal::mpi_atm_sim::observe(double * t, double * az, double * el, double * tod
                   << std::endl << e.what() << std::endl;
                 error = 1;
                 # pragma omp flush(error)
-                val = 0;
                 break;
             }
             val += step_val;
+
             // Prepare for the next step
+
             r += rstep;
 
             if (fixed_r > 0) break;
+
+            // if ( fixed_r > 0 and r > fixed_r ) break;
         }
         tod[i] = val * rstep * T0;
         val = 0;
     }
 
-    double t2 = MPI_Wtime();
+    tm.stop();
 
     if ((rank == 0) && (verbosity > 0)) {
-        if (fixed_r > 0){
-            std::cerr << nsamp
-                      << " samples observed at r =  "
-                      << fixed_r << " in " << t2 - t1
-                      << " sec." << std::endl;
-        }
-        else {
-            std::cerr << nsamp << " samples observed in "
-                      << t2 - t1 << " sec."
-                      << std::endl;
+        if (fixed_r > 0) {
+            std::ostringstream o;
+            o << " samples observed at r =  " << fixed_r << " in";
+            tm.report(o.str().c_str());
+        } else {
+            tm.report(" samples observed in");
         }
     }
 
     if (error) {
-        std::cerr << "WARNING: atm::observe failed with: \""
-                  << o.str() << "\"" << std::endl;
+        std::cerr << "WARNING: atm::observe failed with: \"" << o.str()
+                  << "\"" << std::endl;
         return -1;
     }
 

@@ -9,6 +9,7 @@ configure_file(
 )
 
 set(MPI_CAL_LIB cal_mpi_)
+set(CAL_LIB cal_)
 
 # Determine our python install location and set up a rule to install the
 # modules
@@ -38,6 +39,7 @@ pybind11_add_module(_libcal_mpi MODULE
     _libcal_math_rng.cpp
     _libcal_math_qarray.cpp
     _libcal_atm_mpi.cpp
+    _libcal_atm.cpp
 )
 
 if(OpenMP_CXX_FOUND)
@@ -59,12 +61,15 @@ if(CHOLMOD_FOUND)
 endif(CHOLMOD_FOUND)
 
 target_link_libraries(_libcal_mpi PRIVATE ${MPI_CAL_LIB} "${OMP_LIBS}")
+target_link_libraries(_libcal_mpi PRIVATE ${CAL_LIB} "${OMP_LIBS}")
 
 # Include path to the toast headers
 target_include_directories(_libcal_mpi BEFORE PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}"
     "${CMAKE_CURRENT_SOURCE_DIR}/../libcal_mpi/include"
     "${CMAKE_CURRENT_SOURCE_DIR}/../libcal_mpi/src"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../libcal/include"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../libcal/src"
 )
 
 install(TARGETS _libcal_mpi DESTINATION ${PYTHON_SITE}/pycal)
