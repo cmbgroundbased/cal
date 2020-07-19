@@ -19,7 +19,7 @@ add_subdirectory(test_mpi)
 # python wrappers for CAL
 add_subdirectory(pycal)
 
-# Julia wappers for CAL
+# Julia wappers for CAL (decomment when the julia-wraps will be written)
 #if(JULIA)
 #    message("-- Julia Wappers are enabled")
 #    add_subdirectory(julia_wrappers)
