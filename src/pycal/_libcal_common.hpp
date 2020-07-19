@@ -17,6 +17,7 @@
 #include <AATM_fun.hpp>
 #include <atm_shm.hpp>
 #include <CAL_MPI_AtmSim.hpp>
+#include <CALAtmSim.hpp>
 #include <math_rng.hpp>
 #include <math_sf.hpp>
 #include <mpi_init.hpp>
