@@ -4,8 +4,11 @@ if(POLICY CMP0074)
 	cmake_policy(SET CMP0074 NEW)
 endif()
 
-
-add_compile_options(-std=c++11 -Wextra -pedantic)
+if(DEBUG)
+    add_compile_options(-DDEBUG -std=c++11 -Wextra -pedantic -Wall)
+else()
+    add_compile_options(-std=c++11 -Wextra)
+endif()
 
 project(cal VERSION 1.0.0 LANGUAGES C CXX)
 
