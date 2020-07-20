@@ -5,7 +5,6 @@
  */
 
 #include <CAL_MPI_AtmSim.hpp>
-#define DEBUG
 
 double cal::mpi_atm_sim::interp(double x, double y, double z, std::vector <long> & last_ind,
               std::vector <double> & last_nodes)
