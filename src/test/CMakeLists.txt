@@ -1,5 +1,5 @@
 # Name of the internal static library
-set(CAL_LIB cal_)
+set(CAL_LIB cal)
 
 #======================================================
 
@@ -17,10 +17,14 @@ endif(WIN32)
 target_include_directories(observe_test PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}"
     "${CMAKE_CURRENT_SOURCE_DIR}/../libcal/src"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../libcal/"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../libcal/include"
 )
 target_include_directories(vector_test PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../libcal"
     "${CMAKE_CURRENT_SOURCE_DIR}/../libcal/src"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../libcal/include"
 )
 
 
