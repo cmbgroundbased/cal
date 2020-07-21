@@ -1,5 +1,5 @@
 # Name of the internal static library
-set(MPI_CAL_LIB cal_mpi_)
+set(MPI_CAL_LIB cal_mpi)
 
 #======================================================
 
@@ -9,7 +9,9 @@ add_executable(atm_dummy_simulation
 
 target_include_directories(atm_dummy_simulation PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../libcal_mpi"
     "${CMAKE_CURRENT_SOURCE_DIR}/../libcal_mpi/src"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../libcal_mpi/include"
 )
 target_link_libraries(atm_dummy_simulation ${MPI_CAL_LIB} mpi)
 

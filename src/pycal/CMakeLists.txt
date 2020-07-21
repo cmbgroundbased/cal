@@ -8,8 +8,8 @@ configure_file(
     COPYONLY
 )
 
-set(MPI_CAL_LIB cal_mpi_)
-set(CAL_LIB cal_)
+set(MPI_CAL_LIB cal_mpi)
+set(CAL_LIB cal)
 
 # Determine our python install location and set up a rule to install the
 # modules
