@@ -41,4 +41,17 @@ module CAL
 
 end
 
+using Plots
+
+altitude = 2390.0
+temperature = 295.0
+pressure = 101500.0
+pwv = 5.0
+freq_min = 1.0
+freq_max = 300.0 
+nfreq = 100
+
+freq = range(freq_min, freq_max, length=nfreq)
+load = CAL.atm_get_atm_load_vec(altitude, temperature, pressure, pwv, freq_min, freq_max, nfreq)
+plot(freq, load)
 
