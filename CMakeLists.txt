@@ -34,6 +34,17 @@ find_package(PkgConfig REQUIRED)
 find_package(OpenMP REQUIRED)
 find_package(MPI REQUIRED)
 
+# Find libcxxwrap-julia
+if(JULIA)
+    find_package(JlCxx)
+    if(Julia_FOUND)
+        message("-- JlCxx Found")
+    else()
+        set(JULIA "N")
+        message("-- JlCxx not found. CAL will be compiled without Julia wrappers")
+    endif()
+endif()
+
 # Find BLAS library with LAPACK extension
 find_package(BLAS REQUIRED)
 if(BLAS_FOUND)
