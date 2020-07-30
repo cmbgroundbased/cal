@@ -59,7 +59,7 @@ endif(BLAS_FOUND)
 # FFTW to perform Fourier Transorm
 find_package(FFTW REQUIRED)
 
-# Now, the cal baseline use ALMA - Atacama Large Millimiter Array
+# Now, the CAL baseline use "ALMA - Atacama Large Millimiter Array"
 # by Instituto de Estructura de la Materia, 2009
 find_package(AATM REQUIRED)
 
