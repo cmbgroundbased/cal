@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_subdirectory(libcal)
 
 if(MPI_FOUND)
-    add_subdirectory(libcal_mpi)
+   add_subdirectory(libcal_mpi)
 endif()
 
 # Tests subdirs
