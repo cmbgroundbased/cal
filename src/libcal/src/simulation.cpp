@@ -6,7 +6,12 @@
 
 #include <CALAtmSim.hpp>
 
-/** Simulate the atmosphere in indipendent slices, each slice is assigned at one process. */
+/**
+ * @brief Simulate the atmosphere in indipendent slices, each slice is assigned at one process. 
+ * 
+ * @param use_cache 
+ * @return int 
+ */
 int cal::atm_sim::simulate(bool use_cache)
 {
     if (use_cache) load_realization();
