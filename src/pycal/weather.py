@@ -78,7 +78,8 @@ class Weather(object):
                     self._varindex[name] = ivar
                     ivar += 1
                 for hour in range(24):
-                    self._monthly_cdf[month][hour][name] = hdu.data.field(name)[hour]
+                    self._monthly_cdf[month][hour][name] = hdu.data.field(name)[
+                        hour]
 
         hdulist.close()
 

@@ -89,7 +89,8 @@ class Cache(object):
         if shape is None:
             raise ValueError("Cache shape cannot be None")
         if self.exists(name):
-            raise RuntimeError("Data buffer or alias {} already exists".format(name))
+            raise RuntimeError(
+                "Data buffer or alias {} already exists".format(name))
         ttype = np.dtype(type)
         flatshape = 1
         for dim in shape:
@@ -157,7 +158,8 @@ class Cache(object):
                 realname = self._aliases[name]
             addr = None
             if self._pymem:
-                p_ref = self._buffers[realname].ctypes.data_as(ctypes.c_void_p).value
+                p_ref = self._buffers[realname].ctypes.data_as(
+                    ctypes.c_void_p).value
             else:
                 p_ref = self._buffers[realname].address()
 
@@ -207,7 +209,8 @@ class Cache(object):
         names = list(self._buffers.keys())
         if name not in names:
             raise RuntimeError(
-                "Data buffer {} does not exist for alias {}".format(name, alias)
+                "Data buffer {} does not exist for alias {}".format(
+                    name, alias)
             )
         if alias in names:
             raise RuntimeError(
@@ -292,7 +295,8 @@ class Cache(object):
         """
         # First check that it exists
         if not self.exists(name):
-            raise RuntimeError("Data buffer (nor alias) {} does not exist".format(name))
+            raise RuntimeError(
+                "Data buffer (nor alias) {} does not exist".format(name))
         realname = name
         if name in self._aliases:
             # This is an alias

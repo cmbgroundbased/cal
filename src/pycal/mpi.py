@@ -140,7 +140,8 @@ class Comm(object):
         if self._ngroups * self._gsize != self._wsize:
             msg = (
                 "World communicator size ({}) is not evenly divisible "
-                "by requested group size ({}).".format(self._wsize, self._gsize)
+                "by requested group size ({}).".format(
+                    self._wsize, self._gsize)
             )
             log.error(msg)
             raise RuntimeError(msg)
@@ -293,7 +294,8 @@ class MPILock(object):
             except:
                 if self._debug:
                     print(
-                        "rank {} win create raised exception".format(self._rank),
+                        "rank {} win create raised exception".format(
+                            self._rank),
                         flush=True,
                     )
                 status = 1
@@ -371,7 +373,8 @@ class MPILock(object):
                     ),
                     flush=True,
                 )
-            self._win.Put([lock, 1, MPI.UNSIGNED_CHAR], self._root, target=self._rank)
+            self._win.Put([lock, 1, MPI.UNSIGNED_CHAR],
+                          self._root, target=self._rank)
 
             # get the full list of current processes waiting or running
             if self._debug:
@@ -381,7 +384,8 @@ class MPILock(object):
                     ),
                     flush=True,
                 )
-            self._win.Get([waiting, self._procs, MPI.UNSIGNED_CHAR], self._root)
+            self._win.Get(
+                [waiting, self._procs, MPI.UNSIGNED_CHAR], self._root)
             if self._debug:
                 print(
                     "lock:  rank {}, instance {} list = {}".format(
@@ -410,7 +414,8 @@ class MPILock(object):
                     # we have to wait...
                     if self._debug:
                         print(
-                            "lock:  rank {} waiting for the lock".format(self._rank),
+                            "lock:  rank {} waiting for the lock".format(
+                                self._rank),
                             flush=True,
                         )
                     self._comm.Recv(lock, source=MPI.ANY_SOURCE, tag=self._tag)
@@ -456,7 +461,8 @@ class MPILock(object):
                     ),
                     flush=True,
                 )
-            self._win.Put([lock, 1, MPI.UNSIGNED_CHAR], self._root, target=self._rank)
+            self._win.Put([lock, 1, MPI.UNSIGNED_CHAR],
+                          self._root, target=self._rank)
 
             # get the full list of current processes waiting or running
             if self._debug:
@@ -466,7 +472,8 @@ class MPILock(object):
                     ),
                     flush=True,
                 )
-            self._win.Get([waiting, self._procs, MPI.UNSIGNED_CHAR], self._root)
+            self._win.Get(
+                [waiting, self._procs, MPI.UNSIGNED_CHAR], self._root)
             if self._debug:
                 print(
                     "unlock:  rank {}, instance {} list = {}".format(
@@ -638,7 +645,8 @@ class MPIShared(object):
                 self._mpitype = MPI._typedict[self._dtype.char]
             except:
                 status = 1
-            self._checkabort(self._comm, status, "numpy to MPI type conversion")
+            self._checkabort(self._comm, status,
+                             "numpy to MPI type conversion")
 
             dsize = self._mpitype.Get_size()
 
@@ -647,7 +655,8 @@ class MPIShared(object):
 
         self._buffer = None
         if self._comm is None:
-            self._buffer = np.ndarray(shape=(nbytes,), dtype=np.dtype("B"), order="C")
+            self._buffer = np.ndarray(
+                shape=(nbytes,), dtype=np.dtype("B"), order="C")
         else:
             import mpi4py.MPI as MPI
 
@@ -655,10 +664,12 @@ class MPIShared(object):
             # process pieces are guaranteed to be contiguous.
             status = 0
             try:
-                self._win = MPI.Win.Allocate_shared(nbytes, dsize, comm=self._nodecomm)
+                self._win = MPI.Win.Allocate_shared(
+                    nbytes, dsize, comm=self._nodecomm)
             except:
                 status = 1
-            self._checkabort(self._nodecomm, status, "shared memory allocation")
+            self._checkabort(self._nodecomm, status,
+                             "shared memory allocation")
 
             # Every process looks up the memory address of rank zero's piece,
             # which is the start of the contiguous shared buffer.
@@ -876,7 +887,8 @@ class MPIShared(object):
                 ndims = len(nodedata.shape)
                 for d in range(ndims):
                     dslice.append(
-                        slice(copyoffset[d], copyoffset[d] + nodedata.shape[d], 1)
+                        slice(copyoffset[d], copyoffset[d] +
+                              nodedata.shape[d], 1)
                     )
                 slc = tuple(dslice)
 

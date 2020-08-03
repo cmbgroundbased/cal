@@ -115,9 +115,11 @@ def set_numba_threading():
         # Log the layer that was selected
         numba_threading_layer = threading_layer()
         if rank == 0:
-            log.debug("Numba threading layer set to {}".format(numba_threading_layer))
+            log.debug("Numba threading layer set to {}".format(
+                numba_threading_layer))
             log.debug(
-                "Numba max threads now forced to {}".format(config.NUMBA_NUM_THREADS)
+                "Numba max threads now forced to {}".format(
+                    config.NUMBA_NUM_THREADS)
             )
     except ImportError:
         # Numba not available at all
@@ -165,7 +167,8 @@ try:
                 else:
                     unit = "% "
                 if comm is None or comm.size == 1:
-                    memstr += "{:>12} : {:8.3f} {}\n".format(key, vlist[0], unit)
+                    memstr += "{:>12} : {:8.3f} {}\n".format(
+                        key, vlist[0], unit)
                     if np.abs(vlist2[0] - vlist[0]) / vlist[0] > 1e-3:
                         memstr += "{:>12} : {:8.3f} {} (after GC)\n".format(
                             key, vlist2[0], unit
