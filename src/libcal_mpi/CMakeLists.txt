@@ -91,8 +91,5 @@ if(MPI_FOUND)
     target_compile_options(${MPI_CAL_MOD} PRIVATE "${mpi_comp_flags}")
 endif()
 
-
-
-
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(TARGETS ${MPI_CAL_MOD} DESTINATION ${CMAKE_INSTALL_LIBDIR})
