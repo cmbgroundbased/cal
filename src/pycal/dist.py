@@ -58,7 +58,8 @@ def distribute_discrete(sizes, groups, pow=1.0, breaks=None):
     """
     chunks = np.array(sizes, dtype=np.int64)
     weights = np.power(chunks.astype(np.float64), pow)
-    max_per_proc = float(distribute_partition(weights.astype(np.int64), groups))
+    max_per_proc = float(distribute_partition(
+        weights.astype(np.int64), groups))
 
     target = np.sum(weights) / groups
 
@@ -241,21 +242,24 @@ def distribute_samples(
     # Distribute detectors uniformly, but respecting forced breaks in the
     # grouping specified by the calling code.
 
-    dist_detsindx = distribute_uniform(len(detectors), detranks, breaks=detbreaks)
-    dist_dets = [detectors[d[0] : d[0] + d[1]] for d in dist_detsindx]
+    dist_detsindx = distribute_uniform(
+        len(detectors), detranks, breaks=detbreaks)
+    dist_dets = [detectors[d[0]: d[0] + d[1]] for d in dist_detsindx]
 
     # Distribute samples using both the chunking and the forced breaks
 
     if sampsizes is not None:
-        dist_sizes = distribute_discrete(sampsizes, sampranks, breaks=sampbreaks)
+        dist_sizes = distribute_discrete(
+            sampsizes, sampranks, breaks=sampbreaks)
         dist_samples = []
         off = 0
         for ds in dist_sizes:
-            cursamp = np.sum(sampsizes[ds[0] : ds[0] + ds[1]])
+            cursamp = np.sum(sampsizes[ds[0]: ds[0] + ds[1]])
             dist_samples.append((off, cursamp))
             off += cursamp
     else:
-        dist_samples = distribute_uniform(samples, sampranks, breaks=sampbreaks)
+        dist_samples = distribute_uniform(
+            samples, sampranks, breaks=sampbreaks)
         dist_sizes = [(x, 1) for x in range(sampranks)]
 
     return (dist_dets, dist_samples, dist_sizes)
@@ -369,7 +373,8 @@ class Data(object):
                         groupstr, tod.total_samples, len(tod.detectors)
                     )
                 if intrvl is not None:
-                    groupstr = "{}  {} intervals:\n".format(groupstr, len(intrvl))
+                    groupstr = "{}  {} intervals:\n".format(
+                        groupstr, len(intrvl))
                     for it in intrvl:
                         groupstr = "{}    {} --> {} ({} --> {})\n".format(
                             groupstr, it.first, it.last, it.start, it.stop

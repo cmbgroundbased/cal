@@ -7,23 +7,32 @@
 #include <CALAtmSim.hpp>
 
 /**
-* For each sample, integrate alogn the line of sight by
-* summing the atmosphere values. See Church (1995) Section
-* 2.2 first equation. We omit the optical depth fatction
-* which is close to unity.
-*
-* Coordinates at distance r. The scan is centered on the
-* X-axis. Check if the top of the focal plane hits Z-MAX at
-* this distance.  This way all lines-of-sight get integrated
-* to the same distance
-*
-* The observe frame is co-moving with the wind.
-*
-* Combine atmospheric emission (via interpolation) with the
-* ambient temperature.
-* Note that the r^2 (beam area) and 1/r^2 (source distance)
-* factors cancel in the integral.
-*/
+ * For each sample, integrate alogn the line of sight by
+ * summing the atmosphere values. See Church (1995) Section
+ * 2.2 first equation. We omit the optical depth fatction
+ * which is close to unity.
+ *
+ * Coordinates at distance r. The scan is centered on the
+ * X-axis. Check if the top of the focal plane hits Z-MAX at
+ * this distance.  This way all lines-of-sight get integrated
+ * to the same distance
+ *
+ * The observe frame is co-moving with the wind.
+ *
+ * Combine atmospheric emission (via interpolation) with the
+ * ambient temperature.
+ * Note that the r^2 (beam area) and 1/r^2 (source distance)
+ * factors cancel in the integral.
+ *
+ * 
+ * @param t     = timestaps
+ * @param az    = Azimutal
+ * @param el    = Elevation
+ * @param tod   = Buffer for the TOD
+ * @param nsamp = Number of samples
+ * @param fixed_r 
+ * @return int 
+ */
 int cal::atm_sim::observe(double * t, double * az, double * el, double * tod,
             long nsamp, double fixed_r)
 {

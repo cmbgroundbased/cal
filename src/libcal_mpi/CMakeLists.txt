@@ -87,12 +87,9 @@ endif(LAPACK_FOUND)
 if(MPI_FOUND)
     target_compile_definitions(${MPI_CAL_MOD} PRIVATE HAVE_MPI=1)
     target_include_directories(${MPI_CAL_MOD} PRIVATE "${MPI_CXX_INCLUDE_PATH}")
-    target_link_libraries(${MPI_CAL_MOD} PRIVATE ${MPI_C_LIBRARIES})
+    target_link_libraries(${MPI_CAL_MOD} mpi)
     target_compile_options(${MPI_CAL_MOD} PRIVATE "${mpi_comp_flags}")
 endif()
-
-
-
 
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(TARGETS ${MPI_CAL_MOD} DESTINATION ${CMAKE_INSTALL_LIBDIR})

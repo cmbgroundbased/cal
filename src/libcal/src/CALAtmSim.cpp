@@ -7,14 +7,46 @@
 #include <CALAtmSim.hpp>
 
 /**
-* Contructror for atm_sim class. This is the version NON-MPI.
-* The class get from the Environment class the MAX_THRS_NUM and
-* split the parallelization from them. This version of the library
-* is not indicated from HPC-cluster but it's for personal use on your
-* laptop.
-*
-* For a more cluster-oriented implementation see the class mpi_atm_sim.
-*/
+ * @brief Construct a new cal::atm sim::atm sim object. This is the 
+ * version NON-MPI. The class get from the Environment class 
+ * the MAX_THRS_NUM and split the parallelization between them. 
+ * This version of the library is not indicated from HPC-cluster 
+ * but it's for personal use on your laptop.
+ * 
+ * 
+ * @param azmin 
+ * @param azmax 
+ * @param elmin 
+ * @param elmax 
+ * @param tmin 
+ * @param tmax 
+ * @param lmin_center 
+ * @param lmin_sigma 
+ * @param lmax_center 
+ * @param lmax_sigma 
+ * @param w_center 
+ * @param w_sigma 
+ * @param wdir_center 
+ * @param wdir_sigma 
+ * @param z0_center 
+ * @param z0_sigma 
+ * @param T0_center 
+ * @param T0_sigma 
+ * @param zatm 
+ * @param zmax 
+ * @param xstep 
+ * @param ystep 
+ * @param zstep 
+ * @param nelem_sim_max 
+ * @param verbosity 
+ * @param key1 
+ * @param key2 
+ * @param counterval1 
+ * @param counterval2 
+ * @param cachedir 
+ * @param rmin 
+ * @param rmax 
+ */
 cal::atm_sim::atm_sim(double azmin, double azmax, double elmin, double elmax,
                         double tmin, double tmax,
                         double lmin_center, double lmin_sigma,
@@ -166,9 +198,9 @@ cal::atm_sim::atm_sim(double azmin, double azmax, double elmin, double elmax,
 }
 
 /**
-* We don't neet a DTOR carefully definition. The unique_ptr(s) are authomatically
-* free once they are derefenced.
-*/
+ * @brief Destroy the cal::atm sim::atm sim object
+ * 
+ */
 cal::atm_sim::~atm_sim()
 {
     std::cout << "DTOR atm_sim class" << std::endl;

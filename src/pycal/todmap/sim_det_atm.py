@@ -2,6 +2,8 @@
 # All rights reserved.  Use of this source code is governed by
 # a BSD-style license that can be found in the LICENSE file.
 
+import pycal.qarray as qa
+from pycal.mpi import MPI
 import os
 
 import numpy as np
@@ -14,7 +16,7 @@ from ..op import Operator
 
 from .atm import available_utils, available_mpi
 
-available=True
+available = True
 
 if available_utils:
     from .atm import (
@@ -26,10 +28,6 @@ if available_utils:
 
 if available_mpi:
     from .atm import AtmSimMPI
-
-from pycal.mpi import MPI
-
-import pycal.qarray as qa
 
 
 class OpSimAtmosphere(Operator):
@@ -334,7 +332,8 @@ class OpSimAtmosphere(Operator):
                 comm.Barrier()
             if rank == 0:
                 tmr.stop()
-                tmr.report("{}Simulated and observed atmosphere".format(prefix))
+                tmr.report(
+                    "{}Simulated and observed atmosphere".format(prefix))
         return
 
     @function_timer
@@ -365,7 +364,8 @@ class OpSimAtmosphere(Operator):
             ref = tod.cache.reference(cachename)[ind]
             try:
                 # Some TOD classes provide a shortcut to Az/El
-                az, el = tod.read_azel(detector=det, local_start=istart, n=nind)
+                az, el = tod.read_azel(
+                    detector=det, local_start=istart, n=nind)
             except Exception as e:
                 azelquat = tod.read_pntg(
                     detector=det, local_start=istart, n=nind, azel=True
@@ -380,10 +380,12 @@ class OpSimAtmosphere(Operator):
 
             fn = os.path.join(
                 outdir,
-                "atm_tod_{}_{}_t_{}_{}.pck".format(obsname, det, int(tmin), int(tmax)),
+                "atm_tod_{}_{}_t_{}_{}.pck".format(
+                    obsname, det, int(tmin), int(tmax)),
             )
             with open(fn, "wb") as fout:
-                pickle.dump([det, t[good], az[good], el[good], ref[good]], fout)
+                pickle.dump([det, t[good], az[good],
+                             el[good], ref[good]], fout)
 
         return
 
@@ -562,7 +564,8 @@ class OpSimAtmosphere(Operator):
             subdir = str(int((obsindx % 1000) // 100))
             subsubdir = str(int((obsindx % 100) // 10))
             subsubsubdir = str(obsindx % 10)
-            cachedir = os.path.join(self._cachedir, subdir, subsubdir, subsubsubdir)
+            cachedir = os.path.join(
+                self._cachedir, subdir, subsubdir, subsubsubdir)
             if (comm is None) or (comm.rank == 0):
                 # Handle a rare race condition when two process groups
                 # are creating the cache directories at the same time
@@ -783,7 +786,8 @@ class OpSimAtmosphere(Operator):
         if rank == 0:
             fname = os.path.join(
                 cachedir,
-                "{}_{}_{}_{}_metadata.txt".format(key1, key2, counter1, counter2),
+                "{}_{}_{}_{}_metadata.txt".format(
+                    key1, key2, counter1, counter2),
             )
             if use_cache and os.path.isfile(fname):
                 log.info(
@@ -818,7 +822,8 @@ class OpSimAtmosphere(Operator):
                     op = "Loaded"
                 else:
                     op = "Simulated"
-                tmr.report_clear("{}OpSimAtmosphere: {} atmosphere".format(prefix, op))
+                tmr.report_clear(
+                    "{}OpSimAtmosphere: {} atmosphere".format(prefix, op))
 
         return sim, counter2
 
@@ -886,7 +891,8 @@ class OpSimAtmosphere(Operator):
 
             try:
                 # Some TOD classes provide a shortcut to Az/El
-                az, el = tod.read_azel(detector=det, local_start=istart, n=nind)
+                az, el = tod.read_azel(
+                    detector=det, local_start=istart, n=nind)
                 az = az[good]
                 el = el[good]
             except Exception as e:
@@ -983,5 +989,6 @@ class OpSimAtmosphere(Operator):
             )
         if self._report_timing:
             if rank == 0:
-                tmr.report_clear("{}OpSimAtmosphere: Observe atmosphere".format(prefix))
+                tmr.report_clear(
+                    "{}OpSimAtmosphere: Observe atmosphere".format(prefix))
         return
