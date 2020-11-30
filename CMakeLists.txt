@@ -18,7 +18,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 # Use GNUInstallDirs to install the library in the correct locations
 # It's is always true for all the platforms
 include(GNUInstallDirs)
-
+message("-- Install LIBCAL library at: " /${CMAKE_INSTALL_LIBDIR})
 # Now, the defauld is: Debug. Convert it in Release when the repo
 # will be ready to be released.
 include(BuildType)
