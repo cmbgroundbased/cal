@@ -2,10 +2,8 @@ BootStrap: debootstrap
 MirrorURL: http://debian.mirror.garr.it/debian
 OSVersion: unstable
 
-
 %runscript
 	
-
 
 %post
 	echo "fix previous runs apt issues"
@@ -48,7 +46,7 @@ OSVersion: unstable
 	mkdir build && cd build
 	cmake ../
 	make && make install
-	echo "/lib" > /etc/ld.so.conf.d/libcal.conf
+	echo "/usr/local/lib" > /etc/ld.so.conf.d/libcal.conf
 	ldconfig
 
 	

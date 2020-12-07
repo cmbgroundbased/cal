@@ -29,7 +29,7 @@ void cal::mpi_atm_sim::draw()
     double randn[nrand];
     cal::rng_dist_normal(nrand, key1, key2, counter1, counter2, randn);
     counter2 += nrand;
-    double * prand = randn;
+    // double * prand = randn;
     uint64_t irand = 0;
 
     if (rank == 0){

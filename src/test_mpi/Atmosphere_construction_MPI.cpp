@@ -9,7 +9,6 @@
 #include <mpi_init.hpp>
 #include <atmosphere.hpp>
 #include <mpi.h>
-#define DEBUG
 
 int main(int argc, char * argv[]){
 
