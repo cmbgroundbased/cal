@@ -23,7 +23,7 @@ execute_process(
 )
 
 execute_process(
-    COMMAND "${PYTHON_EXECUTABLE}" -m site --user-site
+    COMMAND "${PYTHON_EXECUTABLE}" -c "import site; print(site.getsitepackages()[0])"
     OUTPUT_VARIABLE PYTHON_SITE
     OUTPUT_STRIP_TRAILING_WHITESPACE
 )
