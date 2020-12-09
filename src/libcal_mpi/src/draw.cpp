@@ -4,8 +4,7 @@
    a BSD-style license that can be found in the LICENSE file.
  */
 
-#include <CAL_MPI_AtmSim.hpp>
-#include <math_rng.hpp>
+#include <cal_mpi_internal.hpp>
 
 /**
 * Draw 10 000 gaussian variates to use in the drawing the

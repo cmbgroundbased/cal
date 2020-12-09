@@ -4,7 +4,7 @@
    a BSD-style license that can be found in the LICENSE file.
  */
 
-#include <CALAtmSim.hpp>
+#include <cal/CALAtmSim.hpp>
 
 double cal::atm_sim::interp(double x, double y, double z, std::vector <long> & last_ind,
               std::vector <double> & last_nodes)

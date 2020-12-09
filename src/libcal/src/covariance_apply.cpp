@@ -4,8 +4,8 @@
    a BSD-style license that can be found in the LICENSE file.
  */
 
-#include <CALAtmSim.hpp>
-#include <math_rng.hpp>
+#include <cal/CALAtmSim.hpp>
+#include <cal/math_rng.hpp>
 #include <fstream>
 
 void cal::atm_sim::apply_sparse_covariance(cholmod_sparse * sqrt_cov,

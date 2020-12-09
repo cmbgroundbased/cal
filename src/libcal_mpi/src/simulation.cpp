@@ -4,7 +4,7 @@
    a BSD-style license that can be found in the LICENSE file.
  */
 
-#include <CAL_MPI_AtmSim.hpp>
+#include <cal_mpi_internal.hpp>
 
 /** Simulate the atmosphere in indipendent slices, each slice is assigned at one process. */
 int cal::mpi_atm_sim::simulate(bool use_cache)

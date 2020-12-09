@@ -4,7 +4,7 @@
    a BSD-style license that can be found in the LICENSE file.
  */
 
-#include <CALAtmSim.hpp>
+#include <cal/CALAtmSim.hpp>
 
 void cal::atm_sim::get_slice(uint64_t & ind_start, uint64_t & ind_stop)
 {

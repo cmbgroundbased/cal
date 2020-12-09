@@ -4,7 +4,7 @@
    a BSD-style license that can be found in the LICENSE file.
  */
 
-#include <CALAtmSim.hpp>
+#include <cal/CALAtmSim.hpp>
 #include <cstring>
 
 cholmod_sparse * cal::atm_sim::build_sparse_covariance(long ind_start, long ind_stop)

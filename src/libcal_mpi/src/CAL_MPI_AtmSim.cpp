@@ -4,7 +4,7 @@
    a BSD-style license that can be found in the LICENSE file.
  */
 
-#include <CAL_MPI_AtmSim.hpp>
+#include <cal_mpi_internal.hpp>
 
 cal::mpi_atm_sim::mpi_atm_sim(double azmin, double azmax, double elmin, double elmax,
                         double tmin, double tmax,

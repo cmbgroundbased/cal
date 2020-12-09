@@ -1,6 +1,6 @@
 
 # Name of loadable module / shared library
-set(CAL_MOD cal)
+set(CAL_MOD calcore)
 
 # Library sources
 set(CAL_SOURCES
@@ -19,6 +19,7 @@ set(CAL_SOURCES
     src/kolmogorov_init.cpp
     src/kolmovorov_autocov.cpp
     src/load_save_realization.cpp
+    src/math_qarray.cpp
     src/math_rng.cpp
     src/math_sf.cpp
     src/observe.cpp
@@ -32,12 +33,11 @@ set(CAL_SOURCES
 
 # Add the internal library target
 
-add_library(${CAL_MOD} SHARED ${CAL_SOURCES})
+add_library(${CAL_MOD} ${CAL_SOURCES})
 
-target_include_directories(${CAL_MOD} PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:include>
-    PRIVATE src
+target_include_directories(${CAL_MOD} BEFORE PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}/src"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include"
 )
 
 if(MPI_FOUND)
@@ -83,7 +83,28 @@ if(LAPACK_FOUND)
     target_link_libraries(${CAL_MOD} "${BLAS_LIBRARIES}")
 endif(LAPACK_FOUND)
 
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR})
+# ADD the UNIT TESTS HERE!!!!
+
+#Compile the total library
+
+set(CAL_MOD_TOT cal)
+add_library(${CAL_MOD_TOT} cal.cpp)
+
+target_include_directories(${CAL_MOD_TOT} BEFORE PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+)
+
+if(OpenMP_CXX_FOUND)
+    target_compile_options(${CAL_MOD_TOT} PRIVATE "${OpenMP_CXX_FLAGS}")
+    set_target_properties(${CAL_MOD_TOT} PROPERTIES LINK_FLAGS "${OpenMP_CXX_FLAGS}")
+endif(OpenMP_CXX_FOUND)
+
+target_link_libraries(${CAL_MOD_TOT} ${CAL_MOD})
+
+# Install CAL
+
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(TARGETS ${CAL_MOD} DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR})
 
 message("-- Install LibDIR: " ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR})

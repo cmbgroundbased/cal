@@ -30,7 +30,6 @@ PYBIND11_MODULE(_libcal_mpi, m) {
     init_math_sf(m);
     init_math_rng(m);
     init_atm(m);
-    init_mpi_atm(m);
     init_math_qarray(m);
 
 }

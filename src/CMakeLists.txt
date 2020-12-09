@@ -12,9 +12,9 @@ if(MPI_FOUND)
 endif()
 
 # Tests subdirs
-add_subdirectory(test)
+# add_subdirectory(test)
 
-add_subdirectory(test_mpi)
+# add_subdirectory(test_mpi)
 
 # python wrappers for CAL
 add_subdirectory(pycal)

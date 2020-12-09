@@ -7,10 +7,8 @@
 #define CAL_MPI_SHM_HPP
 
 #include <mpi.h>
-
 #include <sstream>
-
-#include <sys_utils.hpp>
+#include <cal/sys_utils.hpp>
 
 
 namespace cal {
