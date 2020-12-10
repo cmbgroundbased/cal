@@ -210,6 +210,7 @@ void init_math_sf(py::module & m);
 void init_math_rng(py::module & m);
 void init_mpi_atm(py::module & m);
 void init_math_qarray(py::module & m);
+void init_math_healpix(py::module & m);
 void init_atm(py::module &m);
 
 #endif // ifndef LIBCAL_HPP

@@ -38,6 +38,7 @@ pybind11_add_module(_libcal MODULE
     _libcal_math_sf.cpp
     _libcal_math_rng.cpp
     _libcal_math_qarray.cpp
+    _libcal_math_healpix.cpp
     _libcal_atm.cpp
 )
 
@@ -61,7 +62,7 @@ endif(CHOLMOD_FOUND)
 
 target_link_libraries(_libcal PRIVATE ${CAL_LIB} "${OMP_LIBS}")
 
-# Include path to the toast headers
+# Include path to the cal headers
 target_include_directories(_libcal BEFORE PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}"
     "${CMAKE_CURRENT_SOURCE_DIR}/../libcal/include"
@@ -83,6 +84,7 @@ install(FILES
     rng.py
     weather.py
     qarray.py
+    healpix.py
     RELEASE
     DESTINATION ${PYTHON_SITE}/pycal
 )
@@ -125,8 +127,7 @@ if(MPI_FOUND AND MPI4PY_FOUND)
         target_include_directories(_libcal_mpi PUBLIC "${CHOLMOD_INCLUDE_DIR}")
     endif(CHOLMOD_FOUND)
 
-    target_link_libraries(_libcal_mpi
-        PRIVATE libcal_mpi "${MPI_CXX_LIBRARIES}" "${OMP_LIBS}"
+    target_link_libraries(_libcal_mpi PRIVATE ${MPI_CAL_LIB} "${MPI_CXX_LIBRARIES}" "${OMP_LIBS}"
     )
 
     install(TARGETS _libcal_mpi DESTINATION ${PYTHON_SITE}/pycal)
@@ -134,4 +135,5 @@ if(MPI_FOUND AND MPI4PY_FOUND)
 endif(MPI_FOUND AND MPI4PY_FOUND)
 
 # Process the sub directories
+add_subdirectory(tod)
 add_subdirectory(todmap)

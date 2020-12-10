@@ -85,7 +85,7 @@ if(OpenMP_CXX_FOUND)
     set_target_properties(${CAL_MPI_MOD_TOT} PROPERTIES LINK_FLAGS "${OpenMP_CXX_FLAGS}")
 endif(OpenMP_CXX_FOUND)
 
-target_link_libraries(${CAL_MPI_MOD_TOT} ${MPI_CAL_MOD} ${CAL_MOD_TOT} "${MPI_CXX_LIBRARIES}")
+target_link_libraries(${CAL_MPI_MOD_TOT} ${MPI_CAL_MOD} cal "${MPI_CXX_LIBRARIES}")
 
 # Public headers
 install(DIRECTORY include/ DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")

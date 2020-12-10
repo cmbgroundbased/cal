@@ -19,6 +19,7 @@ set(CAL_SOURCES
     src/kolmogorov_init.cpp
     src/kolmovorov_autocov.cpp
     src/load_save_realization.cpp
+    src/math_healpix.cpp
     src/math_qarray.cpp
     src/math_rng.cpp
     src/math_sf.cpp
@@ -105,7 +106,7 @@ target_link_libraries(${CAL_MOD_TOT} ${CAL_MOD})
 # Install CAL
 
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(TARGETS ${CAL_MOD} DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR})
+install(TARGETS ${CAL_MOD_TOT} DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR})
 
 message("-- Install LibDIR: " ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR})
 message("-- Install IncludeDIR: " ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR})

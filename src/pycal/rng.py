@@ -10,7 +10,7 @@ from .dist import distribute_uniform
 
 from .timing import function_timer
 
-from ._libcal_mpi import (
+from ._libcal import (
     rng_dist_uint64,
     rng_dist_uniform_01,
     rng_dist_uniform_11,

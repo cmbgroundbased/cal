@@ -12,7 +12,7 @@ from collections import OrderedDict
 
 import numpy as np
 
-from ._libcal_mpi import Timer, GlobalTimers
+from ._libcal import Timer, GlobalTimers
 
 from .utils import Environment
 

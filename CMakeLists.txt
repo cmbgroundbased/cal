@@ -56,6 +56,12 @@ find_package(AATM REQUIRED)
 # atmospheric covariance matrix
 find_package(SuiteSparse REQUIRED)
 
+find_package(MPI REQUIRED)
+
+find_package(PythonInterp REQUIRED)
+
+find_package(MPI4PY REQUIRED)
+
 # Tests - work in progress
 enable_testing()
 
