@@ -5,7 +5,7 @@
  */
 
 #include <cal/CALAtmSim.hpp>
-#include <math_rng.hpp>
+#include <cal/math_rng.hpp>
 
 /**
 * Draw 10 000 gaussian variates to use in the drawing the

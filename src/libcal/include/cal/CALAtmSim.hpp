@@ -10,8 +10,8 @@
 extern "C" {
 #include <cholmod.h>
 }
-#include <sys_env.hpp>
-#include <sys_utils.hpp>
+#include <cal/sys_env.hpp>
+#include <cal/sys_utils.hpp>
 
 /**
 *@namespace cal

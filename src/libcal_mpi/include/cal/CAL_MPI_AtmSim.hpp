@@ -12,7 +12,7 @@ extern "C" {
 }
 #include <cal/sys_env.hpp>
 #include <cal/sys_utils.hpp>
-#include <atm_shm.hpp>
+#include <cal/atm_shm.hpp>
 
 /**
 *@namespace cal
