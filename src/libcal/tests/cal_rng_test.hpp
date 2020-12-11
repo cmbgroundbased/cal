@@ -73,7 +73,7 @@ TEST_F(CALrngTest, reprod) {
 TEST_F(CALrngTest, reprod_multi) {
     // Use one stream per thread
     auto & env = cal::Environment::get();
-    int nstream = env.max_threads();
+    size_t nstream = env.max_threads();
 
     // The data buffer we will process in segments
     size_t nfull = nstream * size;
@@ -134,7 +134,7 @@ TEST_F(CALrngTest, uniform11) {
 TEST_F(CALrngTest, uniform11_multi) {
     // Use one stream per thread
     auto & env = cal::Environment::get();
-    int nstream = env.max_threads();
+    size_t nstream = env.max_threads();
 
     // The data buffer we will process in segments
     size_t nfull = nstream * size;
@@ -195,7 +195,7 @@ TEST_F(CALrngTest, uniform01) {
 TEST_F(CALrngTest, uniform01_multi) {
     // Use one stream per thread
     auto & env = cal::Environment::get();
-    int nstream = env.max_threads();
+    size_t nstream = env.max_threads();
 
     // The data buffer we will process in segments
     size_t nfull = nstream * size;
@@ -256,7 +256,7 @@ TEST_F(CALrngTest, uint64) {
 TEST_F(CALrngTest, uint64_multi) {
     // Use one stream per thread
     auto & env = cal::Environment::get();
-    int nstream = env.max_threads();
+    size_t nstream = env.max_threads();
 
     // The data buffer we will process in segments
     size_t nfull = nstream * size;

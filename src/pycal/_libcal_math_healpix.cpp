@@ -17,7 +17,7 @@ void init_math_healpix(py::module & m) {
             py::buffer_info info_vec = vec.request();
             size_t nvec = (size_t)(info_vec.size / 3);
             if ((info_theta.size != info_phi.size) ||
-                (info_theta.size != nvec)) {
+                ( (size_t) info_theta.size != nvec)) {
                 auto log = cal::Logger::get();
                 std::ostringstream o;
                 o << "Buffer sizes are not consistent.";
@@ -62,7 +62,7 @@ void init_math_healpix(py::module & m) {
             py::buffer_info info_vec = vec.request();
             size_t nvec = (size_t)(info_vec.size / 3);
             if ((info_theta.size != info_phi.size) ||
-                (info_theta.size != nvec)) {
+                ( (size_t) info_theta.size != nvec)) {
                 auto log = cal::Logger::get();
                 std::ostringstream o;
                 o << "Buffer sizes are not consistent.";
@@ -111,7 +111,7 @@ void init_math_healpix(py::module & m) {
             size_t nvec = (size_t)(info_vec.size / 6);
             if ((info_theta.size != info_phi.size) ||
                 (info_theta.size != info_pa.size) ||
-                (info_theta.size != nvec)) {
+                ( (size_t) info_theta.size != nvec)) {
                 auto log = cal::Logger::get();
                 std::ostringstream o;
                 o << "Buffer sizes are not consistent.";
@@ -274,7 +274,7 @@ void init_math_healpix(py::module & m) {
              py::buffer_info info_vec = vec.request();
              py::buffer_info info_pix = pix.request();
              size_t nvec = (size_t)(info_vec.size / 3);
-             if (nvec != info_pix.size) {
+             if (nvec != (size_t) info_pix.size) {
                  auto log = cal::Logger::get();
                  std::ostringstream o;
                  o << "Buffer sizes are not consistent.";
@@ -311,7 +311,7 @@ void init_math_healpix(py::module & m) {
              py::buffer_info info_vec = vec.request();
              py::buffer_info info_pix = pix.request();
              size_t nvec = (size_t)(info_vec.size / 3);
-             if (nvec != info_pix.size) {
+             if (nvec != (size_t) info_pix.size) {
                  auto log = cal::Logger::get();
                  std::ostringstream o;
                  o << "Buffer sizes are not consistent.";

@@ -47,7 +47,7 @@ int cal::mpi_atm_sim::simulate(bool use_cache)
             slice_starts.push_back(ind_start);
             slice_stops.push_back(ind_stop);
 
-            if (slice % ntask == rank) {
+            if (slice % ntask == (size_t) rank) {
                 cholmod_sparse * cov = build_sparse_covariance(ind_start, ind_stop);
                 cholmod_sparse * sqrt_cov = sqrt_sparse_covariance(cov, ind_start, ind_stop);
                 cholmod_free_sparse(&cov, chcommon);
