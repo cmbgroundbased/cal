@@ -86,6 +86,11 @@ endif(LAPACK_FOUND)
 
 # ADD the UNIT TESTS HERE!!!!
 
+add_subdirectory(googletest EXCLUDE_FROM_ALL)
+set(gtest_force_shared_crt TRUE)
+include_directories("${gtest_SOURCE_DIR}/include")
+
+
 #Compile the total library
 
 set(CAL_MOD_TOT cal)
@@ -110,3 +115,25 @@ install(TARGETS ${CAL_MOD_TOT} DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTA
 
 message("-- Install LibDIR: " ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR})
 message("-- Install IncludeDIR: " ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR})
+
+
+add_executable(cal_test
+    cal_test.cpp
+)
+
+if(OpenMP_CXX_FOUND)
+    target_compile_options(cal_test PRIVATE "${OpenMP_CXX_FLAGS}")
+    set_target_properties(cal_test PROPERTIES LINK_FLAGS "${OpenMP_CXX_FLAGS}")
+endif(OpenMP_CXX_FOUND)
+
+target_include_directories(cal_test BEFORE PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include"
+    "${CMAKE_CURRENT_SOURCE_DIR}/tests"
+)
+
+target_link_libraries(cal_test cal gtest)
+
+install(TARGETS cal_test DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+add_test(NAME serial_tests COMMAND cal_test)

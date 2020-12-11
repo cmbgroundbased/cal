@@ -13,5 +13,6 @@
 #include <cal/math_rng.hpp>
 #include <cal/math_qarray.hpp>
 #include <cal/math_healpix.hpp>
+#include <cal/test.hpp>
 
 #endif // ifndef CAL_HPP

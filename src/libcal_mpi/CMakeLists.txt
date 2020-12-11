@@ -93,4 +93,39 @@ install(TARGETS ${CAL_MPI_MOD_TOT} DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_I
 
 # MPI unit test executable
 
-# etc ...
+add_executable(cal_mpi_test
+    cal_mpi_test.cpp
+)
+
+if(OpenMP_CXX_FOUND)
+    target_compile_options(cal_mpi_test PRIVATE "${OpenMP_CXX_FLAGS}")
+    set_target_properties(cal_mpi_test PROPERTIES LINK_FLAGS "${OpenMP_CXX_FLAGS}")
+endif(OpenMP_CXX_FOUND)
+
+if(AATM_FOUND)
+    target_compile_definitions(cal_mpi_test PRIVATE HAVE_AATM=1)
+    target_include_directories(cal_mpi_test PRIVATE "${AATM_INCLUDE_DIRS}")
+endif(AATM_FOUND)
+
+if(CHOLMOD_FOUND)
+    target_compile_definitions(cal_mpi_test PRIVATE HAVE_CHOLMOD=1)
+    target_include_directories(cal_mpi_test PRIVATE "${CHOLMOD_INCLUDE_DIR}")
+endif(CHOLMOD_FOUND)
+
+target_include_directories(cal_mpi_test PRIVATE "${MPI_CXX_INCLUDE_PATH}")
+
+target_compile_options(cal_mpi_test PRIVATE "${mpi_comp_flags}")
+
+target_include_directories(cal_mpi_test BEFORE PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include"
+    "${CMAKE_CURRENT_SOURCE_DIR}/tests"
+)
+
+target_link_libraries(cal_mpi_test cal_mpi gtest)
+
+install(TARGETS cal_mpi_test DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+add_test(NAME mpi_tests COMMAND cal_mpi_test)
+
+

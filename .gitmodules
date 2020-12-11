@@ -4,3 +4,6 @@
 [submodule "src/julia_wrappers/libcxxwrap-julia"]
 	path = src/julia_wrappers/libcxxwrap-julia
 	url = https://github.com/JuliaInterop/libcxxwrap-julia
+[submodule "src/libcal/googletest"]
+	path = src/libcal/googletest
+	url = https://github.com/google/googletest
