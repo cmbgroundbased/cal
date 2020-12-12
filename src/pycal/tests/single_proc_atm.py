@@ -18,6 +18,8 @@ from ..todmap import (
 from ..weather import Weather
 from ._helpers import *
 
+from .._libcal import Logger, Timer
+
 class OpSimAtmosphereTestSingle(MPITestCase):
     def setUp(self):
         fixture_name = os.path.splitext(os.path.basename(__file__))[0]
@@ -120,15 +122,15 @@ class OpSimAtmosphereTestSingle(MPITestCase):
             "component": 123456,
             "lmin_center": 0.01,
             "lmin_sigma": 0.001,
-            "lmax_center": 10,
-            "lmax_sigma": 10,
+            "lmax_center": 1.0,
+            "lmax_sigma": 1.0,
             "zatm": 40000.0,
             "zmax": 2000.0,
             "xstep": 100.0,
             "ystep": 100.0,
             "zstep": 100.0,
             "nelem_sim_max": 10000,
-            "verbosity": 0,
+            "verbosity": 20,
             "gain": 1,
             "z0_center": 2000,
             "z0_sigma": 0,
@@ -148,13 +150,26 @@ class OpSimAtmosphereTestSingle(MPITestCase):
             # Cannot perform serial/MPI test
             print("No MPI available, skipping MPI/serial test")
             return
+        
+        log = Logger.get()
+        tmr = Timer()
+        tmr.start()
 
         # Generate an atmosphere sim with no loading or absorption.
         # Verify that serial and MPI results agree
-        atm = OpSimAtmosphere(out="atm", cachedir=None, freq=None, **self.common_params)
+        log.info("Creating the atmospheric operator")
+        atm = OpSimAtmosphere(out="atm", cachedir=None, freq=5, **self.common_params)
 
-        # Do an explicit serial calculation on each process for one detector.
+        log.info("Do an explicit serial calculation on each process for one detector.")
         atm.exec(self.data_serial)
+    
+        # if self.comm.comm_world is not None:
+        #    self.comm.comm_world.barrier()
+        #    log.info("Sync!")
+        # tmr.stop()
+        # if comm.world_rank == 0:
+        #     tmr.report("Atmosphere simulation")
+        # return
         
         tod_serial = self.data_serial.obs[0]["tod"]
         oid_serial = self.data_serial.obs[0]["id"]
@@ -164,7 +179,6 @@ class OpSimAtmosphereTestSingle(MPITestCase):
             print(cname)
             ref_serial = tod_serial.cache.reference(cname)
             np.save("single_serial"+cname, ref_serial)
-
 
         return
 
@@ -205,4 +219,9 @@ class OpSimAtmosphereTestSingle(MPITestCase):
                 nt.assert_allclose(ref1[:], ref2, rtol=1e-7)
 
         return
+    
+    
+    
+    
+    
         

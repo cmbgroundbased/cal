@@ -167,7 +167,7 @@ class OpSimAtmosphereTest(MPITestCase):
             "component": 123456,
             "lmin_center": 0.01,
             "lmin_sigma": 0.001,
-            "lmax_center": 10,
+            "lmax_center": 100,
             "lmax_sigma": 10,
             "zatm": 40000.0,
             "zmax": 2000.0,
@@ -175,7 +175,7 @@ class OpSimAtmosphereTest(MPITestCase):
             "ystep": 100.0,
             "zstep": 100.0,
             "nelem_sim_max": 10000,
-            "verbosity": 0,
+            "verbosity": 20,
             "gain": 1,
             "z0_center": 2000,
             "z0_sigma": 0,
@@ -215,9 +215,9 @@ class OpSimAtmosphereTest(MPITestCase):
 
         # Now do an explicit serial calculation on each process for one detector.
 
-        atm.exec(self.data_serial)
-        if atm_utils is not None:
-            atm_utils.exec(self.data_serial)
+        # atm.exec(self.data_serial)
+        # if atm_utils is not None:
+        #     atm_utils.exec(self.data_serial)
         
         
 

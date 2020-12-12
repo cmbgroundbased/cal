@@ -40,8 +40,8 @@ def test(name=None, verbosity=2):
     mpirunner = MPITestRunner(comm, verbosity=verbosity, warnings="ignore")
     suite = unittest.TestSuite()
 
-    # suite.addTest(loader.loadTestsFromModule(testopsatm))
-    suite.addTest(loader.loadTestsFromModule(testsingleatm))
+    suite.addTest(loader.loadTestsFromModule(testopsatm))
+    #suite.addTest(loader.loadTestsFromModule(testsingleatm))
 
     ret = 0
     _ret = mpirunner.run(suite)
