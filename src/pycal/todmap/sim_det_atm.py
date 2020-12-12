@@ -26,6 +26,9 @@ if available_utils:
         atm_atmospheric_loading_vec,
     )
 
+if available:
+    from .atm import AtmSim
+
 if available_mpi:
     from .atm import AtmSimMPI
 

@@ -135,5 +135,6 @@ if(MPI_FOUND AND MPI4PY_FOUND)
 endif(MPI_FOUND AND MPI4PY_FOUND)
 
 # Process the sub directories
+add_subdirectory(tests)
 add_subdirectory(tod)
 add_subdirectory(todmap)
