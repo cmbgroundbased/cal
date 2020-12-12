@@ -22,11 +22,21 @@ execute_process(
     OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
-execute_process(
-    COMMAND "${PYTHON_EXECUTABLE}" -c "import site; print(site.getsitepackages()[0])"
-    OUTPUT_VARIABLE PYTHON_SITE
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-)
+if(PYTHON_USER_INSTALL)
+    execute_process(
+        COMMAND "${PYTHON_EXECUTABLE}" -m site --user-site
+
+        OUTPUT_VARIABLE PYTHON_SITE
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+else()
+    execute_process(
+        COMMAND "${PYTHON_EXECUTABLE}" -c "import site; print(site.getsitepackages()[0])"
+
+        OUTPUT_VARIABLE PYTHON_SITE
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+endif()
 
 message("-- Python exe:  " ${PYTHON_EXECUTABLE})
 message("-- Python Path: " ${PYTHON_SITE})
