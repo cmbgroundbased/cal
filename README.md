@@ -63,6 +63,9 @@ If(you don't need `Julia` wraps)<br/>
 else<br/>
 	&nbsp;&nbsp;`cd build; cmake -DJULIA=Y ../`<br/> 
 
+For Python user install:<br/>
+        &nbsp;&nbsp;`cd build; cmake -DPYTHON_USER_INSTALL=Y ../`<br />
+
 `make -J <N>`<br />
 `make install`<br />
 
