@@ -44,8 +44,11 @@ bool cal::atm_sim::in_cone(double x, double y, double z, double t_in)
             continue;
         }
 
-        if (dz > 0) dz -= zstep;
-        else dz += zstep;
+        if (dz > 0){
+            dz -= zstep;
+        } else {
+            dz += zstep;
+        } 
 
         if ((std::abs(dy) < 2 * ystep) && (std::abs(dz) < 2 * zstep)) return true;
 

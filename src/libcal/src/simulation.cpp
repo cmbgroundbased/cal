@@ -31,7 +31,7 @@ int cal::atm_sim::simulate(bool use_cache)
         cal::Timer tm;
         tm.start();
 
-        uint64_t ind_start = 0, ind_stop = 0, slice = 0;
+        long ind_start = 0, ind_stop = 0, slice = 0;
 
         // Simulate the atmosphere in indipendent slices, each slice is assigned at one process.
 

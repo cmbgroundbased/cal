@@ -248,12 +248,12 @@ class OpSimAtmosphereTest(MPITestCase):
                     cname = "atm_{}".format(d)
                     ref = tod.cache.reference(cname)
                     ref_serial = tod_serial.cache.reference(cname)
-                    nt.assert_allclose(ref[:], ref_serial[:], rtol=1e3)
+                    nt.assert_allclose(ref[:], ref_serial[:], rtol=1e-7)
                     if atm_utils is not None:
                         cname = "atm-utils_{}".format(d)
                         ref = tod.cache.reference(cname)
                         ref_serial = tod_serial.cache.reference(cname)
-                        nt.assert_allclose(ref[:], ref_serial[:], rtol=1e3)
+                        nt.assert_allclose(ref[:], ref_serial[:], rtol=1e-7)
 
 
    

@@ -6,7 +6,7 @@
 
 #include <cal/CALAtmSim.hpp>
 
-void cal::atm_sim::get_slice(uint64_t & ind_start, uint64_t & ind_stop)
+void cal::atm_sim::get_slice(long & ind_start, long & ind_stop)
 {
     // Identify a manageable slice of compressed indices to simulate next
 

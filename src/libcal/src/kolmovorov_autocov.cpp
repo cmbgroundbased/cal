@@ -22,9 +22,10 @@ double cal::atm_sim::kolmogorov(double r)
         throw std::runtime_error(o.str().c_str());
     }
 
-    // Simple linear interpolation for now.  Use a bisection method to find the rigth elements.
-
-    long low = 0, high = nr - 1;
+    // Simple linear interpolation for now.  
+    // Use a bisection method to find the rigth elements.
+    long low = 0;
+    long high = nr - 1;
     long ir;
 
     while (true) {

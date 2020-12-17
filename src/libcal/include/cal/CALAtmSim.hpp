@@ -78,7 +78,7 @@ class atm_sim{
             double xstep = 100, double ystep = 100, double zstep = 100,
 
             /** Size of the simulation slices [elements]*/
-            uint64_t nelem_sim_max = 1000,
+            long nelem_sim_max = 1000,
 
             /**Verbosity [bool]*/
             int verbosity = 0,
@@ -180,7 +180,7 @@ class atm_sim{
         vec_double realization;
 
         /**Find the next range of compressed indices to simulate*/
-        void get_slice(uint64_t & ind_start, uint64_t & ind_stop);
+        void get_slice(long & ind_start, long & ind_stop);
 
         /**
         * Use the atmospheric parameters for volume element covariance

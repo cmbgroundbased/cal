@@ -33,8 +33,9 @@ void cal::atm_sim::initialize_kolmogorov(){
     double invkappal = 1. / kappal;
     double kappa0 = 0.75 * kappamin;
     double kappa0sq = kappa0 * kappa0;
-    long nkappa = 1000000; // Integration steps
-
+    
+    // Integration steps (has to be optimized!)
+    long nkappa = 1000000; 
     double upper_limit = 10 * kappamax;
     double kappastep = upper_limit / (nkappa - 1);
     double slope1 = 7. / 6.;
