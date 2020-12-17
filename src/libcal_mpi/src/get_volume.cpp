@@ -26,10 +26,9 @@ void cal::mpi_atm_sim::get_volume()
 
     // Volume length
     double delta_x_h = maxdist * cos(elmin);
-    std::cerr << "delta_x_h = " << delta_x_h << std::endl;
 
-    // double x, y, z, xx, zz, r, rproj, z_min, z_max;
-    double x, z, r, rproj, z_min, z_max;
+    double x, y, z, xx, zz, r, rproj, z_min, z_max;
+    //double x, z, r, rproj, z_min, z_max;
     r = maxdist;
 
     z = r * sin(elmin);
@@ -61,7 +60,7 @@ void cal::mpi_atm_sim::get_volume()
 
     // We can move the frame
     delta_x += wdx;
-    delta_y += wdy;
+    delta_y = delta_y_cone + wdy;
     delta_z += wdz;
 
     // Margin for interpolation

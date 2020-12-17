@@ -1,194 +1,484 @@
-import pycal
-from mpi4py import MPI
+"""
+This script runs a ground simulation and makes a map.
+"""
+
+import os
+from datetime import datetime
+
+if "STARTUP_DELAY_ATM_SIM" in os.environ:
+    import numpy as np
+    import time
+
+    delay = np.float(os.environ["STARTUP_DELAY_ATM_SIM"])
+    wait = np.random.rand() * delay
+    time.sleep(wait)
+
+import sys
+import argparse
+import traceback
+import pickle
+
 import numpy as np
-import pandas as pd
-import yaml
-import seaborn as sns
-import matplotlib.pylab as plt
-import datetime
 
-comm = MPI.COMM_WORLD
-rank = comm.Get_rank()
-size = comm.Get_size()
+from pycal.mpi import get_world, Comm
 
+from pycal.dist import distribute_uniform, Data
 
-# Define a CES scanning strategy of the line of sight of the telescope.
+from pycal.utils import Logger, Environment, memreport
 
-year=2020
-month=4
-day=28
-hour=20
-primes=0
-seconds=0
+from pycal.timing import function_timer, GlobalTimers, Timer, gather_timers
+from pycal.timing import dump as dump_timing
 
-data=datetime.datetime(year, month, day, hour, primes, seconds)
-timestamp=data.timestamp()
-
-weather=pycal.Weather("weather_STRIP.fits")
-weather.set_time(int(timestamp))
-
-# H20 in atmpsphere
-pwv=weather.pwv
-ice=weather.ice_water
-liq=weather.liquid_water
-hum=weather.humidity
-
-# Temperaure and pressure
-t0=weather.surface_temperature
-t10=weather.air_temperature
-p0=weather.surface_pressure
-
-# Wind speed and direction
-wx=weather.west_wind
-wy=weather.south_wind
-w = np.sqrt(wx**2 + wy**2)
-w_dir = np.arctan2(wy, wx)
-
-# Sky patch parameters
-azmin=(0/180)*np.pi
-azmax=(359/180)*np.pi
-elmin=(60/180)*np.pi
-elmax=(80/180)*np.pi
-tmin=0.0
-tmax_sim=1000.0
-tmax_tod=tmax_sim
-lmin_center=0.01
-lmin_sigma=0.001
-lmax_center=10
-lmax_sigma=10
-w_center=w
-w_sigma=0
-wdir_center=w_dir
-#wdir_center=np.pi/2
-wdir_sigma=0
-z0_center=2000
-z0_sigma=0
-T0_center=t10
-T0_sigma=0
-zatm=40000.0
-zmax=2000.0
-xstep=100.0
-ystep=100.0
-zstep=100.0
-nelem_sim_max=100000
-verbosity=1
-comm=comm
-key1=0
-key2=2**32+1+1
-counterval1=0
-counterval2=0
-cachedir="atm_cache_module_I"
-rmin=0
-rmax=10000
+from pycal.todmap import TODGround, OpSimAtmosphere
+from pycal.weather import Weather
 
 
-if rank == 0:
-    env=pycal.Environment.get()
-    print(env)
+@function_timer
+def create_observation(args, comm, telescope, ces, verbose=True):
+    """ Create an observation.
 
-# Dummy scanning strategy
-# samples frequency
-fs_hz=20
-# timestamp in seconds (now we simulate 1h of observations)
-times=np.linspace(0,tmax_tod,int(tmax_tod)*fs_hz)
+    Create an observation for the CES or SPIN scan 
 
-# Now we perform a really dummy CES at 72deg of elevation
-# and with an AZ span of 10deg
-el=np.ones(int(tmax_tod)*fs_hz)*(72/180)*np.pi
-# Fixed telescope
-#az=np.ones(int(tmax_tod)*fs_hz)*(270/180)*np.pi
+    Args:
+        args :  argparse arguments
+        comm :  communicator
+        ces (CES) :  One constant elevation scan
 
-# A dummy scanning strategy
-azmin_tod=(60/180)*np.pi
-azmax_tod=(315/180)*np.pi
-az = (0.5*(azmax_tod - azmin_tod)*np.sin((2*np.pi/500)*times)) + (0.5*(azmax_tod + azmin_tod))
+    """
+    focalplane = telescope.focalplane
+    site = telescope.site
+    weather = site.weather
+    noise = focalplane.noise
+    totsamples = int((ces.stop_time - ces.start_time) * args.sample_rate)
 
-# import the focal plane unit
-with open(r'/home/algebrato/.julia/dev/Stripeline/instrumentdb/strip_focal_plane.yaml') as file:
-    focalplane=yaml.full_load(file)
+    # create the TOD for this observation
 
-detecotrs=focalplane['horns'].keys()
-tod=dict()
-pointings=dict()
+    if comm.comm_group is not None:
+        ndetrank = comm.comm_group.size
+    else:
+        ndetrank = 1
 
-theta_i = 0
-theta_f = 90
-bor = (((70/2)*np.sin(2*np.pi/150*times)+(70/2))/180)*np.pi
+    try:
+        tod = TODGround(
+            comm.comm_group,
+            focalplane.detquats,
+            totsamples,
+            detranks=ndetrank,
+            firsttime=ces.start_time,
+            rate=args.sample_rate,
+            site_lon=site.lon,
+            site_lat=site.lat,
+            site_alt=site.alt,
+            azmin=ces.azmin,
+            azmax=ces.azmax,
+            el=ces.el,
+            scanrate=args.scan_rate,
+            scan_accel=args.scan_accel,
+            sinc_modulation=args.scan_sinc_modulate,
+            CES_start=None,
+            CES_stop=None,
+            sun_angle_min=args.sun_angle_min,
+            coord=args.coord,
+            sampsizes=None,
+            report_timing=args.debug,
+            hwprpm=args.hwp_rpm,
+            hwpstep=args.hwp_step_deg,
+            hwpsteptime=args.hwp_step_time_s,
+        )
+    except RuntimeError as e:
+        raise RuntimeError(
+            'Failed to create TOD for {}-{}-{}: "{}"'
+            "".format(ces.name, ces.scan, ces.subscan, e)
+        )
 
-for i in detecotrs:
-    directions=focalplane['horns'][i]['orientation']
-    l=np.arctan(directions[0]/directions[2])
-    u=np.arctan(directions[1]/directions[2])
-    tod[i]={'signal':np.zeros(int(tmax_tod)*fs_hz), 'l':l, 'u':u}
-    pointings[i]={'az':az+(l*np.cos(bor)-u*np.sin(bor)), 'el':el+(u*np.cos(bor)+l*np.sin(bor))}
+    # Create the observation
+
+    obs = {}
+    obs["name"] = "CES-{}-{}-{}-{}-{}".format(
+        site.name, telescope.name, ces.name, ces.scan, ces.subscan
+    )
+    obs["tod"] = tod
+    obs["baselines"] = None
+    obs["noise"] = noise
+    obs["id"] = int(ces.mjdstart * 10000)
+    obs["intervals"] = tod.subscans
+    obs["site"] = site
+    obs["site_name"] = site.name
+    obs["site_id"] = site.id
+    obs["altitude"] = site.alt
+    obs["weather"] = site.weather
+    obs["telescope"] = telescope
+    obs["telescope_name"] = telescope.name
+    obs["telescope_id"] = telescope.id
+    obs["focalplane"] = telescope.focalplane.detector_data
+    obs["fpradius"] = telescope.focalplane.radius
+    obs["start_time"] = ces.start_time
+    obs["season"] = ces.season
+    obs["date"] = ces.start_date
+    obs["MJD"] = ces.mjdstart
+    obs["rising"] = ces.rising
+    obs["mindist_sun"] = ces.mindist_sun
+    obs["mindist_moon"] = ces.mindist_moon
+    obs["el_sun"] = ces.el_sun
+    return obs
+
+
+@function_timer
+def create_data_structure(args, comm, telescope, ces):
+    log = Logger.get()
+    timer = Timer()
+    timer.start()
     
-obs=dict()
-obs['name'] = "Strip_1H_Full_Focal_Plane"
-obs['tod'] = tod
-obs['pointings'] = pointings
+    data = Data(comm)
+    
+    obs = create_observation(args, comm, telescope, ces)
+    
+    if comm.comm_world is None or comm.comm_group.rank == 0:
+        log.info("Group # {:4} has {} observations.".format(comm.group, len(data.obs)))
+    
+    if comm.comm_world is not None:
+        comm.comm_world.barrier()
+    if comm.world_rank == 0:
+        timer.report("Simulation scans")
 
-data=pycal.Data(comm)
+    return data
 
-data.obs.append(obs)
+@function_timer
+def setup_output(args, comm, mc, freq):
+    outpath = "{}/{:08}/{:03}".format(args.outdir, mc, int(freq))
+    if comm.world_rank == 0:
+        os.makedirs(outpath, exist_ok=True)
+    return outpath
 
-# Simulate the atmosphere evolution
-atm=pycal.AtmSimMPI(azmin, 
-                    azmax, 
-                    elmin, 
-                    elmax, 
-                    tmin, 
-                    tmax_sim, 
-                    lmin_center, 
-                    lmin_sigma, 
-                    lmax_center, 
-                    lmax_sigma, 
-                    w_center, 
-                    w_sigma, 
-                    wdir_center, 
-                    wdir_sigma, 
-                    z0_center, 
-                    z0_sigma, 
-                    T0_center, 
-                    T0_sigma, 
-                    zatm, 
-                    zmax, 
-                    xstep, 
-                    ystep, 
-                    zstep, 
-                    nelem_sim_max, 
-                    verbosity, 
-                    comm, 
-                    key1, 
-                    key2, 
-                    counterval1, 
-                    counterval2, 
-                    cachedir, 
-                    rmin, 
-                    rmax
-)
+def main():
+    log = Logger.get()
+    gt = GlobalTimers.get()
+    env = Environment.get()
 
-err = atm.simulate(True)
-comm.Barrier()
+    gt.start("Atmospheric simulation (globbal timer)")
+    timer0 = Timer()
+    timer0.start()
+    
+    # Get the communicator
+    
+    mpiworld, procs, rank = get_world()
+    if rank == 0:
+        print(env)
+    if mpiworld is None:
+        log.info("Running serially with one process at {}".format(str(datetime.now())))
+    else:
+        if rank == 0:
+            log.info(
+                "Running with {} processes at {}".format(procs, str(datetime.now()))
+            )
+    comm = Comm(world=mpiworld)
+        
+    # Define the arguments
+    
+    args = {}
+    telescope = {}
+    ces = {}
+    
+    # Load the weather file  
+    timer = Timer()
+    timer.start()
+    fname = "weather_strip.fits"
+    if comm.world_rank == 0:
+        weathers = []
+        weatherdict = {}
+        ftimer = Timer()
+        ftimer.start()
+        weatherdict[fname] = Weather(fname)
+        ftimer.stop()
+        ftimer.report_clear("Load {}".format(fname))
+        weathers.append(weatherdict[fname])
+    else:
+        weathers = None
+    
+    if comm.comm_world is not None:
+        weathers = comm.comm_world.bcast(weathers)
+    
+    if comm.world_rank == 0:
+        timer.report_clear("Loading weather")
+        
+    # Load a focalplane
+    
+    
+    
+    # Create the TOD structure
+    
+    data, telescope_data = create_data_structure(args, comm, telescope, ces)
+    
+    # I have to expand the pointing, interpolating the quaternions
+    
+    # ...
+    
+    start_mc = 0
+    nsimu = 1000
+    cache_name = ""
+    verbose = 15
+    freq = 43 # GHz
+    
+    for mc in range(start_mc, start_mc + nsimu):
+    
+        log = Logger.get()
+        tmr = Timer()
+        tmr.start()
+        if comm.world_rank == 0 and verbose:
+            log.info("Simulating atmosphere")
+            if args.atm_cache and not os.path.isdir(args.atm_cache):
+                try:
+                    os.makedirs(args.atm_cache)
+                except FileExistsError:
+                    pass
 
-# for i in detecotrs:
-#     atm.observe(times, data.obs[0]['pointings'][i]['az'], data.obs[0]['pointings'][i]['el'], data.obs[0]['tod'][i]['signal'], -1)
-#     comm.Barrier()
+        # Simulate the atmosphere signal
+        atm = OpSimAtmosphere(
+            out=cache_name,
+            realization=mc,
+            lmin_center=args.atm_lmin_center,
+            lmin_sigma=args.atm_lmin_sigma,
+            lmax_center=args.atm_lmax_center,
+            gain=args.atm_gain,
+            lmax_sigma=args.atm_lmax_sigma,
+            zatm=args.atm_zatm,
+            zmax=args.atm_zmax,
+            xstep=args.atm_xstep,
+            ystep=args.atm_ystep,
+            zstep=args.atm_zstep,
+            nelem_sim_max=args.atm_nelem_sim_max,
+            verbosity=args.atm_verbosity,
+            z0_center=args.atm_z0_center,
+            z0_sigma=args.atm_z0_sigma,
+            apply_flags=False,
+            common_flag_mask=args.common_flag_mask,
+            cachedir=args.atm_cache,
+            flush=args.flush,
+            wind_dist=args.atm_wind_dist,
+        )
+        atm.exec(data)
 
-# det_ob=data.obs[0]['tod']
-# tod_matrix=dict()
+        if comm.comm_world is not None:
+            comm.comm_world.barrier()
+        tmr.stop()
+        if comm.world_rank == 0:
+            tmr.report("Atmosphere simulation")
+        
+        
+        if comm.world_rank == 0:
+                log.info(
+                    "Processing frequency {}GHz, MC = {}".format(freq, mc))
+        
+        # Copy signal
+        for obs in data.obs:
+            tod = obs["tod"]
+            for det in tod.local_dets:
+                inref = tod.local_signal(det, input_dir)
+                outname = "{}_{}".format(output_dir, det)
+                outref = tod.cache.put(outname, inref, replace=force_cache)
+                del outref
+                del inref
+        
+        """Scale atmospheric fluctuations by frequency.
 
-# for i in detecotrs:
-#     tod_matrix[i]=det_ob=data.obs[0]['tod'][i]['signal']
+        Assume that cached signal under totalname_freq is pure atmosphere
+        and scale the absorption coefficient according to the frequency.
 
-# matrix = pd.DataFrame(tod_matrix)
+        If the focalplane is included in the observation and defines
+        bandpasses for the detectors, the scaling is computed for each
+        detector separately and `freq` is ignored.
 
-# matrix.to_csv(r"TOD_matrix.csv",index = False, header=True)
+        """
+        if not args.simulate_atmosphere:
+            return
 
+        log = Logger.get()
+        if comm.world_rank == 0 and verbose:
+            log.info("Scaling atmosphere by frequency")
+        timer = Timer()
+        timer.start()
+        for obs in data.obs:
+            tod = obs["tod"]
+            todcomm = tod.mpicomm
+            site_id = obs["site_id"]
+            weather = obs["weather"]
+            if "focalplane" in obs:
+                focalplane = obs["focalplane"]
+            else:
+                focalplane = None
+            start_time = obs["start_time"]
+            weather.set(site_id, mc, start_time)
+            altitude = obs["altitude"]
+            air_temperature = weather.air_temperature
+            surface_pressure = weather.surface_pressure
+            pwv = weather.pwv
+            # Use the entire processing group to sample the absorption
+            # coefficient as a function of frequency
+            freqmin = 0
+            freqmax = 2 * freq
+            nfreq = 1001
+            freqstep = (freqmax - freqmin) / (nfreq - 1)
+            if todcomm is None:
+                nfreq_task = nfreq
+                my_ifreq_min = 0
+                my_ifreq_max = nfreq
+            else:
+                nfreq_task = int(nfreq // todcomm.size) + 1
+                my_ifreq_min = nfreq_task * todcomm.rank
+                my_ifreq_max = min(nfreq, nfreq_task * (todcomm.rank + 1))
+            my_nfreq = my_ifreq_max - my_ifreq_min
+            if my_nfreq > 0:
+                if atm_available_utils:
+                    my_freqs = freqmin + np.arange(my_ifreq_min, my_ifreq_max) * freqstep
+                    my_absorption = atm_absorption_coefficient_vec(
+                        altitude,
+                        air_temperature,
+                        surface_pressure,
+                        pwv,
+                        my_freqs[0],
+                        my_freqs[-1],
+                        my_nfreq,
+                    )
+                else:
+                    raise RuntimeError(
+                        "Atmosphere utilities from libaatm are not available"
+                    )
+            else:
+                my_freqs = np.array([])
+                my_absorption = np.array([])
+            if todcomm is None:
+                freqs = my_freqs
+                absorption = my_absorption
+            else:
+                freqs = np.hstack(todcomm.allgather(my_freqs))
+                absorption = np.hstack(todcomm.allgather(my_absorption))
+            # loading = atm_atmospheric_loading(altitude, pwv, freq)
+            for det in tod.local_dets:
+                try:
+                    # Use detector bandpass from the focalplane
+                    center = focalplane[det]["bandcenter_ghz"]
+                    width = focalplane[det]["bandwidth_ghz"]
+                except Exception:
+                    # Use default values for the entire focalplane
+                    center = freq
+                    width = 0.2 * freq
+                nstep = 101
+                # Interpolate the absorption coefficient to do a top hat
+                # integral across the bandpass
+                det_freqs = np.linspace(center - width / 2, center + width / 2, nstep)
+                absorption_det = np.mean(np.interp(det_freqs, freqs, absorption))
+                cachename = "{}_{}".format(cache_name, det)
+                ref = tod.cache.reference(cachename)
+                ref *= absorption_det
+                del ref
 
-# MTX_CX=matrix.corr()
+        if comm.comm_world is not None:
+            comm.comm_world.barrier()
+        timer.stop()
+        if comm.world_rank == 0 and verbose:
+            timer.report("Atmosphere scaling")
+            
+        # Update weights
+        """Update atmospheric noise weights.
 
-# plt.figure(1, figsize=(20,8.7))
-# ax=sns.heatmap(MTX_CX, annot=False, cmap='coolwarm', vmin=.5, vmax=1, center=0.75, square=True)
-# ax.set(xlabel='Detectors name', ylabel='Detectors name', title="Correlation Level")
-# plt.show()
+        Estimate the atmospheric noise level from weather parameters and
+        encode it as a noise_scale in the observation.  Madam will apply
+        the noise_scale to the detector weights.  This approach assumes
+        that the atmospheric noise dominates over detector noise.  To be
+        more precise, we would have to add the squared noise weights but
+        we do not have their relative calibration.
 
+        """
+        if not args.simulate_atmosphere:
+            for obs in data.obs:
+                obs["noise_scale"] = 1.0
+            return
+        log = Logger.get()
+        if comm.world_rank == 0 and verbose:
+            log.info("Updating atmospheric noise weights")
+        timer = Timer()
+        timer.start()
+        if atm_available_utils:
+            for obs in data.obs:
+                site_id = obs["site_id"]
+                weather = obs["weather"]
+                start_time = obs["start_time"]
+                weather.set(site_id, mc, start_time)
+                altitude = obs["altitude"]
+                absorption = atm_absorption_coefficient(
+                    altitude,
+                    weather.air_temperature,
+                    weather.surface_pressure,
+                    weather.pwv,
+                    freq,
+                )
+                obs["noise_scale"] = absorption * weather.air_temperature
+        else:
+            raise RuntimeError("Atmosphere utilities from libaatm are not available")
+
+        if comm.comm_world is not None:
+            comm.comm_world.barrier()
+        timer.stop()
+        if comm.world_rank == 0 and verbose:
+            timer.report("Atmosphere weighting")
+        
+        # Set up the output directory
+        
+        outpath = setup_output(args, comm, mc + mcoffset, freq)
+        
+        
+    gt.stop_all()
+    if mpiworld is not None:
+        mpiworld.barrier()
+    timer = Timer()
+    timer.start()
+    alltimers = gather_timers(comm=mpiworld)
+    if comm.world_rank == 0:
+        out = os.path.join(args.outdir, "timing")
+        dump_timing(alltimers, out)
+        timer.stop()
+        timer.report("Gather and dump timing info")
+        timer0.report_clear("single_module_simulation.py")
+
+    return
+        
+    
+if __name__ == "__main__":
+    try:
+        main()
+    except Exception:
+        # A sort of stack-trace...
+        mpiworld, procs, rank = get_world()
+        if procs == 1:
+            raise
+        exc_type, exc_value, exc_traceback = sys.exc_info()
+        lines = traceback.format_exception(exc_type, exc_value, exc_traceback)
+        lines = ["Proc {}: {}".format(rank, x) for x in lines]
+        print("".join(lines), flush=True)
+        if mpiworld is not None:
+            mpiworld.Abort(6)
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

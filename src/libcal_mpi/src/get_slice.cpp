@@ -11,7 +11,7 @@
 * to simulate next move element counter to the end of
 * the most recent simulated slice
 */
-void cal::mpi_atm_sim::get_slice(uint64_t & ind_start, uint64_t & ind_stop)
+void cal::mpi_atm_sim::get_slice(long & ind_start, long & ind_stop)
 {
 
     ind_start = ind_stop;

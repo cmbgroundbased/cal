@@ -11,9 +11,9 @@ double cal::mpi_atm_sim::interp(double x, double y, double z, std::vector <long>
 {
     // Trilinear interpolation
 
-    int64_t ix = (x - xstart) * xstepinv; // Cell number in x dir
-    int64_t iy = (y - ystart) * ystepinv; // Cell number in y dir
-    int64_t iz = (z - zstart) * zstepinv; // Cell number in z dir
+    long ix = (x - xstart) * xstepinv; // Cell number in x dir
+    long iy = (y - ystart) * ystepinv; // Cell number in y dir
+    long iz = (z - zstart) * zstepinv; // Cell number in z dir
 
     double dx = (x - (xstart + (double)ix * xstep)) * xstepinv;
     double dy = (y - (ystart + (double)iy * ystep)) * ystepinv;
@@ -58,19 +58,19 @@ double cal::mpi_atm_sim::interp(double x, double y, double z, std::vector <long>
         }
 # endif // ifdef DEBUG
 
-        int64_t offset = ix * xstride + iy * ystride + iz * zstride;
+        size_t offset = ix * xstride + iy * ystride + iz * zstride;
 
-        int64_t ifull000 = offset;
-        int64_t ifull001 = offset + zstride;
-        int64_t ifull010 = offset + ystride;
-        int64_t ifull011 = ifull010 + zstride;
-        int64_t ifull100 = offset + xstride;
-        int64_t ifull101 = ifull100 + zstride;
-        int64_t ifull110 = ifull100 + ystride;
-        int64_t ifull111 = ifull110 + zstride;
+        size_t ifull000 = offset;
+        size_t ifull001 = offset + zstride;
+        size_t ifull010 = offset + ystride;
+        size_t ifull011 = ifull010 + zstride;
+        size_t ifull100 = offset + xstride;
+        size_t ifull101 = ifull100 + zstride;
+        size_t ifull110 = ifull100 + ystride;
+        size_t ifull111 = ifull110 + zstride;
 
 # ifdef DEBUG
-        int64_t ifullmax = compressed_index->size() - 1;
+        long ifullmax = compressed_index->size() - 1;
         if (
             (ifull000 < 0) || (ifull000 > ifullmax) ||
             (ifull001 < 0) || (ifull001 > ifullmax) ||
@@ -97,17 +97,17 @@ double cal::mpi_atm_sim::interp(double x, double y, double z, std::vector <long>
         }
 # endif // ifdef DEBUG
 
-        int64_t i000 = (*compressed_index)[ifull000];
-        int64_t i001 = (*compressed_index)[ifull001];
-        int64_t i010 = (*compressed_index)[ifull010];
-        int64_t i011 = (*compressed_index)[ifull011];
-        int64_t i100 = (*compressed_index)[ifull100];
-        int64_t i101 = (*compressed_index)[ifull101];
-        int64_t i110 = (*compressed_index)[ifull110];
-        int64_t i111 = (*compressed_index)[ifull111];
+        long i000 = (*compressed_index)[ifull000];
+        long i001 = (*compressed_index)[ifull001];
+        long i010 = (*compressed_index)[ifull010];
+        long i011 = (*compressed_index)[ifull011];
+        long i100 = (*compressed_index)[ifull100];
+        long i101 = (*compressed_index)[ifull101];
+        long i110 = (*compressed_index)[ifull110];
+        long i111 = (*compressed_index)[ifull111];
 
 # ifdef DEBUG
-        int64_t imax = realization->size() - 1;
+        long imax = realization->size() - 1;
         if (
             (i000 < 0) || (i000 > imax) ||
             (i001 < 0) || (i001 > imax) ||

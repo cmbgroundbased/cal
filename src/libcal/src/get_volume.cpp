@@ -59,7 +59,7 @@ void cal::atm_sim::get_volume()
 
     // We can move the frame
     delta_x += wdx;
-    delta_y += wdy;
+    delta_y = delta_y_cone + wdy;
     delta_z += wdz;
 
     // Margin for interpolation

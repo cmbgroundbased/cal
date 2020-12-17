@@ -159,7 +159,6 @@ int cal::atm_sim::observe(double * t, double * az, double * el, double * tod,
             // if ( fixed_r > 0 and r > fixed_r ) break;
         }
         tod[i] = val * rstep * T0;
-        val = 0;
     }
 
     tm.stop();

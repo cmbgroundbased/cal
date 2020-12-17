@@ -59,10 +59,15 @@ int cal::atm_sim::simulate(bool use_cache)
         }
         // smooth();?
         tm.stop();
+        if ((rank == 0) && (verbosity > 0)) {
+            tm.report("Realization constructed in");
+        }
     } catch (const std::exception & e) {
-        std::cerr << "ERROR: atm::simulate failed with: " << e.what() << std::endl;
+        std::cerr << "WARNING: atm::simulate failed with: " << e.what()
+                  << std::endl;
     }
     cached = true;
+
     if (use_cache) save_realization();
 
     return 0;
