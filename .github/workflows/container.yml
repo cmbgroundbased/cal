@@ -16,9 +16,6 @@ jobs:
     - name: Check out code for the container build
       uses: actions/checkout@v1
 
-    - name: install deps
-      run: /usr/bin/docker run sudo apt install -y -qq debootstrap
-
     - name: Build Container
       env:
         SINGULARITY_RECIPE: singularity_container/debian_pycal_NO_JULIA.def
