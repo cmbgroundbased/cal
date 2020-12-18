@@ -5,6 +5,12 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-18.04
+    - action: apt
+      recommends: bool
+      unauthenticated: bool
+      update: bool
+      packages:
+        - debootstrap
     strategy:
       matrix:
         singularity_version:
@@ -13,9 +19,6 @@ jobs:
       image: quay.io/singularity/singularity:v${{ matrix.singularity_version }}
       options: --privileged
     steps:
-    - name: Install debootstrap
-      run: sudo apt-get update; sudo apt-get install debootstrap
-
     - name: Check out code for the container build
       uses: actions/checkout@v1
 
