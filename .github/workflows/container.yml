@@ -24,12 +24,9 @@ jobs:
       run: |
        ls
        if [ -f "${SINGULARITY_RECIPE}" ]; then
-           singularity build ${OUTPUT_CONTAINER} ${SINGULARITY_RECIPE}
+           singularity build ${OUTPUT_CONTAINER} ${SINGULARITY_RECIPE}; singularity exec ${OUTPUT_CONTAINER} python -c "import pycal.tests as pt; pt.run()"
        else
            echo "${SINGULARITY_RECIPE} is not found."
            echo "Present working directory: $PWD"
            ls
        fi
-       
-    - name: Python Unit Test
-        run: singularity exec container.sif python3 -c "import pycal.tests as pt; pt.run()"
