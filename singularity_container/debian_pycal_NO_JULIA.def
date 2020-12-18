@@ -1,6 +1,5 @@
 BootStrap: docker
-MirrorURL: http://debian.mirror.garr.it/debian
-OSVersion: unstable
+From: ubuntu:xenial
 
 %runscript
 	
