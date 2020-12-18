@@ -1,4 +1,4 @@
-BootStrap: debootstrap
+BootStrap: docker
 MirrorURL: http://debian.mirror.garr.it/debian
 OSVersion: unstable
 

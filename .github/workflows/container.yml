@@ -23,7 +23,7 @@ jobs:
       run: |
        ls
        if [ -f "${SINGULARITY_RECIPE}" ]; then
-           apt-get install debootsrap; singularity build ${OUTPUT_CONTAINER} ${SINGULARITY_RECIPE}
+           singularity build ${OUTPUT_CONTAINER} ${SINGULARITY_RECIPE}
        else
            echo "${SINGULARITY_RECIPE} is not found."
            echo "Present working directory: $PWD"
