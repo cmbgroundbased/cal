@@ -12,6 +12,7 @@ jobs:
     container:
       image: quay.io/singularity/singularity:v${{ matrix.singularity_version }}
       options: --privileged
+
     steps:
     - name: Check out code for the container build
       uses: actions/checkout@v1
@@ -29,3 +30,9 @@ jobs:
            echo "Present working directory: $PWD"
            ls
        fi
+
+    - name: C++ Unit Test
+        run: singularity exec container.sif ./usr/local/src/cal/build/src/libcal/cal_test
+      
+    - name: Python Unit Test
+        run: singularity exec container.sif python3 -c "import pycal.tests as pt; pt.run()"
