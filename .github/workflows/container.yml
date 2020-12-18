@@ -5,12 +5,6 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-18.04
-    - action: apt
-      recommends: bool
-      unauthenticated: bool
-      update: bool
-      packages:
-        - debootstrap
     strategy:
       matrix:
         singularity_version:
@@ -22,6 +16,9 @@ jobs:
     - name: Check out code for the container build
       uses: actions/checkout@v1
 
+    - name: install deps
+      run: sudo apt install -y -qq debootstrap
+      
     - name: Build Container
       env:
         SINGULARITY_RECIPE: singularity_container/debian_pycal_NO_JULIA.def
