@@ -30,9 +30,6 @@ jobs:
            echo "Present working directory: $PWD"
            ls
        fi
-
-    - name: C++ Unit Test
-        run: singularity exec container.sif ./usr/local/src/cal/build/src/libcal/cal_test
-      
+       
     - name: Python Unit Test
         run: singularity exec container.sif python3 -c "import pycal.tests as pt; pt.run()"
