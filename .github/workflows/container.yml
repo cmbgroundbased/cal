@@ -16,6 +16,9 @@ jobs:
     - name: Check out code for the container build
       uses: actions/checkout@v1
 
+    - name: Set env
+      run: export SINGULARITY_DOCKER_PASSWORD=${{secrets.DOCKER_SEC}}; export SINGULARITY_DOCKER_USERNAME=algebrato
+
     - name: Build Container
       env:
         SINGULARITY_RECIPE: singularity_container/debian_pycal_NO_JULIA.def
