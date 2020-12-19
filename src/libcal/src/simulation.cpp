@@ -4,7 +4,7 @@
    a BSD-style license that can be found in the LICENSE file.
  */
 
-#include <CALAtmSim.hpp>
+#include <cal/CALAtmSim.hpp>
 
 /**
  * @brief Simulate the atmosphere in indipendent slices, each slice is assigned at one process. 
@@ -31,7 +31,7 @@ int cal::atm_sim::simulate(bool use_cache)
         cal::Timer tm;
         tm.start();
 
-        uint64_t ind_start = 0, ind_stop = 0, slice = 0;
+        long ind_start = 0, ind_stop = 0, slice = 0;
 
         // Simulate the atmosphere in indipendent slices, each slice is assigned at one process.
 
@@ -59,10 +59,15 @@ int cal::atm_sim::simulate(bool use_cache)
         }
         // smooth();?
         tm.stop();
+        if ((rank == 0) && (verbosity > 0)) {
+            tm.report("Realization constructed in");
+        }
     } catch (const std::exception & e) {
-        std::cerr << "ERROR: atm::simulate failed with: " << e.what() << std::endl;
+        std::cerr << "WARNING: atm::simulate failed with: " << e.what()
+                  << std::endl;
     }
     cached = true;
+
     if (use_cache) save_realization();
 
     return 0;

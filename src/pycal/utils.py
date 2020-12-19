@@ -7,9 +7,9 @@ import gc
 
 import numpy as np
 
-from ._libcal_mpi import Environment, Timer, GlobalTimers, Logger
+from ._libcal import Environment, Timer, GlobalTimers, Logger
 
-from ._libcal_mpi import (
+from ._libcal import (
     AlignedI8,
     AlignedU8,
     AlignedI16,
@@ -22,9 +22,9 @@ from ._libcal_mpi import (
     AlignedF64,
 )
 
-from ._libcal_mpi import vsin, vcos, vsincos, vatan2, vsqrt, vrsqrt, vexp, vlog
+from ._libcal import vsin, vcos, vsincos, vatan2, vsqrt, vrsqrt, vexp, vlog
 
-from ._libcal_mpi import (
+from ._libcal import (
     vfast_sin,
     vfast_cos,
     vfast_sincos,

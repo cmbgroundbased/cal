@@ -4,7 +4,7 @@
    a BSD-style license that can be found in the LICENSE file.
  */
 
-#include <CALAtmSim.hpp>
+#include <cal/CALAtmSim.hpp>
 
 /**
  * @brief Construct a new cal::atm sim::atm sim object. This is the 
@@ -57,7 +57,7 @@ cal::atm_sim::atm_sim(double azmin, double azmax, double elmin, double elmax,
                         double T0_center, double T0_sigma,
                         double zatm, double zmax,
                         double xstep, double ystep, double zstep,
-                        uint64_t nelem_sim_max,
+                        long nelem_sim_max,
                         int verbosity,
                         uint64_t key1, uint64_t key2,
                         uint64_t counterval1, uint64_t counterval2,

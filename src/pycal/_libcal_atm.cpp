@@ -6,6 +6,102 @@
 #include <_libcal_atm.hpp>
 
 void init_atm(py::module & m) {
+#ifdef HAVE_AATM
+    m.def("atm_absorption_coefficient", &cal::atm_get_absorption_coefficient,
+          py::arg("altitude"), py::arg("temperature"), py::arg("pressure"),
+          py::arg("pwv"), py::arg(
+              "freq"), R"(
+            Compute the absorption coefficient.
+
+            Args:
+                altitude (float):  The observing altitude in meters.
+                temperature (float):  The observing temperature in Kelvin.
+                pressure (float):  The observing pressure in Pascals.
+                pwv (float):  The precipitable water vapor in mm.
+                freq (float):  Observing frequency in GHz.
+
+            Returns:
+                (float):  The absorption coefficient.
+
+    )");
+
+    m.def("atm_atmospheric_loading", &cal::atm_get_atmospheric_loading,
+          py::arg("altitude"), py::arg("temperature"), py::arg("pressure"),
+          py::arg("pwv"), py::arg(
+              "freq"), R"(
+            Return the equivalent blackbody temperature in Kelvin.
+
+            Args:
+                altitude (float):  The observing altitude in meters.
+                temperature (float):  The observing temperature in Kelvin.
+                pressure (float):  The observing pressure in Pascals.
+                pwv (float):  The precipitable water vapor in mm.
+                freq (float):  Observing frequency in GHz.
+
+            Returns:
+                (float):  The temperature.
+
+    )");
+
+    m.def("atm_absorption_coefficient_vec", [](double altitude, double temperature,
+                                               double pressure, double pwv,
+                                               double freqmin, double freqmax,
+                                               size_t nfreq) {
+              py::array_t <double> ret;
+              ret.resize({nfreq});
+              py::buffer_info info = ret.request();
+              double * raw = static_cast <double *> (info.ptr);
+              auto blah = cal::atm_get_absorption_coefficient_vec(
+                  altitude, temperature, pressure, pwv, freqmin, freqmax, nfreq, raw);
+              return ret;
+          }, py::arg("altitude"), py::arg("temperature"), py::arg("pressure"),
+          py::arg("pwv"), py::arg("freqmin"), py::arg("freqmax"), py::arg(
+              "nfreq"), R"(
+            Compute a vector of absorption coefficients.
+
+            Args:
+                altitude (float):  The observing altitude in meters.
+                temperature (float):  The observing temperature in Kelvin.
+                pressure (float):  The observing pressure in Pascals.
+                pwv (float):  The precipitable water vapor in mm.
+                freqmin (float):  Minimum observing frequency in GHz.
+                freqmax (float):  Maximum observing frequency in GHz.
+                nfreq (int):  Number of frequency points to compute.
+
+            Returns:
+                (array):  The absorption coefficients at the specified frequencies.
+
+    )");
+
+    m.def("atm_atmospheric_loading_vec", [](double altitude, double temperature,
+                                            double pressure, double pwv, double freqmin,
+                                            double freqmax, size_t nfreq) {
+              py::array_t <double> ret;
+              ret.resize({nfreq});
+              py::buffer_info info = ret.request();
+              double * raw = static_cast <double *> (info.ptr);
+              auto blah = cal::atm_get_atmospheric_loading_vec(
+                  altitude, temperature, pressure, pwv, freqmin, freqmax, nfreq, raw);
+              return ret;
+          }, py::arg("altitude"), py::arg("temperature"), py::arg("pressure"),
+          py::arg("pwv"), py::arg("freqmin"), py::arg("freqmax"), py::arg(
+              "nfreq"), R"(
+            Compute a vector of equivalent blackbody temperatures.
+
+            Args:
+                altitude (float):  The observing altitude in meters.
+                temperature (float):  The observing temperature in Kelvin.
+                pressure (float):  The observing pressure in Pascals.
+                pwv (float):  The precipitable water vapor in mm.
+                freqmin (float):  Minimum observing frequency in GHz.
+                freqmax (float):  Maximum observing frequency in GHz.
+                nfreq (int):  Number of frequency points to compute.
+
+            Returns:
+                (array):  The temperatures at the specified frequencies.
+
+    )");
+#endif // ifdef HAVE_AATM
 
 #ifdef HAVE_CHOLMOD
     py::class_ <cal::atm_sim, cal::atm_sim::puniq> (

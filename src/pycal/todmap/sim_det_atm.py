@@ -26,6 +26,9 @@ if available_utils:
         atm_atmospheric_loading_vec,
     )
 
+if available:
+    from .atm import AtmSim
+
 if available_mpi:
     from .atm import AtmSimMPI
 
@@ -407,8 +410,8 @@ class OpSimAtmosphere(Operator):
         # elstep = np.radians(0.01)
         elstep = (elmax - elmin) / 320
         azstep = elstep * np.cos(0.5 * (elmin + elmax))
-        azgrid = np.linspace(azmin, azmax, (azmax - azmin) // azstep + 1)
-        elgrid = np.linspace(elmin, elmax, (elmax - elmin) // elstep + 1)
+        azgrid = np.linspace(azmin, azmax, int((azmax - azmin) // azstep + 1))
+        elgrid = np.linspace(elmin, elmax, int((elmax - elmin) // elstep + 1))
         AZ, EL = np.meshgrid(azgrid, elgrid)
         nn = AZ.size
         az = AZ.ravel()
@@ -458,9 +461,9 @@ class OpSimAtmosphere(Operator):
 
         print("Snapshots saved in {}".format(fn), flush=True)
 
-        """
-        vmin = comm.allreduce(vmin, op=MPI.MIN)
-        vmax = comm.allreduce(vmax, op=MPI.MAX)
+        
+        # vmin = comm.allreduce(vmin, op=MPI.MIN)
+        # vmax = comm.allreduce(vmax, op=MPI.MAX)
 
         for t, r, atmdata2d in my_snapshots:
             plt.figure(figsize=[12, 4])
@@ -472,8 +475,8 @@ class OpSimAtmosphere(Operator):
                     [0, (azmax - azmin) * np.cos(0.5 * (elmin + elmax)), elmin, elmax]
                 ),
                 cmap=plt.get_cmap("Blues"),
-                vmin=vmin,
-                vmax=vmax,
+                #vmin=vmin,
+                #vmax=vmax,
             )
             plt.colorbar()
             ax = plt.gca()
@@ -483,7 +486,7 @@ class OpSimAtmosphere(Operator):
             ax.set_yticks(np.degrees([elmin, elmax]))
             plt.savefig("atm_{}_t_{:04}_r_{:04}.png".format(obsname, int(t), int(r)))
             plt.close()
-        """
+        
 
         del my_snapshots
 

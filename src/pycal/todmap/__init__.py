@@ -4,29 +4,12 @@
 
 # import functions in our public API
 
-# from .pysm import pysm
-#
-# if pysm is not None:
-#     from .pysm import PySMSky
-#
-# from .todmap_math import (
-#     OpAccumDiag,
-#     OpScanScale,
-#     OpScanMask,
-#     dipole,
-# )
-#
-# from .pointing import OpPointingHpix
-#
-# from .sim_tod import (
-#     satellite_scanning,
-#     TODHpixSpiral,
-#     TODSatellite,
-#     slew_precession_axis,
-#     TODGround,
-# )
-#
+from .sim_tod import TODGround
 
 from .sim_det_atm import OpSimAtmosphere
+
+from .pointing_math import aberrate
+
+from .atm import available as atm_available
 from .atm import available_utils as atm_available_utils
 from .atm import available_mpi as atm_available_mpi

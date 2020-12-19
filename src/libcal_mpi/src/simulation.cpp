@@ -4,7 +4,9 @@
    a BSD-style license that can be found in the LICENSE file.
  */
 
-#include <CAL_MPI_AtmSim.hpp>
+#include <cal_mpi_internal.hpp>
+#include <iostream>
+#include <cstring>
 
 /** Simulate the atmosphere in indipendent slices, each slice is assigned at one process. */
 int cal::mpi_atm_sim::simulate(bool use_cache)
@@ -35,7 +37,7 @@ int cal::mpi_atm_sim::simulate(bool use_cache)
         }
         double t1 = MPI_Wtime();
 
-        uint64_t ind_start = 0, ind_stop = 0, slice = 0;
+        long ind_start = 0, ind_stop = 0, slice = 0;
 
         // Assign each slice to a process
 
@@ -62,12 +64,27 @@ int cal::mpi_atm_sim::simulate(bool use_cache)
             ++slice;
         }
 
-        // A simply average on the first neighbors.
-        // It doesn't work... return a NULL TOD.
-        std::cerr << "Smoothing..." << std::endl;
+        for (size_t slice = 0; slice < slice_starts.size(); ++slice) {
+            ind_start = slice_starts[slice];
+            ind_stop = slice_stops[slice];
+            int nind = ind_stop - ind_start;
+            int root = slice % ntask;
+            std::vector <double> tempvec(nind);
+            if (rank == root) {
+                std::memcpy(tempvec.data(), realization->data() + ind_start,
+                            sizeof(double) * nind);
+            }
+            if (MPI_Bcast(tempvec.data(), nind, MPI_DOUBLE, root, comm)) {
+                throw std::runtime_error("Failed to broadcast the realization");
+            }
+            if (realization->rank() == 0) {
+                std::memcpy(realization->data() + ind_start, tempvec.data(),
+                            sizeof(double) * nind);
+            }
+        }
+
         //smooth();
 
-        // Processes Syncronization
         MPI_Barrier(comm);
         double t2 = MPI_Wtime();
 

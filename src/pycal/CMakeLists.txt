@@ -22,57 +22,63 @@ execute_process(
     OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
-execute_process(
-    COMMAND "${PYTHON_EXECUTABLE}" -c "import site; print(site.getsitepackages()[0])"
-    OUTPUT_VARIABLE PYTHON_SITE
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-)
+if(PYTHON_USER_INSTALL)
+    execute_process(
+        COMMAND "${PYTHON_EXECUTABLE}" -m site --user-site
+
+        OUTPUT_VARIABLE PYTHON_SITE
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+else()
+    execute_process(
+        COMMAND "${PYTHON_EXECUTABLE}" -c "import site; print(site.getsitepackages()[0])"
+
+        OUTPUT_VARIABLE PYTHON_SITE
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+endif()
 
 message("-- Python exe:  " ${PYTHON_EXECUTABLE})
 message("-- Python Path: " ${PYTHON_SITE})
 
-pybind11_add_module(_libcal_mpi MODULE
+pybind11_add_module(_libcal MODULE
     _libcal_common.cpp
     _libcal.cpp
     _libcal_sys.cpp
     _libcal_math_sf.cpp
     _libcal_math_rng.cpp
     _libcal_math_qarray.cpp
-    _libcal_atm_mpi.cpp
+    _libcal_math_healpix.cpp
     _libcal_atm.cpp
 )
 
 if(OpenMP_CXX_FOUND)
-    target_compile_options(_libcal_mpi PRIVATE "${OpenMP_CXX_FLAGS}")
-    set_target_properties(_libcal_mpi PROPERTIES LINK_FLAGS "${OpenMP_CXX_FLAGS}")
+    target_compile_options(_libcal PRIVATE "${OpenMP_CXX_FLAGS}")
+    set_target_properties(_libcal PROPERTIES LINK_FLAGS "${OpenMP_CXX_FLAGS}")
     set(OMP_LIBS "${OpenMP_CXX_LIBRARIES}")
 else()
     set(OMP_LIBS "")
 endif(OpenMP_CXX_FOUND)
 
 if(AATM_FOUND)
-    target_compile_definitions(_libcal_mpi PRIVATE HAVE_AATM=1)
-    target_include_directories(_libcal_mpi PUBLIC "${AATM_INCLUDE_DIRS}")
+    target_compile_definitions(_libcal PRIVATE HAVE_AATM=1)
+    target_include_directories(_libcal PUBLIC "${AATM_INCLUDE_DIRS}")
 endif(AATM_FOUND)
 
 if(CHOLMOD_FOUND)
-    target_compile_definitions(_libcal_mpi PRIVATE HAVE_CHOLMOD=1)
-    target_include_directories(_libcal_mpi PUBLIC "${CHOLMOD_INCLUDE_DIR}")
+    target_compile_definitions(_libcal PRIVATE HAVE_CHOLMOD=1)
+    target_include_directories(_libcal PUBLIC "${CHOLMOD_INCLUDE_DIR}")
 endif(CHOLMOD_FOUND)
 
-target_link_libraries(_libcal_mpi PRIVATE ${MPI_CAL_LIB} "${OMP_LIBS}")
-target_link_libraries(_libcal_mpi PRIVATE ${CAL_LIB} "${OMP_LIBS}")
+target_link_libraries(_libcal PRIVATE ${CAL_LIB} "${OMP_LIBS}")
 
-# Include path to the toast headers
-target_include_directories(_libcal_mpi BEFORE PRIVATE
+# Include path to the cal headers
+target_include_directories(_libcal BEFORE PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../libcal_mpi/include"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../libcal_mpi/src"
     "${CMAKE_CURRENT_SOURCE_DIR}/../libcal/include"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../libcal/src"
 )
 
-install(TARGETS _libcal_mpi DESTINATION ${PYTHON_SITE}/pycal)
+install(TARGETS _libcal DESTINATION ${PYTHON_SITE}/pycal)
 
 # Install all the other python files
 
@@ -88,13 +94,17 @@ install(FILES
     rng.py
     weather.py
     qarray.py
+    healpix.py
     RELEASE
     DESTINATION ${PYTHON_SITE}/pycal
 )
 
 # Optionally create a module for the MPI library
-
 if(MPI_FOUND AND MPI4PY_FOUND)
+    pybind11_add_module(_libcal_mpi MODULE
+        _libcal_common.cpp
+        _libcal_atm_mpi.cpp    
+    )
 
     string(STRIP "${MPI_CXX_COMPILE_FLAGS}" mpi_comp_flags)
     target_compile_options(_libcal_mpi PRIVATE "${mpi_comp_flags}")
@@ -106,6 +116,7 @@ if(MPI_FOUND AND MPI4PY_FOUND)
 
     target_include_directories(_libcal_mpi BEFORE PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../libcal/include"
         "${CMAKE_CURRENT_SOURCE_DIR}/../libcal_mpi/include"
         ${MPI_CXX_INCLUDE_PATH}
         ${MPI4PY_INCLUDE_DIR}
@@ -126,8 +137,7 @@ if(MPI_FOUND AND MPI4PY_FOUND)
         target_include_directories(_libcal_mpi PUBLIC "${CHOLMOD_INCLUDE_DIR}")
     endif(CHOLMOD_FOUND)
 
-    target_link_libraries(_libcal_mpi
-        PRIVATE libcal_mpi "${MPI_CXX_LIBRARIES}" "${OMP_LIBS}"
+    target_link_libraries(_libcal_mpi PRIVATE ${MPI_CAL_LIB} "${MPI_CXX_LIBRARIES}" "${OMP_LIBS}"
     )
 
     install(TARGETS _libcal_mpi DESTINATION ${PYTHON_SITE}/pycal)
@@ -135,4 +145,6 @@ if(MPI_FOUND AND MPI4PY_FOUND)
 endif(MPI_FOUND AND MPI4PY_FOUND)
 
 # Process the sub directories
+add_subdirectory(tests)
+add_subdirectory(tod)
 add_subdirectory(todmap)

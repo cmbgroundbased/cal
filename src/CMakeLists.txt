@@ -11,12 +11,7 @@ if(MPI_FOUND)
     add_subdirectory(libcal_mpi)
 endif()
 
-# Tests subdirs
-add_subdirectory(test)
-
-add_subdirectory(test_mpi)
-
-# python wrappers for CAL
+# Python bindings
 add_subdirectory(pycal)
 
 # Julia wappers for CAL (decomment when the julia-wraps will be written)

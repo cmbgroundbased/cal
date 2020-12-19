@@ -7,6 +7,6 @@
 #define LIBCAL_MPI_HPP
 
 #include <_libcal_common.hpp>
-
+#include <cal_mpi_internal.hpp>
 
 #endif // ifndef LIBCAL_MPI_HPP

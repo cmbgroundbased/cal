@@ -4,7 +4,7 @@
    a BSD-style license that can be found in the LICENSE file.
  */
 
-#include <CAL_MPI_AtmSim.hpp>
+#include <cal_mpi_internal.hpp>
 
 /**
 * Evaluate the atmospheric absorption covariance between
@@ -13,7 +13,7 @@
 */
 double cal::mpi_atm_sim::cov_eval(double * coord1, double * coord2)
 {
-    const int64_t nn = 1;
+    const long nn = 1;
     const double ninv = 1.;
 
     double val = 0;

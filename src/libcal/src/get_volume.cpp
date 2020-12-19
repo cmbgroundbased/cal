@@ -4,7 +4,7 @@
    a BSD-style license that can be found in the LICENSE file.
  */
 
-#include <CALAtmSim.hpp>
+#include <cal/CALAtmSim.hpp>
 
 /**
 * Trim zmax if rmax sets a more stringent limit
@@ -59,7 +59,7 @@ void cal::atm_sim::get_volume()
 
     // We can move the frame
     delta_x += wdx;
-    delta_y += wdy;
+    delta_y = delta_y_cone + wdy;
     delta_z += wdz;
 
     // Margin for interpolation

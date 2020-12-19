@@ -4,8 +4,8 @@
    a BSD-style license that can be found in the LICENSE file.
  */
 
-#include <CALAtmSim.hpp>
-#include <math_rng.hpp>
+#include <cal/CALAtmSim.hpp>
+#include <cal/math_rng.hpp>
 
 /**
 * Draw 10 000 gaussian variates to use in the drawing the

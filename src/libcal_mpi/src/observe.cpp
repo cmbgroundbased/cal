@@ -4,7 +4,7 @@
    a BSD-style license that can be found in the LICENSE file.
  */
 
-#include <CAL_MPI_AtmSim.hpp>
+#include <cal_mpi_internal.hpp>
 
 /**
 * For each sample, integrate alogn the line of sight by
@@ -40,7 +40,7 @@ int cal::mpi_atm_sim::observe(double * t, double * az, double * el, double * tod
     int error = 0;
 
     # pragma omp parallel for schedule(static, 100)
-    for (int64_t i = 0; i < nsamp; i++) {
+    for (long i = 0; i < nsamp; i++) {
         # pragma omp flush(error)
         if(error) continue;
 
@@ -148,7 +148,6 @@ int cal::mpi_atm_sim::observe(double * t, double * az, double * el, double * tod
                   << std::endl << e.what() << std::endl;
                 error = 1;
                 # pragma omp flush(error)
-                val = 0;
                 break;
             }
             val += step_val;
@@ -158,7 +157,6 @@ int cal::mpi_atm_sim::observe(double * t, double * az, double * el, double * tod
             if (fixed_r > 0) break;
         }
         tod[i] = val * rstep * T0;
-        val = 0;
     }
 
     double t2 = MPI_Wtime();

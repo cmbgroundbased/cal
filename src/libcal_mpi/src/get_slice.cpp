@@ -4,14 +4,14 @@
    a BSD-style license that can be found in the LICENSE file.
  */
 
-#include <CAL_MPI_AtmSim.hpp>
+#include <cal_mpi_internal.hpp>
 
 /**
 * Identify a manageable slice of compressed indices
 * to simulate next move element counter to the end of
 * the most recent simulated slice
 */
-void cal::mpi_atm_sim::get_slice(uint64_t & ind_start, uint64_t & ind_stop)
+void cal::mpi_atm_sim::get_slice(long & ind_start, long & ind_stop)
 {
 
     ind_start = ind_stop;

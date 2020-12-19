@@ -4,7 +4,7 @@
    a BSD-style license that can be found in the LICENSE file.
  */
 
-#include <CALAtmSim.hpp>
+#include <cal/CALAtmSim.hpp>
 #include <cstring>
 
 cholmod_sparse * cal::atm_sim::build_sparse_covariance(long ind_start, long ind_stop)
@@ -17,16 +17,19 @@ cholmod_sparse * cal::atm_sim::build_sparse_covariance(long ind_start, long ind_
     // Build the covariance matrix first in the triplet form, then
     // cast it to the column-packed format.
 
-    std::vector <int> rows, cols;
+    std::vector <int> rows;
+    std::vector <int> cols;
     std::vector <double> vals;
-    uint64_t nelem = ind_stop - ind_start; // Number of elements in the slice
+    
+    // Number of elements in the slice
+    uint64_t nelem = ind_stop - ind_start; 
     std::vector <double> diagonal(nelem);
 
     // Fill the elements of the covariance matrix.
-
     # pragma omp parallel
     {
-        std::vector <int> myrows, mycols;
+        std::vector <int> myrows; 
+        std::vector <int> mycols;
         std::vector <double> myvals;
 
         # pragma omp for schedule(static, 10)
@@ -50,6 +53,11 @@ cholmod_sparse * cal::atm_sim::build_sparse_covariance(long ind_start, long ind_
                 if (fabs(colcoord[2] - rowcoord[2]) > rcorr) continue;
 
                 double val = cov_eval(colcoord, rowcoord);
+
+                if(icol == irow){
+                    // Regularize the matrix promoting the diagonal
+                    val *= 1.01;
+                }
 
                 // If the covariance exceeds the threshold, add it to the
                 // sparse matrix
@@ -89,7 +97,9 @@ cholmod_sparse * cal::atm_sim::build_sparse_covariance(long ind_start, long ind_
     memcpy(cov_triplet->i, rows.data(), nnz * sizeof(int));
     memcpy(cov_triplet->j, cols.data(), nnz * sizeof(int));
     memcpy(cov_triplet->x, vals.data(), nnz * sizeof(double));
-    std::vector <int>().swap(rows); // Ensure vector is freed
+
+    // Ensure vector is freed
+    std::vector <int>().swap(rows); 
     std::vector <int>().swap(cols);
     std::vector <double>().swap(vals);
     cov_triplet->nnz = nnz;

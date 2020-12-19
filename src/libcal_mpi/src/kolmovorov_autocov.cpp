@@ -4,7 +4,7 @@
    a BSD-style license that can be found in the LICENSE file.
  */
 
-#include <CAL_MPI_AtmSim.hpp>
+#include <cal_mpi_internal.hpp>
 
 /**
 * Return the autocovariance of a Kolmogorov process at
@@ -29,7 +29,8 @@ double cal::mpi_atm_sim::kolmogorov(double r)
 
     // Linear interpolation, using a bisection methon
     // to find the right elements
-    long low = 0, high = nr - 1;
+    long low = 0; 
+    long high = nr - 1;
     long ir;
 
     while (true) {

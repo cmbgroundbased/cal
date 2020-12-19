@@ -4,7 +4,7 @@
    a BSD-style license that can be found in the LICENSE file.
  */
 
-#include <CALAtmSim.hpp>
+#include <cal/CALAtmSim.hpp>
 
 /**
  * For each sample, integrate alogn the line of sight by
@@ -159,7 +159,6 @@ int cal::atm_sim::observe(double * t, double * az, double * el, double * tod,
             // if ( fixed_r > 0 and r > fixed_r ) break;
         }
         tod[i] = val * rstep * T0;
-        val = 0;
     }
 
     tm.stop();

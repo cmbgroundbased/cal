@@ -4,7 +4,7 @@
    a BSD-style license that can be found in the LICENSE file.
  */
 
-#include <CAL_MPI_AtmSim.hpp>
+#include <cal_mpi_internal.hpp>
 #include <cstring>
 
 /**
@@ -27,7 +27,8 @@ cholmod_sparse * cal::mpi_atm_sim::build_sparse_covariance(long ind_start, long 
     // Fill the elements of the covariance matrix.
     # pragma omp parallel
     {
-        std::vector <int> myrows, mycols;
+        std::vector <int> myrows;
+        std::vector <int> mycols;
         std::vector <double> myvals;
 
         # pragma omp for schedule(static, 10)

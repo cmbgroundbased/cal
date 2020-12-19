@@ -4,7 +4,7 @@
    a BSD-style license that can be found in the LICENSE file.
  */
 
-#include <CALAtmSim.hpp>
+#include <cal/CALAtmSim.hpp>
 
 /**
 * Cholesky-factorize the provided sparse matrix and return the
@@ -14,7 +14,8 @@ cholmod_sparse * cal::atm_sim::sqrt_sparse_covariance(cholmod_sparse * cov,
                                         long ind_start, long ind_stop)
 {
 
-    size_t nelem = ind_stop - ind_start; // Number of elements in the slice
+    // Number of elements in the slice
+    size_t nelem = ind_stop - ind_start; 
 
     cal::Timer tm;
     tm.start();

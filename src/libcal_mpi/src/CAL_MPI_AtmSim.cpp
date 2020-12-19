@@ -4,7 +4,7 @@
    a BSD-style license that can be found in the LICENSE file.
  */
 
-#include <CAL_MPI_AtmSim.hpp>
+#include <cal_mpi_internal.hpp>
 
 cal::mpi_atm_sim::mpi_atm_sim(double azmin, double azmax, double elmin, double elmax,
                         double tmin, double tmax,
@@ -16,7 +16,7 @@ cal::mpi_atm_sim::mpi_atm_sim(double azmin, double azmax, double elmin, double e
                         double T0_center, double T0_sigma,
                         double zatm, double zmax,
                         double xstep, double ystep, double zstep,
-                        uint64_t nelem_sim_max,
+                        long nelem_sim_max,
                         int verbosity, MPI_Comm comm,
                         uint64_t key1, uint64_t key2,
                         uint64_t counterval1, uint64_t counterval2,
@@ -164,7 +164,7 @@ cal::mpi_atm_sim::mpi_atm_sim(double azmin, double azmax, double elmin, double e
 */
 cal::mpi_atm_sim::~mpi_atm_sim()
 {
-    std::cout << "DTOR atm_sim class" << std::endl;
+    std::cout << "DTOR  MPI_atm_sim class" << std::endl;
     if (compressed_index) delete compressed_index;
     if (full_index) delete full_index;
     if (realization) delete realization;

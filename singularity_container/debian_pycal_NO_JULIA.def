@@ -1,44 +1,11 @@
-BootStrap: debootstrap
-MirrorURL: http://debian.mirror.garr.it/debian
-OSVersion: unstable
+BootStrap: docker
+From: docker.pkg.github.com/cmbgroundbased/cal/cal:1.0
 
 %runscript
 	
 
 %post
-	echo "fix previous runs apt issues"
-	dpkg --configure -a
-	apt -f install --yes
-	echo "starting containter configuration"
-	echo "deb http://httpredir.debian.org/debian unstable main contrib non-free" > /etc/apt/sources.list
-	apt update
-	apt -y --allow-unauthenticated install vim build-essential wget gfortran bison libibverbs-dev libibmad-dev libibumad-dev librdmacm-dev apt-utils gcc-9 g++-9 kmod openssh-client python3 python3-pip python3-mpi4py python3.8-dev git autoconf locales libtool libcfitsio-dev libfftw3-3 python3-ephem cmake gfortran libopenblas-dev liblapack-dev libfftw3-dev libsuitesparse-dev libpython3-dev python3-scipy python3-matplotlib python3-healpy python3-astropy curl libhwloc-dev hwloc pkg-config
 
-	echo "install OPENMPI 4.0.0"
-	#curl --proxy 192.168.0.1:3128  https://download.open-mpi.org/release/open-mpi/v4.0/openmpi-4.0.0.tar.gz >  openmpi-4.0.0.tar.gz
-	wget https://download.open-mpi.org/release/open-mpi/v4.0/openmpi-4.0.0.tar.gz
-	tar xfz openmpi-4.0.0.tar.gz
-	cd openmpi-4.0.0
-	# The OMPI configuration have to take into account the slurm compatibility with --with-slurm, which it have to need the PMIX compatibility. 
-	./configure --with-slurm --with-pmix --with-hwloc --enable-static --enable-openib-udcm --enable-openib-rdmacm
-	echo "The End of the configuration process"
-	make -j12
-	echo "Installing the binary ..."
-	make install
-	ldconfig
-	echo "HelloW test ..."
-	mpicc examples/hello_c.c -o hello_c.x
-
-	cd /usr/local/src/
-	git clone https://github.com/hpc4cmb/libaatm
-	cd libaatm
-	mkdir build
-	cd build
-	cmake ../
-	make && make install
-
-	# Cal depends on libaatm
-	
 	cd /usr/local/src/
 	git clone https://github.com/cmbgroundbased/cal
 	cd cal

@@ -4,9 +4,9 @@
    a BSD-style license that can be found in the LICENSE file.
  */
 
-#include <sys_utils.hpp>
-#include <math_sf.hpp>
-#include <math_rng.hpp>
+#include <cal/sys_utils.hpp>
+#include <cal/math_sf.hpp>
+#include <cal/math_rng.hpp>
 #include <Random123/threefry.h>
 #include <Random123/uniform.hpp>
 

@@ -8,7 +8,7 @@
 using size_container = py::detail::any_container <ssize_t>;
 
 
-PYBIND11_MODULE(_libcal_mpi, m) {
+PYBIND11_MODULE(_libcal, m) {
     m.doc() = R"(
     Interface to C++ CAL library.
 
@@ -29,8 +29,8 @@ PYBIND11_MODULE(_libcal_mpi, m) {
     init_sys(m);
     init_math_sf(m);
     init_math_rng(m);
+    init_math_healpix(m);
     init_atm(m);
-    init_mpi_atm(m);
     init_math_qarray(m);
 
 }

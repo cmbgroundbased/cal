@@ -1,0 +1,33 @@
+name: Singularity Build (docker)
+on: [push]
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        singularity_version:
+          - '3.5.3'
+    container:
+      image: quay.io/singularity/singularity:v${{ matrix.singularity_version }}
+      options: --privileged
+    steps:
+    - name: Check out code for the container build
+      uses: actions/checkout@v1
+
+    - name: Build Container
+      env:
+        SINGULARITY_RECIPE: singularity_container/debian_pycal_NO_JULIA.def
+        OUTPUT_CONTAINER: container.sif
+        SINGULARITY_DOCKER_PASSWORD: ${{secrets.DOCKER_SEC}}
+        SINGULARITY_DOCKER_USERNAME: algebrato
+      run: |
+       ls
+       if [ -f "${SINGULARITY_RECIPE}" ]; then
+           singularity build ${OUTPUT_CONTAINER} ${SINGULARITY_RECIPE}
+       else
+           echo "${SINGULARITY_RECIPE} is not found."
+           echo "Present working directory: $PWD"
+           ls
+       fi

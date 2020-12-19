@@ -8,7 +8,7 @@ import numpy as np
 
 from .utils import Logger, AlignedF64, ensure_buffer_f64, object_ndim
 
-from ._libcal_mpi import (
+from ._libcal import (
     qa_inv,
     qa_amplitude,
     qa_normalize,

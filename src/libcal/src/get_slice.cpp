@@ -4,9 +4,9 @@
    a BSD-style license that can be found in the LICENSE file.
  */
 
-#include <CALAtmSim.hpp>
+#include <cal/CALAtmSim.hpp>
 
-void cal::atm_sim::get_slice(uint64_t & ind_start, uint64_t & ind_stop)
+void cal::atm_sim::get_slice(long & ind_start, long & ind_stop)
 {
     // Identify a manageable slice of compressed indices to simulate next
 
@@ -33,8 +33,8 @@ void cal::atm_sim::get_slice(uint64_t & ind_start, uint64_t & ind_stop)
         if (ind_stop - ind_start >= nelem_sim_max) break;
 
         // Check if we have enough layers
-        // const int nlayer_sim_max = 10;
-        // if ( ix2 - ix_start >= nlayer_sim_max ) break;
+        const int nlayer_sim_max = 10;
+        if ( ix2 - ix_start >= nlayer_sim_max ) break;
         ix1 = ix2;
     }
 

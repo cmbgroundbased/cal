@@ -10,8 +10,8 @@
 * that are provided by libAATM
 */
 
-#include <sys_utils.hpp>
-#include <AATM_fun.hpp>
+#include <cal/sys_utils.hpp>
+#include <cal/AATM_fun.hpp>
 
 #ifdef HAVE_AATM
 
