@@ -15,27 +15,28 @@ jobs:
 
     steps:
 
-    - name: Login to GitHub Packages Docker Registry
-        uses: docker/login-action@v1
-        with:
-          registry: docker.pkg.github.com
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.TOKEN_GH }}
+    - name: Docker Login
+      uses: docker/login-action@v1.8.0
+      with:
+        registry: https://docker.pkg.github.com
+        username: algebrato
+        password: ${{ secrets.GITHUB_TOKEN }}
+        logout: true
     
-    - name: Check out code for the container build
-      uses: actions/checkout@v1
+    # - name: Check out code for the container build
+    #   uses: actions/checkout@v1
 
-    - name: Build Container
-      env:
-        SINGULARITY_RECIPE: singularity_container/debian_pycal_NO_JULIA.def
-        OUTPUT_CONTAINER: container.sif
-      run: |
-       ls
-       if [ -f "${SINGULARITY_RECIPE}" ]; then
-           singularity build ${OUTPUT_CONTAINER} ${SINGULARITY_RECIPE}
-       else
-           echo "${SINGULARITY_RECIPE} is not found."
-           echo "Present working directory: $PWD"
-           ls
-       fi
+    # - name: Build Container
+    #   env:
+    #     SINGULARITY_RECIPE: singularity_container/debian_pycal_NO_JULIA.def
+    #     OUTPUT_CONTAINER: container.sif
+    #   run: |
+    #    ls
+    #    if [ -f "${SINGULARITY_RECIPE}" ]; then
+    #        singularity build ${OUTPUT_CONTAINER} ${SINGULARITY_RECIPE}
+    #    else
+    #        echo "${SINGULARITY_RECIPE} is not found."
+    #        echo "Present working directory: $PWD"
+    #        ls
+    #    fi
        
