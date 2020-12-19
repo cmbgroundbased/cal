@@ -14,21 +14,14 @@ jobs:
       options: --privileged
 
     steps:
-    
-    - name: Check out code for the container build
-      uses: actions/checkout@v1
-
-    - name: Set user token
-      run: |
-       cd ; mkdir .docker; touch .docker/config.json &&\
-       echo "{"auths": {"docker.pkg.github.com": {"auth": "${{ secrets.DOCKER_SEC }}"}},"HttpHeaders": {"User-Agent": "Docker-Client"}}" >> .docker/config && \
-       ls -al
-
+  
     - name: Build Container
       env:
         SINGULARITY_RECIPE: singularity_container/debian_pycal_NO_JULIA.def
         OUTPUT_CONTAINER: container.sif
       run: |
+       export SINGULARITY_DOCKER_USERNAME=algebrato
+       export SINGULARITY_DOCKER_PASSWORD=${{secrets.DOCKER_SEC}}
        ls
        if [ -f "${SINGULARITY_RECIPE}" ]; then
            singularity build ${OUTPUT_CONTAINER} ${SINGULARITY_RECIPE}
