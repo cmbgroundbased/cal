@@ -20,10 +20,10 @@ jobs:
         SINGULARITY_RECIPE: singularity_container/debian_pycal_NO_JULIA.def
         OUTPUT_CONTAINER: container.sif
       run: |
-       export SINGULARITY_DOCKER_USERNAME=algebrato
-       export SINGULARITY_DOCKER_PASSWORD=${{secrets.DOCKER_SEC}}
        ls
        if [ -f "${SINGULARITY_RECIPE}" ]; then
+           export SINGULARITY_DOCKER_USERNAME=algebrato
+           export SINGULARITY_DOCKER_PASSWORD=${{secrets.DOCKER_SEC}}
            singularity build ${OUTPUT_CONTAINER} ${SINGULARITY_RECIPE}
        else
            echo "${SINGULARITY_RECIPE} is not found."
