@@ -1,6 +1,14 @@
 name: Singularity Build (docker)
 on: [push]
 jobs:
+  setup:
+    - name: Docker Login
+      uses: docker/login-action@v1.8.0
+      with:
+        registry: https://docker.pkg.github.com
+        username: algebrato
+        password: ${{ secrets.GITHUB_TOKEN }}
+        logout: true
 
   build:
     name: Build
