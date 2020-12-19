@@ -17,11 +17,11 @@ jobs:
     
     - name: Check out code for the container build
       uses: actions/checkout@v1
-      
+
     - name: Set user token
       run: |
        mkdir .docker; touch .docker/config.json &&\
-       echo "{"auths": {"docker.pkg.github.com": {"auth": "${{ secrets.DOCKER_SEC }}"}},"HttpHeaders": {"User-Agent": "Docker-Client/18.09.1 (linux)"}}" >> .docker/config
+       echo "{"auths": {"docker.pkg.github.com": {"auth": "${{ secrets.DOCKER_SEC }}"}},"HttpHeaders": {"User-Agent": "Docker-Client"}}" >> .docker/config
 
     - name: Build Container
       env:
