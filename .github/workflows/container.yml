@@ -20,7 +20,7 @@ jobs:
 
     - name: Set user token
       run: |
-       cd /; mkdir .docker; touch .docker/config.json &&\
+       cd ; mkdir .docker; touch .docker/config.json &&\
        echo "{"auths": {"docker.pkg.github.com": {"auth": "${{ secrets.DOCKER_SEC }}"}},"HttpHeaders": {"User-Agent": "Docker-Client"}}" >> .docker/config && \
        ls -al
 
