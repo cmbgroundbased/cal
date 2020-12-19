@@ -1,14 +1,6 @@
 name: Singularity Build (docker)
 on: [push]
 jobs:
-  setup:
-    - name: Docker Login
-      uses: docker/login-action@v1.8.0
-      with:
-        registry: https://docker.pkg.github.com
-        username: algebrato
-        password: ${{ secrets.GITHUB_TOKEN }}
-        logout: true
 
   build:
     name: Build
@@ -22,29 +14,26 @@ jobs:
       options: --privileged
 
     steps:
-
-    - name: Docker Login
-      uses: docker/login-action@v1.8.0
-      with:
-        registry: https://docker.pkg.github.com
-        username: algebrato
-        password: ${{ secrets.GITHUB_TOKEN }}
-        logout: true
     
-    # - name: Check out code for the container build
-    #   uses: actions/checkout@v1
+    - name: Check out code for the container build
+      uses: actions/checkout@v1
+      
+    - name: Set user token
+      run: |
+       mkdir .docker; touch .docker/config.json &&\
+       echo "{"auths": {"docker.pkg.github.com": {"auth": "${{ secrets.DOCKER_SEC }}"}},"HttpHeaders": {"User-Agent": "Docker-Client/18.09.1 (linux)"}}" >> .docker/config
 
-    # - name: Build Container
-    #   env:
-    #     SINGULARITY_RECIPE: singularity_container/debian_pycal_NO_JULIA.def
-    #     OUTPUT_CONTAINER: container.sif
-    #   run: |
-    #    ls
-    #    if [ -f "${SINGULARITY_RECIPE}" ]; then
-    #        singularity build ${OUTPUT_CONTAINER} ${SINGULARITY_RECIPE}
-    #    else
-    #        echo "${SINGULARITY_RECIPE} is not found."
-    #        echo "Present working directory: $PWD"
-    #        ls
-    #    fi
+    - name: Build Container
+      env:
+        SINGULARITY_RECIPE: singularity_container/debian_pycal_NO_JULIA.def
+        OUTPUT_CONTAINER: container.sif
+      run: |
+       ls
+       if [ -f "${SINGULARITY_RECIPE}" ]; then
+           singularity build ${OUTPUT_CONTAINER} ${SINGULARITY_RECIPE}
+       else
+           echo "${SINGULARITY_RECIPE} is not found."
+           echo "Present working directory: $PWD"
+           ls
+       fi
        
