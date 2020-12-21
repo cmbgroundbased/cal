@@ -11,7 +11,8 @@ from ..vis import set_backend
 #     from . import ops_sim_atm as testopsatm
 
 from . import ops_sim_atm as testopsatm
-from . import single_proc_atm as testsingleatm
+from . import healpix as testhealpix
+
 
 
 def test(name=None, verbosity=2):
@@ -41,7 +42,8 @@ def test(name=None, verbosity=2):
     suite = unittest.TestSuite()
 
     suite.addTest(loader.loadTestsFromModule(testopsatm))
-    #suite.addTest(loader.loadTestsFromModule(testsingleatm))
+    suite.addTest(loader.loadTestsFromModule(testhealpix))
+    
 
     ret = 0
     _ret = mpirunner.run(suite)

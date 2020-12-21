@@ -30,6 +30,7 @@ set(CAL_SOURCES
     src/smooth_interpolation.cpp
     src/sys_env.cpp
     src/sys_utils.cpp
+    src/tod_pointings.cpp
 )
 
 # Add the internal library target
