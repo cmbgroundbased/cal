@@ -33,6 +33,5 @@ jobs:
        fi
     
     - name: Unit Test
-        env:
-          CONTAINER_NAME: container.sif
-        run: singularity run ${CONTAINER_NAME} 
+        run: | 
+         singularity run container.sif
