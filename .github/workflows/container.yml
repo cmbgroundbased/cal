@@ -31,7 +31,7 @@ jobs:
            echo "Present working directory: $PWD"
            ls
        fi
-    
+
     - name: Unit Test
-        run: | 
-         singularity run container.sif
+      run: |
+       singularity run container.sif
