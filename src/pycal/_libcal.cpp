@@ -32,5 +32,6 @@ PYBIND11_MODULE(_libcal, m) {
     init_math_healpix(m);
     init_atm(m);
     init_math_qarray(m);
+    init_tod_pointing(m);
 
 }

@@ -14,5 +14,6 @@
 #include <cal/math_qarray.hpp>
 #include <cal/math_healpix.hpp>
 #include <cal/test.hpp>
+#include <cal/tod_pointings.hpp>
 
 #endif // ifndef CAL_HPP

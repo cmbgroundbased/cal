@@ -212,5 +212,6 @@ void init_mpi_atm(py::module & m);
 void init_math_qarray(py::module & m);
 void init_math_healpix(py::module & m);
 void init_atm(py::module &m);
+void init_tod_pointing(py::module &m);
 
 #endif // ifndef LIBCAL_HPP
