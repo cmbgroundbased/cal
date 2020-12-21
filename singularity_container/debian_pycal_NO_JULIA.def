@@ -14,8 +14,7 @@ From: docker.pkg.github.com/cmbgroundbased/cal/cal:1.0
 	git submodule update --init --recursive
 	mkdir build && cd build
 	cmake ../
-	make && make test
-	make install
+	make && make test && make install
 	echo "/usr/local/lib" > /etc/ld.so.conf.d/libcal.conf
 	ldconfig
 

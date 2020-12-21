@@ -26,12 +26,10 @@ jobs:
        ls
        if [ -f "${SINGULARITY_RECIPE}" ]; then
            singularity build ${OUTPUT_CONTAINER} ${SINGULARITY_RECIPE}
+           singularity run ${OUTPUT_CONTAINER}
        else
            echo "${SINGULARITY_RECIPE} is not found."
            echo "Present working directory: $PWD"
            ls
        fi
-
-    - name: Unit Test
-      run: |
-       singularity run container.sif
+       
