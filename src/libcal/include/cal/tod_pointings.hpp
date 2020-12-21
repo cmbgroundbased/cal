@@ -9,7 +9,7 @@
 #include <cal/math_healpix.hpp>
 #include <string>
 
-namespace toast {
+namespace cal {
 void pointing_matrix_healpix(cal::HealpixPixels const & hpix,
                              bool nest, double eps, double cal,
                              std::string const & mode, size_t n,
@@ -18,4 +18,4 @@ void pointing_matrix_healpix(cal::HealpixPixels const & hpix,
                              int64_t * pixels, double * weights);
 }
 
-#endif // ifndef TOAST_TOD_POINTING_HPP
+#endif // ifndef CAL_TOD_POINTING_HPP

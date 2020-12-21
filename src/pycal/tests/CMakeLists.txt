@@ -7,6 +7,6 @@ install(FILES
     test_runner.py
     mpi.py
     ops_sim_atm.py
-    single_proc_atm.py
+    healpix.py
     DESTINATION ${PYTHON_SITE}/pycal/tests
 )

@@ -12,7 +12,7 @@
 #include <iostream>
 
 
-void toast::pointing_matrix_healpix(cal::HealpixPixels const & hpix,
+void cal::pointing_matrix_healpix(cal::HealpixPixels const & hpix,
                                     bool nest, double eps, double cal,
                                     std::string const & mode, size_t n,
                                     double const * pdata,

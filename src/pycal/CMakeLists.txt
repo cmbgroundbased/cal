@@ -50,6 +50,7 @@ pybind11_add_module(_libcal MODULE
     _libcal_math_qarray.cpp
     _libcal_math_healpix.cpp
     _libcal_atm.cpp
+    _libcal_tod_pointings.cpp
 )
 
 if(OpenMP_CXX_FOUND)
