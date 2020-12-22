@@ -22,7 +22,8 @@ The atmospheric model is based on the S. Church 1995 paper (https://doi.org/10.1
   
 | Distribution| Status |  
 |:-----------:|:------:| 
-| Linux/Amd64 |  ![C/C++ CI](https://github.com/cmbgroundbased/libcal/workflows/C/C++%20CI/badge.svg) | 
+
+| Singularity Build | ![Singularity Build (docker)](https://github.com/cmbgroundbased/cal/workflows/Singularity%20Build%20(docker)/badge.svg?branch=master) | 
 
 </td><td>
 
