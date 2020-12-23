@@ -265,8 +265,7 @@ class TODGround(TOD):
                 mpicomm.Barrier()
             tm.start()
 
-        # sizes, starts = self.simulate_scan(samples)
-        if azmin == azmax:
+        if azmin % (2 * np.pi) == azmax % (2 * np.pi):
             self._azmin = 0
             self._azmax = 2 * np.pi
             sizes, starts = self.simulate_scan(samples)
