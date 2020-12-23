@@ -1,5 +1,5 @@
 """
-This script runs a ground simulation and makes a map.
+This script runs an atmosphere simulation
 """
 
 import os
