@@ -32,9 +32,10 @@ from pycal.timing import dump as dump_timing
 from pycal.todmap import TODGround, OpSimAtmosphere
 from pycal.weather import Weather
 
+from pycal.tests._helpers import boresight_focalplane
 
 @function_timer
-def create_observation(args, comm, telescope, ces, verbose=True):
+def create_observation(args, comm, quat, ces, site, noise=1.0, verbose=True):
     """ Create an observation.
 
     Create an observation for the CES or SPIN scan 
@@ -45,10 +46,7 @@ def create_observation(args, comm, telescope, ces, verbose=True):
         ces (CES) :  One constant elevation scan
 
     """
-    focalplane = telescope.focalplane
-    site = telescope.site
     weather = site.weather
-    noise = focalplane.noise
     totsamples = int((ces.stop_time - ces.start_time) * args.sample_rate)
 
     # create the TOD for this observation
@@ -61,7 +59,7 @@ def create_observation(args, comm, telescope, ces, verbose=True):
     try:
         tod = TODGround(
             comm.comm_group,
-            focalplane.detquats,
+            quat,
             totsamples,
             detranks=ndetrank,
             firsttime=ces.start_time,
@@ -94,8 +92,8 @@ def create_observation(args, comm, telescope, ces, verbose=True):
     # Create the observation
 
     obs = {}
-    obs["name"] = "CES-{}-{}-{}-{}-{}".format(
-        site.name, telescope.name, ces.name, ces.scan, ces.subscan
+    obs["name"] = "CES-{}-{}-{}-{}".format(
+        site.name, ces.name, ces.scan, ces.subscan
     )
     obs["tod"] = tod
     obs["baselines"] = None
@@ -107,11 +105,11 @@ def create_observation(args, comm, telescope, ces, verbose=True):
     obs["site_id"] = site.id
     obs["altitude"] = site.alt
     obs["weather"] = site.weather
-    obs["telescope"] = telescope
-    obs["telescope_name"] = telescope.name
-    obs["telescope_id"] = telescope.id
-    obs["focalplane"] = telescope.focalplane.detector_data
-    obs["fpradius"] = telescope.focalplane.radius
+    # obs["telescope"] = telescope
+    # obs["telescope_name"] = telescope.name
+    # obs["telescope_id"] = telescope.id
+    # obs["focalplane"] = telescope.focalplane.detector_data
+    # obs["fpradius"] = telescope.focalplane.radius
     obs["start_time"] = ces.start_time
     obs["season"] = ces.season
     obs["date"] = ces.start_date
@@ -124,14 +122,14 @@ def create_observation(args, comm, telescope, ces, verbose=True):
 
 
 @function_timer
-def create_data_structure(args, comm, telescope, ces):
+def create_data_structure(args, comm, quat, ces):
     log = Logger.get()
     timer = Timer()
     timer.start()
     
     data = Data(comm)
     
-    obs = create_observation(args, comm, telescope, ces)
+    obs = create_observation(args, comm, quat, ces)
     
     if comm.comm_world is None or comm.comm_group.rank == 0:
         log.info("Group # {:4} has {} observations.".format(comm.group, len(data.obs)))
@@ -173,42 +171,95 @@ def main():
             )
     comm = Comm(world=mpiworld)
         
-    # Define the arguments
-    
-    args = {}
-    telescope = {}
-    ces = {}
-    
-    # Load the weather file  
-    timer = Timer()
-    timer.start()
-    fname = "weather_strip.fits"
-    if comm.world_rank == 0:
-        weathers = []
-        weatherdict = {}
-        ftimer = Timer()
-        ftimer.start()
-        weatherdict[fname] = Weather(fname)
-        ftimer.stop()
-        ftimer.report_clear("Load {}".format(fname))
-        weathers.append(weatherdict[fname])
-    else:
-        weathers = None
-    
-    if comm.comm_world is not None:
-        weathers = comm.comm_world.bcast(weathers)
-    
-    if comm.world_rank == 0:
-        timer.report_clear("Loading weather")
+    # Args
+    ces_name = "Test1"
+    scan="spin"
+    subscan="spin_1day"
+    ces_stop_time = 100
+    ces_start_time = 0
+    sample_rate = 20
+    site_name= "Tenerife"
+    site_lon = "-67:47:10"
+    site_lat = "-22:57:30"
+    site_alt = 5200.0
+    coord = "C"
+    ces_azmin = 45
+    ces_azmax = 55
+    ces_el = 70
+    scanrate = 1.0
+    scan_accel = 3.0
+    CES_start = None
         
+    
     # Load a focalplane
+    # Single test detector
     
-    
-    
+    dnames, dquat, depsilon, drate, _, _, _, _ = boresight_focalplane(1, 20)
+        
     # Create the TOD structure
+    data = Data(comm)
+    weather = "weather_strip.fits"
+    totsamples = int((ces_stop_time - ces_start_time) * sample_rate)
+
+    # create the TOD for this observation
+
+    if comm.comm_group is not None:
+        ndetrank = comm.comm_group.size
+    else:
+        ndetrank = 1
+
+    try:
+        tod = TODGround(
+            comm.comm_group,
+            dquat,
+            totsamples,
+            detranks=ndetrank,
+            firsttime=ces_start_time,
+            rate=sample_rate,
+            site_lon=site_lon,
+            site_lat=site_lat,
+            site_alt=site_alt,
+            azmin=ces_azmin,
+            azmax=ces_azmax,
+            el=ces_el,
+            scanrate=scanrate,
+            scan_accel=scan_accel,
+            sinc_modulation=None,
+            CES_start=None,
+            CES_stop=None,
+            sun_angle_min=None,
+            coord=coord,
+            sampsizes=None,
+            report_timing=None,
+            hwprpm=None,
+            hwpstep=None,
+            hwpsteptime=None,
+        )
+    except RuntimeError as e:
+        raise RuntimeError(
+            'Failed to create TOD for {}-{}-{}: "{}"'
+            "".format(ces_name, scan, subscan, e)
+        )
+
+    # Create the observation
+
+    obs = {}
+    obs["name"] = "CES-{}-{}-{}-{}".format(
+        site_name, ces_name, scan, subscan
+    )
+    obs["tod"] = tod
+    obs["baselines"] = None
+    obs["noise"] = noise
+    obs["id"] = int(ces.mjdstart * 10000)
+    obs["intervals"] = tod.subscans
+    obs["site"] = site
+    obs["site_name"] = site_name
+    obs["site_id"] = 123
+    obs["altitude"] = site_alt
+    obs["weather"] = Weather(weather, site=123)
+    obs["start_time"] = ces_start_time
     
-    data, telescope_data = create_data_structure(args, comm, telescope, ces)
-    
+   
     # I have to expand the pointing, interpolating the quaternions
     
     # ...
