@@ -17,7 +17,7 @@ The atmospheric model is based on the S. Church 1995 paper (https://doi.org/10.1
 <center>
 
 <table>
-  <tr><th>Build status</th><th>Documentation</th><th>Code coverage</th></tr>
+  <tr><th>Build status</th><th>Documentation</th></tr>
 <tr><td>
   
 | Distribution| Status |  
@@ -31,13 +31,17 @@ The atmospheric model is based on the S. Church 1995 paper (https://doi.org/10.1
 | 0.9 |  [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://cmbgroundbased.github.io/cal/)|
 
 
-</td><td>
-  
- |             |             |
- |:-----------:|:-----------:|
- |             |             |
+</td></tr> </table>
 
-</tr> </table>
+<table>
+	<tr><th>Unit Tests</th></tr>
+<tr><td>
+	
+| Test| Exit Status |  
+|:-----------:|:------:|
+|   |   |
+</td></tr> </table>
+	
 
 
 
