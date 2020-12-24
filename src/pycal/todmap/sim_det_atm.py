@@ -462,8 +462,8 @@ class OpSimAtmosphere(Operator):
         print("Snapshots saved in {}".format(fn), flush=True)
 
         
-        # vmin = comm.allreduce(vmin, op=MPI.MIN)
-        # vmax = comm.allreduce(vmax, op=MPI.MAX)
+        vmin = comm.allreduce(vmin, op=MPI.MIN)
+        vmax = comm.allreduce(vmax, op=MPI.MAX)
 
         for t, r, atmdata2d in my_snapshots:
             plt.figure(figsize=[12, 4])
