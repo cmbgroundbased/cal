@@ -1,0 +1,7 @@
+digraph "Graphical Class Hierarchy"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="cal::Environment",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classcal_1_1_environment.html",tooltip="Singleton in order to get the environment set-up. get the current_thread, the maximum number of threa..."];
+}
