@@ -112,6 +112,7 @@ double cal::atm_get_absorption_coefficient(double altitude,
     atm::SkyStatus ss = get_sky_status(altitude, temperature, pressure, freq);
     ss.setUserWH2O(pwv, "mm");
     // double opacity = ss.getWetOpacity().get();
+
     double opacity = ss.getTotalOpacity().get(); // ???
 
     return 1 - exp(-opacity);
@@ -130,7 +131,9 @@ int cal::atm_get_absorption_coefficient_vec(double altitude,
     ss.setUserWH2O(pwv, "mm");
     for (size_t i = 0; i < nfreq; ++i) {
         // double opacity = ss.getWetOpacity(i).get();
+
         double opacity = ss.getTotalOpacity(i).get(); // ???
+    
         absorption[i] = 1 - exp(-opacity);
     }
 
