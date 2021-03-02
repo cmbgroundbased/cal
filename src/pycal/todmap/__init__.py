@@ -15,3 +15,6 @@ from .pointing import OpPointingHpix
 from .atm import available as atm_available
 from .atm import available_utils as atm_available_utils
 from .atm import available_mpi as atm_available_mpi
+
+from .classes import Focalplane
+from .classes import Telescope

@@ -34,6 +34,9 @@ from pycal.weather import Weather
 from pycal.todmap.atm import atm_absorption_coefficient, atm_absorption_coefficient_vec
 
 from pycal.tests._helpers import boresight_focalplane
+import pycal.qarray as qa
+from pycal.todmap import Focalplane
+from pycal.todmap import Telescope
 
 @function_timer
 def setup_output(outdir, comm, mc, freq):
@@ -41,6 +44,79 @@ def setup_output(outdir, comm, mc, freq):
     if comm.world_rank == 0:
         os.makedirs(outpath, exist_ok=True)
     return outpath
+
+def load_focalplane(args, comm, schedule):
+    focalplane = None
+
+    # Load focalplane information
+
+    if comm.comm_world is None or comm.comm_world.rank == 0:
+        if args.focalplane is None:
+            detector_data = {}
+            ZAXIS = np.array([0, 0, 1.0])
+            # in this case, create a fake detector at the boresight
+            # with a pure white noise spectrum.
+            fake = {}
+            fake["quat"] = np.array([0, 0, 0, 1.0])
+            fake["fwhm"] = 30.0
+            fake["fknee"] = 0.0
+            fake["fmin"] = 1e-9
+            fake["alpha"] = 1.0
+            fake["NET"] = 1.0
+            fake["color"] = "r"
+            detector_data["bore1"] = fake
+            # Second detector at 22.5 degree polarization angle
+            fake2 = {}
+            zrot = qa.rotation(ZAXIS, np.radians(22.5))
+            fake2["quat"] = qa.mult(fake["quat"], zrot)
+            fake2["fwhm"] = 30.0
+            fake2["fknee"] = 0.0
+            fake2["fmin"] = 1e-9
+            fake2["alpha"] = 1.0
+            fake2["NET"] = 1.0
+            fake2["color"] = "r"
+            detector_data["bore2"] = fake2
+            # Third detector at 45 degree polarization angle
+            fake3 = {}
+            zrot = qa.rotation(ZAXIS, np.radians(45))
+            fake3["quat"] = qa.mult(fake["quat"], zrot)
+            fake3["fwhm"] = 30.0
+            fake3["fknee"] = 0.0
+            fake3["fmin"] = 1e-9
+            fake3["alpha"] = 1.0
+            fake3["NET"] = 1.0
+            fake3["color"] = "r"
+            detector_data["bore3"] = fake3
+            # Fourth detector at 67.5 degree polarization angle
+            fake4 = {}
+            zrot = qa.rotation(ZAXIS, np.radians(67.5))
+            fake4["quat"] = qa.mult(fake["quat"], zrot)
+            fake4["fwhm"] = 30.0
+            fake4["fknee"] = 0.0
+            fake4["fmin"] = 1e-9
+            fake4["alpha"] = 1.0
+            fake4["NET"] = 1.0
+            fake4["color"] = "r"
+            detector_data["bore4"] = fake4
+            focalplane = Focalplane(
+                detector_data=detector_data, sample_rate=args.sample_rate
+            )
+        else:
+            focalplane = Focalplane(
+                fname_pickle=args.focalplane, sample_rate=args.sample_rate
+            )
+    if comm.comm_world is not None:
+        focalplane = comm.comm_world.bcast(focalplane, root=0)
+
+    if args.debug:
+        if comm.comm_world is None or comm.comm_world.rank == 0:
+            outfile = "{}/focalplane.png".format(args.outdir)
+            focalplane._plot_fp(6, 6, outfile)
+
+    schedule.telescope.focalplane = focalplane
+    detweights = focalplane.detweights
+
+    return detweights
 
 def main():
     log = Logger.get()

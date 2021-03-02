@@ -8,5 +8,6 @@ install(FILES
     sim_det_atm.py
     sim_tod.py
     pointing.py
+    classes.py
     DESTINATION ${PYTHON_SITE}/pycal/todmap
 )

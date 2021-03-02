@@ -7,3 +7,7 @@
 from .tod import TOD, TODCache
 
 from .interval import Interval, OpFlagGaps
+
+from .noise import Noise
+
+from .sim_noise import AnalyticNoise
