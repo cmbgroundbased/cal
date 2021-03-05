@@ -920,11 +920,11 @@ class OpSimAtmosphere(Operator):
             elmin_det = np.amin(el)
             elmax_det = np.amax(el)
             
-            if min_az_bore == max_az_bore:
-                log.info("You are in the spin_scan modality. Feature in Beta version azmin={} and azmax={}".format(azmin, azmax))
+            # if min_az_bore == max_az_bore:
+                # log.info("You are in the spin_scan modality. Feature in Beta version azmin={} and azmax={}".format(azmin, azmax))
                 # Add some controls on the limits
-            else:
-                log.info("Not in spin_scan Mod azmin={} and azmax={}".format(azmin, azmax))
+            # else:
+                # log.info("Not in spin_scan Mod azmin={} and azmax={}".format(azmin, azmax))
                 # if (
                 #     not (azmin <= azmin_det and azmax_det <= azmax)
                 #     and not (
