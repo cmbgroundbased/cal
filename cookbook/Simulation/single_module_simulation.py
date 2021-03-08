@@ -6,6 +6,7 @@ import argparse
 import traceback
 import pickle
 import yaml
+from argparse import ArgumentParser, RawTextHelpFormatter
 
 # import numpy
 import numpy as np
@@ -45,6 +46,7 @@ from pycal.todmap import Telescope
 def setup_output(outdir, comm, mc, freq):
     outpath = "{}/{:08}/{:03}".format(outdir, mc, int(freq))
     if comm.world_rank == 0:
+        print("Creating the outpath: {}".format(outpath))
         os.makedirs(outpath, exist_ok=True)
     return outpath
 
@@ -54,9 +56,9 @@ def load_focalplane(args, comm):
     # Load focalplane information
 
     if comm.comm_world is None or comm.comm_world.rank == 0:
-        if args.focalplane is None:
+        if focalplane is None:
             detector_data = {}
-            with open(r'/home/algebrato/.julia/dev/Stripeline/instrumentdb/strip_focal_plane.yaml') as file:
+            with open(r'./strip_focal_plane.yaml') as file:
                 focalplane=yaml.full_load(file)
 
             detecotrs=focalplane['horns'].keys()
@@ -105,30 +107,80 @@ def load_focalplane(args, comm):
     return focalplane
 
 def main():
+    parser = ArgumentParser(formatter_class=RawTextHelpFormatter, description="Simulation arguments", fromfile_prefix_chars="@")
+    
+    # Important and required args:
+    parser.add_argument("-ces_name",  required=True, type=str, help="name of the scanning (useful for sky patch)")
+    parser.add_argument("-ces_start_time", default="2022,9,1,0,0,0", required=True)
+    parser.add_argument("-ces_stop_time", default="2022,9,1,1,0,0", required=True)
+    parser.add_argument("-sample_rate", required=True, type=int, help="Frequency sample rate [Hz]")
+
+    # Scan parameters
+    parser.add_argument("-ces_azmin", default=0, type=int)
+    parser.add_argument("-ces_azmax", default=0, type=int)
+    parser.add_argument("-ces_el", default=70.0, type=float)    
+    parser.add_argument("-scan", default="spin", type=str, help="Type of scanning strategy")
+    parser.add_argument("-subscan", default="spin_1hour", type=str, help="Type of scanning strategy")
+    parser.add_argument("-scanrate", default=1.0, type=float)
+    parser.add_argument("-scan_accel", default=1.0, type=float)
+
+    
+    # The focalplane. The default is None. In this case, it uses the Strip focal plane.
+    parser.add_argument("-focalplane",  default=None, type=str, help="PKL file with the focalplane quats. If none, it uses the STRIP focalplane.")
+    
+    # Site parameters
+    parser.add_argument("-site_name", default="Tenerife", type=str)
+    parser.add_argument("-site_lon", default="-16:31:00", type=str)
+    parser.add_argument("-site_lat", default="28:20:00", type=str)
+    parser.add_argument("-site_alt", default=2390.0, type=float)
+    parser.add_argument("-coord", default="C", type=str)
+
+    # Map parameters
+    parser.add_argument("-CES_start", default=None)
+    parser.add_argument("-NSIDE", default=128, type=int)
+    parser.add_argument("-debug", action='store_true')
+    parser.add_argument("-outdir", required=True, default="out_directory", type=str)
+    
+    #Atmosphere arguments
+    parser.add_argument("-start_mc", default=0, type=int)
+    parser.add_argument("-nsimu", default=1, type=int)
+    parser.add_argument("-cache_name", default="atm_")
+    parser.add_argument("-atm_cache", default="atm_cache_")
+    parser.add_argument("-verbose", default=0, type=int)
+    parser.add_argument("-freq", default=43.0, type=float)
+    
+    
+    
     # Arguments of the simulation
-    class args:
-        sample_rate=20
-        focalplane=None
-        ces_name = "Test1"
-        scan="spin"
-        subscan="spin_1day"
-        ces_stop_time = datetime(2022, 9, 2, 0, 0, 0).timestamp()
-        ces_start_time = datetime(2022, 9, 1, 0, 0, 0).timestamp()
-        sample_rate = 1
-        site_name= "Tenerife"
-        site_lon = "-16:31:00"
-        site_lat = "28:20:00"
-        site_alt = 2390.0
-        coord = "C"
-        ces_azmin = 0
-        ces_azmax = 0
-        ces_el = 70
-        scanrate = 1.0
-        scan_accel = 1000
-        CES_start = None
-        NSIDE=128
-        debug=True
-        outdir="out_directory_3"
+    # class args:
+    #     sample_rate=20
+    #     focalplane=None
+    #     ces_name = "Test1"
+    #     scan="spin"
+    #     subscan="spin_1hour"
+    #     ces_stop_time = datetime(2022, 9, 2, 0, 0, 0).timestamp()
+    #     ces_start_time = datetime(2022, 9, 1, 0, 0, 0).timestamp()
+    #     site_name= "Tenerife"
+    #     site_lon = "-16:31:00"
+    #     site_lat = "28:20:00"
+    #     site_alt = 2390.0
+    #     coord = "C"
+    #     ces_azmin = 0
+    #     ces_azmax = 0
+    #     ces_el = 70
+    #     scanrate = 1.0
+    #     scan_accel = 1000
+    #     CES_start = None
+    #     NSIDE=128
+    #     debug=True
+    #     outdir="out_directory"
+    
+    # start_mc = 0
+    # nsimu = 1
+    # cache_name = "atm_"
+    # atm_cache="atm_cache_"
+    # verbose = 0
+    # freq = 43 # GHz
     
     # definition of the logger, the global timer and the environment
     log = Logger.get()
@@ -150,14 +202,26 @@ def main():
             log.info(
                 "Running with {} processes at {}".format(procs, str(datetime.now()))
             )
+    
     comm = Comm(world=mpiworld)
-    args = args()
+    args = parser.parse_args()
+
+    if comm.world_rank == 0:
+        print("Creating the outdir: {}".format(args.outdir))
+        os.makedirs(args.outdir, exist_ok=True)
+    
     fp = load_focalplane(args, comm)
 
     # Create the TOD structure
     data = Data(comm)
     weather = "weather_STRIP.fits"
-    totsamples = int((args.ces_stop_time - args.ces_start_time) * args.sample_rate)
+    
+    sta = str(args.ces_start_time).split(",")
+    sto = str(args.ces_stop_time).split(",")
+    start_time = datetime(int(sta[0]), int(sta[1]), int(sta[2]), int(sta[3]), int(sta[4]), int(sta[5])).timestamp()
+    stop_time = datetime(int(sto[0]), int(sto[1]), int(sto[2]), int(sto[3]), int(sto[4]), int(sto[5])).timestamp()
+    
+    totsamples = int((stop_time - start_time) * args.sample_rate)
     # create the TOD for this observation
     if comm.comm_group is not None:
         ndetrank = comm.comm_group.size
@@ -170,7 +234,7 @@ def main():
             fp.detquats,
             totsamples,
             detranks=ndetrank,
-            firsttime=args.ces_start_time,
+            firsttime=start_time,
             rate=args.sample_rate,
             site_lon=args.site_lon,
             site_lat=args.site_lat,
@@ -211,7 +275,7 @@ def main():
     obs["altitude"] = args.site_alt
     obs["weather"] = Weather(weather, site=123)
     obs["fpradius"] = 10.0
-    obs["start_time"] = args.ces_start_time
+    obs["start_time"] = start_time
     obs["focalplane"] = fp
 
     data.obs.append(obs)
@@ -240,25 +304,26 @@ def main():
         comm.comm_world.barrier()
     if comm.world_rank == 0:
         timer0.report_clear("Pointing generation")
+    
+    poin={}
+    for i in obs['tod'].local_dets:
+        p = obs['tod'].cache.reference("pixels_{}".format(i))
+        poin[i]=p
+    np.save(args.outdir+'/pointings', poin)
+    
         
     # Atmospheric MC simulation 
-    start_mc = 0
-    nsimu = 1
-    cache_name = "atm_3"
-    atm_cache="atm_cache_3"
-    verbose = 0
-    freq = 43 # GHz
 
-    for mc in range(start_mc, start_mc + nsimu):
+    for mc in range(args.start_mc, args.start_mc + args.nsimu):
 
         log = Logger.get()
         tmr = Timer()
         tmr.start()
-        if comm.world_rank == 0 and verbose:
+        if comm.world_rank == 0 and args.verbose:
             log.info("Simulating atmosphere")
-            if atm_cache and not os.path.isdir(atm_cache):
+            if args.atm_cache and not os.path.isdir(args.atm_cache):
                 try:
-                    os.makedirs(atm_cache)
+                    os.makedirs(args.atm_cache)
                 except FileExistsError:
                     pass
 
@@ -290,7 +355,7 @@ def main():
         }
 
         # Simulate the atmosphere signal
-        atm = OpSimAtmosphere(out="atm_3", cachedir=atm_cache, freq=freq, **common_atm_params)
+        atm = OpSimAtmosphere(out="atm", cachedir=args.atm_cache, freq=args.freq, **common_atm_params)
         atm.exec(data)
 
         if comm.comm_world is not None:
@@ -302,116 +367,125 @@ def main():
 
         if comm.world_rank == 0:
                 log.info(
-                    "Processing frequency {}GHz, MC = {}".format(freq, mc))
+                    "Processing frequency {}GHz, MC = {}".format(args.freq, mc))
+    
+        # Set up the output directory
+        mcoffset = args.freq * 1000000
+        outpath = setup_output(args.outdir, comm, mc + mcoffset, args.freq)
 
-    cache_name = "atm_3"
-    log = Logger.get()
-    if comm.world_rank == 0 and verbose:
-        log.info("Scaling atmosphere by frequency")
-    timer = Timer()
-    timer.start()
-    for obs in data.obs: # Now we have only one observation
-        tod = obs["tod"]
-        todcomm = tod.mpicomm
+        cache_name = "atm"
+        log = Logger.get()
+        if comm.world_rank == 0 and args.verbose:
+            log.info("Scaling atmosphere by frequency")
+        timer = Timer()
+        timer.start()
+        for obs in data.obs: # Now we have only one observation
+            tod = obs["tod"]
+            todcomm = tod.mpicomm
 
+            weather = obs["weather"]
+            focalplane = obs["focalplane"]
+
+            start_time = obs["start_time"]
+            weather.set(123, mc, start_time)
+            altitude = obs["altitude"]
+            air_temperature = weather.air_temperature
+            surface_pressure = weather.surface_pressure
+            pwv = weather.pwv
+            # Use the entire processing group to sample the absorption
+            # coefficient as a function of frequency
+            freqmin = 0
+            freqmax = 2 * args.freq
+            nfreq = 1001
+            freqstep = (freqmax - freqmin) / (nfreq - 1)
+            if todcomm is None:
+                nfreq_task = nfreq
+                my_ifreq_min = 0
+                my_ifreq_max = nfreq
+            else:
+                nfreq_task = int(nfreq // todcomm.size) + 1
+                my_ifreq_min = nfreq_task * todcomm.rank
+                my_ifreq_max = min(nfreq, nfreq_task * (todcomm.rank + 1))
+            my_nfreq = my_ifreq_max - my_ifreq_min
+            my_freqs = freqmin + np.arange(my_ifreq_min, my_ifreq_max) * freqstep
+            my_absorption = atm_absorption_coefficient_vec(
+                        altitude,
+                        air_temperature,
+                        surface_pressure,
+                        pwv,
+                        my_freqs[0],
+                        my_freqs[-1],
+                        my_nfreq,
+                    )
+            
+            if todcomm is None:
+                freqs = my_freqs
+                absorption = my_absorption
+            else:
+                freqs = np.hstack(todcomm.allgather(my_freqs))
+                absorption = np.hstack(todcomm.allgather(my_absorption))
+
+            for det in tod.local_dets:
+                try:
+                    # Use detector bandpass from the focalplane
+                    center = focalplane[det]["bandcenter_ghz"]
+                    width = focalplane[det]["bandwidth_ghz"]
+                except Exception:
+                    # Use default values for the entire focalplane
+                    center = args.freq
+                    width = 0.2 * args.freq
+                nstep = 101
+                # Interpolate the absorption coefficient to do a top hat
+                # integral across the bandpass
+                det_freqs = np.linspace(center - width / 2, center + width / 2, nstep)
+                absorption_det = np.mean(np.interp(det_freqs, freqs, absorption))
+                cachename = "{}_{}".format(cache_name, det)
+                # print("{}_{}".format(cache_name, det))
+                ref = tod.cache.reference(cachename)
+                ref *= absorption_det
+                del ref
+
+        if comm.comm_world is not None:
+            comm.comm_world.barrier()
+        timer0.stop()
+        if comm.world_rank == 0 and args.verbose:
+            timer0.report("Atmosphere scaling")
+        log = Logger.get()
+        if comm.world_rank == 0 and args.verbose:
+            log.info("Updating atmospheric noise weights")
+        timer = Timer()
+        timer.start()
+
+        site_id = obs["site_id"]
         weather = obs["weather"]
-        focalplane = obs["focalplane"]
-
         start_time = obs["start_time"]
-        weather.set(123, mc, start_time)
+        weather.set(site_id, mc, start_time)
         altitude = obs["altitude"]
-        air_temperature = weather.air_temperature
-        surface_pressure = weather.surface_pressure
-        pwv = weather.pwv
-        # Use the entire processing group to sample the absorption
-        # coefficient as a function of frequency
-        freqmin = 0
-        freqmax = 2 * freq
-        nfreq = 1001
-        freqstep = (freqmax - freqmin) / (nfreq - 1)
-        if todcomm is None:
-            nfreq_task = nfreq
-            my_ifreq_min = 0
-            my_ifreq_max = nfreq
-        else:
-            nfreq_task = int(nfreq // todcomm.size) + 1
-            my_ifreq_min = nfreq_task * todcomm.rank
-            my_ifreq_max = min(nfreq, nfreq_task * (todcomm.rank + 1))
-        my_nfreq = my_ifreq_max - my_ifreq_min
-        my_freqs = freqmin + np.arange(my_ifreq_min, my_ifreq_max) * freqstep
-        my_absorption = atm_absorption_coefficient_vec(
-                    altitude,
-                    air_temperature,
-                    surface_pressure,
-                    pwv,
-                    my_freqs[0],
-                    my_freqs[-1],
-                    my_nfreq,
-                )
-        
-        if todcomm is None:
-            freqs = my_freqs
-            absorption = my_absorption
-        else:
-            freqs = np.hstack(todcomm.allgather(my_freqs))
-            absorption = np.hstack(todcomm.allgather(my_absorption))
+        absorption = atm_absorption_coefficient(
+            altitude,
+            weather.air_temperature,
+            weather.surface_pressure,
+            weather.pwv,
+            args.freq,
+        )
+        obs["noise_scale"] = absorption * weather.air_temperature
 
-        for det in tod.local_dets:
-            try:
-                # Use detector bandpass from the focalplane
-                center = focalplane[det]["bandcenter_ghz"]
-                width = focalplane[det]["bandwidth_ghz"]
-            except Exception:
-                # Use default values for the entire focalplane
-                center = freq
-                width = 0.2 * freq
-            nstep = 101
-            # Interpolate the absorption coefficient to do a top hat
-            # integral across the bandpass
-            det_freqs = np.linspace(center - width / 2, center + width / 2, nstep)
-            absorption_det = np.mean(np.interp(det_freqs, freqs, absorption))
-            cachename = "{}_{}".format(cache_name, det)
-            print("{}_{}".format(cache_name, det))
-            ref = tod.cache.reference(cachename)
-            ref *= absorption_det
-            del ref
+        if comm.comm_world is not None:
+            comm.comm_world.barrier()
+        timer.stop()
+        if comm.world_rank == 0 and args.verbose:
+            timer.report("Atmosphere weighting")
+            
+        # Questa iterazione montecarlo puo` essere salvata in outhpath, no?
+        tods = {}
+        for i in obs['tod'].local_dets:
+            t = obs['tod'].cache.reference("atm_{}".format(i))
+            tods[i]=t    
+        np.save(outpath+'/tod_mc_'+str(mc), tods)
 
-    if comm.comm_world is not None:
-        comm.comm_world.barrier()
-    timer0.stop()
-    if comm.world_rank == 0 and verbose:
-        timer0.report("Atmosphere scaling")
-    log = Logger.get()
-    if comm.world_rank == 0 and verbose:
-        log.info("Updating atmospheric noise weights")
-    timer = Timer()
-    timer.start()
-
-    site_id = obs["site_id"]
-    weather = obs["weather"]
-    start_time = obs["start_time"]
-    weather.set(site_id, mc, start_time)
-    altitude = obs["altitude"]
-    absorption = atm_absorption_coefficient(
-        altitude,
-        weather.air_temperature,
-        weather.surface_pressure,
-        weather.pwv,
-        freq,
-    )
-    obs["noise_scale"] = absorption * weather.air_temperature
-
-    if comm.comm_world is not None:
-        comm.comm_world.barrier()
-    timer.stop()
-    if comm.world_rank == 0 and verbose:
-        timer.report("Atmosphere weighting")
-        
-    # Set up the output directory
-    mcoffset = freq * 1000000
-    outpath = setup_output(args.outdir, comm, mc + mcoffset, freq)
-
+    GlobalTimers
     gt.stop_all()
+    
     if mpiworld is not None:
         mpiworld.barrier()  
     timer = Timer()
