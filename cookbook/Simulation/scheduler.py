@@ -4,47 +4,67 @@ import datetime
 from apscheduler.schedulers.blocking import BlockingScheduler
 from subprocess import Popen, PIPE
 
-year   = 2022
-month  = 1
-day    = 1
-hour   = 0
-prime  = 0
-second = 0
+DEBUG = True
 
-t0 = datetime.datetime(year, month, day, hour, prime, second).timestamp()
+global ky
+
+ky = 0
 
 def check_job():
-	p = Popen("squeue -u stefano.mandelli", stdout=PIPE, shell=True)
-	out = str(p.communicate()[0]).split("\\n")
-	if (np.shape(out)[0]-2 <= 6):
-		print("Lancia job - N job attivi: {}".format(np.shape(out)[0]-2))
+    
+    global ky
+    
+    if DEBUG:
+        p = Popen("ps aux | grep bash | wc -l", stdout=PIPE, shell=True)
+        out = (str(p.communicate()[0]).split(","))
+        out=str(out[0].split("\\n")[0].split("\'")[1])
+        Njobs = int(out)
+    else:
+    	p = Popen("squeue -u stefano.mandelli", stdout=PIPE, shell=True)
+    	out = (str(p.communicate()[0]).split("\\n"))
+    	Njobs = int(np.shape(out)[0] - 2)
+    
+    if Njobs < 8:
+        os.system('clear')
+        t0 = datetime.datetime(2022, 1, 1, 0, 0, 0).timestamp()
+        t1 = 0
+        t0 = datetime.datetime.fromtimestamp(t0)
+        y = t0.year
+        m = t0.month
+        d = t0.day
+        h = t0.hour
+        minu = t0.minute
+        seco = t0.second
+        data_string_old =str(y)+","+str(m)+","+str(d)+","+str(h)+","+str(minu)+","+str(seco)
         
-        p = datetime.datetime.fromtimestamp(t0)
+        print("STATUS: SUBMITTING - SUBMITTED JOBS : {}".format(Njobs))
+        if DEBUG:
+            sbatch = Popen("gnome-terminal", stdout=PIPE, shell=True)
+            sbatch_out = str(sbatch.communicate()[0]).split("\\n")
+        else:
+            sbatch = Popen("sbatch toast_batch.sl", stdout=PIPE, shell=True)
+            sbatch_out = str(sbatch.communicate()[0]).split("\\n")      
         
-        y = p.year
-        m = p.month
-        d = p.day
-        h = p.hour
-        min = p.minute
-        sec = p.second
+        t1 += t0.timestamp() + ky*3600 # avanti di un'ora
+        t1 = datetime.datetime.fromtimestamp(t1)
+        y = t1.year
+        m = t1.month
+        d = t1.day
+        h = t1.hour
+        minu = t1.minute
+        seco = t1.second
+        data_string =str(y)+","+str(m)+","+str(d)+","+str(h)+","+str(minu)+","+str(seco)
+        Popen("/bin/sed \"s/"+data_string_old+"/"+data_string+"/\" toast_batch.sl > out.sl", stdout=PIPE, shell=True)
         
-        data_string =str(y)+","+str(m)+","+str(d)+","+str(h)+","+str(min)+","+str(sec)
-                
-        # cambiare il file dei parametri
+        print("DATE IN SUMISSION: {}".format(data_string))
         
-		sbatch = Popen("sbatch toast_batch.sl", stdout=PIPE, shell=True)
-		sbatch_out = str(sbatch.communicate()[0]).split("\\n")
-		so = ""
-		for i in sbatch_out:
-			so += i 
-		print("INFO: {}".format(so))
-		print("")
-        t0 += 3600 # avanti di un'ora.
-		
-	else:
-		print("Wait")
-		print("Job attivi: {}".format(np.shape(out)[0]-2))
-		print("")
+        ky +=1
+    else:
+        os.system('clear')
+        print("STATUS: WAITING FOR RESOURCE")
+        print("SUBMITTED JOBS: {}".format(Njobs))
+        print("")
+        
 
 scheduler = BlockingScheduler()
 scheduler.add_executor('processpool')
