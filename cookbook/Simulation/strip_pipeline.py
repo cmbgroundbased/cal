@@ -150,7 +150,6 @@ def main():
     parser.add_argument("-freq", default=43.0, type=float)
     
     
-    
     # Arguments of the simulation
     # class args:
     #     sample_rate=20
@@ -205,6 +204,8 @@ def main():
     
     comm = Comm(world=mpiworld)
     args = parser.parse_args()
+    
+    args.outdir = args.outdir+args.ces_start_time
 
     if comm.world_rank == 0:
         print("Creating the outdir: {}".format(args.outdir))
@@ -315,6 +316,9 @@ def main():
     # Atmospheric MC simulation 
 
     for mc in range(args.start_mc, args.start_mc + args.nsimu):
+        
+        timer_MC_iter = Timer()
+        timer_MC_iter.start()
 
         log = Logger.get()
         tmr = Timer()
@@ -482,8 +486,10 @@ def main():
             t = obs['tod'].cache.reference("atm_{}".format(i))
             tods[i]=t    
         np.save(outpath+'/tod_mc_'+str(mc), tods)
+        
+        timer_MC_iter.stop()
+        timer_MC_iter.report("Monte Carlo iteration completed in ")
 
-    GlobalTimers
     gt.stop_all()
     
     if mpiworld is not None:

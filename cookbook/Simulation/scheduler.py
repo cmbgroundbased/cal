@@ -3,15 +3,14 @@ import numpy as np
 import datetime
 from apscheduler.schedulers.blocking import BlockingScheduler
 from subprocess import Popen, PIPE
+from argparse import ArgumentParser, RawTextHelpFormatter
 
 DEBUG = True
 
 global ky
-
 ky = 0
 
-def check_job():
-    
+def check_job(N):
     global ky
     
     if DEBUG:
@@ -24,7 +23,7 @@ def check_job():
     	out = (str(p.communicate()[0]).split("\\n"))
     	Njobs = int(np.shape(out)[0] - 2)
     
-    if Njobs < 8:
+    if Njobs < N:
         os.system('clear')
         t0 = datetime.datetime(2022, 1, 1, 0, 0, 0).timestamp()
         t1 = 0
@@ -66,12 +65,19 @@ def check_job():
         print("")
         
 
-scheduler = BlockingScheduler()
-scheduler.add_executor('processpool')
+if __name__ == "__main__":
+    parser = ArgumentParser(formatter_class=RawTextHelpFormatter, description="Scheduler parameters")
+    parser.add_argument("-num_jobs", default=0, type=int)
+    
+    args = parser.parse_args()
+    N = args.num_jobs
+    
+    scheduler = BlockingScheduler()
+    scheduler.add_executor('processpool')
 
-scheduler.add_job(check_job, 'interval', seconds=3)
+    scheduler.add_job(check_job, 'interval',args=[N], seconds=3)
 
-try:
-	scheduler.start()
-except (KeyboardInterrupt):
-	pass
+    try:
+        scheduler.start()
+    except (KeyboardInterrupt):
+        pass
