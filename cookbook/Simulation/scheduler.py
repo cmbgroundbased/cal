@@ -7,7 +7,7 @@ from argparse import ArgumentParser, RawTextHelpFormatter
 import logging
 import time
 
-DEBUG = True
+DEBUG = False
 
 def check_job(N, ky):
 
@@ -18,6 +18,8 @@ def check_job(N, ky):
     if Njobs < N:
         os.system('clear')
         print("Valore di ky: {}".format(ky))
+        print("Job attivi: {}".format(Njobs))
+        print("Scheduler status: RUNNING")
         t0 = datetime.datetime(2022, 1, 1, 0, 0, 0).timestamp()      
         
         t1 = 0
@@ -57,31 +59,23 @@ def check_job(N, ky):
 
         Popen("sed \"4s/2022,1,1,0,0,0/"+data_string_2+"/\" strip_file_0.par > out.par", stdout=PIPE, shell=True)
         time.sleep(2)
-        Popen("sed \"6s/2022,1,1,1,0,0/"+data_string_3+"/\" out.par > par_files/strip_file_"+str(ky)+".par", stdout=PIPE, shell=True)
+        Popen("sed \"41s/atm_cache/atm_cache_"+str(ky)+"/\" out.par > out2.par", stdout=PIPE, shell=True)
         time.sleep(2)
-        Popen("sed \"s/strip_file_0.par/..\/par_files\/strip_file_"+str(ky)+".par/\" strip_simulation_0.sl > slurm_files/strip_simulation_"+str(ky)+".sl", stdout=PIPE, shell=True)
-        # Popen("rm -rf atm_cache*", stdout=PIPE, shell=True)
-        
-
-        
-
-        print("STATUS: SUBMITTING - SUBMITTED JOBS : {}".format(Njobs))
+        Popen("sed \"6s/2022,1,1,1,0,0/"+data_string_3+"/\" out2.par > par_files/strip_file_"+str(ky)+".par", stdout=PIPE, shell=True)
+        time.sleep(2)
+        Popen("sed \"s/strip_file_0.par/par_files\/strip_file_"+str(ky)+".par/\" strip_simulation_0.sl > slurm_files/strip_simulation_"+str(ky)+".sl", stdout=PIPE, shell=True)
         if DEBUG:
             sbatch = Popen("echo ciao", stdout=PIPE, shell=True)
             sbatch_out = str(sbatch.communicate()[0]).split("\\n")
         else:
-            sbatch = Popen("sbatch slurm_files\/strip_simulation_"+str(ky)+".sl; sleep 2", stdout=PIPE, shell=True
-            sbatch_out = str(sbatch.communicate()[0]).split("\\n")
-        
-        print("DATE IN SUMISSION: from: {} to: {}".format(data_string_2, data_string_3))
-    	# scrivere qui dentro il file di parametri!!!!    
+            sbatch = Popen("sbatch slurm_files\/strip_simulation_"+str(ky)+".sl; sleep 2", stdout=PIPE, shell=True)
         ky += 1
     else:
         os.system('clear')
-        print("STATUS: WAITING FOR RESOURCE")
-        print("SUBMITTED JOBS: {}".format(Njobs))
-        print("")
-    
+        print("Valore di ky: {}".format(ky))
+        print("Job attivi: {}".format(Njobs))
+        print("Scheduler status: WAITING")
+
     return ky
 
 if __name__ == "__main__":
