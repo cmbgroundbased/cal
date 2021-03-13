@@ -1,5 +1,5 @@
 BootStrap: docker
-From: docker.pkg.github.com/cmbgroundbased/cal/cal:1.0
+From: ghcr.io/cmbgroundbased/cal:3.0
 
 %runscript
 
@@ -12,6 +12,7 @@ From: docker.pkg.github.com/cmbgroundbased/cal/cal:1.0
 	git clone https://github.com/cmbgroundbased/cal
 	cd cal
 	git submodule update --init --recursive
+	git checkout spin_tod	
 	mkdir build && cd build
 	cmake ../
 	make && make test && make install
