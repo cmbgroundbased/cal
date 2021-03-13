@@ -70,7 +70,7 @@ def check_job(N, ky):
             sbatch = Popen("echo ciao", stdout=PIPE, shell=True)
             sbatch_out = str(sbatch.communicate()[0]).split("\\n")
         else:
-            sbatch = Popen("sbatch slurm_files\/strip_simulation_"+str(ky)+".sl; sleep 2", stdout=PIPE, shell=True)
+            sbatch = Popen("sbatch slurm_files\/strip_simulation_"+str(ky)+".sl; sleep 2", stdout=PIPE, shell=True
             sbatch_out = str(sbatch.communicate()[0]).split("\\n")
         
         print("DATE IN SUMISSION: from: {} to: {}".format(data_string_2, data_string_3))
