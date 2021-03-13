@@ -5,46 +5,25 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 from subprocess import Popen, PIPE
 from argparse import ArgumentParser, RawTextHelpFormatter
 
-DEBUG = True
-
-global ky
-ky = 0
+DEBUG = False
 
 def check_job(N):
+
     global ky
-    
-    if DEBUG:
-        p = Popen("ps aux | grep bash | wc -l", stdout=PIPE, shell=True)
-        out = (str(p.communicate()[0]).split(","))
-        out=str(out[0].split("\\n")[0].split("\'")[1])
-        Njobs = int(out)
-    else:
-    	p = Popen("squeue -u stefano.mandelli", stdout=PIPE, shell=True)
-    	out = (str(p.communicate()[0]).split("\\n"))
-    	Njobs = int(np.shape(out)[0] - 2)
+ 
+    p = Popen("squeue -u stefano.mandelli", stdout=PIPE, shell=True)
+    out = (str(p.communicate()[0]).split("\\n"))
+    Njobs = int(np.shape(out)[0] - 2)
     
     if Njobs < N:
         os.system('clear')
+        print("Valore di ky: {}".format(ky))
         t0 = datetime.datetime(2022, 1, 1, 0, 0, 0).timestamp()
         t1 = 0
-        t0 = datetime.datetime.fromtimestamp(t0)
-        y = t0.year
-        m = t0.month
-        d = t0.day
-        h = t0.hour
-        minu = t0.minute
-        seco = t0.second
-        data_string_old =str(y)+","+str(m)+","+str(d)+","+str(h)+","+str(minu)+","+str(seco)
+        t2 = 0
+        t3 = 0
         
-        print("STATUS: SUBMITTING - SUBMITTED JOBS : {}".format(Njobs))
-        if DEBUG:
-            sbatch = Popen("gnome-terminal", stdout=PIPE, shell=True)
-            sbatch_out = str(sbatch.communicate()[0]).split("\\n")
-        else:
-            sbatch = Popen("sbatch toast_batch.sl", stdout=PIPE, shell=True)
-            sbatch_out = str(sbatch.communicate()[0]).split("\\n")      
-        
-        t1 += t0.timestamp() + ky*3600 # avanti di un'ora
+        t1 += t0 + ky*3600 # avanti di un'ora
         t1 = datetime.datetime.fromtimestamp(t1)
         y = t1.year
         m = t1.month
@@ -52,18 +31,55 @@ def check_job(N):
         h = t1.hour
         minu = t1.minute
         seco = t1.second
+
+        t2 += t0 + (ky+1)*3600 # avanti di due ore
+        t2 = datetime.datetime.fromtimestamp(t2)
+        y2 = t2.year
+        m2 = t2.month
+        d2 = t2.day
+        h2 = t2.hour
+        minu2 = t2.minute
+        seco2 = t2.second
+        
+        t3 += t0 + (ky+2)*3600 # avanti di due ore
+        t3 = datetime.datetime.fromtimestamp(t3)
+        y3 = t3.year
+        m3 = t3.month
+        d3 = t3.day
+        h3 = t3.hour
+        minu3 = t3.minute
+        seco3 = t3.second
+
         data_string =str(y)+","+str(m)+","+str(d)+","+str(h)+","+str(minu)+","+str(seco)
-        Popen("/bin/sed \"s/"+data_string_old+"/"+data_string+"/\" toast_batch.sl > out.sl", stdout=PIPE, shell=True)
+        data_string_2 = str(y2)+","+str(m2)+","+str(d2)+","+str(h2)+","+str(minu2)+","+str(seco2)
+        data_string_3 = str(y3)+","+str(m3)+","+str(d3)+","+str(h3)+","+str(minu3)+","+str(seco3)
+
+        Popen("sed \"4s/"+data_string+"/"+data_string_2+"/\" strip_file.par > out.par", stdout=PIPE, shell=True)
+        Popen("echo \"wait\"; sleep 2", stdout=PIPE, shell=True)
+        Popen("sed \"6s/"+data_string_2+"/"+data_string_3+"/\" out.par > strip_file.par", stdout=PIPE, shell=True)
+        # Popen("rm -rf atm_cache*", stdout=PIPE, shell=True)
+
         
-        print("DATE IN SUMISSION: {}".format(data_string))
+
+        print("STATUS: SUBMITTING - SUBMITTED JOBS : {}".format(Njobs))
+        if DEBUG:
+            sbatch = Popen("echo ciao", stdout=PIPE, shell=True)
+            sbatch_out = str(sbatch.communicate()[0]).split("\\n")
+        else:
+            sbatch = Popen("sbatch strip_simulation.sl; sleep 2", stdout=PIPE, shell=True)
+            sbatch_out = str(sbatch.communicate()[0]).split("\\n")
         
-        ky +=1
+        print("DATE IN SUMISSION: from: {} to: {}".format(data_string_2, data_string_3))
+    	# scrivere qui dentro il file di parametri!!!!    
+        ky += 1
     else:
         os.system('clear')
         print("STATUS: WAITING FOR RESOURCE")
         print("SUBMITTED JOBS: {}".format(Njobs))
         print("")
-        
+
+global ky 
+ky = 0
 
 if __name__ == "__main__":
     parser = ArgumentParser(formatter_class=RawTextHelpFormatter, description="Scheduler parameters")
@@ -75,9 +91,9 @@ if __name__ == "__main__":
     scheduler = BlockingScheduler()
     scheduler.add_executor('processpool')
 
-    scheduler.add_job(check_job, 'interval',args=[N], seconds=3)
+    scheduler.add_job(check_job, 'interval',args=[N], seconds=5)
 
     try:
-        scheduler.start()
-    except (KeyboardInterrupt):
+        p=scheduler.start()
+    except(KeyboardInterrupt, SystemExit):
         pass

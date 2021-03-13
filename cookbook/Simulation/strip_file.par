@@ -1,9 +1,9 @@
 -ces_name
 Test_scan
 -ces_start_time
-2022,1,1,0,0,0
+2022,1,1,5,0,0
 -ces_stop_time
-2022,1,1,1,0,0
+2022,1,1,6,0,0
 -sample_rate
 20
 -ces_azmin
@@ -34,7 +34,7 @@ out_directory_prova
 -start_mc
 0
 -nsimu
-5
+50
 -cache_name
 atm_
 -atm_cache

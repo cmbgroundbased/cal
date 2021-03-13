@@ -59,7 +59,7 @@ def load_focalplane(args, comm):
         if focalplane is None:
             detector_data = {}
             with open(r'./strip_focal_plane.yaml') as file:
-                focalplane=yaml.full_load(file)
+                focalplane=yaml.load(file)
 
             detecotrs=focalplane['horns'].keys()
             for i in detecotrs:
