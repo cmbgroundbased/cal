@@ -4,13 +4,13 @@ import datetime
 from apscheduler.schedulers.blocking import BlockingScheduler
 from subprocess import Popen, PIPE
 from argparse import ArgumentParser, RawTextHelpFormatter
+import logging
+import time
 
-DEBUG = False
+DEBUG = True
 
-def check_job(N):
+def check_job(N, ky):
 
-    global ky
- 
     p = Popen("squeue -u stefano.mandelli", stdout=PIPE, shell=True)
     out = (str(p.communicate()[0]).split("\\n"))
     Njobs = int(np.shape(out)[0] - 2)
@@ -18,12 +18,13 @@ def check_job(N):
     if Njobs < N:
         os.system('clear')
         print("Valore di ky: {}".format(ky))
-        t0 = datetime.datetime(2022, 1, 1, 0, 0, 0).timestamp()
+        t0 = datetime.datetime(2022, 1, 1, 0, 0, 0).timestamp()      
+        
         t1 = 0
         t2 = 0
         t3 = 0
         
-        t1 += t0 + ky*3600 # avanti di un'ora
+        t1 += t0 + ky*3600 # Now
         t1 = datetime.datetime.fromtimestamp(t1)
         y = t1.year
         m = t1.month
@@ -32,7 +33,7 @@ def check_job(N):
         minu = t1.minute
         seco = t1.second
 
-        t2 += t0 + (ky+1)*3600 # avanti di due ore
+        t2 += t0 + (ky+1)*3600 # avanti di un'ora
         t2 = datetime.datetime.fromtimestamp(t2)
         y2 = t2.year
         m2 = t2.month
@@ -54,10 +55,13 @@ def check_job(N):
         data_string_2 = str(y2)+","+str(m2)+","+str(d2)+","+str(h2)+","+str(minu2)+","+str(seco2)
         data_string_3 = str(y3)+","+str(m3)+","+str(d3)+","+str(h3)+","+str(minu3)+","+str(seco3)
 
-        Popen("sed \"4s/"+data_string+"/"+data_string_2+"/\" strip_file.par > out.par", stdout=PIPE, shell=True)
-        Popen("echo \"wait\"; sleep 2", stdout=PIPE, shell=True)
-        Popen("sed \"6s/"+data_string_2+"/"+data_string_3+"/\" out.par > strip_file.par", stdout=PIPE, shell=True)
+        Popen("sed \"4s/2022,1,1,0,0,0/"+data_string_2+"/\" strip_file_0.par > out.par", stdout=PIPE, shell=True)
+        time.sleep(2)
+        Popen("sed \"6s/2022,1,1,1,0,0/"+data_string_3+"/\" out.par > par_files/strip_file_"+str(ky)+".par", stdout=PIPE, shell=True)
+        time.sleep(2)
+        Popen("sed \"s/strip_file_0.par/..\/par_files\/strip_file_"+str(ky)+".par/\" strip_simulation_0.sl > slurm_files/strip_simulation_"+str(ky)+".sl", stdout=PIPE, shell=True)
         # Popen("rm -rf atm_cache*", stdout=PIPE, shell=True)
+        
 
         
 
@@ -66,7 +70,7 @@ def check_job(N):
             sbatch = Popen("echo ciao", stdout=PIPE, shell=True)
             sbatch_out = str(sbatch.communicate()[0]).split("\\n")
         else:
-            sbatch = Popen("sbatch strip_simulation.sl; sleep 2", stdout=PIPE, shell=True)
+            sbatch = Popen("sbatch slurm_files\/strip_simulation_"+str(ky)+".sl; sleep 2", stdout=PIPE, shell=True)
             sbatch_out = str(sbatch.communicate()[0]).split("\\n")
         
         print("DATE IN SUMISSION: from: {} to: {}".format(data_string_2, data_string_3))
@@ -77,9 +81,8 @@ def check_job(N):
         print("STATUS: WAITING FOR RESOURCE")
         print("SUBMITTED JOBS: {}".format(Njobs))
         print("")
-
-global ky 
-ky = 0
+    
+    return ky
 
 if __name__ == "__main__":
     parser = ArgumentParser(formatter_class=RawTextHelpFormatter, description="Scheduler parameters")
@@ -88,12 +91,18 @@ if __name__ == "__main__":
     args = parser.parse_args()
     N = args.num_jobs
     
-    scheduler = BlockingScheduler()
-    scheduler.add_executor('processpool')
+    ky = 0
+    
+    while(True):
+        ky = check_job(N, ky)
+        time.sleep(4)
+    
+    # scheduler = BlockingScheduler()
+    # scheduler.add_executor('processpool')
 
-    scheduler.add_job(check_job, 'interval',args=[N], seconds=5)
+    # scheduler.add_job(check_job, 'interval',args=[N], seconds=5)
 
-    try:
-        p=scheduler.start()
-    except(KeyboardInterrupt, SystemExit):
-        pass
+    # try:
+    #     p=scheduler.start()
+    # except(KeyboardInterrupt, SystemExit):
+    #     pass
