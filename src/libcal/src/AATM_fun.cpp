@@ -131,7 +131,7 @@ int cal::atm_get_absorption_coefficient_vec(double altitude,
     for (size_t i = 0; i < nfreq; ++i) {
         // double opacity = ss.getWetOpacity(i).get();
         double opacity = ss.getTotalOpacity(i).get(); // ???
-
+      
         absorption[i] = 1 - exp(-opacity);
     }
 

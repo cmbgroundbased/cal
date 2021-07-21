@@ -3,7 +3,7 @@ from ..utils import Environment
 from ..healpix import HealpixPixels
 from ..op import Operator
 from ..timing import function_timer
-from ..libcal import pointing_matrix_healpix
+from .._libcal import pointing_matrix_healpix
 
 class OpPointingHpix(Operator):
     """
@@ -49,7 +49,7 @@ class OpPointingHpix(Operator):
         nside_submap (int):  Size of a submap is 12 * nside_submap ** 2
     """
     
-    def __inti__(
+    def __init__(
         self, 
         pixels="pixels",
         weights="weights",

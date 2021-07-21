@@ -45,6 +45,7 @@ RUN bash -c ' \
 		python3-matplotlib \
 		python3-healpy \
 		python3-astropy \
+		python3-yaml \
 		curl \
 		libhwloc-dev \
 		pkg-config && \

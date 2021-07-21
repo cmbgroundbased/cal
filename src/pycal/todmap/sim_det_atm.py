@@ -462,8 +462,8 @@ class OpSimAtmosphere(Operator):
         print("Snapshots saved in {}".format(fn), flush=True)
 
         
-        # vmin = comm.allreduce(vmin, op=MPI.MIN)
-        # vmax = comm.allreduce(vmax, op=MPI.MAX)
+        vmin = comm.allreduce(vmin, op=MPI.MIN)
+        vmax = comm.allreduce(vmax, op=MPI.MAX)
 
         for t, r, atmdata2d in my_snapshots:
             plt.figure(figsize=[12, 4])
@@ -919,35 +919,42 @@ class OpSimAtmosphere(Operator):
                 azmax_det = np.amax(az[az < np.pi])
             elmin_det = np.amin(el)
             elmax_det = np.amax(el)
-            if (
-                not (azmin <= azmin_det and azmax_det <= azmax)
-                and not (
-                    azmin <= azmin_det - 2 * np.pi and azmax_det - 2 * np.pi <= azmax
-                )
-            ) or not (elmin <= elmin_det and elmin_det <= elmax):
-                # DEBUG begin
-                import pickle
+            
+            # if min_az_bore == max_az_bore:
+                # log.info("You are in the spin_scan modality. Feature in Beta version azmin={} and azmax={}".format(azmin, azmax))
+                # Add some controls on the limits
+            # else:
+                # log.info("Not in spin_scan Mod azmin={} and azmax={}".format(azmin, azmax))
+                # if (
+                #     not (azmin <= azmin_det and azmax_det <= azmax)
+                #     and not (
+                #         azmin <= azmin_det - 2 * np.pi and azmax_det - 2 * np.pi <= azmax
+                #     )
+                # ) or not (elmin <= elmin_det and elmin_det <= elmax):
+                #     # DEBUG begin
+                #     import pickle
 
-                with open("bad_quats_{}_{}.pck".format(rank, det), "wb") as fout:
-                    pickle.dump(
-                        [scan_range, az, el, azelquat, tod._boresight_azel], fout
-                    )
-                # DEBUG end
-                raise RuntimeError(
-                    prefix + "Detector Az/El: [{:.5f}, {:.5f}], "
-                    "[{:.5f}, {:.5f}] is not contained in "
-                    "[{:.5f}, {:.5f}], [{:.5f} {:.5f}]"
-                    "".format(
-                        azmin_det,
-                        azmax_det,
-                        elmin_det,
-                        elmax_det,
-                        azmin,
-                        azmax,
-                        elmin,
-                        elmax,
-                    )
-                )
+                #     with open("bad_quats_{}_{}.pck".format(rank, det), "wb") as fout:
+                #         pickle.dump(
+                #             [scan_range, az, el, azelquat, tod._boresight_azel], fout
+                #         )
+                #     # DEBUG end
+                #     # Detector Az/El: [-3.13988, 3.14109], [1.22173, 1.22173] is not contained in [-7.28828, 1.00495], [1.04720 1.39626]
+                #     raise RuntimeError(
+                #         prefix + "Detector Az/El: [{:.5f}, {:.5f}], "
+                #         "[{:.5f}, {:.5f}] is not contained in "
+                #         "[{:.5f}, {:.5f}], [{:.5f} {:.5f}]"
+                #         "".format(
+                #             azmin_det,
+                #             azmax_det,
+                #             elmin_det,
+                #             elmax_det,
+                #             azmin,
+                #             azmax,
+                #             elmin,
+                #             elmax,
+                #         )
+                #     )
 
             # Integrate detector signal
 
