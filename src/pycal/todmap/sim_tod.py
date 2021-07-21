@@ -299,12 +299,12 @@ class TODGround(TOD):
 
         self._commonflags[istop:] |= self.TURNAROUND
 
-        if np.sum((self._commonflags & self.TURNAROUND) == 0) == 0:
-            raise RuntimeError(
-                "The entire TOD is flagged as turnaround. Samplerate too low "
-                "({} Hz) or scanrate too high ({} deg/s)?"
-                "".format(rate, scanrate)
-            )
+        # if np.sum((self._commonflags & self.TURNAROUND) == 0) == 0:
+        #     raise RuntimeError(
+        #         "The entire TOD is flagged as turnaround. Samplerate too low "
+        #         "({} Hz) or scanrate too high ({} deg/s)?"
+        #         "".format(rate, scanrate)
+        #     )
 
         if self._report_timing:
             if mpicomm is not None:
@@ -464,9 +464,9 @@ class TODGround(TOD):
             azvec = np.arccos(np.cos(azmin) + base_rate * t0 - base_rate * tvec)
         else:
             # Constant scanning rate, only requires two data points
-            t1 = t0 + (azmax - azmin) / base_rate
-            tvec = np.array([t0, t1])
-            azvec = np.array([azmin, azmax])
+            t1 = t0 + (np.cos(azmin) - np.cos(azmax)) / base_rate
+            tvec = np.linspace(t0, t1, nstep, endpoint=True)
+            azvec = np.arccos(np.cos(azmin) + base_rate * t0 - base_rate * tvec)
         all_t.append(np.array(tvec))
         all_az.append(np.array(azvec))
         all_flags.append(np.zeros(tvec.size, dtype=np.uint8) | self.LEFTRIGHT_SCAN)
@@ -478,7 +478,7 @@ class TODGround(TOD):
         if self._sinc_modulation:
             dazdt = base_rate / np.abs(np.sin(azmax))
         else:
-            dazdt = base_rate
+            dazdt = base_rate / np.abs(np.sin(azmax))
         t1 = t0 + 2 * dazdt / scan_accel
         tvec = np.linspace(t0, t1, nstep, endpoint=True)[1:]
         azvec = azmax + (tvec - t0) * dazdt - 0.5 * scan_accel * (tvec - t0) ** 2
@@ -500,9 +500,9 @@ class TODGround(TOD):
             azvec = np.arccos(np.cos(azmax) - base_rate * t0 + base_rate * tvec)
         else:
             # Constant scanning rate, only requires two data points
-            t1 = t0 + (azmax - azmin) / base_rate
-            tvec = np.array([t0, t1])
-            azvec = np.array([azmax, azmin])
+            t1 = t0 + (np.cos(azmin) - np.cos(azmax)) / base_rate
+            tvec = np.linspace(t0, t1, nstep, endpoint=True)
+            azvec = np.arccos(np.cos(azmax) - base_rate * t0 + base_rate * tvec)
         all_t.append(np.array(tvec))
         all_az.append(np.array(azvec))
         all_flags.append(np.zeros(tvec.size, dtype=np.uint8) | self.RIGHTLEFT_SCAN)
@@ -514,7 +514,7 @@ class TODGround(TOD):
         if self._sinc_modulation:
             dazdt = base_rate / np.abs(np.sin(azmin))
         else:
-            dazdt = base_rate
+            dazdt = base_rate / np.abs(np.sin(azmin))
         t1 = t0 + 2 * dazdt / scan_accel
         tvec = np.linspace(t0, t1, nstep, endpoint=True)[1:]
         azvec = azmin - (tvec - t0) * dazdt + 0.5 * scan_accel * (tvec - t0) ** 2
