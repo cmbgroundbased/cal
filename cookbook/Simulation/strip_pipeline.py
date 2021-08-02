@@ -114,6 +114,8 @@ def main():
     parser.add_argument("-ces_start_time", default="2022,9,1,0,0,0", required=True)
     parser.add_argument("-ces_stop_time", default="2022,9,1,1,0,0", required=True)
     parser.add_argument("-sample_rate", required=True, type=int, help="Frequency sample rate [Hz]")
+    parser.add_argument("-el_mod_rate", required=False, default=0, type=np.float, help="If non-zero, observing elevation will be continuously modulated during the science scan. [Hz]")
+    parser.add_argument("-el_mod_amplitude", required=False, default=1, type=np.float, help="Range of elevation modulation when `el_mod_rate` is non-zero. [degrees]")
 
     # Scan parameters
     parser.add_argument("-ces_azmin", default=0, type=int)
@@ -149,37 +151,6 @@ def main():
     parser.add_argument("-verbose", default=0, type=int)
     parser.add_argument("-freq", default=43.0, type=float)
     
-    
-    # Arguments of the simulation
-    # class args:
-    #     sample_rate=20
-    #     focalplane=None
-    #     ces_name = "Test1"
-    #     scan="spin"
-    #     subscan="spin_1hour"
-    #     ces_stop_time = datetime(2022, 9, 2, 0, 0, 0).timestamp()
-    #     ces_start_time = datetime(2022, 9, 1, 0, 0, 0).timestamp()
-    #     site_name= "Tenerife"
-    #     site_lon = "-16:31:00"
-    #     site_lat = "28:20:00"
-    #     site_alt = 2390.0
-    #     coord = "C"
-    #     ces_azmin = 0
-    #     ces_azmax = 0
-    #     ces_el = 70
-    #     scanrate = 1.0
-    #     scan_accel = 1000
-    #     CES_start = None
-    #     NSIDE=128
-    #     debug=True
-    #     outdir="out_directory"
-    
-    # start_mc = 0
-    # nsimu = 1
-    # cache_name = "atm_"
-    # atm_cache="atm_cache_"
-    # verbose = 0
-    # freq = 43 # GHz
     
     # definition of the logger, the global timer and the environment
     log = Logger.get()
@@ -234,7 +205,7 @@ def main():
             comm.comm_group,
             fp.detquats,
             totsamples,
-            detranks=ndetrank,
+            # detranks=ndetrank,
             firsttime=start_time,
             rate=args.sample_rate,
             site_lon=args.site_lon,
@@ -243,9 +214,12 @@ def main():
             azmin=args.ces_azmin,
             azmax=args.ces_azmax,
             el=args.ces_el,
+            el_mod_rate=0.01,
+            el_mod_amplitude=1.0,
+            el_mod_sine=True,
             scanrate=args.scanrate,
             scan_accel=args.scan_accel,
-            sinc_modulation=None,
+            cosecant_modulation=True,
             CES_start=None,
             CES_stop=None,
             sun_angle_min=None,
@@ -310,7 +284,7 @@ def main():
     for i in obs['tod'].local_dets:
         p = obs['tod'].cache.reference("pixels_{}".format(i))
         poin[i]=p
-    np.save(args.outdir+'/pointings', poin)
+    np.savez_compressed(args.outdir+'/pointings', poin)
     
         
     # Atmospheric MC simulation 
@@ -363,10 +337,10 @@ def main():
         atm.exec(data)
 
         if comm.comm_world is not None:
-            comm.comm_world.barrier()
+           comm.comm_world.barrier()
         tmr.stop()
         if comm.world_rank == 0:
-            tmr.report("Atmosphere simulation")
+           tmr.report("Atmosphere simulation")
 
 
         if comm.world_rank == 0:
@@ -484,8 +458,8 @@ def main():
         tods = {}
         for i in obs['tod'].local_dets:
             t = obs['tod'].cache.reference("atm_{}".format(i))
-            tods[i]=t    
-        np.save(outpath+'/tod_mc_'+str(mc), tods)
+            tods[i]=np.float32(t)    
+        np.savez_compressed(outpath+'/tod_mc_'+str(mc), tods)
         
         timer_MC_iter.stop()
         timer_MC_iter.report("Monte Carlo iteration completed in ")
