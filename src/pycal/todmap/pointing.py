@@ -18,7 +18,6 @@ from ..timing import function_timer
 
 from .._libcal import pointing_matrix_healpix
 
-
 class OpPointingHpix(Operator):
     """
     Operator which generates I/Q/U healpix pointing weights.
@@ -62,7 +61,6 @@ class OpPointingHpix(Operator):
              weights in single precision.  Default=False.
         nside_submap (int):  Size of a submap is 12 * nside_submap ** 2
     """
-
     def __init__(
         self,
         pixels="pixels",

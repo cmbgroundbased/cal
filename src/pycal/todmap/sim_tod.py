@@ -976,6 +976,7 @@ class TODGround(TOD):
         self._lasttime = self._times[-1]
         samples = self._times.size
 
+
         if self._report_timing:
             if mpicomm is not None:
                 mpicomm.Barrier()
@@ -1006,6 +1007,7 @@ class TODGround(TOD):
                 "({} Hz) or scanrate too high ({} deg/s)?"
                 "".format(rate, scanrate)
             )
+
 
         if self._report_timing:
             if mpicomm is not None:
@@ -1493,9 +1495,9 @@ class TODGround(TOD):
             azvec = np.arccos(np.cos(azmin) - base_rate * (tvec-t0))
         else:
             # Constant scanning rate, only requires two data points
-            t1 = t0 + (azmax - azmin) / base_rate
-            tvec = np.array([t0, t1])
-            azvec = np.array([azmin, azmax])
+            t1 = t0 + (np.cos(azmin) - np.cos(azmax)) / base_rate
+            tvec = np.linspace(t0, t1, nstep, endpoint=True)
+            azvec = np.arccos(np.cos(azmin) + base_rate * t0 - base_rate * tvec)
         all_t.append(np.array(tvec))
         all_az.append(np.array(azvec))
         all_flags.append(np.zeros(tvec.size, dtype=np.uint8) | self.LEFTRIGHT_SCAN)
