@@ -1476,69 +1476,26 @@ class TODGround(TOD):
         elif azmax < azmin:
             azmax += 2 * np.pi
         t = self._CES_start
-        all_t = []
-        all_az = []
-        all_flags = []
-        # translate scan rate from sky to mount coordinates
+
         base_rate = self._scanrate / np.cos(self._el_ces)
-        # scan acceleration is already in the mount coordinates
-        scan_accel = self._scan_accel
-
-        # left-to-right // OK
 
         tvec = []
         azvec = []
         t0 = t
-        if self._cosecant_modulation:
-            t1 = t0 + (np.cos(azmin) - np.cos(azmax)) / base_rate
-            tvec = np.linspace(t0, t1, nstep, endpoint=True)
-            azvec = np.arccos(np.cos(azmin) - base_rate * (tvec-t0))
-        else:
-            # Constant scanning rate, only requires two data points
-            t1 = t0 + (np.cos(azmin) - np.cos(azmax)) / base_rate
-            tvec = np.linspace(t0, t1, nstep, endpoint=True)
-            azvec = np.arccos(np.cos(azmin) + base_rate * t0 - base_rate * tvec)
-        all_t.append(np.array(tvec))
-        all_az.append(np.array(azvec))
-        all_flags.append(np.zeros(tvec.size, dtype=np.uint8) | self.LEFTRIGHT_SCAN)
-        t = t1
 
-        tvec = []
-        azvec = []
-        t0 = t
-        if self._cosecant_modulation:
-            t1 = t0 + (np.cos(azmin) - np.cos(azmax)) / base_rate
-            tvec = np.linspace(t0, t1, nstep, endpoint=True)
-            azvec = np.arccos(np.cos(azmin) - base_rate * (tvec-t0))
-            azvec += np.pi
-        else:
-            # Constant scanning rate, only requires two data points
-            t1 = t0 + (azmax - azmin) / base_rate
-            tvec = np.array([t0, t1])
-            azvec = np.array([azmin, azmax])
-        all_t.append(np.array(tvec))
-        all_az.append(np.array(azvec))
-        all_flags.append(np.zeros(tvec.size, dtype=np.uint8) | self.LEFTRIGHT_SCAN)
-        t = t1
+    
+        t1 = t0 + (np.cos(azmin) - np.cos(azmax)) / base_rate
+        tvec = np.linspace(t0, t1, nstep, endpoint=True)
+        az =  np.mod(np.cos(azmin) - np.mod(base_rate * tvec, 2*np.pi), 2*np.pi)
+        modulation = np.abs(1/np.sin(az))
+        modulation[modulation>2] = 2.0
+        azvec = np.array([])
+        azvec = np.append(azvec, 0.0)
 
-        # Concatenate
-
-        tvec = np.hstack(all_t)
-        azvec = np.hstack(all_az)
-        flags = np.hstack(all_flags)
-
-        # Limit azimuth to [-2pi, 2pi] but do not
-        # introduce discontinuities with modulo.
-
-        if np.amin(azvec) < -2 * np.pi:
-            azvec += 2 * np.pi
-        if np.amax(azvec) > 2 * np.pi:
-            azvec -= 2 * np.pi
-
-        if self._cosecant_modulation and self._azmin_ces > np.pi:
-            # We always simulate a rising cosecant scan and then
-            # mirror it if necessary
-            azvec += np.pi
+        for i in range(1, len(tvec)):
+            az_new = az[i-1] + modulation[i] * np.deg2rad(1)/np.sin(np.deg2rad(70)) * ((t1 - t0)/nstep)
+            azvec = np.append(azvec, az_new)
+        azvec = np.mod(azvec, 2.0*np.pi)
 
         # Store the scan range.  We use the high resolution azimuth so the
         # actual sampling rate will not change the range.
@@ -1564,27 +1521,7 @@ class TODGround(TOD):
         self._el = np.hstack([self._el, el_sample])
         ind = np.searchsorted(tvec - tmin, (times - tmin) % tdelta)
         ind[ind == tvec.size] = tvec.size - 1
-        self._commonflags = np.hstack([self._commonflags, flags[ind]]).astype(np.uint8)
 
-        # Subscan start indices
-
-        turnflags = flags[ind] & self.TURNAROUND
-        self._stable_starts = (
-            np.argwhere(np.logical_and(turnflags[:-1] != 0, turnflags[1:] == 0)).ravel()
-            + 1
-        )
-        if turnflags[0] == 0:
-            self._stable_starts = np.hstack([[0], self._stable_starts])
-        self._stable_stops = (
-            np.argwhere(np.logical_and(turnflags[:-1] == 0, turnflags[1:] != 0)).ravel()
-            + 2
-        )
-        if turnflags[-1] == 0:
-            self._stable_stops = np.hstack([self._stable_stops, [samples]])
-        self._stable_starts += offset
-        self._stable_stops += offset
-
-        self._CES_stop = self._times[-1]
 
         return samples
 
