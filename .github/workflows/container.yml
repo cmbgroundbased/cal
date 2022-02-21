@@ -25,6 +25,9 @@ jobs:
       run: |
        ls
        if [ -f "${SINGULARITY_RECIPE}" ]; then
+	   echo "Working directory: $PWD"
+           echo "Recipe: ${SINGULARITY_RECIPE}"
+           echo "Output: ${OUTPUT_CONTAINER}"
            singularity build ${OUTPUT_CONTAINER} ${SINGULARITY_RECIPE}
        else
            echo "${SINGULARITY_RECIPE} is not found."
