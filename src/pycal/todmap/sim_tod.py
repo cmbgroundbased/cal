@@ -734,7 +734,7 @@ class TODGround(TOD):
             ends.  [degrees]
         start_with_elnod (bool) : Perform el-nod before the scan
         end_with_elnod (bool) : Perform el-nod after the scan
-        el_mod_step (float) : If non-zero, scanning elevation will be
+             (float) : If non-zero, scanning elevation will be
             stepped after each scan pair (upon returning to starting
             azimuth). [degrees]
         el_mod_rate (float) : If non-zero, observing elevation will be
