@@ -58,7 +58,7 @@ find_package(SuiteSparse REQUIRED)
 
 find_package(MPI REQUIRED)
 
-find_package(PythonInterp REQUIRED)
+find_package(Python REQUIRED COMPONENTS Interpreter Development)
 
 find_package(MPI4PY REQUIRED)
 
@@ -67,3 +67,4 @@ enable_testing()
 
 # The directory that gather the whole source code.
 add_subdirectory(src)
+
