@@ -1439,7 +1439,9 @@ class TODGround(TOD):
     def simulate_scan(self, samples):
         """Simulate el-nod and/or a constant elevation scan, either constant rate or
         1/sin(az)-modulated.
-
+        
+        """
+        
         if self._el_ces is None:
             self._stable_starts = []
             self._stable_stops = []
