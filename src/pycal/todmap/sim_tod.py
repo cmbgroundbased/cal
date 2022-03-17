@@ -4,8 +4,6 @@
 
 import warnings
 
-from numpy.core.numeric import array_equiv
-
 try:
     import ephem
 except:
@@ -734,7 +732,7 @@ class TODGround(TOD):
             ends.  [degrees]
         start_with_elnod (bool) : Perform el-nod before the scan
         end_with_elnod (bool) : Perform el-nod after the scan
-             (float) : If non-zero, scanning elevation will be
+        el_mod_step (float) : If non-zero, scanning elevation will be
             stepped after each scan pair (upon returning to starting
             azimuth). [degrees]
         el_mod_rate (float) : If non-zero, observing elevation will be
@@ -839,10 +837,10 @@ class TODGround(TOD):
 
         testvec = np.array([el, azmin, azmax])
         if azmax:
-            # if not np.all(testvec):
-            #     raise RuntimeError(
-            #         "Simulating a CES requires `el`, `azmin` and `azmax`"
-            #     )
+            if not np.all(testvec):
+                raise RuntimeError(
+                    "Simulating a CES requires `el`, `azmin` and `azmax`"
+                )
             do_ces = True
         else:
             do_ces = False
@@ -988,27 +986,27 @@ class TODGround(TOD):
         # Create a list of subscans that excludes the turnarounds.
         # All processes in the group still have all samples.
 
-        # self.subscans = []
-        # self._subscan_min_length = 10  # in samples
-        # for istart, istop in zip(self._stable_starts, self._stable_stops):
-        #     if istop - istart < self._subscan_min_length or istart < nsample_elnod:
-        #         self._commonflags[istart:istop] |= self.TURNAROUND
-        #         continue
-        #     start = self._firsttime + istart / self._rate
-        #     stop = self._firsttime + istop / self._rate
-        #     self.subscans.append(
-        #         Interval(start=start, stop=stop, first=istart, last=istop - 1)
-        #     )
+        self.subscans = []
+        self._subscan_min_length = 10  # in samples
+        for istart, istop in zip(self._stable_starts, self._stable_stops):
+            if istop - istart < self._subscan_min_length or istart < nsample_elnod:
+                self._commonflags[istart:istop] |= self.TURNAROUND
+                continue
+            start = self._firsttime + istart / self._rate
+            stop = self._firsttime + istop / self._rate
+            self.subscans.append(
+                Interval(start=start, stop=stop, first=istart, last=istop - 1)
+            )
 
-        # if len(self._stable_stops) > 0:
-        #     self._commonflags[self._stable_stops[-1] :] |= self.TURNAROUND
+        if len(self._stable_stops) > 0:
+            self._commonflags[self._stable_stops[-1] :] |= self.TURNAROUND
 
-        # if np.sum((self._commonflags & self.TURNAROUND) == 0) == 0 and do_ces:
-        #     raise RuntimeError(
-        #         "The entire TOD is flagged as turnaround. Samplerate too low "
-        #         "({} Hz) or scanrate too high ({} deg/s)?"
-        #         "".format(rate, scanrate)
-        #     )
+        if np.sum((self._commonflags & self.TURNAROUND) == 0) == 0 and do_ces:
+            raise RuntimeError(
+                "The entire TOD is flagged as turnaround. Samplerate too low "
+                "({} Hz) or scanrate too high ({} deg/s)?"
+                "".format(rate, scanrate)
+            )
 
 
         if self._report_timing:
@@ -1439,6 +1437,8 @@ class TODGround(TOD):
 
     @function_timer
     def simulate_scan(self, samples):
+        """Simulate el-nod and/or a constant elevation scan, either constant rate or
+        1/sin(az)-modulated.
 
         if self._el_ces is None:
             self._stable_starts = []
@@ -1545,8 +1545,8 @@ class TODGround(TOD):
         if self._cosecant_modulation:
             # We always simulate a rising cosecant scan and then
             # mirror it if necessary
-            azmin %= np.pi
-            azmax %= np.pi
+            azmin %= np.pi  # 10
+            azmax %= np.pi  # 170 
             if azmin > azmax:
                 raise RuntimeError(
                     "Cannot scan across zero meridian with cosecant-modulated scan"
@@ -1562,7 +1562,7 @@ class TODGround(TOD):
         # scan acceleration is already in the mount coordinates
         scan_accel = self._scan_accel
 
-        # left-to-right
+        # left-to-right // OK
 
         tvec = []
         azvec = []
@@ -1570,7 +1570,7 @@ class TODGround(TOD):
         if self._cosecant_modulation:
             t1 = t0 + (np.cos(azmin) - np.cos(azmax)) / base_rate
             tvec = np.linspace(t0, t1, nstep, endpoint=True)
-            azvec = np.arccos(np.cos(azmin) + base_rate * t0 - base_rate * tvec)
+            azvec = np.arccos(np.cos(azmin) - base_rate * (tvec-t0))
         else:
             # Constant scanning rate, only requires two data points
             t1 = t0 + (azmax - azmin) / base_rate
@@ -1581,57 +1581,24 @@ class TODGround(TOD):
         all_flags.append(np.zeros(tvec.size, dtype=np.uint8) | self.LEFTRIGHT_SCAN)
         t = t1
 
-        # turnaround
-
-        t0 = t
-        if self._cosecant_modulation:
-            dazdt = base_rate / np.abs(np.sin(azmax))
-        else:
-            dazdt = base_rate
-        t1 = t0 + 2 * dazdt / scan_accel
-        tvec = np.linspace(t0, t1, nstep, endpoint=True)[1:]
-        azvec = azmax + (tvec - t0) * dazdt - 0.5 * scan_accel * (tvec - t0) ** 2
-        all_t.append(tvec[:-1])
-        all_az.append(azvec[:-1])
-        all_flags.append(
-            np.zeros(tvec.size - 1, dtype=np.uint8) | self.LEFTRIGHT_TURNAROUND
-        )
-        t = t1
-
-        # right-to-left
-
         tvec = []
         azvec = []
         t0 = t
         if self._cosecant_modulation:
             t1 = t0 + (np.cos(azmin) - np.cos(azmax)) / base_rate
             tvec = np.linspace(t0, t1, nstep, endpoint=True)
-            azvec = np.arccos(np.cos(azmax) - base_rate * t0 + base_rate * tvec)
+            azvec = np.arccos(np.cos(azmin) - base_rate * (tvec-t0))
+            azvec += np.pi
         else:
             # Constant scanning rate, only requires two data points
             t1 = t0 + (azmax - azmin) / base_rate
             tvec = np.array([t0, t1])
-            azvec = np.array([azmax, azmin])
+            azvec = np.array([azmin, azmax])
         all_t.append(np.array(tvec))
         all_az.append(np.array(azvec))
-        all_flags.append(np.zeros(tvec.size, dtype=np.uint8) | self.RIGHTLEFT_SCAN)
+        all_flags.append(np.zeros(tvec.size, dtype=np.uint8) | self.LEFTRIGHT_SCAN)
         t = t1
 
-        # turnaround
-
-        t0 = t
-        if self._cosecant_modulation:
-            dazdt = base_rate / np.abs(np.sin(azmin))
-        else:
-            dazdt = base_rate
-        t1 = t0 + 2 * dazdt / scan_accel
-        tvec = np.linspace(t0, t1, nstep, endpoint=True)[1:]
-        azvec = azmin - (tvec - t0) * dazdt + 0.5 * scan_accel * (tvec - t0) ** 2
-        all_t.append(tvec)
-        all_az.append(azvec)
-        all_flags.append(
-            np.zeros(tvec.size, dtype=np.uint8) | self.RIGHTLEFT_TURNAROUND
-        )
 
         # Concatenate
 
