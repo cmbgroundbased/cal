@@ -1439,87 +1439,7 @@ class TODGround(TOD):
     def simulate_scan(self, samples):
         """Simulate el-nod and/or a constant elevation scan, either constant rate or
         1/sin(az)-modulated.
-        
-        """
-        
-        if self._el_ces is None:
-            self._stable_starts = []
-            self._stable_stops = []
-            return 0
 
-        if samples <= 0:
-            raise RuntimeError("CES requires a positive number of samples")
-
-        if len(self._times) == 0:
-            self._CES_start = self._firsttime
-        else:
-            self._CES_start = self._times[-1] + 1 / self._rate
-
-        nstep = 10000
-
-        azmin, azmax = [self._azmin_ces, self._azmax_ces]
-
-        t = self._CES_start
-        base_rate = self._scanrate / np.cos(self._el_ces)
-
-        tvec = []
-        azvec = []
-        t0 = t
-
-        # Ds**2 = 1/4 * a**2 * (t1 - t0)
-        # t1 = Ds**2*4/a**2 + t0
-
-        t1 = t0 + (6.44*(2*np.pi)**2 ) / np.cos(self._el_ces)
-        tvec = np.linspace(t0, t1, nstep, endpoint=True)
-        azvec = np.array([])
-        azvec = np.append(azvec, azmin)
-
-        for i in range(1, len(tvec)):
-            dt = (t1-t0)/nstep
-            az_i = azvec[i-1] + base_rate * dt
-            mod_i = np.abs(1/np.sin(az_i))
-
-            if mod_i >= 2:
-                mod_i = 2.0
-
-            omega = 0.5 * base_rate * mod_i
-            d_alpha = omega * dt
-            alpha_i = azvec[i-1] + d_alpha
-            azvec = np.append(azvec, alpha_i)
-        azvec = np.mod(azvec, 2*np.pi)    
-
-        # Store the scan range.  We use the high resolution azimuth so the
-        # actual sampling rate will not change the range.
-
-        self.update_scan_range(azvec, self._el_ces)
-
-        # Now interpolate the simulated scan to timestamps
-
-        times = self._CES_start + np.arange(samples) / self._rate
-        tmin, tmax = tvec[0], tvec[-1]
-        tdelta = tmax - tmin
-        az_sample = np.interp((times - tmin) % tdelta, tvec - tmin, azvec)
-
-        el_sample = np.zeros_like(az_sample) + self._el_ces
-        if self._el_mod_rate != 0:
-            self.oscillate_el(times, az_sample, el_sample)
-        if self._el_mod_step != 0:
-            self.step_el(times, az_sample, el_sample)
-
-        offset = self._times.size
-        self._times = np.hstack([self._times, times])
-        self._az = np.hstack([self._az, az_sample])
-        self._el = np.hstack([self._el, el_sample])
-        ind = np.searchsorted(tvec - tmin, (times - tmin) % tdelta)
-        ind[ind == tvec.size] = tvec.size - 1
-
-
-        return samples
-
-    @function_timer
-    def simulate_scan2(self, samples):
-        """Simulate el-nod and/or a constant elevation scan, either constant rate or
-        1/sin(az)-modulated.
         """
 
         if self._el_ces is None:
@@ -1575,9 +1495,9 @@ class TODGround(TOD):
             azvec = np.arccos(np.cos(azmin) - base_rate * (tvec-t0))
         else:
             # Constant scanning rate, only requires two data points
-            t1 = t0 + (azmax - azmin) / base_rate
-            tvec = np.array([t0, t1])
-            azvec = np.array([azmin, azmax])
+            t1 = t0 + (np.cos(azmin) - np.cos(azmax)) / base_rate
+            tvec = np.linspace(t0, t1, nstep, endpoint=True)
+            azvec = np.arccos(np.cos(azmin) + base_rate * t0 - base_rate * tvec)
         all_t.append(np.array(tvec))
         all_az.append(np.array(azvec))
         all_flags.append(np.zeros(tvec.size, dtype=np.uint8) | self.LEFTRIGHT_SCAN)
@@ -1600,7 +1520,6 @@ class TODGround(TOD):
         all_az.append(np.array(azvec))
         all_flags.append(np.zeros(tvec.size, dtype=np.uint8) | self.LEFTRIGHT_SCAN)
         t = t1
-
 
         # Concatenate
 
