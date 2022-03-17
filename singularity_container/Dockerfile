@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM debian:oldstable
 
 LABEL Description="Pycal Docker images"
 
@@ -46,6 +46,7 @@ RUN bash -c ' \
 		python3-healpy \
 		python3-astropy \
 		python3-yaml \
+		python3-ipykernel \
 		curl \
 		libhwloc-dev \
 		pkg-config && \

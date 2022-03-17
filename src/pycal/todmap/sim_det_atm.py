@@ -643,21 +643,11 @@ class OpSimAtmosphere(Operator):
         w = np.sqrt(wx ** 2 + wy ** 2)
         self._wind_time = self._wind_dist / w
 
+        # (wind_SPAZIO / wind_speed) = tempo che una cella impiega per muoversi da una realizzazione all'altra
+
         tmax = tmin + self._wind_time
-        if tmax < tmax_tot:
-            # Extend the scan to the next turnaround
-            istop = istart
-            while istop < times.size and times[istop] < tmax:
-                istop += 1
-            while istop < times.size and (common_ref[istop] | tod.TURNAROUND == 0):
-                istop += 1
-            if istop < times.size:
-                tmax = times[istop]
-            else:
-                tmax = tmax_tot
-        else:
-            tmax = tmax_tot
-            istop = times.size
+        tmax = tmax_tot
+        istop = times.size
 
         return istart, istop, np.ceil(tmax)
 
